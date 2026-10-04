@@ -2636,7 +2636,257 @@ function StudentDashboard({
   );
 }
 
+function ResetPasswordPage() {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
+  const token = new URLSearchParams(window.location.search).get("token");
+
+  async function handleResetPassword(e) {
+    e.preventDefault();
+
+    setError("");
+    setMessage("");
+
+    if (!token) {
+      setError("This password reset link is missing or invalid.");
+      return;
+    }
+
+    if (!password || !confirmPassword) {
+      setError("Please enter your new password twice.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${API_URL}/users/reset-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token,
+          newPassword: password,
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(
+          data.message ||
+          data.error ||
+          "Unable to reset your password. The link may have expired."
+        );
+      }
+
+      setMessage(
+        "Your password has been reset successfully. You can now log in with your new password."
+      );
+      setPassword("");
+      setConfirmPassword("");
+    } catch (err) {
+      setError(
+        err.message ||
+        "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function goToLogin() {
+    window.history.replaceState({}, "", "/");
+    window.location.reload();
+  }
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "24px",
+        background: "#f8fafc",
+      }}
+    >
+      <div
+        className="card"
+        style={{
+          width: "100%",
+          maxWidth: "460px",
+          padding: "32px",
+        }}
+      >
+        <div style={{ textAlign: "center", marginBottom: "28px" }}>
+          <div
+            style={{
+              fontSize: "14px",
+              fontWeight: "700",
+              color: "#6b7280",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              marginBottom: "10px",
+            }}
+          >
+            Pick My Teacher
+          </div>
+
+          <h1 style={{ margin: 0, fontSize: "30px" }}>
+            Reset Your Password
+          </h1>
+
+          <p
+            style={{
+              marginTop: "10px",
+              color: "#6b7280",
+              lineHeight: 1.6,
+            }}
+          >
+            Enter a new password for your account.
+          </p>
+        </div>
+
+        {error && (
+          <div
+            style={{
+              marginBottom: "18px",
+              padding: "12px 14px",
+              borderRadius: "10px",
+              background: "#fef2f2",
+              color: "#b91c1c",
+              fontSize: "14px",
+            }}
+          >
+            {error}
+          </div>
+        )}
+
+        {message && (
+          <div
+            style={{
+              marginBottom: "18px",
+              padding: "12px 14px",
+              borderRadius: "10px",
+              background: "#f0fdf4",
+              color: "#15803d",
+              fontSize: "14px",
+              lineHeight: 1.5,
+            }}
+          >
+            {message}
+          </div>
+        )}
+
+        {!message && (
+          <form onSubmit={handleResetPassword}>
+            <div style={{ marginBottom: "18px" }}>
+              <label
+                style={{
+                  display: "block",
+                  marginBottom: "8px",
+                  fontWeight: "600",
+                }}
+              >
+                New Password
+              </label>
+
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter new password"
+                autoComplete="new-password"
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  padding: "12px 14px",
+                  border: "1px solid #d1d5db",
+                  borderRadius: "10px",
+                  fontSize: "15px",
+                }}
+              />
+            </div>
+
+            <div style={{ marginBottom: "22px" }}>
+              <label
+                style={{
+                  display: "block",
+                  marginBottom: "8px",
+                  fontWeight: "600",
+                }}
+              >
+                Confirm New Password
+              </label>
+
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Enter new password again"
+                autoComplete="new-password"
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  padding: "12px 14px",
+                  border: "1px solid #d1d5db",
+                  borderRadius: "10px",
+                  fontSize: "15px",
+                }}
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="signup-btn"
+              style={{
+                width: "100%",
+                opacity: loading ? 0.7 : 1,
+              }}
+            >
+              {loading ? "Resetting Password..." : "Reset Password"}
+            </button>
+          </form>
+        )}
+
+        {message && (
+          <button
+            type="button"
+            onClick={goToLogin}
+            className="signup-btn"
+            style={{
+              width: "100%",
+              marginTop: "4px",
+            }}
+          >
+            Go to Login
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
 function App() {
+  if (window.location.pathname === "/reset-password") {
+    return <ResetPasswordPage />;
+  }
   const [page, setPage] =
     useState("home");
 
@@ -2913,6 +3163,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
