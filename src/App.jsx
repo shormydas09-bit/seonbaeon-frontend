@@ -1,4 +1,4 @@
-
+﻿
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
@@ -45,12 +45,16 @@ function AuthPage({ mode, setMode, onLogin }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [forgotEmail, setForgotEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [forgotMode, setForgotMode] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+    setMessage("");
 
     if (!email || !password || (mode === "signup" && !name)) {
       setError("Please fill in all required fields.");
@@ -106,6 +110,118 @@ function AuthPage({ mode, setMode, onLogin }) {
     }
   }
 
+  async function handleForgotPassword(e) {
+    e.preventDefault();
+    setError("");
+    setMessage("");
+
+    if (!forgotEmail.trim()) {
+      setError("Please enter your email address.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        `${API_URL}/users/forgot-password`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: forgotEmail.trim(),
+          }),
+        }
+      );
+
+      const data = await readResponse(response);
+
+      setMessage(
+        data.message ||
+          "If an account exists with this email, a password reset link has been sent."
+      );
+    } catch (err) {
+      setError(
+        err.message ||
+          "Unable to send the password reset email."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (forgotMode) {
+    return (
+      <div className="auth-page">
+        <div className="auth-card">
+          <div className="auth-heading">
+            <div className="auth-logo">
+              Pick My Teacher<span>.</span>
+            </div>
+
+            <h1>Forgot Password?</h1>
+
+            <p>
+              Enter your email and we will send you a
+              password reset link.
+            </p>
+          </div>
+
+          {error && (
+            <div className="form-error">
+              {error}
+            </div>
+          )}
+
+          {message && (
+            <div className="form-success">
+              {message}
+            </div>
+          )}
+
+          <form onSubmit={handleForgotPassword}>
+            <label>Email</label>
+
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={forgotEmail}
+              onChange={(e) =>
+                setForgotEmail(e.target.value)
+              }
+            />
+
+            <button
+              className="auth-submit"
+              type="submit"
+              disabled={loading}
+            >
+              {loading
+                ? "Sending..."
+                : "Send Reset Link →"}
+            </button>
+          </form>
+
+          <div className="auth-switch">
+            Remember your password?{" "}
+            <button
+              type="button"
+              onClick={() => {
+                setForgotMode(false);
+                setError("");
+                setMessage("");
+              }}
+            >
+              Back to Login
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="auth-page">
       <div className="auth-card">
@@ -127,7 +243,11 @@ function AuthPage({ mode, setMode, onLogin }) {
           </p>
         </div>
 
-        {error && <div className="form-error">{error}</div>}
+        {error && (
+          <div className="form-error">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           {mode === "signup" && (
@@ -138,7 +258,9 @@ function AuthPage({ mode, setMode, onLogin }) {
                 type="text"
                 placeholder="Enter your name"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) =>
+                  setName(e.target.value)
+                }
               />
             </>
           )}
@@ -149,7 +271,9 @@ function AuthPage({ mode, setMode, onLogin }) {
             type="email"
             placeholder="Enter your email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
           />
 
           <label>Password</label>
@@ -158,8 +282,40 @@ function AuthPage({ mode, setMode, onLogin }) {
             type="password"
             placeholder="At least 6 characters"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
           />
+
+          {mode === "login" && (
+            <div
+              style={{
+                textAlign: "right",
+                marginTop: "-8px",
+                marginBottom: "16px",
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => {
+                  setForgotMode(true);
+                  setForgotEmail(email);
+                  setError("");
+                  setMessage("");
+                }}
+                style={{
+                  background: "none",
+                  border: "none",
+                  padding: 0,
+                  cursor: "pointer",
+                  color: "#6c63ff",
+                  fontSize: "14px",
+                }}
+              >
+                Forgot Password?
+              </button>
+            </div>
+          )}
 
           <button
             className="auth-submit"
@@ -180,7 +336,11 @@ function AuthPage({ mode, setMode, onLogin }) {
               Don't have an account?{" "}
               <button
                 type="button"
-                onClick={() => setMode("signup")}
+                onClick={() => {
+                  setMode("signup");
+                  setError("");
+                  setMessage("");
+                }}
               >
                 Sign Up
               </button>
@@ -190,7 +350,11 @@ function AuthPage({ mode, setMode, onLogin }) {
               Already have an account?{" "}
               <button
                 type="button"
-                onClick={() => setMode("login")}
+                onClick={() => {
+                  setMode("login");
+                  setError("");
+                  setMessage("");
+                }}
               >
                 Login
               </button>
@@ -404,7 +568,7 @@ function HomePage({ goToTeachers }) {
         <p>Know the teacher before joining the class.</p>
 
         <p className="copyright">
-          © 2026 Pick My Teacher. All rights reserved.
+          Â© 2026 Pick My Teacher. All rights reserved.
         </p>
       </footer>
     </>
@@ -708,7 +872,7 @@ function TeacherSearch({ goHome, openProfile }) {
                         toggleCompare(teacher)
                       }
                     >
-                      ×
+                      Ã—
                     </button>
                   </div>
                 ))}
@@ -723,7 +887,7 @@ function TeacherSearch({ goHome, openProfile }) {
                   setShowCompare(true)
                 }
               >
-                Compare Now →
+                Compare Now â†’
               </button>
             </div>
           )}
@@ -748,8 +912,8 @@ function TeacherSearch({ goHome, openProfile }) {
                     }
                   >
                     {favorites.includes(teacher.id)
-                      ? "♥"
-                      : "♡"}
+                      ? "â™¥"
+                      : "â™¡"}
                   </button>
 
                   <div className="teacher-card-top">
@@ -902,7 +1066,7 @@ function CompareModal({ teachers, onClose }) {
 
   const formatRate = (value) => {
     if (!value) return "Not provided";
-    return `₩${Number(value).toLocaleString()}/hour`;
+    return `â‚©${Number(value).toLocaleString()}/hour`;
   };
 
   const formatDuration = (value) => {
@@ -947,7 +1111,7 @@ function CompareModal({ teachers, onClose }) {
           aria-label="Close comparison"
           type="button"
         >
-          ×
+          Ã—
         </button>
 
         <div className="compare-modal-heading">
@@ -1007,7 +1171,7 @@ function CompareModal({ teachers, onClose }) {
                 <strong>{teacher.name}</strong>
 
                 <span className="comparison-rating">
-                  <span aria-hidden="true">★</span>{" "}
+                  <span aria-hidden="true">â˜…</span>{" "}
                   {teacher.rating
                     ? Number(teacher.rating).toFixed(1)
                     : "N/A"}
@@ -1499,7 +1663,7 @@ function TeacherProfile({
                   setShowConsultation(false)
                 }
               >
-                ×
+                Ã—
               </button>
 
               <h2>Request Consultation</h2>
@@ -1639,7 +1803,7 @@ function TeacherProfile({
                       className="verified-badge"
                       title="Verified Teacher"
                     >
-                      ✓ Verified
+                      âœ“ Verified
                     </span>
                   )}
                 </div>
@@ -1653,7 +1817,7 @@ function TeacherProfile({
                   toggleProfileFavorite
                 }
               >
-                {isFavorite ? "♥" : "♡"}
+                {isFavorite ? "â™¥" : "â™¡"}
               </button>
             </div>
 
@@ -1825,7 +1989,7 @@ function TeacherProfile({
                   </div>
                 )}
                 {teacher.hourlyRate && (
-                  <div><span>Hourly Rate</span><strong>₩{Number(teacher.hourlyRate).toLocaleString()}</strong></div>
+                  <div><span>Hourly Rate</span><strong>â‚©{Number(teacher.hourlyRate).toLocaleString()}</strong></div>
                 )}
                 {teacher.lessonDuration && (
                   <div><span>Lesson Duration</span><strong>{teacher.lessonDuration}</strong></div>
@@ -1934,7 +2098,7 @@ function TeacherProfile({
                           className="watch-demo-btn"
                           onClick={scrollToVideo}
                         >
-                          Watch Demo Class →
+                          Watch Demo Class â†’
                         </button>
                       </div>
                     </div>
@@ -1990,7 +2154,7 @@ function TeacherProfile({
                                   <small>{isYoutubeVideo(video) ? "Video lesson" : "Teacher recording"}</small>
                                 </div>
                               )}
-                              <span className="video-play-badge" aria-hidden="true">▶</span>
+                              <span className="video-play-badge" aria-hidden="true">â–¶</span>
                             </div>
 
                             <div className="video-gallery-info">
@@ -2000,7 +2164,7 @@ function TeacherProfile({
                               </strong>
 
                               <span>
-                                Watch sample →
+                                Watch sample â†’
                               </span>
                             </div>
                           </button>
@@ -2217,7 +2381,7 @@ function TeacherProfile({
               {teacher.hourlyRate && (
                 <div>
                   <span>Hourly Rate</span>
-                  <strong>₩{Number(teacher.hourlyRate).toLocaleString()}</strong>
+                  <strong>â‚©{Number(teacher.hourlyRate).toLocaleString()}</strong>
                 </div>
               )}
 
@@ -2749,6 +2913,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
