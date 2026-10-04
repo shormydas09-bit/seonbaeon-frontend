@@ -1,4 +1,4 @@
-﻿
+
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
@@ -1677,7 +1677,7 @@ function TeacherProfile({
             <div className="profile-stat-row" aria-label="Teacher overview">
               {teacher.rating && (
                 <div className="profile-stat">
-                  <strong>ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ {teacher.rating}</strong>
+                  <strong>{teacher.rating}</strong>
                   <span>Rating</span>
                 </div>
               )}
