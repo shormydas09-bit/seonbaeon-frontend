@@ -1,10 +1,10 @@
-
+﻿
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
 const API_URL = "https://seonbaeon-backend-1.onrender.com/api";
-const FAVORITES_KEY = "seonbaeon-favorites";
-const USER_KEY = "seonbaeon-logged-user";
+const FAVORITES_KEY = "pick-my-teacher-favorites";
+const USER_KEY = "pick-my-teacher-logged-user";
 
 const ENGLISH_CATEGORIES = [
   "All",
@@ -111,7 +111,7 @@ function AuthPage({ mode, setMode, onLogin }) {
       <div className="auth-card">
         <div className="auth-heading">
           <div className="auth-logo">
-            SeonbaeON<span>.</span>
+            Pick My Teacher<span>.</span>
           </div>
 
           <h1>
@@ -123,7 +123,7 @@ function AuthPage({ mode, setMode, onLogin }) {
           <p>
             {mode === "login"
               ? "Login to continue your teacher discovery journey."
-              : "Join SeonbaeON and find the right English teacher for your child."}
+              : "Join Pick My Teacher and find the right English teacher for your child."}
           </p>
         </div>
 
@@ -169,8 +169,8 @@ function AuthPage({ mode, setMode, onLogin }) {
             {loading
               ? "Please wait..."
               : mode === "login"
-              ? "Login →"
-              : "Create Account →"}
+              ? "Login ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢"
+              : "Create Account ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢"}
           </button>
         </form>
 
@@ -232,7 +232,7 @@ function HomePage({ goToTeachers }) {
               className="primary-btn"
               onClick={goToTeachers}
             >
-              Find a Teacher →
+              Find a Teacher
             </button>
 
             <button
@@ -269,11 +269,11 @@ function HomePage({ goToTeachers }) {
 
         <div className="hero-card">
           <div className="card-top">
-            <span className="online">● Available</span>
-            <span>★ 4.9</span>
+            <span className="online">Available</span>
+            <span>4.9 rating</span>
           </div>
 
-          <div className="mentor-avatar">👩🏻‍🏫</div>
+          <div className="mentor-avatar" aria-hidden="true">PMT</div>
 
           <h2>English Teacher</h2>
 
@@ -325,14 +325,14 @@ function HomePage({ goToTeachers }) {
           </select>
 
           <button onClick={goToTeachers}>
-            Search Teachers 🔍
+            Search Teachers
           </button>
         </div>
       </section>
 
       <section className="how-section" id="how">
         <p className="small-title">
-          HOW SEONBAEON WORKS
+          HOW PICK MY TEACHER WORKS
         </p>
 
         <h2>
@@ -392,19 +392,19 @@ function HomePage({ goToTeachers }) {
           className="primary-btn"
           onClick={goToTeachers}
         >
-          Explore English Teachers →
+          Explore English Teachers
         </button>
       </section>
 
       <footer>
         <div className="logo">
-          SeonbaeON<span>.</span>
+          Pick My Teacher<span>.</span>
         </div>
 
         <p>Know the teacher before joining the class.</p>
 
         <p className="copyright">
-          © 2026 SeonbaeON. All rights reserved.
+          Ãƒâ€šÃ‚Â© 2026 Pick My Teacher. All rights reserved.
         </p>
       </footer>
     </>
@@ -422,6 +422,7 @@ function TeacherSearch({ goHome, openProfile }) {
 
   const [category, setCategory] = useState("All");
   const [location, setLocation] = useState("All");
+  const [rating, setRating] = useState("All");
   const [search, setSearch] = useState("");
 
   const [favorites, setFavorites] = useState(() => {
@@ -449,7 +450,7 @@ function TeacherSearch({ goHome, openProfile }) {
 
         const data = await readResponse(response);
 
-        setTeachers(Array.isArray(data) ? data : []);
+        setTeachers(Array.isArray(data) ? data : (Array.isArray(data?.teachers) ? data.teachers : (Array.isArray(data?.content) ? data.content : [])));
       } catch (err) {
         setError(
           err.message ||
@@ -484,6 +485,10 @@ function TeacherSearch({ goHome, openProfile }) {
         location === "All" ||
         teacher.location === location;
 
+      const ratingMatch =
+        rating === "All" ||
+        Number(teacher.rating || 0) >= Number(rating);
+
       const searchMatch =
         !text ||
         [
@@ -492,6 +497,11 @@ function TeacherSearch({ goHome, openProfile }) {
           teacher.specialty,
           teacher.location,
           teacher.teachingStyle,
+          teacher.qualification,
+          teacher.bio,
+          teacher.ageRange,
+          teacher.teachingMode,
+          teacher.languages,
         ].some((value) =>
           String(value || "")
             .toLowerCase()
@@ -501,6 +511,7 @@ function TeacherSearch({ goHome, openProfile }) {
       return (
         categoryMatch &&
         locationMatch &&
+        ratingMatch &&
         searchMatch
       );
     });
@@ -508,6 +519,7 @@ function TeacherSearch({ goHome, openProfile }) {
     teachers,
     category,
     location,
+    rating,
     search,
     favorites,
   ]);
@@ -549,9 +561,7 @@ function TeacherSearch({ goHome, openProfile }) {
         <button
           className="back-home"
           onClick={goHome}
-        >
-          ← Back to Home
-        </button>
+        >Back to Home</button>
 
         <div>
           <p className="small-title">
@@ -572,10 +582,7 @@ function TeacherSearch({ goHome, openProfile }) {
       <div className="teacher-search-area">
         <div className="search-top">
           <div className="search-input-wrapper">
-            <span>🔍</span>
-
-            <input
-              type="text"
+            <span>Search</span><input type="text"
               placeholder="Search teacher, category or specialty..."
               value={search}
               onChange={(e) =>
@@ -607,7 +614,19 @@ function TeacherSearch({ goHome, openProfile }) {
             </option>
           </select>
 
-          <select
+                      <select
+              value={rating}
+              onChange={(e) =>
+                setRating(e.target.value)
+              }
+              aria-label="Filter by rating"
+            >
+              <option value="All">All Ratings</option>
+              <option value="4.5">4.5+ Rating</option>
+              <option value="4">4.0+ Rating</option>
+              <option value="3.5">3.5+ Rating</option>
+            </select>
+<select
             value={location}
             onChange={(e) =>
               setLocation(e.target.value)
@@ -624,8 +643,7 @@ function TeacherSearch({ goHome, openProfile }) {
 
         <div className="results-header">
           <strong>
-            {filteredTeachers.length} English teachers
-            found
+            {!loading && !error ? `${filteredTeachers.length} English teachers found` : loading ? "Finding English teachers..." : ""}
           </strong>
 
           <span>
@@ -635,27 +653,23 @@ function TeacherSearch({ goHome, openProfile }) {
 
         {loading && (
           <div className="no-results">
-            <div>⏳</div>
-
-            <h2>Loading teachers...</h2>
+            <div>Loading</div><h2>Loading teachers...</h2>
 
             <p>
               Getting English teachers from the
-              SeonbaeON database.
+              Pick My Teacher database.
             </p>
           </div>
         )}
 
         {error && !loading && (
           <div className="no-results">
-            <div>⚠️</div>
-
-            <h2>Backend connection problem</h2>
+            <div>Warning</div><h2>Backend connection problem</h2>
 
             <p>{error}</p>
 
             <p>
-              Make sure the SeonbaeON backend is
+              Make sure the Pick My Teacher backend is
               available.
             </p>
           </div>
@@ -685,9 +699,7 @@ function TeacherSearch({ goHome, openProfile }) {
                     className="compare-mini-card"
                     key={teacher.id}
                   >
-                    <span>
-                      {teacher.emoji || "👩🏻‍🏫"}
-                    </span>
+                    <span>{teacher.profileImageUrl ? (<img src={teacher.profileImageUrl} alt={teacher.name} onError={(event) => { event.currentTarget.style.display = "none"; event.currentTarget.parentElement.textContent = (teacher.name || "Teacher").split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase(); }} />) : ((teacher.name || "Teacher").split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase())}</span>
 
                     <strong>{teacher.name}</strong>
 
@@ -736,8 +748,8 @@ function TeacherSearch({ goHome, openProfile }) {
                     }
                   >
                     {favorites.includes(teacher.id)
-                      ? "♥"
-                      : "♡"}
+                      ? "ÃƒÂ¢Ã¢â€žÂ¢Ã‚Â¥"
+                      : "ÃƒÂ¢Ã¢â€žÂ¢Ã‚Â¡"}
                   </button>
 
                   <div className="teacher-card-top">
@@ -748,12 +760,17 @@ function TeacherSearch({ goHome, openProfile }) {
                           alt={teacher.name}
                         />
                       ) : (
-                        teacher.emoji || "👩🏻‍🏫"
+                        (teacher.name || "Teacher")
+                          .split(" ")
+                          .map((part) => part[0])
+                          .join("")
+                          .slice(0, 2)
+                          .toUpperCase()
                       )}
                     </div>
 
                     <div className="rating">
-                      ★ {teacher.rating}
+                      {teacher.rating ? `${teacher.rating} rating` : "Rating unavailable"}
                     </div>
                   </div>
 
@@ -819,7 +836,7 @@ function TeacherSearch({ goHome, openProfile }) {
                         (item) =>
                           item.id === teacher.id
                       )
-                        ? "Added ✓"
+                        ? "Added"
                         : "Compare"}
                     </button>
                   </div>
@@ -831,8 +848,8 @@ function TeacherSearch({ goHome, openProfile }) {
         {!loading &&
           !error &&
           filteredTeachers.length === 0 && (
-            <div className="no-results">
-              <div>🔎</div>
+            <div className="no-results empty-state">
+              <div className="status-label">No results</div>
 
               <h2>No English teachers found</h2>
 
@@ -861,30 +878,98 @@ function TeacherSearch({ goHome, openProfile }) {
 ========================= */
 
 function CompareModal({ teachers, onClose }) {
+  const formatValue = (value, fallback = "Not provided") => {
+    if (
+      value === null ||
+      value === undefined ||
+      value === ""
+    ) {
+      return fallback;
+    }
+
+    return value;
+  };
+
+  const formatStudents = (value) => {
+    if (!value) return "Not provided";
+    return `${Number(value).toLocaleString()}+`;
+  };
+
+  const formatReviews = (value) => {
+    if (!value) return "No reviews yet";
+    return `${Number(value).toLocaleString()} reviews`;
+  };
+
+  const formatRate = (value) => {
+    if (!value) return "Not provided";
+    return `â‚©${Number(value).toLocaleString()}/hour`;
+  };
+
+  const formatDuration = (value) => {
+    if (!value) return "Not provided";
+
+    const text = String(value).toLowerCase();
+
+    if (
+      text.includes("min") ||
+      text.includes("hour")
+    ) {
+      return value;
+    }
+
+    return `${value} minutes`;
+  };
+
+  const comparisonFields = [
+    ["Category", "category"],
+    ["Specialty", "specialty"],
+    ["Location", "location"],
+    ["Experience", "experience"],
+    ["Students", "studentCount"],
+    ["Teaching Style", "teachingStyle"],
+    ["Reviews", "reviewCount"],
+    ["Hourly Rate", "hourlyRate"],
+    ["Lesson Duration", "lessonDuration"],
+    ["Teaching Mode", "teachingMode"],
+  ];
+
   return (
-    <div className="compare-overlay">
+    <div
+      className="compare-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="compare-title"
+    >
       <div className="compare-modal">
         <button
           className="compare-close"
           onClick={onClose}
+          aria-label="Close comparison"
+          type="button"
         >
-          ×
+          Ã—
         </button>
 
-        <p className="small-title">
-          ENGLISH TEACHER COMPARISON
-        </p>
+        <div className="compare-modal-heading">
+          <p className="small-title">
+            ENGLISH TEACHER COMPARISON
+          </p>
 
-        <h2>Compare Teachers</h2>
+          <h2 id="compare-title">
+            Compare Teachers
+          </h2>
 
-        <p className="compare-subtitle">
-          See the differences side by side before
-          making your decision.
-        </p>
+          <p className="compare-subtitle">
+            Compare two English teachers side by side
+            before choosing the right fit.
+          </p>
+        </div>
 
         <div className="comparison-table">
           <div className="comparison-row comparison-header">
-            <div>Feature</div>
+            <div className="comparison-feature-heading">
+              Feature
+            </div>
 
             {teachers.map((teacher) => (
               <div
@@ -892,52 +977,91 @@ function CompareModal({ teachers, onClose }) {
                 className="comparison-teacher"
               >
                 <div className="comparison-avatar">
-                  {teacher.emoji || "👩🏻‍🏫"}
+                  {teacher.profileImageUrl ? (
+                    <img
+                      src={teacher.profileImageUrl}
+                      alt={teacher.name}
+                      onError={(event) => {
+                        event.currentTarget.style.display =
+                          "none";
+
+                        event.currentTarget.parentElement.textContent =
+                          (teacher.name || "Teacher")
+                            .split(" ")
+                            .map((part) => part[0])
+                            .join("")
+                            .slice(0, 2)
+                            .toUpperCase();
+                      }}
+                    />
+                  ) : (
+                    (teacher.name || "Teacher")
+                      .split(" ")
+                      .map((part) => part[0])
+                      .join("")
+                      .slice(0, 2)
+                      .toUpperCase()
+                  )}
                 </div>
 
                 <strong>{teacher.name}</strong>
 
-                <span>
-                  ★ {teacher.rating}
+                <span className="comparison-rating">
+                  <span aria-hidden="true">â˜…</span>{" "}
+                  {teacher.rating
+                    ? Number(teacher.rating).toFixed(1)
+                    : "N/A"}
                 </span>
               </div>
             ))}
           </div>
 
-          {[
-            ["Category", "category"],
-            ["Specialty", "specialty"],
-            ["Location", "location"],
-            ["Experience", "experience"],
-            ["Students", "studentCount"],
-            ["Teaching Style", "teachingStyle"],
-            ["Reviews", "reviewCount"],
-            ["Hourly Rate", "hourlyRate"],
-            ["Lesson Duration", "lessonDuration"],
-            ["Teaching Mode", "teachingMode"],
-          ].map(([label, key]) => (
-            <div
-              className="comparison-row"
-              key={key}
-            >
-              <div>{label}</div>
-
-              {teachers.map((teacher) => (
-                <div key={teacher.id}>
-                  {key === "studentCount"
-                    ? `${teacher[key] || 0}+`
-                    : key === "hourlyRate"
-                    ? teacher[key]
-                      ? `₩${Number(
-                          teacher[key]
-                        ).toLocaleString()}`
-                      : "Not listed"
-                    : teacher[key] ||
-                      "Not listed"}
+          {comparisonFields
+            .filter(([, key]) =>
+              teachers.some(
+                (teacher) =>
+                  teacher[key] !== null &&
+                  teacher[key] !== undefined &&
+                  teacher[key] !== ""
+              )
+            )
+            .map(([label, key]) => (
+              <div
+                className="comparison-row"
+                key={key}
+              >
+                <div className="comparison-feature-label">
+                  {label}
                 </div>
-              ))}
-            </div>
-          ))}
+
+                {teachers.map((teacher) => (
+                  <div
+                    key={teacher.id}
+                    className="comparison-value"
+                  >
+                    {key === "studentCount"
+                      ? formatStudents(teacher[key])
+                      : key === "reviewCount"
+                      ? formatReviews(teacher[key])
+                      : key === "hourlyRate"
+                      ? formatRate(teacher[key])
+                      : key === "lessonDuration"
+                      ? formatDuration(teacher[key])
+                      : formatValue(teacher[key])}
+                  </div>
+                ))}
+              </div>
+            ))}
+        </div>
+
+        <div className="comparison-actions">
+          <button
+            className="comparison-secondary"
+            onClick={onClose}
+            type="button"
+          >
+            Close
+          </button>
         </div>
       </div>
     </div>
@@ -989,9 +1113,19 @@ function TeacherProfile({
     useState(true);
   const [selectedVideo, setSelectedVideo] =
     useState(null);
+  const [profileImageFailed, setProfileImageFailed] =
+    useState(false);
+  const [videoImageErrors, setVideoImageErrors] =
+    useState({});
+  const [videoPlaybackError, setVideoPlaybackError] =
+    useState(false);
 
   useEffect(() => {
     if (!teacher) return;
+
+    setProfileImageFailed(false);
+    setVideoPlaybackError(false);
+    setVideoImageErrors({});
 
     try {
       const saved = JSON.parse(
@@ -1068,9 +1202,9 @@ function TeacherProfile({
         ) {
           setSelectedVideo({
             id: "legacy-demo",
-            title: "Sample English Demo",
+            title: "Demo Class",
             description:
-              "Public sample English-learning video.",
+              "Teacher demo video.",
             videoUrl: teacher.demoVideoUrl,
             videoType:
               teacher.demoVideoType || "youtube",
@@ -1089,9 +1223,9 @@ function TeacherProfile({
           setVideos([
             {
               id: "legacy-demo",
-              title: "Sample English Demo",
+              title: "Demo Class",
               description:
-                "Public sample English-learning video.",
+                "Teacher demo video.",
               videoUrl: teacher.demoVideoUrl,
               videoType:
                 teacher.demoVideoType || "youtube",
@@ -1101,9 +1235,9 @@ function TeacherProfile({
 
           setSelectedVideo({
             id: "legacy-demo",
-            title: "Sample English Demo",
+            title: "Demo Class",
             description:
-              "Public sample English-learning video.",
+              "Teacher demo video.",
             videoUrl: teacher.demoVideoUrl,
             videoType:
               teacher.demoVideoType || "youtube",
@@ -1277,57 +1411,64 @@ function TeacherProfile({
     }
   }
 
+  function getYoutubeVideoId(video) {
+    if (!video?.videoUrl) return "";
+
+    const raw = String(video.videoUrl).trim();
+
+    try {
+      const parsed = new URL(
+        raw.startsWith("http://") || raw.startsWith("https://")
+          ? raw
+          : `https://www.youtube.com/watch?v=${raw}`
+      );
+
+      if (parsed.hostname.includes("youtu.be")) {
+        return parsed.pathname.replace(/^\//, "").split("/")[0];
+      }
+
+      if (parsed.searchParams.get("v")) {
+        return parsed.searchParams.get("v");
+      }
+
+      const embedMatch = parsed.pathname.match(/\/embed\/([^/?]+)/);
+      if (embedMatch) return embedMatch[1];
+    } catch {
+      return raw.split("/").pop()?.split("?")[0] || "";
+    }
+
+    return "";
+  }
+
+  function isYoutubeVideo(video) {
+    const url = String(video?.videoUrl || "").toLowerCase();
+    return (
+      video?.videoType === "youtube" ||
+      url.includes("youtube.com") ||
+      url.includes("youtu.be")
+    );
+  }
+
   function getVideoEmbedUrl(video) {
     if (!video?.videoUrl) return "";
 
-    const url = String(video.videoUrl).trim();
-
-    if (
-      video.videoType === "youtube" ||
-      url.includes("youtube.com") ||
-      url.includes("youtu.be")
-    ) {
-      if (
-        url.startsWith("http://") ||
-        url.startsWith("https://")
-      ) {
-        try {
-          const parsed = new URL(url);
-
-          if (
-            parsed.hostname.includes(
-              "youtu.be"
-            )
-          ) {
-            return `https://www.youtube.com/embed/${parsed.pathname.slice(
-              1
-            )}`;
-          }
-
-          if (
-            parsed.searchParams.get("v")
-          ) {
-            return `https://www.youtube.com/embed/${parsed.searchParams.get(
-              "v"
-            )}`;
-          }
-
-          if (
-            parsed.pathname.includes(
-              "/embed/"
-            )
-          ) {
-            return url;
-          }
-        } catch {
-          return url;
-        }
-      }
-
-      return `https://www.youtube.com/embed/${url}`;
+    if (isYoutubeVideo(video)) {
+      const videoId = getYoutubeVideoId(video);
+      return videoId
+        ? `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`
+        : "";
     }
 
-    return url;
+    return String(video.videoUrl).trim();
+  }
+
+  function getVideoThumbnail(video) {
+    if (video?.thumbnailUrl) return video.thumbnailUrl;
+
+    const videoId = getYoutubeVideoId(video);
+    return videoId
+      ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
+      : "";
   }
 
   function scrollToVideo() {
@@ -1358,7 +1499,7 @@ function TeacherProfile({
                   setShowConsultation(false)
                 }
               >
-                ×
+                ÃƒÆ’Ã¢â‚¬â€
               </button>
 
               <h2>Request Consultation</h2>
@@ -1456,23 +1597,34 @@ function TeacherProfile({
         <button
           className="back-home"
           onClick={goBack}
-        >
-          ← Back to Teachers
-        </button>
+        >Back to Home</button>
 
         {/* =========================
             PROFILE HEADER
         ========================= */}
 
         <div className="profile-header">
-          <div className="profile-avatar">
-            {teacher.profileImageUrl ? (
+          <div className={`profile-avatar ${
+            teacher.profileImageUrl && !profileImageFailed
+              ? "has-photo"
+              : "has-initials"
+          }`}>
+            {teacher.profileImageUrl && !profileImageFailed ? (
               <img
                 src={teacher.profileImageUrl}
-                alt={teacher.name}
+                alt={`${teacher.name} profile`}
+                loading="eager"
+                onError={() => setProfileImageFailed(true)}
               />
             ) : (
-              teacher.emoji || "👩🏻‍🏫"
+              <span className="avatar-initials" aria-label={`${teacher.name} initials`}>
+                {(teacher.name || "Teacher")
+                  .split(" ")
+                  .map((part) => part[0])
+                  .join("")
+                  .slice(0, 2)
+                  .toUpperCase()}
+              </span>
             )}
           </div>
 
@@ -1487,7 +1639,7 @@ function TeacherProfile({
                       className="verified-badge"
                       title="Verified Teacher"
                     >
-                      ✓ Verified
+                      ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Verified
                     </span>
                   )}
                 </div>
@@ -1501,96 +1653,56 @@ function TeacherProfile({
                   toggleProfileFavorite
                 }
               >
-                {isFavorite ? "♥" : "♡"}
+                {isFavorite ? "ÃƒÂ¢Ã¢â€žÂ¢Ã‚Â¥" : "ÃƒÂ¢Ã¢â€žÂ¢Ã‚Â¡"}
               </button>
             </div>
 
-            <div className="profile-rating">
-              ★ {teacher.rating}
-
-              <span>
-                ({teacher.reviewCount} reviews)
-              </span>
-            </div>
-
             <div className="profile-tags">
-              <span>
-                📚 English — {teacher.category}
-              </span>
+              {teacher.category && (
+                <span>{teacher.category}</span>
+              )}
 
-              <span>
-                📍 {teacher.location}
-              </span>
+              {teacher.location && (
+                <span>{teacher.location}</span>
+              )}
 
-              <span>
-                {teacher.available
-                  ? "● Available"
-                  : "● Not Available"}
-              </span>
+              {typeof teacher.available === "boolean" && (
+                <span className={teacher.available ? "availability-tag is-available" : "availability-tag"}>
+                  <span className="availability-dot" aria-hidden="true" />
+                  {teacher.available ? "Currently available" : "Currently unavailable"}
+                </span>
+              )}
             </div>
-          </div>
-        </div>
 
-        {/* =========================
-            PROFESSIONAL INFO STRIP
-        ========================= */}
+            <div className="profile-stat-row" aria-label="Teacher overview">
+              {teacher.rating && (
+                <div className="profile-stat">
+                  <strong>ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ {teacher.rating}</strong>
+                  <span>Rating</span>
+                </div>
+              )}
 
-        <div className="professional-info-grid">
-          <div className="professional-info-card">
-            <span>💼</span>
-            <small>Experience</small>
-            <strong>
-              {teacher.experience ||
-                "Not listed"}
-            </strong>
-          </div>
+              {teacher.reviewCount && (
+                <div className="profile-stat">
+                  <strong>{teacher.reviewCount}</strong>
+                  <span>Reviews</span>
+                </div>
+              )}
 
-          <div className="professional-info-card">
-            <span>💰</span>
-            <small>Hourly Rate</small>
-            <strong>
-              {teacher.hourlyRate
-                ? `₩${Number(
-                    teacher.hourlyRate
-                  ).toLocaleString()}`
-                : "Contact teacher"}
-            </strong>
-          </div>
+              {teacher.experience && (
+                <div className="profile-stat">
+                  <strong>{teacher.experience}</strong>
+                  <span>Experience</span>
+                </div>
+              )}
 
-          <div className="professional-info-card">
-            <span>⏱️</span>
-            <small>Lesson Duration</small>
-            <strong>
-              {teacher.lessonDuration ||
-                "Not listed"}
-            </strong>
-          </div>
-
-          <div className="professional-info-card">
-            <span>👦</span>
-            <small>Age Range</small>
-            <strong>
-              {teacher.ageRange ||
-                "Children"}
-            </strong>
-          </div>
-
-          <div className="professional-info-card">
-            <span>💻</span>
-            <small>Teaching Mode</small>
-            <strong>
-              {teacher.teachingMode ||
-                "Online"}
-            </strong>
-          </div>
-
-          <div className="professional-info-card">
-            <span>🌎</span>
-            <small>Languages</small>
-            <strong>
-              {teacher.languages ||
-                "English"}
-            </strong>
+              {teacher.studentCount && (
+                <div className="profile-stat">
+                  <strong>{teacher.studentCount}+</strong>
+                  <span>Students taught</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -1601,162 +1713,126 @@ function TeacherProfile({
                 ABOUT
             ========================= */}
 
-            <section className="profile-section">
-              <h2>About the Teacher</h2>
-
-              <p>
-                {teacher.bio ||
-                  "This teacher has not added a biography yet."}
-              </p>
-            </section>
+            {teacher.bio && (
+              <section className="profile-section">
+                <h2>About the Teacher</h2>
+                <p>{teacher.bio}</p>
+              </section>
+            )}
 
             {/* =========================
                 QUALIFICATIONS
             ========================= */}
 
-            <section className="profile-section">
-              <h2>
-                Qualifications & Experience
-              </h2>
-
-              <div className="qualification-list">
-                <div className="qualification-item">
-                  <span>🎓</span>
-
-                  <div>
-                    <strong>
-                      Teaching Qualification
-                    </strong>
-
-                    <p>
-                      {teacher.qualification ||
-                        "Qualification information not listed yet."}
-                    </p>
-                  </div>
+            {(teacher.qualification || teacher.experience || teacher.studentCount) && (
+              <section className="profile-section">
+                <div className="section-heading-block">
+                  <span className="section-eyebrow">CREDENTIALS</span>
+                  <h2>Qualifications & Experience</h2>
                 </div>
 
-                <div className="qualification-item">
-                  <span>💼</span>
+                <div className="qualification-list">
+                  {teacher.qualification && (
+                    <div className="qualification-item">
+                      <span className="qualification-marker">01</span>
+                      <div>
+                        <strong>Teaching Qualification</strong>
+                        <p>{teacher.qualification}</p>
+                      </div>
+                    </div>
+                  )}
 
-                  <div>
-                    <strong>
-                      {teacher.experience ||
-                        "Experienced"}{" "}
-                      Experience
-                    </strong>
+                  {teacher.experience && (
+                    <div className="qualification-item">
+                      <span className="qualification-marker">02</span>
+                      <div>
+                        <strong>{teacher.experience} teaching experience</strong>
+                        <p>Professional English teaching experience.</p>
+                      </div>
+                    </div>
+                  )}
 
-                    <p>
-                      Experienced in English
-                      teaching.
-                    </p>
-                  </div>
+                  {teacher.studentCount && (
+                    <div className="qualification-item">
+                      <span className="qualification-marker">03</span>
+                      <div>
+                        <strong>{teacher.studentCount}+ students taught</strong>
+                        <p>Previous learners supported through English classes.</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
-
-                <div className="qualification-item">
-                  <span>👨‍🎓</span>
-
-                  <div>
-                    <strong>
-                      {teacher.studentCount ||
-                        0}
-                      + Students
-                    </strong>
-
-                    <p>
-                      Students taught through
-                      previous English classes.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </section>
+              </section>
+            )}
 
             {/* =========================
                 TEACHING STYLE
             ========================= */}
 
-            <section className="profile-section">
-              <h2>Teaching Style</h2>
-
-              <div className="style-card">
-                <div className="style-icon">
-                  🗣️
+            {teacher.teachingStyle && (
+              <section className="profile-section">
+                <div className="section-heading-block">
+                  <span className="section-eyebrow">APPROACH</span>
+                  <h2>Teaching Style</h2>
                 </div>
 
-                <div>
-                  <h3>
-                    {teacher.teachingStyle ||
-                      "Student-focused"}
-                  </h3>
-
-                  <p>
-                    This English teacher's
-                    approach is designed to
-                    make lessons easier to
-                    understand and engaging for
-                    learners.
-                  </p>
+                <div className="style-card">
+                  <div className="style-icon">STYLE</div>
+                  <div>
+                    <h3>{teacher.teachingStyle}</h3>
+                    <p>
+                      A quick look at this teacher's approach can help you decide whether the class is a good fit for your learner.
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </section>
+              </section>
+            )}
 
             {/* =========================
                 TEACHING DETAILS
             ========================= */}
 
-            <section className="profile-section">
-              <h2>Teaching Details</h2>
-
-              <div className="teaching-details-grid">
-                <div>
-                  <span>Category</span>
-                  <strong>
-                    {teacher.category}
-                  </strong>
+            {(teacher.category || teacher.specialty || teacher.ageRange || teacher.teachingMode || teacher.languages || teacher.availability || typeof teacher.available === "boolean" || teacher.hourlyRate || teacher.lessonDuration) && (
+              <section className="profile-section">
+                <div className="section-heading-block">
+                  <span className="section-eyebrow">CLASS INFORMATION</span>
+                  <h2>Teaching Details</h2>
                 </div>
 
-                <div>
-                  <span>Specialty</span>
-                  <strong>
-                    {teacher.specialty}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>Age Range</span>
-                  <strong>
-                    {teacher.ageRange ||
-                      "Children"}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>Teaching Mode</span>
-                  <strong>
-                    {teacher.teachingMode ||
-                      "Online"}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>Languages</span>
-                  <strong>
-                    {teacher.languages ||
-                      "English"}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>Availability</span>
-                  <strong>
-                    {teacher.availability ||
-                      (teacher.available
-                        ? "Available"
-                        : "Not Available")}
-                  </strong>
-                </div>
+                <div className="teaching-details-grid">
+                {teacher.category && (
+                  <div><span>Category</span><strong>{teacher.category}</strong></div>
+                )}
+                {teacher.specialty && (
+                  <div><span>Specialty</span><strong>{teacher.specialty}</strong></div>
+                )}
+                {teacher.ageRange && (
+                  <div><span>Age Range</span><strong>{teacher.ageRange}</strong></div>
+                )}
+                {teacher.teachingMode && (
+                  <div><span>Teaching Mode</span><strong>{teacher.teachingMode}</strong></div>
+                )}
+                {teacher.languages && (
+                  <div><span>Languages</span><strong>{teacher.languages}</strong></div>
+                )}
+                {(teacher.availability || typeof teacher.available === "boolean") && (
+                  <div>
+                    <span>Availability</span>
+                    <strong>
+                      {teacher.availability ||
+                        (teacher.available ? "Available" : "Not available")}
+                    </strong>
+                  </div>
+                )}
+                {teacher.hourlyRate && (
+                  <div><span>Hourly Rate</span><strong>ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â©{Number(teacher.hourlyRate).toLocaleString()}</strong></div>
+                )}
+                {teacher.lessonDuration && (
+                  <div><span>Lesson Duration</span><strong>{teacher.lessonDuration}</strong></div>
+                )}
               </div>
             </section>
+            )}
 
             {/* =========================
                 MULTIPLE DEMO VIDEOS
@@ -1796,73 +1872,86 @@ function TeacherProfile({
                   <>
                     <div className="demo-video">
                       <div className="demo-play-area">
-                        {selectedVideo.videoType ===
-                          "youtube" ||
-                        String(
-                          selectedVideo.videoUrl ||
-                            ""
-                        ).includes(
-                          "youtube"
-                        ) ||
-                        String(
-                          selectedVideo.videoUrl ||
-                            ""
-                        ).includes(
-                          "youtu.be"
-                        ) ? (
+                        {videoPlaybackError ? (
+                          <div className="video-error-state">
+                            <strong>Demo video unavailable</strong>
+                            <p>This video could not be loaded right now. Please try another demo.</p>
+                            {videos.length > 1 && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const nextVideo = videos.find((video) => video.id !== selectedVideo.id);
+                                  if (nextVideo) {
+                                    setSelectedVideo(nextVideo);
+                                    setVideoPlaybackError(false);
+                                  }
+                                }}
+                              >
+                                Try another demo
+                              </button>
+                            )}
+                          </div>
+                        ) : isYoutubeVideo(selectedVideo) ? (
                           <iframe
                             className="demo-video-player"
-                            src={getVideoEmbedUrl(
-                              selectedVideo
-                            )}
+                            src={getVideoEmbedUrl(selectedVideo)}
                             title={
                               selectedVideo.title ||
-                              `Sample English Demo for ${teacher.name}`
+                              `Demo Class for ${teacher.name}`
                             }
                             frameBorder="0"
+                            loading="lazy"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             allowFullScreen
+                            onError={() => setVideoPlaybackError(true)}
                           />
                         ) : (
                           <video
                             className="demo-video-player"
                             controls
+                            preload="metadata"
+                            onError={() => setVideoPlaybackError(true)}
                           >
                             <source
-                              src={
-                                selectedVideo.videoUrl
-                              }
+                              src={selectedVideo.videoUrl}
                               type="video/mp4"
                             />
-
-                            Your browser does not
-                            support the video tag.
+                            Your browser does not support the video tag.
                           </video>
                         )}
                       </div>
 
                       <div className="selected-video-info">
                         <h3>
-                          {selectedVideo.title ||
-                            "Sample English Demo"}
+                          {selectedVideo.title || "Demo Class"}
                         </h3>
 
                         <p>
-                          {selectedVideo.description ||
-                            "Sample English-learning video."}
+                          {selectedVideo.description || "Teacher demo video."}
                         </p>
 
                         <button
                           className="watch-demo-btn"
                           onClick={scrollToVideo}
                         >
-                          Watch Demo Class →
+                          Watch Demo Class ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
                         </button>
                       </div>
                     </div>
 
                     {videos.length > 0 && (
-                      <div className="video-gallery">
+                      <div className="demo-library">
+                        <div className="demo-library-heading">
+                          <div>
+                            <strong>More demo classes</strong>
+                            <span>{videos.length} {videos.length === 1 ? "demo available" : "demos available"}</span>
+                          </div>
+                          {videos.length > 1 && (
+                            <span className="demo-library-hint">Select a lesson to watch it above</span>
+                          )}
+                        </div>
+
+                        <div className="video-gallery">
                         {videos.map((video, index) => (
                           <button
                             type="button"
@@ -1877,28 +1966,31 @@ function TeacherProfile({
                                 : ""
                             }`}
                             onClick={() => {
-                              setSelectedVideo(
-                                video
-                              );
+                              setSelectedVideo(video);
+                              setVideoPlaybackError(false);
                               scrollToVideo();
                             }}
                           >
                             <div className="video-thumbnail">
-                              {video.thumbnailUrl ? (
+                              {getVideoThumbnail(video) && !videoImageErrors[video.id || index] ? (
                                 <img
-                                  src={
-                                    video.thumbnailUrl
-                                  }
-                                  alt={
-                                    video.title ||
-                                    "Demo video"
+                                  src={getVideoThumbnail(video)}
+                                  alt={video.title || "Demo class thumbnail"}
+                                  loading="lazy"
+                                  onError={() =>
+                                    setVideoImageErrors((current) => ({
+                                      ...current,
+                                      [video.id || index]: true,
+                                    }))
                                   }
                                 />
                               ) : (
-                                <div className="video-thumbnail-placeholder">
-                                  ▶
+                                <div className="video-thumbnail-fallback">
+                                  <span>DEMO</span>
+                                  <small>{isYoutubeVideo(video) ? "Video lesson" : "Teacher recording"}</small>
                                 </div>
                               )}
+                              <span className="video-play-badge" aria-hidden="true">ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â¶</span>
                             </div>
 
                             <div className="video-gallery-info">
@@ -1908,11 +2000,12 @@ function TeacherProfile({
                               </strong>
 
                               <span>
-                                Watch sample →
+                                Watch sample ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
                               </span>
                             </div>
                           </button>
                         ))}
+                        </div>
                       </div>
                     )}
                   </>
@@ -1929,11 +2022,8 @@ function TeacherProfile({
                 )}
 
               <p className="demo-disclaimer">
-                Demo videos are sample
-                English-learning materials. They
-                should be replaced with verified
-                teacher-specific recordings when
-                real teacher profiles are added.
+                Demo lessons are shown here so families can understand a teacher's teaching approach.
+                Only teacher-specific recordings should be published on verified teacher profiles.
               </p>
             </section>
 
@@ -1947,13 +2037,12 @@ function TeacherProfile({
                   <h2>Student Reviews</h2>
 
                   <p>
-                    Reviews are stored in the
-                    SeonbaeON database.
+                    Reviews from the Pick My Teacher community.
                   </p>
                 </div>
 
                 <div className="review-summary">
-                  ★ {teacher.rating}
+                  {teacher.rating ? `${teacher.rating} rating` : "Rating unavailable"}
                 </div>
               </div>
 
@@ -1994,7 +2083,7 @@ function TeacherProfile({
                       </strong>
 
                       <span>
-                        ★ {review.rating}
+                        {review.rating ? `${review.rating}/5` : "Rating unavailable"}
                       </span>
                     </div>
 
@@ -2037,25 +2126,15 @@ function TeacherProfile({
                       )
                     }
                   >
-                    <option value="5">
-                      ★★★★★ 5
-                    </option>
+                    <option value="5">5 / 5</option>
 
-                    <option value="4">
-                      ★★★★☆ 4
-                    </option>
+                    <option value="4">4 / 5</option>
 
-                    <option value="3">
-                      ★★★☆☆ 3
-                    </option>
+                    <option value="3">3 / 5</option>
 
-                    <option value="2">
-                      ★★☆☆☆ 2
-                    </option>
+                    <option value="2">2 / 5</option>
 
-                    <option value="1">
-                      ★☆☆☆☆ 1
-                    </option>
+                    <option value="1">1 / 5</option>
                   </select>
 
                   <textarea
@@ -2114,90 +2193,55 @@ function TeacherProfile({
                 className="compare-profile-btn"
                 onClick={goBack}
               >
-                ⚖ Compare Teacher
+                Compare Teacher
               </button>
             </div>
 
             <div className="quick-info">
               <h3>Quick Information</h3>
 
-              <div>
-                <span>Subject</span>
-                <strong>English</strong>
-              </div>
+              {teacher.category && (
+                <div>
+                  <span>Category</span>
+                  <strong>{teacher.category}</strong>
+                </div>
+              )}
 
-              <div>
-                <span>Category</span>
-                <strong>
-                  {teacher.category}
-                </strong>
-              </div>
+              {teacher.location && (
+                <div>
+                  <span>Location</span>
+                  <strong>{teacher.location}</strong>
+                </div>
+              )}
 
-              <div>
-                <span>Location</span>
-                <strong>
-                  {teacher.location}
-                </strong>
-              </div>
+              {teacher.hourlyRate && (
+                <div>
+                  <span>Hourly Rate</span>
+                  <strong>ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â©{Number(teacher.hourlyRate).toLocaleString()}</strong>
+                </div>
+              )}
 
-              <div>
-                <span>Experience</span>
-                <strong>
-                  {teacher.experience}
-                </strong>
-              </div>
+              {teacher.lessonDuration && (
+                <div>
+                  <span>Lesson</span>
+                  <strong>{teacher.lessonDuration}</strong>
+                </div>
+              )}
 
-              <div>
-                <span>Students</span>
-                <strong>
-                  {teacher.studentCount}+
-                </strong>
-              </div>
+              {teacher.teachingMode && (
+                <div>
+                  <span>Mode</span>
+                  <strong>{teacher.teachingMode}</strong>
+                </div>
+              )}
 
-              <div>
-                <span>Reviews</span>
-                <strong>
-                  {teacher.reviewCount}
-                </strong>
-              </div>
-
-              <div>
-                <span>Hourly Rate</span>
-                <strong>
-                  {teacher.hourlyRate
-                    ? `₩${Number(
-                        teacher.hourlyRate
-                      ).toLocaleString()}`
-                    : "Contact"}
-                </strong>
-              </div>
-
-              <div>
-                <span>Lesson</span>
-                <strong>
-                  {teacher.lessonDuration ||
-                    "Not listed"}
-                </strong>
-              </div>
-
-              <div>
-                <span>Mode</span>
-                <strong>
-                  {teacher.teachingMode ||
-                    "Online"}
-                </strong>
-              </div>
-
-              <div>
-                <span>Verified</span>
-                <strong>
-                  {teacher.verified
-                    ? "✓ Yes"
-                    : "Not verified"}
-                </strong>
-              </div>
-            </div>
-          </aside>
+              {teacher.verified === true && (
+                <div>
+                  <span>Verification</span>
+                  <strong>Verified teacher</strong>
+                </div>
+              )}
+            </div></aside>
         </div>
       </div>
     </div>
@@ -2208,9 +2252,232 @@ function TeacherProfile({
    MAIN APP
 ========================= */
 
+function StudentDashboard({
+  currentUser,
+  goToTeachers,
+  handleLogout,
+}) {
+  return (
+    <main className="page">
+      <section
+        style={{
+          maxWidth: "1100px",
+          margin: "0 auto",
+          padding: "50px 24px 80px",
+        }}
+      >
+        <div
+          style={{
+            marginBottom: "32px",
+          }}
+        >
+          <p
+            style={{
+              margin: "0 0 8px",
+              color: "#6b7280",
+              fontSize: "14px",
+              fontWeight: "600",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+            }}
+          >
+            Student Dashboard
+          </p>
+
+          <h1
+            style={{
+              margin: 0,
+              fontSize: "36px",
+              lineHeight: 1.2,
+            }}
+          >
+            Welcome,{" "}
+            {currentUser?.name ||
+              currentUser?.email ||
+              "Student"}
+            !
+          </h1>
+
+          <p
+            style={{
+              marginTop: "12px",
+              color: "#6b7280",
+              fontSize: "16px",
+            }}
+          >
+            Manage your Pick My Teacher learning experience
+            from one place.
+          </p>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(250px, 1fr))",
+            gap: "20px",
+            marginBottom: "32px",
+          }}
+        >
+          <div className="card">
+            <div className="dashboard-card-label">ACCOUNT</div>
+
+            <h3>My Profile</h3>
+
+            <p>
+              <strong>Name:</strong>{" "}
+              {currentUser?.name || "Student"}
+            </p>
+
+            <p>
+              <strong>Email:</strong>{" "}
+              {currentUser?.email || "Not available"}
+            </p>
+
+            <p>
+              <strong>Account:</strong> Student
+            </p>
+          </div>
+
+          <div className="card">
+            <div className="dashboard-card-label">DISCOVER</div>
+
+            <h3>Find English Teachers</h3>
+
+            <p>
+              Explore English teachers for speaking,
+              phonics, grammar, reading, storytelling
+              and school English.
+            </p>
+
+            <button
+              className="signup-btn"
+              onClick={goToTeachers}
+            >
+              Find Teachers
+            </button>
+          </div>
+
+          <div className="card">
+            <div className="dashboard-card-label">REQUESTS</div>
+
+            <h3>Consultations</h3>
+
+            <p>
+              Your consultation and lesson requests
+              will appear here.
+            </p>
+
+            <span
+              style={{
+                display: "inline-block",
+                marginTop: "8px",
+                padding: "6px 10px",
+                borderRadius: "999px",
+                background: "#f3f4f6",
+                color: "#6b7280",
+                fontSize: "13px",
+              }}
+            >
+              Coming next
+            </span>
+          </div>
+
+          <div className="card">
+            <div className="dashboard-card-label">SAVED</div>
+
+            <h3>Favorite Teachers</h3>
+
+            <p>
+              Your saved teachers will appear here so
+              you can easily find them again.
+            </p>
+
+            <span
+              style={{
+                display: "inline-block",
+                marginTop: "8px",
+                padding: "6px 10px",
+                borderRadius: "999px",
+                background: "#f3f4f6",
+                color: "#6b7280",
+                fontSize: "13px",
+              }}
+            >
+              Coming next
+            </span>
+          </div>
+        </div>
+
+        <div className="card">
+          <h2>English Learning Categories</h2>
+
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "10px",
+              marginTop: "18px",
+            }}
+          >
+            {[
+              "Kids English",
+              "Phonics",
+              "Speaking",
+              "Reading & Writing",
+              "Grammar",
+              "Storytelling",
+              "School English",
+            ].map((category) => (
+              <span
+                key={category}
+                style={{
+                  padding: "9px 14px",
+                  borderRadius: "999px",
+                  background: "#f3f4f6",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                }}
+              >
+                {category}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div
+          style={{
+            marginTop: "28px",
+            display: "flex",
+            gap: "12px",
+            flexWrap: "wrap",
+          }}
+        >
+          <button
+            className="signup-btn"
+            onClick={goToTeachers}
+          >
+            Browse Teachers
+          </button>
+
+          <button
+            className="login-btn"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
+      </section>
+    </main>
+  );
+}
+
 function App() {
   const [page, setPage] =
     useState("home");
+
+  const [mobileMenuOpen, setMobileMenuOpen] =
+    useState(false);
 
   const [selectedTeacher, setSelectedTeacher] =
     useState(null);
@@ -2266,7 +2533,7 @@ function App() {
             setPage("home")
           }
         >
-          SeonbaeON<span>.</span>
+          Pick My Teacher<span>.</span>
         </button>
 
         <div className="nav-links">
@@ -2285,6 +2552,16 @@ function App() {
           >
             Find Teachers
           </button>
+
+          {currentUser && (
+            <button
+              onClick={() =>
+                setPage("dashboard")
+              }
+            >
+              Dashboard
+            </button>
+          )}
 
           <button
             onClick={() => {
@@ -2322,11 +2599,15 @@ function App() {
         <div className="nav-buttons">
           {currentUser ? (
             <>
-              <span className="nav-user">
-                Hi,{" "}
+              <button
+                className="login-btn"
+                onClick={() =>
+                  setPage("dashboard")
+                }
+              >
                 {currentUser.name ||
                   currentUser.email}
-              </span>
+              </button>
 
               <button
                 className="login-btn"
@@ -2353,6 +2634,67 @@ function App() {
             </>
           )}
         </div>
+
+        <button
+          className={`mobile-menu-button ${
+            mobileMenuOpen ? "mobile-menu-open" : ""
+          }`}
+          type="button"
+          aria-label={
+            mobileMenuOpen ? "Close navigation" : "Open navigation"
+          }
+          aria-expanded={mobileMenuOpen}
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+        {mobileMenuOpen && (
+          <div className="mobile-nav-panel">
+            <button onClick={() => { setPage("home"); setMobileMenuOpen(false); }}>
+              Home
+            </button>
+            <button onClick={() => { setPage("teachers"); setMobileMenuOpen(false); }}>
+              Find Teachers
+            </button>
+            {currentUser && (
+              <button onClick={() => { setPage("dashboard"); setMobileMenuOpen(false); }}>
+                Dashboard
+              </button>
+            )}
+            <button
+              onClick={() => {
+                setPage("home");
+                setMobileMenuOpen(false);
+                setTimeout(() => {
+                  document.getElementById("how")?.scrollIntoView({ behavior: "smooth" });
+                }, 0);
+              }}
+            >
+              How It Works
+            </button>
+            <div className="mobile-nav-divider" />
+            {currentUser ? (
+              <button onClick={() => { handleLogout(); setMobileMenuOpen(false); }}>
+                Logout
+              </button>
+            ) : (
+              <>
+                <button onClick={() => { openLogin(); setMobileMenuOpen(false); }}>
+                  Login
+                </button>
+                <button
+                  className="mobile-nav-primary"
+                  onClick={() => { openSignup(); setMobileMenuOpen(false); }}
+                >
+                  Get Started
+                </button>
+              </>
+            )}
+          </div>
+        )}
       </nav>
 
       {page === "home" && (
@@ -2385,6 +2727,16 @@ function App() {
         />
       )}
 
+      {page === "dashboard" && currentUser && (
+        <StudentDashboard
+          currentUser={currentUser}
+          goToTeachers={() =>
+            setPage("teachers")
+          }
+          handleLogout={handleLogout}
+        />
+      )}
+
       {page === "auth" && (
         <AuthPage
           mode={authMode}
@@ -2397,3 +2749,15 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
