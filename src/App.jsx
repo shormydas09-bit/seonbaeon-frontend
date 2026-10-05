@@ -872,7 +872,7 @@ function TeacherSearch({ goHome, openProfile }) {
                         toggleCompare(teacher)
                       }
                     >
-                      Ã—
+                      ×
                     </button>
                   </div>
                 ))}
@@ -1111,7 +1111,7 @@ function CompareModal({ teachers, onClose }) {
           aria-label="Close comparison"
           type="button"
         >
-          Ã—
+          ×
         </button>
 
         <div className="compare-modal-heading">
@@ -1663,7 +1663,7 @@ function TeacherProfile({
                   setShowConsultation(false)
                 }
               >
-                Ã—
+                ×
               </button>
 
               <h2>Request Consultation</h2>
