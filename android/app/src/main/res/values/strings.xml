@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">SeonbaeON</string>
-    <string name="title_activity_main">SeonbaeON</string>
-    <string name="package_name">com.seonbaeon.app</string>
-    <string name="custom_url_scheme">com.seonbaeon.app</string>
+    <string name="app_name">Pick My Teacher</string>
+    <string name="title_activity_main">Pick My Teacher</string>
+    <string name="package_name">com.pick-my-teacher.app</string>
+    <string name="custom_url_scheme">com.pick-my-teacher.app</string>
 </resources>

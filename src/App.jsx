@@ -1,4 +1,4 @@
-﻿
+
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
@@ -568,7 +568,7 @@ function HomePage({ goToTeachers }) {
         <p>Know the teacher before joining the class.</p>
 
         <p className="copyright">
-          Â© 2026 Pick My Teacher. All rights reserved.
+          © 2026 Pick My Teacher. All rights reserved.
         </p>
       </footer>
     </>
@@ -887,7 +887,7 @@ function TeacherSearch({ goHome, openProfile }) {
                   setShowCompare(true)
                 }
               >
-                Compare Now â†’
+                Compare Now →
               </button>
             </div>
           )}
@@ -912,8 +912,8 @@ function TeacherSearch({ goHome, openProfile }) {
                     }
                   >
                     {favorites.includes(teacher.id)
-                      ? "â™¥"
-                      : "â™¡"}
+                      ? "♥"
+                      : "♡"}
                   </button>
 
                   <div className="teacher-card-top">
@@ -1066,7 +1066,7 @@ function CompareModal({ teachers, onClose }) {
 
   const formatRate = (value) => {
     if (!value) return "Not provided";
-    return `â‚©${Number(value).toLocaleString()}/hour`;
+    return `₩${Number(value).toLocaleString()}/hour`;
   };
 
   const formatDuration = (value) => {
@@ -1171,7 +1171,7 @@ function CompareModal({ teachers, onClose }) {
                 <strong>{teacher.name}</strong>
 
                 <span className="comparison-rating">
-                  <span aria-hidden="true">â˜…</span>{" "}
+                  <span aria-hidden="true">★</span>{" "}
                   {teacher.rating
                     ? Number(teacher.rating).toFixed(1)
                     : "N/A"}
@@ -1803,7 +1803,7 @@ function TeacherProfile({
                       className="verified-badge"
                       title="Verified Teacher"
                     >
-                      âœ“ Verified
+                      ✓ Verified
                     </span>
                   )}
                 </div>
@@ -1817,7 +1817,7 @@ function TeacherProfile({
                   toggleProfileFavorite
                 }
               >
-                {isFavorite ? "â™¥" : "â™¡"}
+                {isFavorite ? "♥" : "♡"}
               </button>
             </div>
 
@@ -1989,7 +1989,7 @@ function TeacherProfile({
                   </div>
                 )}
                 {teacher.hourlyRate && (
-                  <div><span>Hourly Rate</span><strong>â‚©{Number(teacher.hourlyRate).toLocaleString()}</strong></div>
+                  <div><span>Hourly Rate</span><strong>₩{Number(teacher.hourlyRate).toLocaleString()}</strong></div>
                 )}
                 {teacher.lessonDuration && (
                   <div><span>Lesson Duration</span><strong>{teacher.lessonDuration}</strong></div>
@@ -2098,7 +2098,7 @@ function TeacherProfile({
                           className="watch-demo-btn"
                           onClick={scrollToVideo}
                         >
-                          Watch Demo Class â†’
+                          Watch Demo Class →
                         </button>
                       </div>
                     </div>
@@ -2154,7 +2154,7 @@ function TeacherProfile({
                                   <small>{isYoutubeVideo(video) ? "Video lesson" : "Teacher recording"}</small>
                                 </div>
                               )}
-                              <span className="video-play-badge" aria-hidden="true">â–¶</span>
+                              <span className="video-play-badge" aria-hidden="true">▶</span>
                             </div>
 
                             <div className="video-gallery-info">
@@ -2164,7 +2164,7 @@ function TeacherProfile({
                               </strong>
 
                               <span>
-                                Watch sample â†’
+                                Watch sample →
                               </span>
                             </div>
                           </button>
@@ -2381,7 +2381,7 @@ function TeacherProfile({
               {teacher.hourlyRate && (
                 <div>
                   <span>Hourly Rate</span>
-                  <strong>â‚©{Number(teacher.hourlyRate).toLocaleString()}</strong>
+                  <strong>₩{Number(teacher.hourlyRate).toLocaleString()}</strong>
                 </div>
               )}
 
@@ -3163,17 +3163,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
