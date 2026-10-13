@@ -1,4 +1,4 @@
-
+﻿
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
@@ -2633,7 +2633,7 @@ function StudentDashboard({
         </div>
       </section>
     </main>
-  );
+ );
 }
 
 function ResetPasswordPage() {
@@ -2883,7 +2883,60 @@ function ResetPasswordPage() {
     </div>
   );
 }
+
+function DownloadPage() {
+  return (
+    <main style={{ minHeight: "100vh", background: "#f8f7f4", color: "#222", fontFamily: "Arial, sans-serif" }}>
+      <header style={{ padding: "24px 7%", background: "#fff", borderBottom: "1px solid #eee" }}>
+        <a href="/" style={{ color: "#222", textDecoration: "none", fontSize: 22, fontWeight: 800 }}>
+          Pick My Teacher<span style={{ color: "#d88935" }}>.</span>
+        </a>
+      </header>
+
+      <section style={{ maxWidth: 1000, margin: "0 auto", padding: "70px 24px", display: "flex", flexWrap: "wrap", gap: 40, alignItems: "center" }}>
+        <div style={{ flex: "1 1 320px" }}>
+          <p style={{ color: "#b87325", fontWeight: 700 }}>ANDROID APP · VERSION 1.0</p>
+          <h1 style={{ fontSize: "clamp(38px, 6vw, 58px)", lineHeight: 1.1, margin: "20px 0" }}>
+            Your learning journey, one tap away.
+          </h1>
+          <p style={{ color: "#666", fontSize: 17, lineHeight: 1.8, marginBottom: 26 }}>
+            Find the right English teacher for your learning goals with Pick My Teacher.
+          </p>
+          <a
+            href="https://github.com/shormydas09-bit/seonbaeon-frontend/releases/download/v1.0/Pick-My-Teacher-v1.0.apk"
+            style={{ display: "inline-block", background: "#222", color: "#fff", padding: "16px 24px", borderRadius: 10, textDecoration: "none", fontWeight: 700 }}
+          >
+            ↓ Download for Android
+          </a>
+          <p style={{ color: "#777", fontSize: 13, marginTop: 12 }}>APK · Android · Version 1.0</p>
+        </div>
+
+        <div style={{ flex: "1 1 260px", textAlign: "center", background: "#fff", padding: 30, borderRadius: 24, border: "1px solid #eee" }}>
+          <img src="/pwa-512x512.png" alt="Pick My Teacher logo" style={{ width: 200, maxWidth: "80%", borderRadius: 24 }} />
+          <h2 style={{ marginTop: 20 }}>Pick My Teacher</h2>
+          <p style={{ color: "#777", marginTop: 8 }}>Know Your Teacher Before You Join</p>
+        </div>
+      </section>
+
+      <section style={{ background: "#fff", padding: "45px 24px", textAlign: "center" }}>
+        <h2>How to install</h2>
+        <p style={{ color: "#666", marginTop: 12 }}>1. Download the APK file.</p>
+        <p style={{ color: "#666", marginTop: 8 }}>2. Open it from your Downloads folder.</p>
+        <p style={{ color: "#666", marginTop: 8 }}>3. Allow installation if your phone asks.</p>
+        <p style={{ color: "#666", marginTop: 8 }}>4. Install and open Pick My Teacher.</p>
+      </section>
+
+      <footer style={{ padding: 24, textAlign: "center", color: "#888", fontSize: 13 }}>
+        © Pick My Teacher
+      </footer>
+    </main>
+  );
+}
 function App() {
+  if (window.location.pathname === "/download") {
+    return <DownloadPage />;
+  }
+
   if (window.location.pathname === "/reset-password") {
     return <ResetPasswordPage />;
   }
@@ -3163,3 +3216,4 @@ function App() {
 }
 
 export default App;
+
