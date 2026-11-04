@@ -2721,6 +2721,8 @@ function WorkspaceShell({ title, subtitle, user, onLogout, children }) {
 
 function TeacherWorkspace({ currentUser, handleLogout }) {
   const [profile, setProfile] = useState({ category: "Kids English", location: "Online", specialty: "", experience: "", teachingStyle: "Supportive & Interactive", qualification: "", bio: "", hourlyRate: "", lessonDuration: "30", languages: "English", ageRange: "Children", teachingMode: "Online", availability: "" });
+  const [profileImage, setProfileImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
   const [videos, setVideos] = useState([]);
   const [consultations, setConsultations] = useState([]);
   const [videoTitle, setVideoTitle] = useState("");
@@ -2748,7 +2750,22 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
   async function saveProfile(e) {
     e.preventDefault(); setBusy(true); setError(""); setNotice("");
     try {
-      const res = await fetch(`${API_URL}/workspace/teacher/profile`, { method: "PUT", headers, body: JSON.stringify({ ...profile, hourlyRate: profile.hourlyRate ? Number(profile.hourlyRate) : null, lessonDuration: profile.lessonDuration ? Number(profile.lessonDuration) : null }) });
+      let nextProfile = { ...profile };
+      if (profileImage) {
+        if (!profileImage.type.startsWith("image/") || profileImage.size > 5 * 1024 * 1024) throw new Error("Choose an image under 5 MB.");
+        const signed = await readResponse(await fetch(`${API_URL}/workspace/teacher/profile-image/sign`, { method: "POST", headers }));
+        const form = new FormData();
+        form.append("file", profileImage);
+        form.append("api_key", signed.apiKey);
+        form.append("timestamp", String(signed.timestamp));
+        form.append("public_id", signed.publicId);
+        form.append("overwrite", "true");
+        form.append("signature", signed.signature);
+        const uploaded = await fetch(`https://api.cloudinary.com/v1_1/${signed.cloudName}/image/upload`, { method: "POST", body: form });
+        const imageData = await readResponse(uploaded);
+        nextProfile.profileImageUrl = imageData.secure_url;
+      }
+      const res = await fetch(`${API_URL}/workspace/teacher/profile`, { method: "PUT", headers, body: JSON.stringify({ ...nextProfile, hourlyRate: nextProfile.hourlyRate ? Number(nextProfile.hourlyRate) : null, lessonDuration: nextProfile.lessonDuration ? Number(nextProfile.lessonDuration) : null }) });
       await readResponse(res); setNotice("Profile saved. It is waiting for admin verification.");
     } catch (e) { setError(e.message); } finally { setBusy(false); }
   }
@@ -2765,6 +2782,10 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 20 }}>
       <form className="card" onSubmit={saveProfile} style={{ padding: 24 }}>
         <h2>My Teacher Profile</h2>
+        <label style={{display:"block",marginTop:12}}>Profile picture</label>
+        {(imagePreview || profile.profileImageUrl) && <img src={imagePreview || profile.profileImageUrl} alt="Teacher profile preview" style={{width:112,height:112,objectFit:"cover",borderRadius:"50%",margin:"8px 0"}} />}
+        <input type="file" accept="image/*" onChange={e=>{const f=e.target.files?.[0];if(f){setProfileImage(f);setImagePreview(URL.createObjectURL(f));}}} style={{display:"block",margin:"8px 0 16px"}} />
+        <small style={{color:"#667085"}}>JPG, PNG or WebP · maximum 5 MB. Uploads securely to Cloudinary when you save.</small>
         <label>Teaching category</label><select name="category" value={profile.category} onChange={change}>{["Kids English","Phonics","Speaking","Reading & Writing","Grammar","Storytelling","School English"].map(x=><option key={x}>{x}</option>)}</select>
         {[
           ["location","Location / Online"],["specialty","Specialty"],["experience","Teaching experience"],["teachingStyle","Teaching style"],["qualification","Qualifications"],["bio","About your teaching"],["hourlyRate","Hourly rate"],["lessonDuration","Lesson duration (minutes)"],["languages","Languages"],["ageRange","Student age range"],["teachingMode","Teaching mode"],["availability","Availability"]
