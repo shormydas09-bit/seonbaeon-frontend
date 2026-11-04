@@ -2810,6 +2810,15 @@ function AdminWorkspace({ currentUser, handleLogout }) {
     try { await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/approve`,{method:"POST",headers})); setNotice("Teacher approved."); await load(); }
     catch(e){setError(e.message);}
   }
+  async function reject(id) {
+    setError(""); setNotice("");
+    if (!window.confirm("Reject this teacher application? The profile will be hidden, not deleted.")) return;
+    try {
+      await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/reject`,{method:"POST",headers}));
+      setNotice("Teacher application rejected and hidden.");
+      await load();
+    } catch(e) { setError(e.message); }
+  }
   async function setStatus(id,status) {
     try { await readResponse(await fetch(`${API_URL}/workspace/admin/consultations/${id}/status`,{method:"PATCH",headers,body:JSON.stringify({status})})); await load(); }
     catch(e){setError(e.message);}
@@ -2821,7 +2830,10 @@ function AdminWorkspace({ currentUser, handleLogout }) {
       <h2>Teacher Verification ({teachers.length})</h2>
       {teachers.length===0?<p style={{color:"#667085"}}>No pending teacher applications.</p>:teachers.map(t=><div key={t.id} style={{borderTop:"1px solid #eee",padding:"16px 0",display:"flex",justifyContent:"space-between",gap:16,flexWrap:"wrap"}}>
         <div><b>{t.name}</b><p>{t.category} · {t.location} · {t.experience}</p><p>{t.qualification}</p><p>{t.bio}</p></div>
-        <button className="signup-btn" onClick={()=>approve(t.id)}>Approve teacher</button>
+        <div style={{display:"flex",gap:8,alignItems:"center"}}>
+          <button className="signup-btn" onClick={()=>approve(t.id)}>Approve teacher</button>
+          <button className="login-btn" onClick={()=>reject(t.id)} style={{color:"#b42318"}}>Reject</button>
+        </div>
       </div>)}
     </div>
     <div className="card" style={{padding:24}}>
