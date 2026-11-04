@@ -1,8 +1,7 @@
-﻿
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
-const API_URL = "https://seonbaeon-backend.onrender.com/api";
+const API_URL = `${(import.meta.env.VITE_API_URL || "https://seonbaeon-backend.onrender.com").replace(/\/$/, "")}/api`;
 const FAVORITES_KEY = "pick-my-teacher-favorites";
 const USER_KEY = "pick-my-teacher-logged-user";
 
@@ -17,6 +16,7 @@ const ENGLISH_CATEGORIES = [
 ];
 
 async function readResponse(response) {
+
   const text = await response.text();
   let data = null;
 
@@ -43,6 +43,7 @@ async function readResponse(response) {
 
 function AuthPage({ mode, setMode, onLogin }) {
   const [name, setName] = useState("");
+  const [accountRole, setAccountRole] = useState("STUDENT");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [forgotEmail, setForgotEmail] = useState("");
@@ -78,10 +79,12 @@ function AuthPage({ mode, setMode, onLogin }) {
               name: name.trim(),
               email: email.trim(),
               password,
+              role: accountRole,
             }
           : {
               email: email.trim(),
               password,
+              role: accountRole,
             };
 
       const response = await fetch(`${API_URL}${endpoint}`, {
@@ -250,8 +253,24 @@ function AuthPage({ mode, setMode, onLogin }) {
         )}
 
         <form onSubmit={handleSubmit}>
+          {mode === "login" && (
+            <>
+              <label>Login As</label>
+              <select value={accountRole} onChange={(e) => setAccountRole(e.target.value)}>
+                <option value="STUDENT">Student / Parent</option>
+                <option value="TEACHER">English Teacher</option>
+                <option value="ADMIN">Admin</option>
+              </select>
+            </>
+          )}
+
           {mode === "signup" && (
             <>
+              <label>Account Type</label>
+              <select value={accountRole} onChange={(e) => setAccountRole(e.target.value)}>
+                <option value="STUDENT">Student / Parent</option>
+                <option value="TEACHER">English Teacher</option>
+              </select>
               <label>Full Name</label>
 
               <input
@@ -2421,6 +2440,14 @@ function StudentDashboard({
   goToTeachers,
   handleLogout,
 }) {
+  const [myRequests, setMyRequests] = useState([]);
+  const [requestError, setRequestError] = useState("");
+  useEffect(() => {
+    if (!currentUser?.token) return;
+    fetch(`${API_URL}/workspace/student/consultations`, {
+      headers: { Authorization: `Bearer ${currentUser.token}` }
+    }).then(readResponse).then(setMyRequests).catch((e) => setRequestError(e.message));
+  }, [currentUser?.token]);
   return (
     <main className="page">
       <section
@@ -2532,19 +2559,13 @@ function StudentDashboard({
               will appear here.
             </p>
 
-            <span
-              style={{
-                display: "inline-block",
-                marginTop: "8px",
-                padding: "6px 10px",
-                borderRadius: "999px",
-                background: "#f3f4f6",
-                color: "#6b7280",
-                fontSize: "13px",
-              }}
-            >
-              Coming next
-            </span>
+            {requestError && <p style={{color:"#b42318"}}>{requestError}</p>}
+            {myRequests.length === 0 ? <p style={{color:"#667085"}}>No demo class requests yet.</p> : myRequests.map((r) => (
+              <p key={r.id} style={{padding:"8px 0",borderTop:"1px solid #eee"}}>
+                <strong>{r.preferredDate} · {r.preferredTime}</strong><br />
+                Status: {r.status}
+              </p>
+            ))}
           </div>
 
           <div className="card">
@@ -2634,6 +2655,140 @@ function StudentDashboard({
       </section>
     </main>
  );
+}
+
+
+function WorkspaceShell({ title, subtitle, user, onLogout, children }) {
+  return (
+    <main style={{ minHeight: "75vh", background: "#f5f7fb", padding: "42px 20px" }}>
+      <section style={{ maxWidth: 1080, margin: "0 auto" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "center", flexWrap: "wrap", marginBottom: 28 }}>
+          <div>
+            <p style={{ color: "#2563eb", fontWeight: 800, letterSpacing: 1, margin: "0 0 8px" }}>PICK MY TEACHER · WORKSPACE</p>
+            <h1 style={{ margin: 0, color: "#101828" }}>{title}</h1>
+            <p style={{ color: "#667085", margin: "8px 0 0" }}>{subtitle} · {user?.email}</p>
+          </div>
+          <button className="login-btn" onClick={onLogout}>Log out</button>
+        </div>
+        {children}
+      </section>
+    </main>
+  );
+}
+
+function TeacherWorkspace({ currentUser, handleLogout }) {
+  const [profile, setProfile] = useState({ category: "Kids English", location: "Online", specialty: "", experience: "", teachingStyle: "Supportive & Interactive", qualification: "", bio: "", hourlyRate: "", lessonDuration: "30", languages: "English", ageRange: "Children", teachingMode: "Online", availability: "" });
+  const [videos, setVideos] = useState([]);
+  const [consultations, setConsultations] = useState([]);
+  const [videoTitle, setVideoTitle] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
+  const [notice, setNotice] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const headers = { "Content-Type": "application/json", Authorization: `Bearer ${currentUser?.token || ""}` };
+
+  async function load() {
+    try {
+      const [p, v, c] = await Promise.all([
+        fetch(`${API_URL}/workspace/teacher/profile`, { headers }),
+        fetch(`${API_URL}/workspace/teacher/videos`, { headers }),
+        fetch(`${API_URL}/workspace/teacher/consultations`, { headers })
+      ]);
+      const pd = await readResponse(p);
+      if (pd && pd.profile !== "NOT_CREATED") setProfile(old => ({ ...old, ...pd }));
+      setVideos(await readResponse(v));
+      setConsultations(await readResponse(c));
+    } catch (e) { setError(e.message); }
+  }
+  useEffect(() => { load(); }, []);
+  function change(e) { setProfile(p => ({ ...p, [e.target.name]: e.target.value })); }
+  async function saveProfile(e) {
+    e.preventDefault(); setBusy(true); setError(""); setNotice("");
+    try {
+      const res = await fetch(`${API_URL}/workspace/teacher/profile`, { method: "PUT", headers, body: JSON.stringify({ ...profile, hourlyRate: profile.hourlyRate ? Number(profile.hourlyRate) : null, lessonDuration: profile.lessonDuration ? Number(profile.lessonDuration) : null }) });
+      await readResponse(res); setNotice("Profile saved. It is waiting for admin verification.");
+    } catch (e) { setError(e.message); } finally { setBusy(false); }
+  }
+  async function addVideo(e) {
+    e.preventDefault(); setBusy(true); setError(""); setNotice("");
+    try {
+      const res = await fetch(`${API_URL}/workspace/teacher/videos`, { method: "POST", headers, body: JSON.stringify({ title: videoTitle, videoUrl, videoType: "youtube" }) });
+      await readResponse(res); setVideoTitle(""); setVideoUrl(""); setNotice("Demo video added."); await load();
+    } catch (e) { setError(e.message); } finally { setBusy(false); }
+  }
+  return <WorkspaceShell title="Teacher Dashboard" subtitle="Manage your teaching profile and demo lessons" user={currentUser} onLogout={handleLogout}>
+    {notice && <p style={{ background: "#ecfdf3", color: "#067647", padding: 12, borderRadius: 10 }}>{notice}</p>}
+    {error && <p style={{ background: "#fef3f2", color: "#b42318", padding: 12, borderRadius: 10 }}>{error}</p>}
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 20 }}>
+      <form className="card" onSubmit={saveProfile} style={{ padding: 24 }}>
+        <h2>My Teacher Profile</h2>
+        <label>Teaching category</label><select name="category" value={profile.category} onChange={change}>{["Kids English","Phonics","Speaking","Reading & Writing","Grammar","Storytelling","School English"].map(x=><option key={x}>{x}</option>)}</select>
+        {[
+          ["location","Location / Online"],["specialty","Specialty"],["experience","Teaching experience"],["teachingStyle","Teaching style"],["qualification","Qualifications"],["bio","About your teaching"],["hourlyRate","Hourly rate"],["lessonDuration","Lesson duration (minutes)"],["languages","Languages"],["ageRange","Student age range"],["teachingMode","Teaching mode"],["availability","Availability"]
+        ].map(([key,label])=><label key={key} style={{ display:"block", marginTop:12 }}>{label}{key==="bio" || key==="qualification" || key==="availability" ? <textarea name={key} value={profile[key] || ""} onChange={change} rows={key==="bio"?4:2} style={{ width:"100%", marginTop:6 }} /> : <input name={key} type={key==="hourlyRate"||key==="lessonDuration"?"number":"text"} value={profile[key] ?? ""} onChange={change} style={{ width:"100%", marginTop:6 }} />}</label>)}
+        <button className="signup-btn" disabled={busy} style={{ marginTop:18 }}>{busy ? "Saving..." : "Save profile"}</button>
+      </form>
+      <div style={{ display:"grid", gap:20, alignContent:"start" }}>
+        <form className="card" onSubmit={addVideo} style={{ padding:24 }}>
+          <h2>Demo Videos ({videos.length}/2)</h2>
+          <p style={{ color:"#667085" }}>Add up to two YouTube or public video links. Use your own teaching videos.</p>
+          <label>Video title</label><input value={videoTitle} onChange={e=>setVideoTitle(e.target.value)} required style={{ width:"100%", margin:"6px 0 12px" }} />
+          <label>Video URL</label><input type="url" value={videoUrl} onChange={e=>setVideoUrl(e.target.value)} required style={{ width:"100%", margin:"6px 0 12px" }} />
+          <button className="signup-btn" disabled={busy || videos.length>=2}>{videos.length>=2?"Two videos added":busy?"Saving...":"Add demo video"}</button>
+          {videos.map(v=><p key={v.id}><a href={v.videoUrl} target="_blank" rel="noreferrer">{v.title}</a></p>)}
+        </form>
+        <div className="card" style={{ padding:24 }}>
+          <h2>Demo Class Requests</h2>
+          {consultations.length===0 ? <p style={{color:"#667085"}}>No requests yet.</p> : consultations.map(c=><div key={c.id} style={{borderTop:"1px solid #eee",padding:"12px 0"}}><b>{c.studentName}</b><p>{c.preferredDate} · {c.preferredTime} · {c.status}</p><p>{c.message}</p></div>)}
+        </div>
+      </div>
+    </div>
+  </WorkspaceShell>;
+}
+
+function AdminWorkspace({ currentUser, handleLogout }) {
+  const [teachers, setTeachers] = useState([]);
+  const [consultations, setConsultations] = useState([]);
+  const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+  const headers = { "Content-Type": "application/json", Authorization: `Bearer ${currentUser?.token || ""}` };
+  async function load() {
+    try {
+      const [t,c] = await Promise.all([
+        fetch(`${API_URL}/workspace/admin/pending-teachers`, { headers }),
+        fetch(`${API_URL}/workspace/admin/consultations`, { headers })
+      ]);
+      setTeachers(await readResponse(t)); setConsultations(await readResponse(c));
+    } catch(e) { setError(e.message); }
+  }
+  useEffect(()=>{load();},[]);
+  async function approve(id) {
+    setError(""); setNotice("");
+    try { await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/approve`,{method:"POST",headers})); setNotice("Teacher approved."); await load(); }
+    catch(e){setError(e.message);}
+  }
+  async function setStatus(id,status) {
+    try { await readResponse(await fetch(`${API_URL}/workspace/admin/consultations/${id}/status`,{method:"PATCH",headers,body:JSON.stringify({status})})); await load(); }
+    catch(e){setError(e.message);}
+  }
+  return <WorkspaceShell title="Admin Dashboard" subtitle="Review teacher applications and manage requests" user={currentUser} onLogout={handleLogout}>
+    {notice&&<p style={{background:"#ecfdf3",color:"#067647",padding:12,borderRadius:10}}>{notice}</p>}
+    {error&&<p style={{background:"#fef3f2",color:"#b42318",padding:12,borderRadius:10}}>{error}</p>}
+    <div className="card" style={{padding:24,marginBottom:20}}>
+      <h2>Teacher Verification ({teachers.length})</h2>
+      {teachers.length===0?<p style={{color:"#667085"}}>No pending teacher applications.</p>:teachers.map(t=><div key={t.id} style={{borderTop:"1px solid #eee",padding:"16px 0",display:"flex",justifyContent:"space-between",gap:16,flexWrap:"wrap"}}>
+        <div><b>{t.name}</b><p>{t.category} · {t.location} · {t.experience}</p><p>{t.qualification}</p><p>{t.bio}</p></div>
+        <button className="signup-btn" onClick={()=>approve(t.id)}>Approve teacher</button>
+      </div>)}
+    </div>
+    <div className="card" style={{padding:24}}>
+      <h2>Consultation Requests ({consultations.length})</h2>
+      {consultations.length===0?<p style={{color:"#667085"}}>No requests yet.</p>:consultations.map(c=><div key={c.id} style={{borderTop:"1px solid #eee",padding:"14px 0"}}>
+        <b>{c.studentName}</b> · {c.email}<p>{c.preferredDate} · {c.preferredTime} · {c.status}</p>
+        <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>{["APPROVED","REJECTED","COMPLETED"].map(s=><button key={s} className="login-btn" onClick={()=>setStatus(c.id,s)}>{s}</button>)}</div>
+      </div>)}
+    </div>
+  </WorkspaceShell>;
 }
 
 function ResetPasswordPage() {
@@ -2981,10 +3136,16 @@ function App() {
     );
 
     setCurrentUser(user);
-    setPage("home");
+    setPage(user.role === "TEACHER" ? "teacher-dashboard" : user.role === "ADMIN" ? "admin-dashboard" : "home");
   }
 
   function handleLogout() {
+    if (currentUser?.token) {
+      fetch(`${API_URL}/users/logout`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${currentUser.token}` },
+      }).catch(() => {});
+    }
     localStorage.removeItem(USER_KEY);
 
     setCurrentUser(null);
@@ -3194,7 +3355,23 @@ function App() {
         />
       )}
 
-      {page === "dashboard" && currentUser && (
+      {page === "teacher-dashboard" && currentUser && (
+        <TeacherWorkspace currentUser={currentUser} handleLogout={handleLogout} />
+      )}
+
+      {page === "admin-dashboard" && currentUser && (
+        <AdminWorkspace currentUser={currentUser} handleLogout={handleLogout} />
+      )}
+
+      {page === "dashboard" && currentUser && currentUser.role === "TEACHER" && (
+        <TeacherWorkspace currentUser={currentUser} handleLogout={handleLogout} />
+      )}
+
+      {page === "dashboard" && currentUser && currentUser.role === "ADMIN" && (
+        <AdminWorkspace currentUser={currentUser} handleLogout={handleLogout} />
+      )}
+
+      {page === "dashboard" && currentUser && currentUser.role !== "TEACHER" && currentUser.role !== "ADMIN" && (
         <StudentDashboard
           currentUser={currentUser}
           goToTeachers={() =>
@@ -3216,4 +3393,5 @@ function App() {
 }
 
 export default App;
+
 
