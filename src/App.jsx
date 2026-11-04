@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
-const API_URL = "https://seonbaeon-backend-1.onrender.com/api";
+const API_URL = "https://seonbaeon-backend.onrender.com/api";
 const FAVORITES_KEY = "pick-my-teacher-favorites";
 const USER_KEY = "pick-my-teacher-logged-user";
 
