@@ -2442,6 +2442,23 @@ function StudentDashboard({
 }) {
   const [myRequests, setMyRequests] = useState([]);
   const [requestError, setRequestError] = useState("");
+  const [favoriteTeachers, setFavoriteTeachers] = useState([]);
+  const [favoriteError, setFavoriteError] = useState("");
+  useEffect(() => {
+    try {
+      const savedIds = JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
+      if (!Array.isArray(savedIds) || savedIds.length === 0) return;
+      fetch(`${API_URL}/teachers`)
+        .then(readResponse)
+        .then((data) => {
+          const allTeachers = Array.isArray(data) ? data : (Array.isArray(data?.teachers) ? data.teachers : []);
+          setFavoriteTeachers(allTeachers.filter((teacher) => savedIds.includes(teacher.id)));
+        })
+        .catch((e) => setFavoriteError(e.message));
+    } catch {
+      setFavoriteError("Could not load saved teachers.");
+    }
+  }, []);
   useEffect(() => {
     if (!currentUser?.token) return;
     fetch(`${API_URL}/workspace/student/consultations`, {
@@ -2573,24 +2590,21 @@ function StudentDashboard({
 
             <h3>Favorite Teachers</h3>
 
-            <p>
-              Your saved teachers will appear here so
-              you can easily find them again.
-            </p>
-
-            <span
-              style={{
-                display: "inline-block",
-                marginTop: "8px",
-                padding: "6px 10px",
-                borderRadius: "999px",
-                background: "#f3f4f6",
-                color: "#6b7280",
-                fontSize: "13px",
-              }}
-            >
-              Coming next
-            </span>
+            {favoriteError && <p style={{ color: "#b42318" }}>{favoriteError}</p>}
+            {favoriteTeachers.length === 0 ? (
+              <p style={{ color: "#667085" }}>No favorite teachers saved yet. Browse teachers and tap the heart to save one.</p>
+            ) : favoriteTeachers.map((teacher) => (
+              <div key={teacher.id} style={{ padding: "10px 0", borderTop: "1px solid #eee" }}>
+                <strong>{teacher.name}</strong>
+                <p style={{ margin: "4px 0", color: "#667085" }}>{teacher.category} · {teacher.location}</p>
+                <button className="login-btn" onClick={() => {
+                  const next = favoriteTeachers.filter((item) => item.id !== teacher.id);
+                  setFavoriteTeachers(next);
+                  const ids = next.map((item) => item.id);
+                  localStorage.setItem(FAVORITES_KEY, JSON.stringify(ids));
+                }}>Remove</button>
+              </div>
+            ))}
           </div>
         </div>
 
