@@ -2439,7 +2439,12 @@ function StudentDashboard({
   currentUser,
   goToTeachers,
   handleLogout,
+  onProfileUpdated,
 }) {
+  const [profileName, setProfileName] = useState(currentUser?.name || "");
+  const [profileBusy, setProfileBusy] = useState(false);
+  const [profileNotice, setProfileNotice] = useState("");
+  const [profileError, setProfileError] = useState("");
   const [myRequests, setMyRequests] = useState([]);
   const [requestError, setRequestError] = useState("");
   const [favoriteTeachers, setFavoriteTeachers] = useState([]);
@@ -2529,22 +2534,46 @@ function StudentDashboard({
         >
           <div className="card">
             <div className="dashboard-card-label">ACCOUNT</div>
-
             <h3>My Profile</h3>
-
-            <p>
-              <strong>Name:</strong>{" "}
-              {currentUser?.name || "Student"}
-            </p>
-
-            <p>
-              <strong>Email:</strong>{" "}
-              {currentUser?.email || "Not available"}
-            </p>
-
-            <p>
-              <strong>Account:</strong> Student
-            </p>
+            {profileNotice && <p style={{ color: "#067647" }}>{profileNotice}</p>}
+            {profileError && <p style={{ color: "#b42318" }}>{profileError}</p>}
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              setProfileNotice("");
+              setProfileError("");
+              if (!profileName.trim()) {
+                setProfileError("Please enter your name.");
+                return;
+              }
+              setProfileBusy(true);
+              try {
+                const response = await fetch(`${API_URL}/users/me`, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${currentUser?.token || ""}`,
+                  },
+                  body: JSON.stringify({ name: profileName.trim() }),
+                });
+                const updated = await readResponse(response);
+                onProfileUpdated?.(updated);
+                setProfileName(updated.name || profileName.trim());
+                setProfileNotice("Profile updated successfully.");
+              } catch (err) {
+                setProfileError(err.message || "Could not update your profile.");
+              } finally {
+                setProfileBusy(false);
+              }
+            }}>
+              <label style={{ display: "block", marginBottom: 6 }}>Name</label>
+              <input value={profileName} onChange={(e) => setProfileName(e.target.value)}
+                maxLength={100} required style={{ width: "100%", marginBottom: 12 }} />
+              <p><strong>Email:</strong> {currentUser?.email || "Not available"}</p>
+              <p><strong>Account:</strong> Student</p>
+              <button className="signup-btn" type="submit" disabled={profileBusy}>
+                {profileBusy ? "Saving..." : "Save Profile"}
+              </button>
+            </form>
           </div>
 
           <div className="card">
@@ -3153,6 +3182,12 @@ function App() {
     setPage(user.role === "TEACHER" ? "teacher-dashboard" : user.role === "ADMIN" ? "admin-dashboard" : "home");
   }
 
+  function handleProfileUpdated(updated) {
+    const nextUser = { ...currentUser, ...updated, token: currentUser?.token };
+    localStorage.setItem(USER_KEY, JSON.stringify(nextUser));
+    setCurrentUser(nextUser);
+  }
+
   function handleLogout() {
     if (currentUser?.token) {
       fetch(`${API_URL}/users/logout`, {
@@ -3392,6 +3427,7 @@ function App() {
             setPage("teachers")
           }
           handleLogout={handleLogout}
+          onProfileUpdated={handleProfileUpdated}
         />
       )}
 
