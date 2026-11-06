@@ -2812,7 +2812,7 @@ function NotificationCenter({ user }) {
       aria-expanded={open} aria-label={`Notifications, ${unread} unread`}>
       Notifications {unread > 0 ? `(${unread})` : ""}
     </button>
-    {open && <div style={{ position: "absolute", zIndex: 30, right: 0, top: "calc(100% + 8px)", width: "min(360px, 85vw)", maxHeight: 420, overflowY: "auto", background: "#fff", border: "1px solid #e5e7eb", borderRadius: 14, boxShadow: "0 12px 32px rgba(16,24,40,.16)", padding: 14 }}>
+    {open && <div className="notification-panel" style={{ position: "absolute", zIndex: 1000, right: 0, top: "calc(100% + 10px)", width: "min(390px, calc(100vw - 32px))", maxHeight: 480, overflowY: "auto", background: "#fff", border: "1px solid #dce7f4", borderRadius: 18, boxShadow: "0 22px 60px rgba(25,55,95,.18)", padding: 16 }}>
       <div className="notification-panel-heading">
         <div><strong>Notifications</strong><small>{unread} unread</small></div>
         <div className="notification-actions">
