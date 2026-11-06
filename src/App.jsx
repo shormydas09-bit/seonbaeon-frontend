@@ -476,29 +476,31 @@ function TeacherSearch({ goHome, openProfile }) {
   const [compareTeachers, setCompareTeachers] = useState([]);
   const [showCompare, setShowCompare] = useState(false);
 
-  useEffect(() => {
-    async function loadTeachers() {
-      try {
-        setLoading(true);
-        setError("");
-
-        const response = await fetch(
-          `${API_URL}/teachers`
-        );
-
-        const data = await readResponse(response);
-
-        setTeachers(Array.isArray(data) ? data : (Array.isArray(data?.teachers) ? data.teachers : (Array.isArray(data?.content) ? data.content : [])));
-      } catch (err) {
-        setError(
-          err.message ||
-            "Could not connect to the backend."
-        );
-      } finally {
-        setLoading(false);
-      }
+  async function loadTeachers() {
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 25000);
+    try {
+      setLoading(true);
+      setError("");
+      const response = await fetch(`${API_URL}/teachers`, {
+        signal: controller.signal,
+        headers: { Accept: "application/json" },
+      });
+      const data = await readResponse(response);
+      const list = Array.isArray(data) ? data : (Array.isArray(data?.teachers) ? data.teachers : (Array.isArray(data?.content) ? data.content : null));
+      if (!list) throw new Error("The server returned an unexpected teacher list. Please try again.");
+      setTeachers(list);
+    } catch (err) {
+      setError(err.name === "AbortError"
+        ? "The teacher service is taking too long to respond. The backend may be waking up or unavailable. Please try again."
+        : (err.message || "Could not connect to the backend."));
+    } finally {
+      window.clearTimeout(timeoutId);
+      setLoading(false);
     }
+  }
 
+  useEffect(() => {
     loadTeachers();
   }, []);
 
@@ -710,6 +712,7 @@ function TeacherSearch({ goHome, openProfile }) {
               Make sure the Pick My Teacher backend is
               available.
             </p>
+            <button type="button" className="teacher-retry-btn" onClick={loadTeachers}>Try again ↻</button>
           </div>
         )}
 
