@@ -3165,7 +3165,7 @@ function AdminWorkspace({ currentUser, handleLogout }) {
         </select>
       </div>
       <div className="admin-consultation-list">
-        {filteredConsultations.length===0?<div className="admin-empty-state"><span>✦</span><strong>No matching requests</strong><p>Try changing your search or status filter.</p></div>:filteredConsultations.map(c=><article className="admin-consultation-card" key={c.id}>
+        {filteredConsultations.length===0?<div className="admin-empty-state"><span>✦</span><strong>No matching requests</strong><p>Try changing your search or status filter.</p></div>:filteredConsultations.map(c=><article className="admin-consultation-card premium-surface-card" key={c.id}>
           <div className="admin-consultation-top">
             <div className="admin-student-identity"><div className="admin-avatar">{(c.studentName||"S").trim().charAt(0).toUpperCase()}</div><div><strong>{c.studentName||"Student"}</strong><span>{c.email||"No email"}{c.teacherName? " · with "+c.teacherName:""}</span></div></div>
             <span className={"admin-status-badge status-"+String(c.status||"unknown").toLowerCase()}>{c.status||"UNKNOWN"}</span>
