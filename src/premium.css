@@ -475,3 +475,65 @@ html,body,#root{background:#f1f2ef!important}
 #root .app.theme-dark-premium .navbar{background:rgba(250,250,247,.96)!important;border-color:#e1e6df!important}
 #root .app.theme-dark-premium .navbar .logo{color:#344a45!important}
 #root .app.theme-dark-premium .navbar .nav-links button,#root .app.theme-dark-premium .navbar .nav-buttons button{color:#61746e!important}
+
+
+/* CALM PREMIUM THEME — softer neutral palette, less navy/white glare */
+:root{
+ --pmt-bg:#f3f2ee;--pmt-paper:#faf9f6;--pmt-soft:#eeefeb;--pmt-soft-blue:#e8ece8;
+ --pmt-ink:#293b3a;--pmt-muted:#71807b;--pmt-line:#dce1db;--pmt-navy:#54746d;
+ --pmt-navy-deep:#3e5e57;--pmt-blue:#78958a;--pmt-shadow:0 10px 30px rgba(42,60,54,.07);
+}
+html,body,#root{background:#f3f2ee!important}
+#root .app.theme-dark-premium{background:#f3f2ee!important;color:#293b3a!important}
+#root .app.theme-dark-premium :where(h1,h2,h3,h4,h5,strong,b){color:#293b3a!important}
+#root .app.theme-dark-premium :where(p,small,label){color:#71807b}
+#root .app.theme-dark-premium :where(input,select,textarea){background:#f5f6f2!important;color:#293b3a!important;border:1px solid #dce1db!important;box-shadow:none!important}
+#root .app.theme-dark-premium :where(input,select,textarea)::placeholder{color:#9aa59e!important}
+#root .app.theme-dark-premium .navbar{background:rgba(250,249,246,.96)!important;border-bottom:1px solid #dce1db!important}
+#root .app.theme-dark-premium .navbar .logo{color:#293b3a!important}
+#root .app.theme-dark-premium .navbar .nav-links button,#root .app.theme-dark-premium .navbar .nav-buttons button{color:#64756e!important}
+#root .app.theme-dark-premium .navbar .nav-buttons .signup-btn{background:#54746d!important;color:#fff!important}
+#root .app.theme-dark-premium .workspace-premium-shell,
+#root .app.theme-dark-premium .admin-dashboard-redesign,
+#root .app.theme-dark-premium .teacher-dashboard-redesign,
+#root .app.theme-dark-premium .student-dashboard-redesign{background:#f3f2ee!important;color:#293b3a!important}
+#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child{background:linear-gradient(120deg,#faf9f6,#eeefeb)!important;border-color:#dce1db!important}
+#root .app.theme-dark-premium .workspace-premium-shell :is(.card,article,.panel,.section-card,.dashboard-card,.admin-consultations-panel,.admin-consultation-card,.premium-surface-card){background:#faf9f6!important;background-image:none!important;color:#293b3a!important;border:1px solid #dce1db!important;box-shadow:0 8px 24px rgba(42,60,54,.055)!important}
+#root .app.theme-dark-premium .workspace-premium-shell :is(.card,article,.panel,.section-card,.dashboard-card,.admin-consultations-panel,.admin-consultation-card,.premium-surface-card) :is(h1,h2,h3,h4,strong,b){color:#293b3a!important}
+#root .app.theme-dark-premium .workspace-premium-shell :is(.card,article,.panel,.section-card,.dashboard-card,.admin-consultations-panel,.admin-consultation-card,.premium-surface-card) :is(p,small,span,label){color:#71807b!important}
+#root .app.theme-dark-premium .workspace-premium-shell button,
+#root .app.theme-dark-premium .admin-dashboard-redesign button,
+#root .app.theme-dark-premium .teacher-dashboard-redesign button,
+#root .app.theme-dark-premium .student-dashboard-redesign button{border-radius:10px!important}
+#root .app.theme-dark-premium .workspace-premium-shell button[class*="primary"],
+#root .app.theme-dark-premium .workspace-premium-shell button[type="submit"],
+#root .app.theme-dark-premium .admin-dashboard-redesign button[class*="primary"]{background:#54746d!important;color:#fff!important;border:1px solid #54746d!important}
+#root .app.theme-dark-premium .workspace-premium-shell :is(.admin-status-badge,.status-badge){background:#e8eee8!important;color:#4e6b60!important;border:1px solid #d6e0d7!important}
+#root .app.theme-dark-premium .auth-page{background:#f3f2ee!important;background-image:radial-gradient(ellipse at 50% 0%,rgba(120,149,138,.12),transparent 50%)!important}
+#root .app.theme-dark-premium .auth-page .auth-card{background:#faf9f6!important;background-image:none!important;color:#293b3a!important;border:1px solid #dce1db!important;box-shadow:0 18px 48px rgba(42,60,54,.1)!important}
+#root .app.theme-dark-premium .auth-page label{color:#596b63!important}
+#root .app.theme-dark-premium .auth-page input,#root .app.theme-dark-premium .auth-page select{background:#f2f4ef!important;color:#293b3a!important}
+#root .app.theme-dark-premium .home-premium-redesign,
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign{background:#f3f2ee!important;color:#293b3a!important}
+#root .app.theme-dark-premium .home-premium-redesign .hero-section{background:linear-gradient(135deg,#faf9f6,#e9eee8)!important}
+#root .app.theme-dark-premium .home-premium-redesign .hero-card{background:linear-gradient(145deg,#54746d,#3e5e57)!important}
+#root .app.theme-dark-premium .home-premium-redesign .primary-btn,
+#root .app.theme-dark-premium .home-premium-redesign .home-cta-button,
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .compare-btn{background:#54746d!important;color:#fff!important}
+#root .app.theme-dark-premium .home-premium-redesign .home-category-card,
+#root .app.theme-dark-premium .home-premium-redesign .step,
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card{background:#faf9f6!important;border-color:#dce1db!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card,
+#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card{background:#faf9f6!important;background-image:none!important;color:#293b3a!important;border-color:#dce1db!important;box-shadow:0 8px 24px rgba(42,60,54,.06)!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card :is(strong,h2,h3,p,span,b),
+#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card :is(strong,h2,h3,p,span,b){color:#52655d!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-panel{background:#eeefeb!important;background-image:none!important;border-color:#dce1db!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-filters input,
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-filters select{background:#f7f7f3!important;color:#293b3a!important;border-color:#dce1db!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-secondary-action,
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-status-action,
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-remove-action{background:#eef1ec!important;color:#52655d!important;border:1px solid #dce1db!important}
+@media(max-width:700px){
+ #root .app.theme-dark-premium .workspace-premium-shell{padding:22px 14px 48px!important}
+ #root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child{padding:22px 18px!important}
+}
