@@ -739,7 +739,7 @@ function TeacherSearch({ goHome, openProfile }) {
   }
 
   return (
-    <div className="teachers-page">
+    <div className="teachers-page teacher-search-redesign">
       <div className="teachers-header">
         <button
           className="back-home"
@@ -1727,7 +1727,7 @@ function TeacherProfile({
   }
 
   return (
-    <div className="profile-page">
+    <div className="profile-page teacher-profile-redesign">
       <div className="profile-container">
 
         {/* =========================
