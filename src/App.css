@@ -5156,3 +5156,39 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   }
   .teacher-dashboard-redesign .card { padding: 18px !important; }
 }
+
+
+/* Premium visual system: consistent across public pages, auth and all workspaces */
+:root{--pm-ink:#17233d;--pm-muted:#66758d;--pm-blue:#315cf5;--pm-blue-dark:#2448d8;--pm-line:#e6ebf3;--pm-surface:#fff;--pm-canvas:#f4f7fc;--pm-radius:20px}
+html{scroll-behavior:smooth}
+body{background:var(--pm-canvas);color:var(--pm-ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.app{min-height:100vh;background:linear-gradient(180deg,#f8faff 0%,#f3f6fc 100%)}
+.navbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:blur(18px);border-bottom:1px solid rgba(220,228,241,.9);box-shadow:0 8px 28px rgba(24,43,83,.045)}
+.logo{font-weight:850;letter-spacing:-.045em}
+.nav-links button,.nav-buttons button{transition:all .2s ease}
+.nav-links button:hover{color:var(--pm-blue)}
+button{transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+button:not(:disabled):active{transform:translateY(1px)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(49,92,245,.2);outline-offset:2px}
+.page{background:transparent}
+.card,.auth-card,.teacher-card,.profile-card,.dashboard-card,.modal-content{border:1px solid var(--pm-line)!important;border-radius:var(--pm-radius)!important;box-shadow:0 12px 36px rgba(28,47,86,.065)!important}
+input,select,textarea{border:1px solid #dce3ef!important;border-radius:12px!important;background:#fff;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{border-color:#8ca5ff!important;box-shadow:0 0 0 4px rgba(49,92,245,.09)!important;outline:none}
+.login-btn,.signup-btn,.primary-btn{border-radius:12px!important;font-weight:700!important}
+.signup-btn,.primary-btn{background:linear-gradient(135deg,#416bff,#3154e8)!important;box-shadow:0 8px 18px rgba(49,92,245,.2)}
+.signup-btn:hover,.primary-btn:hover{background:linear-gradient(135deg,#3154e8,#2444cb)!important;box-shadow:0 11px 24px rgba(49,92,245,.25)}
+.auth-page{background:radial-gradient(ellipse at 15% 10%,#e5edff 0,transparent 42%),linear-gradient(145deg,#f8faff,#eef3fc)!important}
+.auth-card{padding:clamp(26px,5vw,44px)!important}
+.auth-logo{letter-spacing:-.05em}
+.teacher-dashboard-redesign,.admin-dashboard-redesign{display:block;min-height:100vh;background:radial-gradient(ellipse at 12% 0%,rgba(208,222,255,.55),transparent 35%),linear-gradient(180deg,#f7f9ff,#f2f5fb)}
+.teacher-dashboard-redesign .card,.admin-dashboard-redesign .card{background:rgba(255,255,255,.96)!important;border:1px solid #e5eaf4!important;border-radius:20px!important;box-shadow:0 10px 32px rgba(31,52,93,.065)!important}
+.teacher-dashboard-redesign h1,.admin-dashboard-redesign h1{letter-spacing:-.045em;color:#17233d}
+.teacher-dashboard-redesign h2,.admin-dashboard-redesign h2{letter-spacing:-.025em;color:#243451}
+.teacher-dashboard-redesign button,.admin-dashboard-redesign button{border-radius:11px}
+.teacher-dashboard-redesign input,.teacher-dashboard-redesign select,.teacher-dashboard-redesign textarea,.admin-dashboard-redesign input,.admin-dashboard-redesign select,.admin-dashboard-redesign textarea{max-width:100%}
+.admin-dashboard-redesign{padding-bottom:36px}
+.admin-dashboard-redesign .card{padding:clamp(18px,2.5vw,28px)!important;margin-bottom:18px}
+.admin-dashboard-redesign [style*="grid-template-columns"]{align-items:stretch}
+.admin-dashboard-redesign [style*="borderTop"]{border-color:#e8edf5!important}
+@media(max-width:700px){.navbar{padding-left:16px;padding-right:16px}.teacher-dashboard-redesign,.admin-dashboard-redesign{overflow-x:hidden}.admin-dashboard-redesign .card{padding:17px!important}.auth-card{margin:16px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
