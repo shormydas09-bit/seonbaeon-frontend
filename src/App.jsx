@@ -2385,18 +2385,18 @@ function TeacherToolsPanel({ user, consultations }) {
   async function deleteProgressNote(id){if(!window.confirm("Delete this progress note?"))return;setError("");setNotice("");try{await readResponse(await fetch(`${API_URL}/workspace/teacher/progress/${id}`,{method:"DELETE",headers}));setNotice("Progress note deleted.");await load();}catch(e){setError(e.message);}}
   async function addSlot(e){e.preventDefault();setError("");setNotice("");try{await readResponse(await fetch(`${API_URL}/workspace/teacher/availability`,{method:"POST",headers,body:JSON.stringify({startsAt,endsAt,note:slotNote})}));setStartsAt("");setEndsAt("");setSlotNote("");setNotice("Availability slot added.");await load();}catch(e){setError(e.message);}}
   async function removeSlot(id){try{await readResponse(await fetch(`${API_URL}/workspace/teacher/availability/${id}`,{method:"DELETE",headers}));await load();}catch(e){setError(e.message);}}
-  return <div className="card" style={{padding:24,marginTop:20}}><h2>Teaching Tools & Analytics</h2>
+  return <section className="teacher-tools-panel"><header className="teacher-tools-heading"><span className="eyebrow">TEACHER WORKSPACE</span><h2>Teaching Tools & Analytics</h2><p>Track learner progress and manage your teaching availability.</p></header>
     {notice&&<p style={{color:"#067647"}}>{notice}</p>}{error&&<p style={{color:"#b42318"}}>{error}</p>}
-    {analytics&&<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(110px,1fr))",gap:10,margin:"16px 0"}}>{[["Students",analytics.students],["Consultations",analytics.consultations],["Pending",analytics.pendingConsultations],["Lessons",analytics.lessons],["Completed",analytics.completedLessons],["Reviews",analytics.reviews],["Rating",Number(analytics.averageRating||0).toFixed(1)]].map(([k,v])=><div key={k} style={{background:"#f8fafc",padding:12,borderRadius:10}}><small>{k}</small><h3 style={{margin:"4px 0"}}>{v??0}</h3></div>)}</div>}
-    <h3 style={{marginTop:18}}>Add Student Progress Note</h3>
-    <form onSubmit={saveNote} style={{display:"grid",gap:10,marginTop:10}}>
+    {analytics&&<div className="teacher-analytics-grid">{[["Students",analytics.students],["Consultations",analytics.consultations],["Pending",analytics.pendingConsultations],["Lessons",analytics.lessons],["Completed",analytics.completedLessons],["Reviews",analytics.reviews],["Rating",Number(analytics.averageRating||0).toFixed(1)]].map(([k,v])=><div className="teacher-analytics-tile" key={k}><small>{k}</small><strong>{v??0}</strong></div>)}</div>}
+    <div className="teacher-tools-section"><h3>Add Student Progress Note</h3><p className="section-hint">Share clear, helpful feedback after each lesson.</p>
+    <form className="teacher-progress-form" onSubmit={saveNote}>
       <select required value={studentUserId} onChange={e=>setStudentUserId(e.target.value)}><option value="">Select linked student</option>{students.map(st=><option key={st.id} value={st.id}>{st.name} · {st.email}</option>)}</select>
       
       <input required maxLength="120" placeholder="Topic / subject (e.g. Phonics)" value={subject} onChange={e=>setSubject(e.target.value)}/>
       <textarea required maxLength="3000" rows="3" placeholder="Write strengths, improvement areas and homework..." value={note} onChange={e=>setNote(e.target.value)}/>
       <button className="signup-btn" disabled={!studentUserId}>Save progress note</button>
     </form>
-    {notes.map(n=><div key={n.id} style={{borderTop:"1px solid #eee",padding:"10px 0"}}>
+    <div className="teacher-progress-list">{notes.map(n=><article className="teacher-progress-item" key={n.id}>
       {editingNoteId===n.id?<form onSubmit={e=>updateProgressNote(e,n.id)} style={{display:"grid",gap:8}}>
         <input required maxLength="120" aria-label="Edit progress note subject" value={editingSubject} onChange={e=>setEditingSubject(e.target.value)}/>
         <textarea required maxLength="3000" rows="3" aria-label="Edit progress note" value={editingText} onChange={e=>setEditingText(e.target.value)}/>
@@ -2404,15 +2404,14 @@ function TeacherToolsPanel({ user, consultations }) {
       </form>:<><b>{n.subject}</b><p style={{whiteSpace:"pre-wrap"}}>{n.note}</p><small>{new Date(n.updatedAt).toLocaleString()}</small>
         <div style={{display:"flex",gap:8,marginTop:8}}><button className="login-btn" type="button" onClick={()=>{setEditingNoteId(n.id);setEditingSubject(n.subject||"");setEditingText(n.note||"");}}>Edit</button><button className="login-btn" type="button" onClick={()=>deleteProgressNote(n.id)}>Delete</button></div>
       </>}
-    </div>)}
-    <h3 style={{marginTop:24}}>Availability Calendar</h3><form onSubmit={addSlot} style={{display:"grid",gap:10,marginTop:10}}>
+    </article>)}</div></div>
+    <div className="teacher-tools-section teacher-availability-section"><h3>Availability Calendar</h3><p className="section-hint">Choose the times students can book a consultation or lesson.</p><form className="teacher-availability-form" onSubmit={addSlot}>
       <label>Start <input required type="datetime-local" min={new Date().toISOString().slice(0,16)} value={startsAt} onChange={e=>setStartsAt(e.target.value)}/></label>
       <label>End <input required type="datetime-local" min={startsAt||new Date().toISOString().slice(0,16)} value={endsAt} onChange={e=>setEndsAt(e.target.value)}/></label>
       <input placeholder="Optional note" value={slotNote} onChange={e=>setSlotNote(e.target.value)}/>
       <button className="signup-btn">Add available time</button>
     </form>
-    {slots.map(slot=><div key={slot.id} style={{display:"flex",justifyContent:"space-between",gap:10,borderTop:"1px solid #eee",padding:10,flexWrap:"wrap"}}><span>{new Date(slot.startsAt).toLocaleString()} – {new Date(slot.endsAt).toLocaleString()} {slot.note}</span><button className="login-btn" onClick={()=>removeSlot(slot.id)}>Remove</button></div>)}
-  </div>;
+    <div className="teacher-availability-list">{slots.map(slot=><div className="teacher-availability-item" key={slot.id}><span>{new Date(slot.startsAt).toLocaleString()} – {new Date(slot.endsAt).toLocaleString()} {slot.note}</span><button className="login-btn" onClick={()=>removeSlot(slot.id)}>Remove</button></div>)}</div></div></section>;
 }
 
 function AdminToolsPanel({ user }) {
