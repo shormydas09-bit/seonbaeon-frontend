@@ -2479,6 +2479,62 @@ function TeacherProfile({
    MAIN APP
 ========================= */
 
+
+function StudentProgressPanel({ user }) {
+  const [items,setItems]=useState([]); const [error,setError]=useState("");
+  useEffect(()=>{fetch(`${API_URL}/workspace/student/progress`,{headers:{Authorization:`Bearer ${user?.token||""}`}}).then(readResponse).then(setItems).catch(e=>setError(e.message));},[]);
+  return <div className="card" style={{padding:24,marginTop:20}}><h2>My Learning Progress</h2><p style={{color:"#667085"}}>Progress feedback shared by your English teacher.</p>{error&&<p style={{color:"#b42318"}}>{error}</p>}{items.length===0?<p>No progress notes yet. Your teacher's feedback will appear here.</p>:items.map(n=><article key={n.id} style={{borderTop:"1px solid #eee",padding:"14px 0"}}><b>{n.subject}</b><p style={{whiteSpace:"pre-wrap",margin:"8px 0"}}>{n.note}</p><small style={{color:"#667085"}}>Updated {new Date(n.updatedAt).toLocaleString()}</small></article>)}</div>;
+}
+
+function TeacherToolsPanel({ user, consultations }) {
+  const headers={ "Content-Type":"application/json",Authorization:`Bearer ${user?.token||""}` };
+  const [notes,setNotes]=useState([]); const [slots,setSlots]=useState([]); const [analytics,setAnalytics]=useState(null);
+  const [studentUserId,setStudentUserId]=useState(""); const [subject,setSubject]=useState(""); const [note,setNote]=useState("");
+  const [startsAt,setStartsAt]=useState(""); const [endsAt,setEndsAt]=useState(""); const [slotNote,setSlotNote]=useState("");
+  const [notice,setNotice]=useState(""); const [error,setError]=useState("");
+  const students=[...new Map((consultations||[]).filter(c=>["APPROVED","COMPLETED"].includes(c.status)).map(c=>[String(c.email).toLowerCase(),{email:c.email,name:c.studentName}])).values()];
+  async function load(){try{const [n,a,k]=await Promise.all([fetch(`${API_URL}/workspace/teacher/progress`,{headers}),fetch(`${API_URL}/workspace/teacher/availability`,{headers}),fetch(`${API_URL}/workspace/teacher/analytics`,{headers})]);setNotes(await readResponse(n));setSlots(await readResponse(a));setAnalytics(await readResponse(k));}catch(e){setError(e.message);}}
+  useEffect(()=>{load();},[]);
+  async function saveNote(e){e.preventDefault();setError("");setNotice("");try{await readResponse(await fetch(`${API_URL}/workspace/teacher/progress`,{method:"POST",headers,body:JSON.stringify({studentUserId,subject,note})}));setSubject("");setNote("");setNotice("Student progress note saved.");await load();}catch(e){setError(e.message);}}
+  async function addSlot(e){e.preventDefault();setError("");setNotice("");try{await readResponse(await fetch(`${API_URL}/workspace/teacher/availability`,{method:"POST",headers,body:JSON.stringify({startsAt,endsAt,note:slotNote})}));setStartsAt("");setEndsAt("");setSlotNote("");setNotice("Availability slot added.");await load();}catch(e){setError(e.message);}}
+  async function removeSlot(id){try{await readResponse(await fetch(`${API_URL}/workspace/teacher/availability/${id}`,{method:"DELETE",headers}));await load();}catch(e){setError(e.message);}}
+  return <div className="card" style={{padding:24,marginTop:20}}><h2>Teaching Tools & Analytics</h2>
+    {notice&&<p style={{color:"#067647"}}>{notice}</p>}{error&&<p style={{color:"#b42318"}}>{error}</p>}
+    {analytics&&<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(110px,1fr))",gap:10,margin:"16px 0"}}>{[["Students",analytics.students],["Consultations",analytics.consultations],["Pending",analytics.pendingConsultations],["Lessons",analytics.lessons],["Completed",analytics.completedLessons],["Reviews",analytics.reviews],["Rating",Number(analytics.averageRating||0).toFixed(1)]].map(([k,v])=><div key={k} style={{background:"#f8fafc",padding:12,borderRadius:10}}><small>{k}</small><h3 style={{margin:"4px 0"}}>{v??0}</h3></div>)}</div>}
+    <h3 style={{marginTop:18}}>Add Student Progress Note</h3>
+    <form onSubmit={saveNote} style={{display:"grid",gap:10,marginTop:10}}>
+      <select required value={studentUserId} onChange={e=>setStudentUserId(e.target.value)}><option value="">Select linked student</option>{students.map(st=><option key={st.email} value={st.userId||""} disabled>{st.name} · {st.email} (student ID unavailable)</option>)}</select>
+      <p style={{fontSize:13,color:"#667085"}}>Progress notes require the student's account ID. Select a linked student after the student ID is available in your consultation records.</p>
+      <input required maxLength="120" placeholder="Topic / subject (e.g. Phonics)" value={subject} onChange={e=>setSubject(e.target.value)}/>
+      <textarea required maxLength="3000" rows="3" placeholder="Write strengths, improvement areas and homework..." value={note} onChange={e=>setNote(e.target.value)}/>
+      <button className="signup-btn" disabled={!studentUserId}>Save progress note</button>
+    </form>
+    {notes.map(n=><div key={n.id} style={{borderTop:"1px solid #eee",padding:"10px 0"}}><b>{n.subject}</b><p>{n.note}</p><small>{new Date(n.updatedAt).toLocaleString()}</small></div>)}
+    <h3 style={{marginTop:24}}>Availability Calendar</h3><form onSubmit={addSlot} style={{display:"grid",gap:10,marginTop:10}}>
+      <label>Start <input required type="datetime-local" min={new Date().toISOString().slice(0,16)} value={startsAt} onChange={e=>setStartsAt(e.target.value)}/></label>
+      <label>End <input required type="datetime-local" min={startsAt||new Date().toISOString().slice(0,16)} value={endsAt} onChange={e=>setEndsAt(e.target.value)}/></label>
+      <input placeholder="Optional note" value={slotNote} onChange={e=>setSlotNote(e.target.value)}/>
+      <button className="signup-btn">Add available time</button>
+    </form>
+    {slots.map(slot=><div key={slot.id} style={{display:"flex",justifyContent:"space-between",gap:10,borderTop:"1px solid #eee",padding:10,flexWrap:"wrap"}}><span>{new Date(slot.startsAt).toLocaleString()} – {new Date(slot.endsAt).toLocaleString()} {slot.note}</span><button className="login-btn" onClick={()=>removeSlot(slot.id)}>Remove</button></div>)}
+  </div>;
+}
+
+function AdminToolsPanel({ user }) {
+  const headers={ "Content-Type":"application/json",Authorization:`Bearer ${user?.token||""}` };
+  const [overview,setOverview]=useState(null); const [users,setUsers]=useState([]); const [reviews,setReviews]=useState([]);
+  const [error,setError]=useState(""); const [notice,setNotice]=useState("");
+  async function load(){try{const [o,u,r]=await Promise.all([fetch(`${API_URL}/workspace/admin/overview`,{headers}),fetch(`${API_URL}/workspace/admin/users`,{headers}),fetch(`${API_URL}/workspace/admin/reviews`,{headers})]);setOverview(await readResponse(o));setUsers(await readResponse(u));setReviews(await readResponse(r));}catch(e){setError(e.message);}}
+  useEffect(()=>{load();},[]);
+  async function changeRole(id,role){try{await readResponse(await fetch(`${API_URL}/workspace/admin/users/${id}/role`,{method:"PATCH",headers,body:JSON.stringify({role})}));setNotice("User role updated.");await load();}catch(e){setError(e.message);}}
+  async function removeReview(id){if(!window.confirm("Remove this review? This cannot be undone."))return;try{await readResponse(await fetch(`${API_URL}/workspace/admin/reviews/${id}`,{method:"DELETE",headers}));setNotice("Review removed and teacher rating recalculated.");await load();}catch(e){setError(e.message);}}
+  return <div className="card" style={{padding:24,marginTop:20}}><h2>Platform Overview & Moderation</h2>{notice&&<p style={{color:"#067647"}}>{notice}</p>}{error&&<p style={{color:"#b42318"}}>{error}</p>}
+    {overview&&<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(110px,1fr))",gap:10,margin:"16px 0"}}>{Object.entries(overview).map(([k,v])=><div key={k} style={{background:"#f8fafc",padding:12,borderRadius:10}}><small>{k.replace(/([A-Z])/g," $1")}</small><h3 style={{margin:"4px 0"}}>{v}</h3></div>)}</div>}
+    <h3 style={{marginTop:20}}>User Management ({users.length})</h3>{users.map(x=><div key={x.id} style={{display:"flex",justifyContent:"space-between",gap:10,alignItems:"center",borderTop:"1px solid #eee",padding:"10px 0",flexWrap:"wrap"}}><span><b>{x.name}</b><br/><small>{x.email}</small></span><select aria-label={`Role for ${x.name}`} value={x.role} onChange={e=>changeRole(x.id,e.target.value)}><option>STUDENT</option><option>TEACHER</option><option>ADMIN</option></select></div>)}
+    <h3 style={{marginTop:24}}>Review Moderation & Reports ({reviews.length})</h3>{reviews.length===0?<p>No reviews found.</p>:reviews.map(r=><div key={r.id} style={{borderTop:"1px solid #eee",padding:"12px 0"}}><b>{r.teacherName}</b> · {r.studentName} · {r.rating}/5 {r.reported&&<strong style={{color:"#b42318"}}> · REPORTED</strong>}<p>{r.text}</p>{r.reportReason&&<p style={{color:"#b42318"}}>Report: {r.reportReason}</p>}<button className="login-btn" onClick={()=>removeReview(r.id)}>Remove review</button></div>)}
+  </div>;
+}
+
 function StudentDashboard({
   currentUser,
   goToTeachers,
@@ -3095,7 +3151,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         </div>
       </div>
     </div>
-  </WorkspaceShell>;
+  <TeacherToolsPanel user={currentUser} consultations={consultations} />\n  </WorkspaceShell>;
 }
 
 function AdminWorkspace({ currentUser, handleLogout }) {
@@ -3225,7 +3281,7 @@ function AdminWorkspace({ currentUser, handleLogout }) {
         <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:8}}>{["PENDING","APPROVED","REJECTED","COMPLETED"].map(s=><button key={s} className="login-btn" onClick={()=>setStatus(c.id,s)}>{s}</button>)}</div>
       </div>)}
     </div>
-  </WorkspaceShell>;
+    <AdminToolsPanel user={currentUser} />\n  </WorkspaceShell>;
 }
 
 function ResetPasswordPage() {
