@@ -5051,3 +5051,108 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+
+/* =========================================================
+   TEACHER WORKSPACE — DEDICATED VISUAL REDESIGN
+   Scoped to the teacher route so other dashboards are untouched.
+   ========================================================= */
+.teacher-dashboard-redesign {
+  min-height: 100vh;
+  background: #f3f6fc;
+  color: #243047;
+}
+.teacher-dashboard-redesign > main {
+  min-height: 100vh !important;
+  padding: 42px clamp(16px, 4vw, 56px) 64px !important;
+  background:
+    radial-gradient(ellipse at 90% 0%, rgba(49,95,232,.10), transparent 34%),
+    #f3f6fc !important;
+}
+.teacher-dashboard-redesign > main > section {
+  max-width: 1240px !important;
+}
+.teacher-dashboard-redesign > main > section > div:first-child {
+  padding: 24px 28px;
+  margin-bottom: 24px !important;
+  background: rgba(255,255,255,.92);
+  border: 1px solid #e5eaf3;
+  border-radius: 20px;
+  box-shadow: 0 8px 28px rgba(23,32,51,.055);
+}
+.teacher-dashboard-redesign h1 {
+  color: #172b4d !important;
+  font-size: clamp(27px, 3vw, 36px);
+  letter-spacing: -.04em;
+}
+.teacher-dashboard-redesign h2 {
+  color: #172b4d;
+  font-size: 19px;
+  margin-bottom: 16px;
+}
+.teacher-dashboard-redesign h3 { color: #243b63; }
+.teacher-dashboard-redesign .card {
+  background: #fff !important;
+  border: 1px solid #e3e9f3 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 8px 26px rgba(23,32,51,.055) !important;
+  color: #344054;
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+.teacher-dashboard-redesign .card:hover {
+  box-shadow: 0 14px 34px rgba(23,32,51,.085) !important;
+}
+.teacher-dashboard-redesign label {
+  display: block;
+  color: #475467;
+  font-size: 13px;
+  font-weight: 700;
+}
+.teacher-dashboard-redesign input,
+.teacher-dashboard-redesign select,
+.teacher-dashboard-redesign textarea {
+  width: 100%;
+  margin-top: 6px;
+  border: 1px solid #d9e1ee;
+  border-radius: 10px;
+  background: #fbfcff;
+  color: #243047;
+  padding: 11px 12px;
+}
+.teacher-dashboard-redesign input:focus,
+.teacher-dashboard-redesign select:focus,
+.teacher-dashboard-redesign textarea:focus {
+  outline: 3px solid rgba(49,95,232,.14);
+  border-color: #7392ed;
+  background: #fff;
+}
+.teacher-dashboard-redesign button {
+  border-radius: 10px;
+  font-weight: 700;
+}
+.teacher-dashboard-redesign .signup-btn {
+  background: #315fe8;
+  border: 1px solid #315fe8;
+  color: white;
+  padding: 11px 16px;
+}
+.teacher-dashboard-redesign .signup-btn:hover {
+  background: #244dcc;
+}
+.teacher-dashboard-redesign .login-btn {
+  border: 1px solid #dce3ee;
+  background: #fff;
+  color: #344054;
+  padding: 9px 13px;
+}
+.teacher-dashboard-redesign a { color: #315fe8; font-weight: 600; }
+.teacher-dashboard-redesign iframe { display: block; background: #e9eef8; }
+.teacher-dashboard-redesign small { line-height: 1.5; }
+@media (max-width: 650px) {
+  .teacher-dashboard-redesign > main { padding: 20px 12px 40px !important; }
+  .teacher-dashboard-redesign > main > section > div:first-child {
+    padding: 18px;
+    border-radius: 15px;
+  }
+  .teacher-dashboard-redesign .card { padding: 18px !important; }
+}
