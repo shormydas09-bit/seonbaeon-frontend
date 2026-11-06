@@ -392,7 +392,7 @@ function AuthPage({ mode, setMode, onLogin }) {
 function HomePage({ goToTeachers }) {
   const categories = ["Kids English", "Phonics", "Speaking", "Reading & Writing", "Grammar", "Storytelling", "School English"];
   return (
-    <div className="home-premium-redesign">
+    <div className="home-premium-redesign" id="pmt-home-v3">
       <section className="hero-section" id="home">
         <div className="hero-content">
           <div className="hero-copy">
