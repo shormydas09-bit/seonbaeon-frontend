@@ -157,7 +157,7 @@ function AuthPage({ mode, setMode, onLogin }) {
 
   if (forgotMode) {
     return (
-      <div className="auth-page">
+      <div className="auth-page auth-premium-redesign">
         <div className="auth-card">
           <div className="auth-heading">
             <div className="auth-logo">
@@ -391,7 +391,7 @@ function AuthPage({ mode, setMode, onLogin }) {
 
 function HomePage({ goToTeachers }) {
   return (
-    <>
+    <div className="home-premium-redesign">
       <section className="hero-section" id="home">
         <div className="hero-content">
           <p className="small-title">
@@ -590,7 +590,7 @@ function HomePage({ goToTeachers }) {
           © 2026 Pick My Teacher. All rights reserved.
         </p>
       </footer>
-    </>
+    </div>
   );
 }
 
@@ -2964,7 +2964,7 @@ function NotificationCenter({ user }) {
 
 function WorkspaceShell({ title, subtitle, user, onLogout, children }) {
   return (
-    <main style={{ minHeight: "75vh", background: "#f5f7fb", padding: "42px 20px" }}>
+    <main className="workspace-premium-shell" style={{ minHeight: "75vh", background: "#f5f7fb", padding: "42px 20px" }}>
       <section style={{ maxWidth: 1080, margin: "0 auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "center", flexWrap: "wrap", marginBottom: 28 }}>
           <div>
