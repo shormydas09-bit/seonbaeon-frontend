@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import "./App.css";
-import "./premium.css";
+import "./design-system.css";
 
 const API_URL = `${(import.meta.env.VITE_API_URL || "https://seonbaeon-backend.onrender.com").replace(/\/$/, "")}/api`;
 const FAVORITES_KEY = "pick-my-teacher-favorites";
