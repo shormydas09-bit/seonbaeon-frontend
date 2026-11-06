@@ -5247,3 +5247,39 @@ input:focus,select:focus,textarea:focus{border-color:#8ca5ff!important;box-shado
 .admin-empty-state strong{display:block;color:#34445e}
 .admin-empty-state p{margin:6px 0 0;font-size:13px}
 @media(max-width:650px){.admin-consultation-card{padding:16px}.admin-consultation-meta{grid-template-columns:1fr 1fr}.admin-consultation-actions{align-items:stretch}.admin-status-actions{width:100%}.admin-status-action{flex:1 1 40%}.admin-detail-grid{grid-template-columns:1fr}.admin-consultations-heading{align-items:flex-start}}
+
+
+/* Student dashboard, teacher discovery and teacher profile premium pass */
+.student-dashboard-redesign{background:transparent}
+.student-dashboard-redesign>section{max-width:1180px!important;padding-top:42px!important}
+.student-dashboard-redesign>section>div:first-child{padding:28px 30px;margin-bottom:24px!important;border:1px solid #e4eaf5;border-radius:22px;background:linear-gradient(120deg,#fff 0%,#f4f7ff 100%);box-shadow:0 12px 32px rgba(35,54,91,.055)}
+.student-dashboard-redesign>section>div:first-child h1{font-size:clamp(29px,4vw,40px)!important;letter-spacing:-.05em;color:#182744}
+.student-dashboard-redesign .card{padding:clamp(18px,2.4vw,26px)!important;margin-bottom:18px;background:#fff;border:1px solid #e6ebf4;border-radius:19px;box-shadow:0 8px 26px rgba(35,54,91,.05)}
+.student-dashboard-redesign .card h2{font-size:20px;letter-spacing:-.03em;color:#253653}
+.student-dashboard-redesign button{border-radius:11px}
+.student-dashboard-redesign .card p{line-height:1.65}
+.teacher-search-redesign{background:linear-gradient(180deg,#f8faff,#f1f5fc);min-height:100vh;padding-bottom:54px}
+.teacher-search-redesign .teachers-header,.teacher-search-redesign .search-section,.teacher-search-redesign .teachers-grid,.teacher-search-redesign .no-results{max-width:1180px;margin-left:auto;margin-right:auto}
+.teacher-search-redesign .teachers-header{padding:34px 24px 22px}
+.teacher-search-redesign .teachers-header h1,.teacher-search-redesign h1{font-size:clamp(30px,4vw,42px);letter-spacing:-.05em;color:#182744}
+.teacher-search-redesign .search-section{margin-top:4px;margin-bottom:22px;padding:20px;background:#fff;border:1px solid #e5eaf3;border-radius:20px;box-shadow:0 9px 28px rgba(35,54,91,.05)}
+.teacher-search-redesign .teachers-grid{padding:0 24px;gap:20px}
+.teacher-search-redesign .teacher-card{overflow:hidden;background:#fff;border:1px solid #e5eaf3;border-radius:20px;box-shadow:0 9px 28px rgba(35,54,91,.055);transition:transform .2s,box-shadow .2s}
+.teacher-search-redesign .teacher-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(35,54,91,.1)}
+.teacher-search-redesign .teacher-card h2,.teacher-search-redesign .teacher-card h3{color:#20314e;letter-spacing:-.025em}
+.teacher-search-redesign .teacher-card p{color:#718096;line-height:1.6}
+.teacher-search-redesign input,.teacher-search-redesign select{min-height:44px}
+.teacher-search-redesign .profile-btn,.teacher-search-redesign .compare-btn{border-radius:11px;font-weight:700}
+.teacher-profile-redesign{min-height:100vh;padding:30px 18px 60px;background:radial-gradient(ellipse at 15% 0%,rgba(215,226,255,.6),transparent 38%),#f4f7fc}
+.teacher-profile-redesign .profile-container{max-width:1160px;margin:0 auto}
+.teacher-profile-redesign .profile-container>div,.teacher-profile-redesign .profile-card,.teacher-profile-redesign .card{border-radius:21px}
+.teacher-profile-redesign .profile-container h1,.teacher-profile-redesign .profile-container h2{letter-spacing:-.04em;color:#1d2d49}
+.teacher-profile-redesign .profile-container h1{font-size:clamp(28px,4vw,40px)}
+.teacher-profile-redesign .profile-container>div[style],.teacher-profile-redesign .profile-card{box-shadow:0 12px 34px rgba(35,54,91,.06)}
+.teacher-profile-redesign .quick-info{padding:20px;border:1px solid #e7ecf4;border-radius:17px;background:#fff}
+.teacher-profile-redesign .quick-info h3{font-size:15px;color:#34445e}
+.teacher-profile-redesign .quick-info>div{padding:11px 0;border-top:1px solid #eff2f7}
+.teacher-profile-redesign .quick-info span{color:#8996a9;font-size:12px}
+.teacher-profile-redesign .quick-info strong{color:#30415d}
+.teacher-profile-redesign button{border-radius:11px}
+@media(max-width:700px){.student-dashboard-redesign>section{padding:22px 14px 50px!important}.student-dashboard-redesign>section>div:first-child{padding:22px 18px}.teacher-search-redesign .teachers-header{padding:24px 16px 16px}.teacher-search-redesign .teachers-grid{padding:0 14px;gap:14px}.teacher-profile-redesign{padding:18px 12px 40px}}
