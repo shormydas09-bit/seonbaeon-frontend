@@ -2836,24 +2836,47 @@ function NotificationCenter({ user }) {
       await load();
     } catch (e) { setError(e.message); }
   }
-  return <div style={{ position: "relative" }}>
+  async function deleteOne(id) {
+    if (!window.confirm("Delete this notification?")) return;
+    try {
+      await readResponse(await fetch(`${API_URL}/notifications/${id}`, {
+        method: "DELETE", headers: { Authorization: `Bearer ${user?.token || ""}` }
+      }));
+      await load();
+    } catch (e) { setError(e.message); }
+  }
+  async function deleteAll() {
+    if (!items.length || !window.confirm("Delete all your notifications? This cannot be undone.")) return;
+    try {
+      await readResponse(await fetch(`${API_URL}/notifications`, {
+        method: "DELETE", headers: { Authorization: `Bearer ${user?.token || ""}` }
+      }));
+      await load();
+    } catch (e) { setError(e.message); }
+  }
+  return <div className="notification-center" style={{ position: "relative" }}>
     <button type="button" className="login-btn" onClick={() => { setOpen(v => !v); if (!open) load(); }}
       aria-expanded={open} aria-label={`Notifications, ${unread} unread`}>
       Notifications {unread > 0 ? `(${unread})` : ""}
     </button>
     {open && <div style={{ position: "absolute", zIndex: 30, right: 0, top: "calc(100% + 8px)", width: "min(360px, 85vw)", maxHeight: 420, overflowY: "auto", background: "#fff", border: "1px solid #e5e7eb", borderRadius: 14, boxShadow: "0 12px 32px rgba(16,24,40,.16)", padding: 14 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
-        <strong>Notifications</strong>
-        <button type="button" className="login-btn" onClick={markAllRead} disabled={!unread}>Mark all read</button>
+      <div className="notification-panel-heading">
+        <div><strong>Notifications</strong><small>{unread} unread</small></div>
+        <div className="notification-actions">
+          <button type="button" onClick={markAllRead} disabled={!unread}>Read all</button>
+          <button type="button" onClick={deleteAll} disabled={!items.length}>Delete all</button>
+        </div>
       </div>
-      {error && <p style={{ color: "#b42318" }}>{error}</p>}
-      {!items.length && !error && <p style={{ color: "#667085" }}>No notifications yet.</p>}
-      {items.map(item => <button key={item.id} type="button" onClick={() => !item.read && markRead(item.id)}
-        style={{ display: "block", width: "100%", textAlign: "left", border: 0, borderTop: "1px solid #eee", background: item.read ? "#fff" : "#f0f6ff", padding: "12px 8px", cursor: "pointer", color: "#101828" }}>
-        <strong>{item.title}</strong>
-        <span style={{ display: "block", fontSize: 13, marginTop: 4 }}>{item.message}</span>
-        <small style={{ color: "#667085" }}>{item.createdAt ? new Date(item.createdAt).toLocaleString() : ""} · {item.read ? "Read" : "Unread"}</small>
-      </button>)}
+      {error && <p className="form-error">{error}</p>}
+      {!items.length && !error && <div className="notification-empty">You’re all caught up. No notifications yet.</div>}
+      {items.map(item => <div key={item.id} className={`notification-item ${item.read ? "is-read" : "is-unread"}`}>
+        <button type="button" className="notification-content" onClick={() => !item.read && markRead(item.id)}>
+          <strong>{item.title}</strong>
+          <span>{item.message}</span>
+          <small>{item.createdAt ? new Date(item.createdAt).toLocaleString() : ""} · {item.read ? "Read" : "Unread"}</small>
+        </button>
+        <button type="button" className="notification-delete" onClick={() => deleteOne(item.id)} aria-label={`Delete notification: ${item.title}`}>Delete</button>
+      </div>)}
     </div>}
   </div>;
 }
@@ -3077,6 +3100,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
 
 function AdminWorkspace({ currentUser, handleLogout }) {
   const [teachers, setTeachers] = useState([]);
+  const [allTeachers, setAllTeachers] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [consultations, setConsultations] = useState([]);
   const [error, setError] = useState("");
@@ -3086,11 +3110,12 @@ function AdminWorkspace({ currentUser, handleLogout }) {
   const headers = { "Content-Type": "application/json", Authorization: `Bearer ${currentUser?.token || ""}` };
   async function load() {
     try {
-      const [t,c] = await Promise.all([
+      const [t,c,all] = await Promise.all([
         fetch(`${API_URL}/workspace/admin/pending-teachers`, { headers }),
-        fetch(`${API_URL}/workspace/admin/consultations`, { headers })
+        fetch(`${API_URL}/workspace/admin/consultations`, { headers }),
+        fetch(`${API_URL}/workspace/admin/teachers`, { headers })
       ]);
-      setTeachers(await readResponse(t)); setConsultations(await readResponse(c));
+      setTeachers(await readResponse(t)); setConsultations(await readResponse(c)); setAllTeachers(await readResponse(all));
     } catch(e) { setError(e.message); }
   }
   useEffect(()=>{load();},[]);
@@ -3121,6 +3146,16 @@ function AdminWorkspace({ currentUser, handleLogout }) {
       await load();
     } catch(e) { setError(e.message); }
   }
+  async function removeTeacherProfile(teacher) {
+    const confirmation = window.prompt(`This removes ${teacher.name}'s public teacher profile while preserving the account and history. Type REMOVE to confirm:`);
+    if (confirmation !== "REMOVE") return;
+    setError(""); setNotice("");
+    try {
+      await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${teacher.id}`, { method:"DELETE", headers }));
+      setNotice(`${teacher.name}'s public teacher profile was removed. Account and history were preserved.`);
+      await load();
+    } catch(e) { setError(e.message || "Could not remove teacher profile."); }
+  }
   async function setStatus(id,status) {
     const adminNote = window.prompt("Optional admin note explaining this status update:") || "";
     try {
@@ -3142,6 +3177,15 @@ function AdminWorkspace({ currentUser, handleLogout }) {
         <div style={{display:"flex",gap:8,alignItems:"center"}}>
           <button className="signup-btn" onClick={()=>approve(t.id)}>Approve teacher</button>
           <button className="login-btn" onClick={()=>reject(t.id)} style={{color:"#b42318"}}>Reject</button>
+        </div>
+      </div>)}
+    </div>
+    <div className="card admin-teacher-management" style={{padding:24,marginBottom:20}}>
+      <div className="admin-section-heading"><div><p className="eyebrow">ACCOUNT OVERSIGHT</p><h2>Teacher Profile Management</h2><p>Manage public teacher listings without deleting account or lesson history.</p></div><span>{allTeachers.length} profiles</span></div>
+      {allTeachers.length===0?<p className="empty-state">No teacher profiles found.</p>:allTeachers.map(t=><div className="admin-teacher-row" key={t.id}>
+        <div><strong>{t.name}</strong><p>{t.category} · {t.location} · {t.experience}</p><small>{t.ownerEmail || "No linked email"}</small></div>
+        <div className="admin-teacher-meta"><span className={t.verified && t.available ? "status-pill status-active" : "status-pill"}>{t.verified && t.available ? "Published" : t.available ? "Pending" : "Hidden"}</span>
+        {t.available && <button type="button" className="danger-outline-btn" onClick={()=>removeTeacherProfile(t)}>Remove profile</button>}
         </div>
       </div>)}
     </div>
