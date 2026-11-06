@@ -1,100 +1,297 @@
-function AdminWorkspace({ currentUser, handleLogout }) {
-  const [teachers, setTeachers] = useState([]);
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [consultations, setConsultations] = useState([]);
-  const [error, setError] = useState("");
-  const [notice, setNotice] = useState("");
-  const [consultationSearch, setConsultationSearch] = useState("");
-  const [consultationFilter, setConsultationFilter] = useState("ALL");
-  const headers = { "Content-Type": "application/json", Authorization: `Bearer ${currentUser?.token || ""}` };
-  async function load() {
-    try {
-      const [t,c] = await Promise.all([
-        fetch(`${API_URL}/workspace/admin/pending-teachers`, { headers }),
-        fetch(`${API_URL}/workspace/admin/consultations`, { headers })
-      ]);
-      setTeachers(await readResponse(t)); setConsultations(await readResponse(c));
-    } catch(e) { setError(e.message); }
-  }
-  useEffect(()=>{load();},[]);
-  const filteredConsultations = consultations.filter((item) => {
-    const matchesStatus = consultationFilter === "ALL" || item.status === consultationFilter;
-    const term = consultationSearch.trim().toLowerCase();
-    const matchesSearch = !term || [item.studentName, item.email, item.teacherName, item.status]
-      .filter(Boolean).some((value) => String(value).toLowerCase().includes(term));
-    return matchesStatus && matchesSearch;
-  });
-  const consultationCounts = consultations.reduce((counts, item) => {
-    const key = item.status || "UNKNOWN";
-    counts[key] = (counts[key] || 0) + 1;
-    return counts;
-  }, {});
+import { useEffect, useMemo, useState } from "react";
+import "./App.css";
 
-  async function approve(id) {
-    setError(""); setNotice("");
-    try { await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/approve`,{method:"POST",headers})); setNotice("Teacher approved."); await load(); }
-    catch(e){setError(e.message);}
+const API_URL = `${(import.meta.env.VITE_API_URL || "https://seonbaeon-backend.onrender.com").replace(/\/$/, "")}/api`;
+const FAVORITES_KEY = "pick-my-teacher-favorites";
+const USER_KEY = "pick-my-teacher-logged-user";
+
+const ENGLISH_CATEGORIES = [
+  "All",
+  "Kids English",
+  "Speaking",
+  "Reading & Writing",
+  "Grammar",
+  "Storytelling",
+  "School English",
+];
+
+async function readResponse(response) {
+
+  const text = await response.text();
+  let data = null;
+
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    data = text;
   }
-  async function reject(id) {
-    setError(""); setNotice("");
-    if (!window.confirm("Reject this teacher application? The profile will be hidden, not deleted.")) return;
-    try {
-      await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/reject`,{method:"POST",headers}));
-      setNotice("Teacher application rejected and hidden.");
-      await load();
-    } catch(e) { setError(e.message); }
+
+  if (!response.ok) {
+    const message =
+      data?.message ||
+      (typeof data === "string" ? data : "Something went wrong.");
+
+    throw new Error(message);
   }
-  async function setStatus(id,status) {
-    const adminNote = window.prompt("Optional admin note explaining this status update:") || "";
-    try {
-      await readResponse(await fetch(`${API_URL}/workspace/admin/consultations/${id}/status`,{method:"PATCH",headers,body:JSON.stringify({status,adminNote})}));
-      setNotice("Consultation status updated. Previous decision is retained in history.");
-      await load();
-    } catch(e){setError(e.message);}
-  }
-  return <WorkspaceShell title="Admin Dashboard" subtitle="Review teacher applications and manage requests" user={currentUser} onLogout={handleLogout}>
-    {notice&&<p style={{background:"#ecfdf3",color:"#067647",padding:12,borderRadius:10}}>{notice}</p>}
-    {error&&<p style={{background:"#fef3f2",color:"#b42318",padding:12,borderRadius:10}}>{error}</p>}
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",gap:12,marginBottom:20}}>
-      {[["Pending teachers",teachers.length],["Total consultations",consultations.length],["Pending",consultationCounts.PENDING||0],["Approved",consultationCounts.APPROVED||0],["Completed",consultationCounts.COMPLETED||0]].map(([label,value])=><div className="card" key={label} style={{padding:18}}><p style={{color:"#667085",fontSize:13,margin:0}}>{label}</p><strong style={{fontSize:28}}>{value}</strong></div>)}
-    </div>
-    <div className="card" style={{padding:24,marginBottom:20}}>
-      <h2>Teacher Verification ({teachers.length})</h2>
-      {teachers.length===0?<p style={{color:"#667085"}}>No pending teacher applications.</p>:teachers.map(t=><div key={t.id} style={{borderTop:"1px solid #eee",padding:"16px 0",display:"flex",justifyContent:"space-between",gap:16,flexWrap:"wrap"}}>
-        <div><b>{t.name}</b><p>{t.category} · {t.location} · {t.experience}</p><p>{t.qualification}</p><p>{t.bio}</p></div>
-        <div style={{display:"flex",gap:8,alignItems:"center"}}>
-          <button className="signup-btn" onClick={()=>approve(t.id)}>Approve teacher</button>
-          <button className="login-btn" onClick={()=>reject(t.id)} style={{color:"#b42318"}}>Reject</button>
-        </div>
-      </div>)}
-    </div>
-    <div className="card" style={{padding:24}}>
-      <h2>Consultation Requests ({filteredConsultations.length} of {consultations.length})</h2>
-      <div style={{display:"flex",gap:10,flexWrap:"wrap",margin:"14px 0"}}>
-        <input aria-label="Search consultations" placeholder="Search student or email" value={consultationSearch} onChange={e=>setConsultationSearch(e.target.value)} style={{flex:"1 1 220px",padding:11,border:"1px solid #ddd",borderRadius:9}} />
-        <select aria-label="Filter consultation status" value={consultationFilter} onChange={e=>setConsultationFilter(e.target.value)} style={{padding:11,border:"1px solid #ddd",borderRadius:9}}>
-          {["ALL","PENDING","APPROVED","REJECTED","COMPLETED"].map(status=><option key={status} value={status}>{status==="ALL"?"All statuses":status}</option>)}
-        </select>
-      </div>
-      {filteredConsultations.length===0?<p style={{color:"#667085"}}>No matching consultation requests.</p>:filteredConsultations.map(c=><div key={c.id} style={{borderTop:"1px solid #eee",padding:"14px 0"}}>
-        <b>{c.studentName}</b> · {c.email}<p>{c.preferredDate} · {c.preferredTime} · <strong>{c.status}</strong></p>
-        <button className="login-btn" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide":"View"} Student Profile</button>
-        {selectedStudent===c.id && <div style={{background:"#f8fafc",padding:12,borderRadius:10,marginTop:8}}>
-          <p><b>Age / Group:</b> {c.studentProfile?.age||"—"} / {c.studentProfile?.ageGroup||"—"}</p>
-          <p><b>English Level:</b> {c.studentProfile?.englishLevel||"—"}</p><p><b>Learning Goals:</b> {c.studentProfile?.learningGoals||"—"}</p>
-          <p><b>Preferred Category:</b> {c.studentProfile?.preferredCategory||"—"}</p><p><b>Interests:</b> {c.studentProfile?.interests||"—"}</p>
-          <p><b>Schedule:</b> {c.studentProfile?.preferredSchedule||"—"}</p><p><b>About:</b> {c.studentProfile?.introduction||"—"}</p>
-          {c.studentProfile?.guardianName&&<p><b>Guardian:</b> {c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}
-        </div>}
-        {c.teacherDecision && <p><b>Teacher decision:</b> {c.teacherDecision} {c.teacherDecisionAt||""}</p>}
-        {c.rejectionReason && <p style={{color:"#b42318"}}><b>Rejection reason:</b> {c.rejectionReason}</p>}
-        {c.adminPreviousStatus && <p><b>Admin changed:</b> {c.adminPreviousStatus} → {c.status} · {c.adminNote||""} · {c.adminDecisionAt||""}</p>}{c.decisionHistory && <p style={{whiteSpace:"pre-line"}}><b>Decision History:</b>{"\\n"}{c.decisionHistory}</p>}
-        <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:8}}>{["PENDING","APPROVED","REJECTED","COMPLETED"].map(s=><button key={s} className="login-btn" onClick={()=>setStatus(c.id,s)}>{s}</button>)}</div>
-      </div>)}
-    </div>
-  </WorkspaceShell>;
+
+  return data;
 }
-ail(e.target.value)
+
+/* =========================
+   AUTH PAGE
+========================= */
+
+function AuthPage({ mode, setMode, onLogin }) {
+  const [name, setName] = useState("");
+  const [accountRole, setAccountRole] = useState("STUDENT");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [forgotMode, setForgotMode] = useState(false);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError("");
+    setMessage("");
+
+    if (!email || !password || (mode === "signup" && !name)) {
+      setError("Please fill in all required fields.");
+      return;
+    }
+
+    if (mode === "signup" && password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const endpoint =
+        mode === "signup" ? "/users/signup" : "/users/login";
+
+      const body =
+        mode === "signup"
+          ? {
+              name: name.trim(),
+              email: email.trim(),
+              password,
+              role: accountRole,
+            }
+          : {
+              email: email.trim(),
+              password,
+              role: accountRole,
+            };
+
+      const response = await fetch(`${API_URL}${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      const data = await readResponse(response);
+
+      if (mode === "signup") {
+        alert("Account created successfully! Please log in.");
+
+        setMode("login");
+        setName("");
+        setPassword("");
+      } else {
+        onLogin(data);
+      }
+    } catch (err) {
+      setError(err.message || "Authentication failed.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleForgotPassword(e) {
+    e.preventDefault();
+    setError("");
+    setMessage("");
+
+    if (!forgotEmail.trim()) {
+      setError("Please enter your email address.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        `${API_URL}/users/forgot-password`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: forgotEmail.trim(),
+          }),
+        }
+      );
+
+      const data = await readResponse(response);
+
+      setMessage(
+        data.message ||
+          "If an account exists with this email, a password reset link has been sent."
+      );
+    } catch (err) {
+      setError(
+        err.message ||
+          "Unable to send the password reset email."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (forgotMode) {
+    return (
+      <div className="auth-page">
+        <div className="auth-card">
+          <div className="auth-heading">
+            <div className="auth-logo">
+              Pick My Teacher<span>.</span>
+            </div>
+
+            <h1>Forgot Password?</h1>
+
+            <p>
+              Enter your email and we will send you a
+              password reset link.
+            </p>
+          </div>
+
+          {error && (
+            <div className="form-error">
+              {error}
+            </div>
+          )}
+
+          {message && (
+            <div className="form-success">
+              {message}
+            </div>
+          )}
+
+          <form onSubmit={handleForgotPassword}>
+            <label>Email</label>
+
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={forgotEmail}
+              onChange={(e) =>
+                setForgotEmail(e.target.value)
+              }
+            />
+
+            <button
+              className="auth-submit"
+              type="submit"
+              disabled={loading}
+            >
+              {loading
+                ? "Sending..."
+                : "Send Reset Link →"}
+            </button>
+          </form>
+
+          <div className="auth-switch">
+            Remember your password?{" "}
+            <button
+              type="button"
+              onClick={() => {
+                setForgotMode(false);
+                setError("");
+                setMessage("");
+              }}
+            >
+              Back to Login
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-heading">
+          <div className="auth-logo">
+            Pick My Teacher<span>.</span>
+          </div>
+
+          <h1>
+            {mode === "login"
+              ? "Welcome Back"
+              : "Create Your Account"}
+          </h1>
+
+          <p>
+            {mode === "login"
+              ? "Login to continue your teacher discovery journey."
+              : "Join Pick My Teacher and find the right English teacher for your child."}
+          </p>
+        </div>
+
+        {error && (
+          <div className="form-error">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          {mode === "login" && (
+            <>
+              <label>Login As</label>
+              <select value={accountRole} onChange={(e) => setAccountRole(e.target.value)}>
+                <option value="STUDENT">Student / Parent</option>
+                <option value="TEACHER">English Teacher</option>
+                <option value="ADMIN">Admin</option>
+              </select>
+            </>
+          )}
+
+          {mode === "signup" && (
+            <>
+              <label>Account Type</label>
+              <select value={accountRole} onChange={(e) => setAccountRole(e.target.value)}>
+                <option value="STUDENT">Student / Parent</option>
+                <option value="TEACHER">English Teacher</option>
+              </select>
+              <label>Full Name</label>
+
+              <input
+                type="text"
+                placeholder="Enter your name"
+                value={name}
+                onChange={(e) =>
+                  setName(e.target.value)
+                }
+              />
+            </>
+          )}
+
+          <label>Email</label>
+
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
             }
           />
 
@@ -2884,6 +3081,8 @@ function AdminWorkspace({ currentUser, handleLogout }) {
   const [consultations, setConsultations] = useState([]);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [consultationSearch, setConsultationSearch] = useState("");
+  const [consultationFilter, setConsultationFilter] = useState("ALL");
   const headers = { "Content-Type": "application/json", Authorization: `Bearer ${currentUser?.token || ""}` };
   async function load() {
     try {
@@ -2895,6 +3094,19 @@ function AdminWorkspace({ currentUser, handleLogout }) {
     } catch(e) { setError(e.message); }
   }
   useEffect(()=>{load();},[]);
+  const filteredConsultations = consultations.filter((item) => {
+    const matchesStatus = consultationFilter === "ALL" || item.status === consultationFilter;
+    const term = consultationSearch.trim().toLowerCase();
+    const matchesSearch = !term || [item.studentName, item.email, item.teacherName, item.status]
+      .filter(Boolean).some((value) => String(value).toLowerCase().includes(term));
+    return matchesStatus && matchesSearch;
+  });
+  const consultationCounts = consultations.reduce((counts, item) => {
+    const key = item.status || "UNKNOWN";
+    counts[key] = (counts[key] || 0) + 1;
+    return counts;
+  }, {});
+
   async function approve(id) {
     setError(""); setNotice("");
     try { await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/approve`,{method:"POST",headers})); setNotice("Teacher approved."); await load(); }
@@ -2920,6 +3132,9 @@ function AdminWorkspace({ currentUser, handleLogout }) {
   return <WorkspaceShell title="Admin Dashboard" subtitle="Review teacher applications and manage requests" user={currentUser} onLogout={handleLogout}>
     {notice&&<p style={{background:"#ecfdf3",color:"#067647",padding:12,borderRadius:10}}>{notice}</p>}
     {error&&<p style={{background:"#fef3f2",color:"#b42318",padding:12,borderRadius:10}}>{error}</p>}
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",gap:12,marginBottom:20}}>
+      {[["Pending teachers",teachers.length],["Total consultations",consultations.length],["Pending",consultationCounts.PENDING||0],["Approved",consultationCounts.APPROVED||0],["Completed",consultationCounts.COMPLETED||0]].map(([label,value])=><div className="card" key={label} style={{padding:18}}><p style={{color:"#667085",fontSize:13,margin:0}}>{label}</p><strong style={{fontSize:28}}>{value}</strong></div>)}
+    </div>
     <div className="card" style={{padding:24,marginBottom:20}}>
       <h2>Teacher Verification ({teachers.length})</h2>
       {teachers.length===0?<p style={{color:"#667085"}}>No pending teacher applications.</p>:teachers.map(t=><div key={t.id} style={{borderTop:"1px solid #eee",padding:"16px 0",display:"flex",justifyContent:"space-between",gap:16,flexWrap:"wrap"}}>
@@ -2931,8 +3146,14 @@ function AdminWorkspace({ currentUser, handleLogout }) {
       </div>)}
     </div>
     <div className="card" style={{padding:24}}>
-      <h2>Consultation Requests ({consultations.length})</h2>
-      {consultations.length===0?<p style={{color:"#667085"}}>No requests yet.</p>:consultations.map(c=><div key={c.id} style={{borderTop:"1px solid #eee",padding:"14px 0"}}>
+      <h2>Consultation Requests ({filteredConsultations.length} of {consultations.length})</h2>
+      <div style={{display:"flex",gap:10,flexWrap:"wrap",margin:"14px 0"}}>
+        <input aria-label="Search consultations" placeholder="Search student or email" value={consultationSearch} onChange={e=>setConsultationSearch(e.target.value)} style={{flex:"1 1 220px",padding:11,border:"1px solid #ddd",borderRadius:9}} />
+        <select aria-label="Filter consultation status" value={consultationFilter} onChange={e=>setConsultationFilter(e.target.value)} style={{padding:11,border:"1px solid #ddd",borderRadius:9}}>
+          {["ALL","PENDING","APPROVED","REJECTED","COMPLETED"].map(status=><option key={status} value={status}>{status==="ALL"?"All statuses":status}</option>)}
+        </select>
+      </div>
+      {filteredConsultations.length===0?<p style={{color:"#667085"}}>No matching consultation requests.</p>:filteredConsultations.map(c=><div key={c.id} style={{borderTop:"1px solid #eee",padding:"14px 0"}}>
         <b>{c.studentName}</b> · {c.email}<p>{c.preferredDate} · {c.preferredTime} · <strong>{c.status}</strong></p>
         <button className="login-btn" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide":"View"} Student Profile</button>
         {selectedStudent===c.id && <div style={{background:"#f8fafc",padding:12,borderRadius:10,marginTop:8}}>
