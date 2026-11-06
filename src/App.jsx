@@ -2719,6 +2719,20 @@ function WorkspaceShell({ title, subtitle, user, onLogout, children }) {
   );
 }
 
+function getYouTubeVideoId(value) {
+  try {
+    const url = new URL(value);
+    const host = url.hostname.replace(/^www\\./, "");
+    if (host === "youtu.be") return url.pathname.split("/").filter(Boolean)[0] || "";
+    if (host === "youtube.com") {
+      if (url.pathname === "/watch") return url.searchParams.get("v") || "";
+      const parts = url.pathname.split("/").filter(Boolean);
+      if (parts[0] === "embed" || parts[0] === "shorts") return parts[1] || "";
+    }
+  } catch (e) {}
+  return "";
+}
+
 function TeacherWorkspace({ currentUser, handleLogout }) {
   const [profile, setProfile] = useState({ category: "Kids English", location: "Online", specialty: "", experience: "", teachingStyle: "Supportive & Interactive", qualification: "", bio: "", hourlyRate: "", lessonDuration: "30", languages: "English", ageRange: "Children", teachingMode: "Online", availability: "" });
   const [profileImage, setProfileImage] = useState(null);
@@ -2799,7 +2813,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
           <label>Video title</label><input value={videoTitle} onChange={e=>setVideoTitle(e.target.value)} required style={{ width:"100%", margin:"6px 0 12px" }} />
           <label>Video URL</label><input type="url" value={videoUrl} onChange={e=>setVideoUrl(e.target.value)} required style={{ width:"100%", margin:"6px 0 12px" }} />
           <button className="signup-btn" disabled={busy || videos.length>=2}>{videos.length>=2?"Two videos added":busy?"Saving...":"Add demo video"}</button>
-          {videos.map(v=>{const videoId=v.videoUrl.match(/(?:youtube\\.com\\/(?:watch\\?v=|embed\\/|shorts\\/)|youtu\\.be\\/)([A-Za-z0-9_-]{11})/)?.[1];return <div key={v.id} style={{padding:"12px 0",borderTop:"1px solid #eee"}}><p><a href={v.videoUrl} target="_blank" rel="noreferrer">{v.title}</a></p>{videoId?<iframe title={v.title} src={`https://www.youtube.com/embed/${videoId}`} style={{width:"100%",aspectRatio:"16 / 9",border:0,borderRadius:12}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />:<p style={{color:"#667085"}}>Preview is unavailable for this link. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</div>})}
+          {videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);return <div key={v.id} style={{padding:"12px 0",borderTop:"1px solid #eee"}}><p><a href={v.videoUrl} target="_blank" rel="noreferrer">{v.title}</a></p>{videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} style={{width:"100%",aspectRatio:"16 / 9",border:0,borderRadius:12}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p style={{color:"#667085"}}>Preview is unavailable for this link. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</div>})}
         </form>
         <div className="card" style={{ padding:24 }}>
           <h2>Demo Class Requests</h2>
