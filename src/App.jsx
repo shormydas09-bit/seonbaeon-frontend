@@ -2802,6 +2802,21 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       await readResponse(res); setVideoTitle(""); setVideoUrl(""); setNotice("Demo video added."); await load();
     } catch (e) { setError(e.message); } finally { setBusy(false); }
   }
+
+  async function deleteVideo(id) {
+    if (!window.confirm("Delete this demo video?")) return;
+    setBusy(true); setError(""); setNotice("");
+    try {
+      const res = await fetch(`${API_URL}/workspace/teacher/videos/${id}`, { method: "DELETE", headers });
+      await readResponse(res);
+      setNotice("Demo video deleted.");
+      await load();
+    } catch (e) {
+      setError(e.message || "Could not delete demo video.");
+    } finally {
+      setBusy(false);
+    }
+  }
   return <WorkspaceShell title="Teacher Dashboard" subtitle="Manage your teaching profile and demo lessons" user={currentUser} onLogout={handleLogout}>
     {notice && <p style={{ background: "#ecfdf3", color: "#067647", padding: 12, borderRadius: 10 }}>{notice}</p>}
     {error && <p style={{ background: "#fef3f2", color: "#b42318", padding: 12, borderRadius: 10 }}>{error}</p>}
@@ -2825,7 +2840,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
           <label>Video title</label><input value={videoTitle} onChange={e=>setVideoTitle(e.target.value)} required style={{ width:"100%", margin:"6px 0 12px" }} />
           <label>Video URL</label><input type="url" value={videoUrl} onChange={e=>setVideoUrl(e.target.value)} required style={{ width:"100%", margin:"6px 0 12px" }} />
           <button className="signup-btn" disabled={busy || videos.length>=2}>{videos.length>=2?"Two videos added":busy?"Saving...":"Add demo video"}</button>
-          {videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);return <div key={v.id} style={{padding:"12px 0",borderTop:"1px solid #eee"}}><p><a href={v.videoUrl} target="_blank" rel="noreferrer">{v.title}</a></p>{videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} style={{width:"100%",aspectRatio:"16 / 9",border:0,borderRadius:12}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p style={{color:"#667085"}}>Preview is unavailable for this link. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</div>})}
+          {videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);return <div key={v.id} style={{padding:"12px 0",borderTop:"1px solid #eee"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}><p style={{margin:"0 0 10px"}}><a href={v.videoUrl} target="_blank" rel="noreferrer">{v.title}</a></p><button type="button" disabled={busy} onClick={()=>deleteVideo(v.id)} style={{background:"#fff",color:"#b42318",border:"1px solid #fda29b",borderRadius:8,padding:"7px 12px",fontWeight:600,cursor:"pointer"}}>Delete</button></div>{videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} style={{width:"100%",aspectRatio:"16 / 9",border:0,borderRadius:12}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p style={{color:"#667085"}}>Preview is unavailable for this link. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</div>})}
         </form>
         <div className="card" style={{ padding:24 }}>
           <h2>Demo Class Requests</h2>
