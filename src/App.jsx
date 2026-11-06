@@ -2542,6 +2542,9 @@ function StudentDashboard({
             Manage your Pick My Teacher learning experience
             from one place.
           </p>
+          <div style={{ marginTop: 16 }}>
+            <NotificationCenter user={currentUser} />
+          </div>
         </div>
 
         <div
