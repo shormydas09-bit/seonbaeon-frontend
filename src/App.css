@@ -4869,3 +4869,185 @@ button:disabled { cursor: not-allowed; opacity: .55; transform: none !important;
   .notification-panel-heading { flex-direction: column; }
   .notification-actions { justify-content: flex-start; }
 }
+
+
+/* =========================================================
+   PICK MY TEACHER — UI/UX FINISHING PASS
+   Consistent surfaces, dashboard readability and responsive polish
+   ========================================================= */
+:root {
+  --pmt-primary: #315fe8;
+  --pmt-primary-hover: #244dcc;
+  --pmt-ink: #172033;
+  --pmt-text: #344054;
+  --pmt-muted: #667085;
+  --pmt-border: #e7eaf0;
+  --pmt-bg: #f6f8fc;
+  --pmt-surface: #ffffff;
+  --pmt-soft-blue: #eef3ff;
+  --pmt-radius: 16px;
+  --pmt-shadow: 0 8px 28px rgba(23,32,51,.055);
+}
+html { scroll-padding-top: 88px; }
+body { background: var(--pmt-bg); color: var(--pmt-text); }
+::selection { background: #dce7ff; color: var(--pmt-ink); }
+
+/* Consistent page canvas */
+.app { min-height: 100vh; }
+.navbar { backdrop-filter: blur(14px); }
+.logo { white-space: nowrap; }
+.hero-section {
+  min-height: 610px;
+  padding: clamp(54px, 7vw, 96px) clamp(24px, 8vw, 120px);
+  background: radial-gradient(ellipse at 85% 20%, #e9efff 0, transparent 34%), #f7f9fd;
+}
+.hero-content h1 { color: var(--pmt-ink); font-size: clamp(42px, 5.4vw, 68px); }
+.hero-content h1 span { color: var(--pmt-primary); }
+.hero-text { color: #596579; max-width: 560px; }
+.small-title { color: var(--pmt-primary); letter-spacing: .13em; }
+.hero-card { border: 1px solid var(--pmt-border); border-radius: 24px; box-shadow: 0 24px 65px rgba(23,32,51,.10); }
+.mentor-avatar { background: linear-gradient(145deg,#e8efff,#d9e4ff); color: var(--pmt-primary); font-weight: 800; }
+.trust-info { gap: clamp(16px,3vw,34px); }
+.trust-info strong { color: var(--pmt-ink); }
+.trust-info span { color: var(--pmt-muted); }
+.search-section { background: #fff; }
+.search-section h2, .how-section h2, .cta-section h2 { color: var(--pmt-ink); }
+.how-section { background: #f7f9fd; }
+.step { border: 1px solid var(--pmt-border); box-shadow: var(--pmt-shadow); transition: transform .2s, box-shadow .2s; }
+.step:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(23,32,51,.08); }
+.step-number { color: var(--pmt-primary); font-weight: 800; }
+.cta-section { background: linear-gradient(135deg,#edf2ff,#f7f9fd); }
+footer { background: #172033; }
+
+/* Search and profile surfaces */
+.teachers-header { max-width: 1320px; margin: 0 auto; }
+.teachers-header h1 { color: var(--pmt-ink); letter-spacing: -.04em; }
+.teacher-search-area { max-width: 1320px; }
+.search-top { border: 1px solid var(--pmt-border); border-radius: 16px; }
+.teacher-card { border-radius: 18px; padding: 24px; }
+.teacher-avatar, .comparison-avatar, .profile-avatar { background: linear-gradient(145deg,#eaf0ff,#dce6ff); color: var(--pmt-primary); }
+.teacher-card h2, .profile-name-row h1 { color: var(--pmt-ink); }
+.teacher-specialty, .teachers-header > div > p:last-child { color: var(--pmt-muted); }
+.teacher-tags span, .profile-tags span { border-radius: 999px; padding: 7px 11px; }
+.profile-page { padding-top: 42px; }
+.profile-header { align-items: center; }
+.profile-section, .booking-card, .quick-info { box-shadow: var(--pmt-shadow); }
+.profile-section h2 { letter-spacing: -.025em; }
+.booking-card { position: sticky; top: 94px; align-self: start; }
+.review-card { padding: 18px 0; }
+.review-top strong { color: var(--pmt-ink); }
+
+/* Shared controls */
+button, input, select, textarea { transition: border-color .18s, box-shadow .18s, background .18s, transform .18s; }
+button { font-weight: 600; }
+button:active { transform: translateY(0); }
+input, select, textarea {
+  min-height: 44px;
+  border: 1px solid #d8deea;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+}
+textarea { min-height: 100px; }
+input::placeholder, textarea::placeholder { color: #98a2b3; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid rgba(49,95,232,.22);
+  outline-offset: 2px;
+}
+.primary-btn, .view-profile, .consultation-btn, .auth-submit, .submit-consultation, .watch-demo-btn, .search-box button, .signup-btn {
+  background: var(--pmt-primary);
+  border: 1px solid var(--pmt-primary);
+  border-radius: 11px;
+  font-weight: 750;
+}
+.primary-btn:hover, .view-profile:hover, .consultation-btn:hover, .auth-submit:hover, .submit-consultation:hover, .watch-demo-btn:hover, .search-box button:hover, .signup-btn:hover {
+  background: var(--pmt-primary-hover);
+  border-color: var(--pmt-primary-hover);
+}
+.secondary-btn, .compare-btn, .compare-profile-btn, .comparison-secondary {
+  border: 1px solid var(--pmt-border);
+  border-radius: 11px;
+  background: #fff;
+}
+.form-error, .form-success { padding: 12px 14px; line-height: 1.5; }
+
+/* Dashboards and workspace panels */
+.workspace-shell, .dashboard-page, .student-dashboard, .teacher-workspace, .admin-workspace {
+  color: var(--pmt-text);
+}
+.workspace-shell { background: var(--pmt-bg); }
+.workspace-shell h1, .workspace-shell h2, .workspace-shell h3,
+.dashboard-page h1, .dashboard-page h2, .dashboard-page h3 {
+  color: var(--pmt-ink);
+}
+.workspace-shell section, .workspace-shell .card, .workspace-shell [class*="panel"],
+.dashboard-page .card, .dashboard-page [class*="panel"] {
+  border-radius: var(--pmt-radius);
+}
+.workspace-shell .card, .workspace-shell [class*="panel"],
+.dashboard-page .card, .dashboard-page [class*="panel"] {
+  border-color: var(--pmt-border);
+  box-shadow: var(--pmt-shadow);
+}
+.workspace-shell label, .dashboard-page label { color: #475467; font-weight: 650; }
+.workspace-shell button, .dashboard-page button { border-radius: 9px; }
+.workspace-shell input, .workspace-shell select, .workspace-shell textarea,
+.dashboard-page input, .dashboard-page select, .dashboard-page textarea {
+  border-color: #d8deea;
+  border-radius: 10px;
+}
+.workspace-shell table, .dashboard-page table { width: 100%; border-collapse: collapse; }
+.workspace-shell th, .workspace-shell td, .dashboard-page th, .dashboard-page td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--pmt-border);
+  text-align: left;
+}
+.workspace-shell th, .dashboard-page th {
+  color: #475467;
+  background: #f8faff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .04em;
+}
+.workspace-shell tr:last-child td, .dashboard-page tr:last-child td { border-bottom: 0; }
+.workspace-shell p, .dashboard-page p { overflow-wrap: anywhere; }
+.status-pill { border-radius: 999px; }
+
+/* Modal clarity */
+.compare-overlay, .consultation-overlay { backdrop-filter: blur(5px); }
+.compare-modal, .consultation-modal { border-radius: 20px; }
+.compare-close, .close-consultation { width: 38px; height: 38px; border-radius: 50%; background: #f8fafc; }
+
+/* Mobile usability */
+.mobile-menu-button { border-radius: 10px; }
+.mobile-nav-panel {
+  border: 1px solid var(--pmt-border);
+  border-radius: 14px;
+  box-shadow: 0 18px 45px rgba(23,32,51,.14);
+}
+@media (max-width: 900px) {
+  .hero-section { gap: 34px; }
+  .booking-card { position: static; }
+  .profile-header { flex-wrap: wrap; }
+}
+@media (max-width: 650px) {
+  .hero-section { min-height: auto; }
+  .hero-content h1 { letter-spacing: -.045em; }
+  .trust-info { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+  .trust-info span { font-size: 11px; }
+  .teacher-grid { grid-template-columns: 1fr; }
+  .teacher-card { padding: 20px; }
+  .profile-page { padding: 28px 16px; }
+  .profile-header { gap: 18px; padding: 20px; }
+  .profile-avatar { width: 84px; height: 84px; font-size: 44px; }
+  .profile-name-row { gap: 12px; }
+  .profile-name-row h1 { font-size: 26px; }
+  .comparison-row { grid-template-columns: .85fr 1fr 1fr; }
+  .comparison-row > div { padding: 10px 8px; font-size: 12px; overflow-wrap: anywhere; }
+  .compare-modal { padding: 20px 14px; }
+  .workspace-shell, .dashboard-page { overflow-x: hidden; }
+  .workspace-shell table, .dashboard-page table { display: block; overflow-x: auto; white-space: nowrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
