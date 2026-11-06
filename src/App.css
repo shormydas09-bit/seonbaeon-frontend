@@ -5721,3 +5721,28 @@ input:focus,select:focus,textarea:focus{border-color:#8ca5ff!important;box-shado
 .theme-dark-premium .teacher-search-area .no-results{background:linear-gradient(145deg,#172743,#101c31)!important;color:#edf3ff!important}
 @media(max-width:900px){#pmt-home-v3 .home-category-grid,#pmt-home-v3 .home-process-section .steps{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:600px){#pmt-home-v3 .home-categories-section{padding:56px 18px!important}#pmt-home-v3 .home-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}#pmt-home-v3 .home-category-grid>.home-category-card{height:128px!important;min-height:128px!important;padding:15px!important}.theme-dark-premium .auth-page .auth-card{padding:27px 21px!important}.theme-dark-premium .teacher-grid{grid-template-columns:1fr!important}}
+
+
+/* Premium dark surfaces for the admin consultation cards */
+.app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-card{background:linear-gradient(135deg,#182944,#111d32)!important;background-color:#172640!important;color:#edf3ff!important;border:1px solid rgba(151,174,224,.22)!important;border-radius:20px!important;box-shadow:0 16px 38px rgba(0,0,0,.25)!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-student-identity strong,.app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-meta span{color:#e8efff!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-student-identity span,.app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-meta b{color:#94a6c5!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-meta{border-color:rgba(151,174,224,.16)!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-avatar{background:linear-gradient(145deg,#304a78,#24385d)!important;color:#dce7ff!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-secondary-action,.app.theme-dark-premium .admin-dashboard-redesign .admin-status-action,.app.theme-dark-premium .admin-dashboard-redesign .admin-remove-action{background:#213451!important;color:#dce7fb!important;border:1px solid rgba(151,174,224,.22)!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-status-action.selected{background:#304a83!important;color:#fff!important;border-color:#6d8ce8!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-status-badge{background:#293a56!important;color:#d8e3f8!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-status-badge.status-pending{background:#493b26!important;color:#f6d28b!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-status-badge.status-approved{background:#1d493e!important;color:#9ce4c9!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-status-badge.status-rejected{background:#4b2c36!important;color:#ffb4bf!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-status-badge.status-completed{background:#293d70!important;color:#c5d4ff!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-filters input,.app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-filters select{background:#111e33!important;color:#edf3ff!important;border:1px solid rgba(151,174,224,.24)!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-total-count{background:#1b2c48!important;color:#dce7fb!important;border-color:rgba(151,174,224,.2)!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-heading h2{color:#f2f5ff!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-heading p:not(.eyebrow){color:#a2b1ca!important}
+.app.theme-dark-premium .admin-dashboard-redesign .card{background:linear-gradient(145deg,#182944,#111d32)!important;color:#edf3ff!important;border:1px solid rgba(151,174,224,.18)!important}
+.app.theme-dark-premium .admin-dashboard-redesign .card h2,.app.theme-dark-premium .admin-dashboard-redesign .card h3,.app.theme-dark-premium .admin-dashboard-redesign .card b{color:#edf3ff!important}
+.app.theme-dark-premium .admin-dashboard-redesign .card p,.app.theme-dark-premium .admin-dashboard-redesign .card small{color:#a7b5cc}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row{border-color:rgba(151,174,224,.18)!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row strong,.app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row p{color:#eaf0ff!important}
+.app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row small{color:#a7b5cc!important}
