@@ -5283,3 +5283,49 @@ input:focus,select:focus,textarea:focus{border-color:#8ca5ff!important;box-shado
 .teacher-profile-redesign .quick-info strong{color:#30415d}
 .teacher-profile-redesign button{border-radius:11px}
 @media(max-width:700px){.student-dashboard-redesign>section{padding:22px 14px 50px!important}.student-dashboard-redesign>section>div:first-child{padding:22px 18px}.teacher-search-redesign .teachers-header{padding:24px 16px 16px}.teacher-search-redesign .teachers-grid{padding:0 14px;gap:14px}.teacher-profile-redesign{padding:18px 12px 40px}}
+
+
+/* Premium public landing page, authentication and workspace shell */
+.home-premium-redesign{overflow:hidden;background:#f7f9fe;color:#172642}
+.home-premium-redesign .hero-section{position:relative;isolation:isolate;min-height:560px;padding:clamp(70px,9vw,118px) 24px;background:radial-gradient(ellipse at 80% 20%,rgba(139,169,255,.35),transparent 34%),linear-gradient(120deg,#f7f9ff 0%,#edf3ff 54%,#f9fbff 100%)}
+.home-premium-redesign .hero-section:before{content:"";position:absolute;z-index:-1;width:390px;height:390px;border-radius:50%;right:7%;top:8%;border:1px solid rgba(82,117,215,.13);box-shadow:0 0 0 38px rgba(92,127,220,.035),0 0 0 78px rgba(92,127,220,.025)}
+.home-premium-redesign .hero-content{position:relative;max-width:1180px;margin:0 auto}
+.home-premium-redesign .small-title{display:inline-flex;padding:9px 13px;border:1px solid #dbe5ff;border-radius:999px;background:rgba(255,255,255,.76);color:#4565c5;font-size:11px;font-weight:800;letter-spacing:.13em}
+.home-premium-redesign .hero-content h1{max-width:760px;margin:18px 0;font-size:clamp(42px,6.7vw,76px);line-height:1.04;letter-spacing:-.065em;color:#172744}
+.home-premium-redesign .hero-content h1 span{color:#4265e8}
+.home-premium-redesign .hero-text{max-width:590px;color:#687994;font-size:17px;line-height:1.8}
+.home-premium-redesign .hero-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.home-premium-redesign .hero-buttons button{min-height:48px;padding:0 22px;border-radius:13px;font-weight:750}
+.home-premium-redesign .hero-section+.section,.home-premium-redesign .how-section{padding:78px 24px}
+.home-premium-redesign .how-section>*,.home-premium-redesign .steps-grid{max-width:1180px;margin-left:auto;margin-right:auto}
+.home-premium-redesign .steps-grid{gap:16px}
+.home-premium-redesign .step{padding:25px;border:1px solid #e5eaf4;border-radius:19px;background:#fff;box-shadow:0 10px 28px rgba(31,52,93,.05)}
+.home-premium-redesign .step-number{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:#edf2ff;color:#4262d2;font-weight:850}
+.home-premium-redesign .step h3{color:#243653;letter-spacing:-.025em}
+.home-premium-redesign .step p{color:#728097;line-height:1.7}
+.home-premium-redesign .cta-section{margin:30px auto 0;max-width:1180px;padding:clamp(34px,6vw,68px) 24px;border-radius:26px;background:radial-gradient(ellipse at 85% 10%,rgba(255,255,255,.2),transparent 32%),linear-gradient(120deg,#203e9e,#4266e8);color:#fff;box-shadow:0 18px 44px rgba(45,75,170,.2)}
+.home-premium-redesign .cta-section h2{font-size:clamp(27px,4vw,40px);letter-spacing:-.045em}
+.home-premium-redesign .cta-section p{color:rgba(255,255,255,.78)}
+.home-premium-redesign .cta-section .primary-btn{background:#fff!important;color:#3154c5!important;box-shadow:none}
+.home-premium-redesign footer{margin-top:65px;padding:45px 24px;background:#111e38;color:#dce5f8}
+.home-premium-redesign footer .logo{color:#fff}
+.home-premium-redesign footer p{color:#aab8d1}
+.auth-premium-redesign{position:relative;isolation:isolate;display:grid;place-items:center;min-height:calc(100vh - 72px);padding:50px 18px!important;background:radial-gradient(ellipse at 15% 12%,#dfe8ff 0,transparent 36%),radial-gradient(ellipse at 90% 90%,#e4eaff 0,transparent 34%),linear-gradient(145deg,#f8faff,#edf2fc)!important}
+.auth-premium-redesign:before{content:"";position:absolute;z-index:-1;inset:24px;border:1px solid rgba(190,204,235,.3);border-radius:28px;pointer-events:none}
+.auth-premium-redesign .auth-card{width:min(100%,490px)!important;padding:clamp(28px,5vw,46px)!important;border:1px solid rgba(255,255,255,.95)!important;border-radius:25px!important;background:rgba(255,255,255,.92)!important;box-shadow:0 24px 70px rgba(39,60,111,.13)!important;backdrop-filter:blur(16px)}
+.auth-premium-redesign .auth-logo{font-size:19px;font-weight:850;color:#203354}
+.auth-premium-redesign .auth-heading h1{font-size:clamp(27px,4vw,34px);letter-spacing:-.045em;color:#1b2b48}
+.auth-premium-redesign .auth-heading p{color:#78869b;line-height:1.65}
+.auth-premium-redesign form{gap:13px}
+.auth-premium-redesign label{color:#40516c;font-size:13px;font-weight:700}
+.auth-premium-redesign input,.auth-premium-redesign select{min-height:47px;padding:11px 13px!important}
+.auth-premium-redesign form button{min-height:48px;border-radius:12px;font-weight:750}
+.auth-premium-redesign .auth-switch{color:#78869b}
+.auth-premium-redesign .auth-switch button{color:#3159d8;font-weight:750}
+.workspace-premium-shell{background:radial-gradient(ellipse at 12% 0%,rgba(210,224,255,.55),transparent 36%),linear-gradient(180deg,#f8faff,#f2f5fb)!important;padding:38px 20px 70px!important}
+.workspace-premium-shell>section{max-width:1180px!important}
+.workspace-premium-shell>section>div:first-child{padding:24px 27px;margin-bottom:22px!important;border:1px solid #e4eaf4;border-radius:21px;background:rgba(255,255,255,.92);box-shadow:0 10px 30px rgba(35,54,91,.05)}
+.workspace-premium-shell>section>div:first-child h1{font-size:clamp(27px,4vw,36px)!important;letter-spacing:-.045em;color:#1c2d4a!important}
+.workspace-premium-shell>section>div:first-child p{line-height:1.6}
+.workspace-premium-shell>section>div:first-child button{border-radius:11px}
+@media(max-width:700px){.home-premium-redesign .hero-section{min-height:0;padding:70px 20px}.home-premium-redesign .hero-content h1{font-size:clamp(39px,12vw,58px)}.home-premium-redesign .hero-text{font-size:15px}.home-premium-redesign .cta-section{margin:18px 12px 0;border-radius:20px}.home-premium-redesign footer{margin-top:40px}.workspace-premium-shell{padding:22px 12px 48px!important}.workspace-premium-shell>section>div:first-child{padding:20px 17px}}
