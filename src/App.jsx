@@ -478,22 +478,35 @@ function TeacherSearch({ goHome, openProfile }) {
 
   async function loadTeachers() {
     const controller = new AbortController();
-    const timeoutId = window.setTimeout(() => controller.abort(), 25000);
+    let timeoutId;
     try {
       setLoading(true);
       setError("");
-      const response = await fetch(`${API_URL}/teachers`, {
-        signal: controller.signal,
-        headers: { Accept: "application/json" },
+      const timeout = new Promise((_, reject) => {
+        timeoutId = window.setTimeout(() => {
+          controller.abort();
+          reject(new Error("Teacher loading timed out after 15 seconds. Please retry."));
+        }, 15000);
       });
-      const data = await readResponse(response);
-      const list = Array.isArray(data) ? data : (Array.isArray(data?.teachers) ? data.teachers : (Array.isArray(data?.content) ? data.content : null));
-      if (!list) throw new Error("The server returned an unexpected teacher list. Please try again.");
+      const request = (async () => {
+        const response = await fetch(`${API_URL}/teachers`, {
+          signal: controller.signal,
+          headers: { Accept: "application/json" },
+          cache: "no-store",
+        });
+        const data = await readResponse(response);
+        const list = Array.isArray(data)
+          ? data
+          : (Array.isArray(data?.teachers)
+            ? data.teachers
+            : (Array.isArray(data?.content) ? data.content : null));
+        if (!list) throw new Error("The server returned an unexpected teacher list. Please try again.");
+        return list;
+      })();
+      const list = await Promise.race([request, timeout]);
       setTeachers(list);
     } catch (err) {
-      setError(err.name === "AbortError"
-        ? "The teacher service is taking too long to respond. The backend may be waking up or unavailable. Please try again."
-        : (err.message || "Could not connect to the backend."));
+      setError(err.message || "Could not connect to the teacher service. Please retry.");
     } finally {
       window.clearTimeout(timeoutId);
       setLoading(false);
