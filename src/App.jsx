@@ -2496,6 +2496,13 @@ function StudentDashboard({
   const [requestError, setRequestError] = useState("");
   const [favoriteTeachers, setFavoriteTeachers] = useState([]);
   const [favoriteError, setFavoriteError] = useState("");
+  const [myLessons, setMyLessons] = useState([]);
+  const [lessonError, setLessonError] = useState("");
+  useEffect(() => {
+    if (!currentUser?.token) return;
+    fetch(`${API_URL}/lessons`, { headers: { Authorization: `Bearer ${currentUser.token}` } })
+      .then(readResponse).then(setMyLessons).catch((e) => setLessonError(e.message));
+  }, [currentUser?.token]);
   useEffect(() => {
     try {
       const savedIds = JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
@@ -2644,6 +2651,18 @@ function StudentDashboard({
             </form>
           </div>
 
+          <div className="card">
+            <div className="dashboard-card-label">MY LEARNING</div>
+            <h3>My Lessons ({myLessons.length})</h3>
+            {lessonError && <p style={{color:"#b42318"}}>{lessonError}</p>}
+            {myLessons.length === 0 ? <p style={{color:"#667085"}}>No lessons scheduled yet. Approved consultation lessons will appear here.</p> : myLessons.map((lesson) => <div key={lesson.id} style={{borderTop:"1px solid #eaecf0",padding:"12px 0"}}>
+              <strong>{lesson.teacherName}</strong>
+              <p style={{margin:"5px 0"}}>{new Date(lesson.scheduledAt).toLocaleString()} · {lesson.durationMinutes} minutes</p>
+              <span style={{fontSize:13,fontWeight:600}}>{lesson.status}</span>
+              {lesson.meetingLink && <p><a href={lesson.meetingLink} target="_blank" rel="noreferrer">Join lesson</a></p>}
+              {lesson.status === "SCHEDULED" && <button type="button" className="compare-btn" onClick={async()=>{if(!window.confirm("Cancel this lesson?"))return;const reason=window.prompt("Optional cancellation reason:")||"";try{await readResponse(await fetch(`${API_URL}/lessons/${lesson.id}/status`,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:`Bearer ${currentUser.token}`},body:JSON.stringify({status:"CANCELLED",reason})}));setMyLessons(old=>old.map(x=>x.id===lesson.id?{...x,status:"CANCELLED",cancellationReason:reason}:x));}catch(e){setLessonError(e.message);}}}>Cancel lesson</button>}
+            </div>)}
+          </div>
           <div className="card">
             <div className="dashboard-card-label">LEARNING PROFILE</div>
             <h3>My Learning Profile</h3>
@@ -2880,6 +2899,9 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
   const [imagePreview, setImagePreview] = useState("");
   const [videos, setVideos] = useState([]);
   const [consultations, setConsultations] = useState([]);
+  const [lessons, setLessons] = useState([]);
+  const [lessonDrafts, setLessonDrafts] = useState({});
+  const [lessonNotice, setLessonNotice] = useState("");
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [videoTitle, setVideoTitle] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
@@ -2899,6 +2921,8 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       if (pd && pd.profile !== "NOT_CREATED") setProfile(old => ({ ...old, ...pd }));
       setVideos(await readResponse(v));
       setConsultations(await readResponse(c));
+      const lessonResponse = await fetch(`${API_URL}/lessons`, { headers });
+      setLessons(await readResponse(lessonResponse));
     } catch (e) { setError(e.message); }
   }
   useEffect(() => { load(); }, []);
@@ -2942,6 +2966,39 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
     } catch (e) { setError(e.message || "Could not update consultation request."); }
     finally { setBusy(false); }
   }
+  async function scheduleLesson(consultation) {
+    const draft = lessonDrafts[consultation.id] || {};
+    if (!draft.scheduledAt) { setError("Choose a lesson date and time first."); return; }
+    setBusy(true); setError(""); setLessonNotice("");
+    try {
+      await readResponse(await fetch(`${API_URL}/lessons/from-consultation/${consultation.id}`, {
+        method:"POST", headers,
+        body:JSON.stringify({ scheduledAt:draft.scheduledAt, durationMinutes:Number(draft.durationMinutes || 30), meetingLink:draft.meetingLink || "", notes:draft.notes || "" })
+      }));
+      setLessonNotice("Lesson scheduled and student notified.");
+      await load();
+    } catch(e) { setError(e.message || "Could not schedule lesson."); }
+    finally { setBusy(false); }
+  }
+  async function updateLesson(id, status) {
+    setBusy(true); setError(""); setLessonNotice("");
+    try {
+      await readResponse(await fetch(`${API_URL}/lessons/${id}/status`, { method:"PATCH", headers, body:JSON.stringify({status}) }));
+      setLessonNotice(status === "COMPLETED" ? "Lesson marked completed." : "Lesson cancelled.");
+      await load();
+    } catch(e) { setError(e.message || "Could not update lesson."); }
+    finally { setBusy(false); }
+  }
+  async function rescheduleLesson(lesson) {
+    const value=window.prompt("Enter new date and time (YYYY-MM-DDTHH:mm):", lesson.scheduledAt?.slice(0,16) || "");
+    if(!value) return;
+    setBusy(true); setError(""); setLessonNotice("");
+    try {
+      await readResponse(await fetch(`${API_URL}/lessons/${lesson.id}/reschedule`, {method:"PATCH",headers,body:JSON.stringify({scheduledAt:value})}));
+      setLessonNotice("Lesson rescheduled."); await load();
+    } catch(e) { setError(e.message || "Could not reschedule lesson."); }
+    finally { setBusy(false); }
+  }
   async function addVideo(e) {
     e.preventDefault(); setBusy(true); setError(""); setNotice("");
     try {
@@ -2966,6 +3023,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
   }
   return <WorkspaceShell title="Teacher Dashboard" subtitle="Manage your teaching profile and demo lessons" user={currentUser} onLogout={handleLogout}>
     {notice && <p style={{ background: "#ecfdf3", color: "#067647", padding: 12, borderRadius: 10 }}>{notice}</p>}
+    {lessonNotice && <p style={{background:"#ecfdf3",color:"#067647",padding:12,borderRadius:10}}>{lessonNotice}</p>}
     {error && <p style={{ background: "#fef3f2", color: "#b42318", padding: 12, borderRadius: 10 }}>{error}</p>}
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 20 }}>
       <form className="card" onSubmit={saveProfile} style={{ padding: 24 }}>
@@ -2990,8 +3048,27 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
           {videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);return <div key={v.id} style={{padding:"12px 0",borderTop:"1px solid #eee"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}><p style={{margin:"0 0 10px"}}><a href={v.videoUrl} target="_blank" rel="noreferrer">{v.title}</a></p><button type="button" disabled={busy} onClick={()=>deleteVideo(v.id)} style={{background:"#fff",color:"#b42318",border:"1px solid #fda29b",borderRadius:8,padding:"7px 12px",fontWeight:600,cursor:"pointer"}}>Delete</button></div>{videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} style={{width:"100%",aspectRatio:"16 / 9",border:0,borderRadius:12}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p style={{color:"#667085"}}>Preview is unavailable for this link. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</div>})}
         </form>
         <div className="card" style={{ padding:24 }}>
+          <h2>Lesson Calendar & Management</h2>
+          {lessons.length===0 ? <p style={{color:"#667085"}}>Scheduled lessons will appear here.</p> : lessons.map(lesson=><div key={lesson.id} style={{borderTop:"1px solid #eee",padding:"12px 0"}}>
+            <b>{lesson.studentName}</b><p>{new Date(lesson.scheduledAt).toLocaleString()} · {lesson.durationMinutes} min · <strong>{lesson.status}</strong></p>
+            {lesson.meetingLink && <p><a href={lesson.meetingLink} target="_blank" rel="noreferrer">Meeting link</a></p>}
+            {lesson.status==="SCHEDULED" && <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+              <button type="button" className="login-btn" disabled={busy} onClick={()=>rescheduleLesson(lesson)}>Reschedule</button>
+              <button type="button" className="signup-btn" disabled={busy} onClick={()=>updateLesson(lesson.id,"COMPLETED")}>Mark completed</button>
+              <button type="button" disabled={busy} onClick={()=>updateLesson(lesson.id,"CANCELLED")}>Cancel</button>
+            </div>}
+          </div>)}
+        </div>
+        <div className="card" style={{ padding:24 }}>
           <h2>Demo Class Requests</h2>
-          {consultations.length===0 ? <p style={{color:"#667085"}}>No requests yet.</p> : consultations.map(c=><div key={c.id} style={{borderTop:"1px solid #eee",padding:"12px 0"}}><b>{c.studentName}</b><p>{c.preferredDate} · {c.preferredTime} · <strong>{c.status}</strong></p><p>{c.message}</p><button type="button" className="login-btn" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide":"View"} Student Profile</button>{selectedStudent===c.id && <div style={{background:"#f8fafc",padding:12,borderRadius:10,marginTop:8}}><p><b>Email:</b> {c.studentProfile?.email || c.email}</p><p><b>Age / Group:</b> {c.studentProfile?.age || "—"} / {c.studentProfile?.ageGroup || "—"}</p><p><b>English Level:</b> {c.studentProfile?.englishLevel || "—"}</p><p><b>Learning Goals:</b> {c.studentProfile?.learningGoals || "—"}</p><p><b>Preferred Category:</b> {c.studentProfile?.preferredCategory || "—"}</p><p><b>Interests:</b> {c.studentProfile?.interests || "—"}</p><p><b>Schedule:</b> {c.studentProfile?.preferredSchedule || "—"}</p><p><b>About:</b> {c.studentProfile?.introduction || "—"}</p>{c.studentProfile?.guardianName && <p><b>Guardian:</b> {c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}</div>}{c.rejectionReason && <p style={{color:"#b42318"}}><b>Teacher rejection reason:</b> {c.rejectionReason}</p>}{c.adminPreviousStatus && <p><b>Admin changed status:</b> {c.adminPreviousStatus} → {c.status} {c.adminNote || ""}</p>}{c.decisionHistory && <p style={{whiteSpace:"pre-line"}}><b>Decision History:</b>{"\\n"}{c.decisionHistory}</p>}{c.status==="PENDING" && <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button type="button" className="signup-btn" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"APPROVED")}>Approve</button><button type="button" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"REJECTED")} style={{background:"#fff",color:"#b42318",border:"1px solid #fda29b",borderRadius:10,padding:"10px 16px",fontWeight:600,cursor:"pointer"}}>Reject</button></div>}</div>)}
+          {consultations.length===0 ? <p style={{color:"#667085"}}>No requests yet.</p> : consultations.map(c=><div key={c.id} style={{borderTop:"1px solid #eee",padding:"12px 0"}}><b>{c.studentName}</b><p>{c.preferredDate} · {c.preferredTime} · <strong>{c.status}</strong></p><p>{c.message}</p><button type="button" className="login-btn" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide":"View"} Student Profile</button>{selectedStudent===c.id && <div style={{background:"#f8fafc",padding:12,borderRadius:10,marginTop:8}}><p><b>Email:</b> {c.studentProfile?.email || c.email}</p><p><b>Age / Group:</b> {c.studentProfile?.age || "—"} / {c.studentProfile?.ageGroup || "—"}</p><p><b>English Level:</b> {c.studentProfile?.englishLevel || "—"}</p><p><b>Learning Goals:</b> {c.studentProfile?.learningGoals || "—"}</p><p><b>Preferred Category:</b> {c.studentProfile?.preferredCategory || "—"}</p><p><b>Interests:</b> {c.studentProfile?.interests || "—"}</p><p><b>Schedule:</b> {c.studentProfile?.preferredSchedule || "—"}</p><p><b>About:</b> {c.studentProfile?.introduction || "—"}</p>{c.studentProfile?.guardianName && <p><b>Guardian:</b> {c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}</div>}{c.rejectionReason && <p style={{color:"#b42318"}}><b>Teacher rejection reason:</b> {c.rejectionReason}</p>}{c.adminPreviousStatus && <p><b>Admin changed status:</b> {c.adminPreviousStatus} → {c.status} {c.adminNote || ""}</p>}{c.decisionHistory && <p style={{whiteSpace:"pre-line"}}><b>Decision History:</b>{"\\n"}{c.decisionHistory}</p>}{c.status==="PENDING" && <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button type="button" className="signup-btn" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"APPROVED")}>Approve</button><button type="button" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"REJECTED")} style={{background:"#fff",color:"#b42318",border:"1px solid #fda29b",borderRadius:10,padding:"10px 16px",fontWeight:600,cursor:"pointer"}}>Reject</button></div>}
+            {c.status==="APPROVED" && !lessons.some(l=>l.consultationId===c.id) && <div style={{background:"#f8fafc",padding:12,borderRadius:10,marginTop:10}}>
+              <b>Schedule first lesson</b>
+              <label style={{display:"block",marginTop:8}}>Date & time <input type="datetime-local" min={new Date().toISOString().slice(0,16)} value={lessonDrafts[c.id]?.scheduledAt||""} onChange={e=>setLessonDrafts(old=>({...old,[c.id]:{...old[c.id],scheduledAt:e.target.value}}))}/></label>
+              <label style={{display:"block",marginTop:8}}>Duration <select value={lessonDrafts[c.id]?.durationMinutes||30} onChange={e=>setLessonDrafts(old=>({...old,[c.id]:{...old[c.id],durationMinutes:e.target.value}}))}><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option><option value="90">90 minutes</option></select></label>
+              <label style={{display:"block",marginTop:8}}>Meeting link (optional) <input type="url" value={lessonDrafts[c.id]?.meetingLink||""} onChange={e=>setLessonDrafts(old=>({...old,[c.id]:{...old[c.id],meetingLink:e.target.value}}))}/></label>
+              <button type="button" className="signup-btn" disabled={busy} style={{marginTop:10}} onClick={()=>scheduleLesson(c)}>Schedule lesson</button>
+            </div>}</div>)}
         </div>
       </div>
     </div>
