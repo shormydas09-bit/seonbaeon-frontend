@@ -528,3 +528,110 @@ button:disabled { cursor:not-allowed; opacity:.55; }
 #root .app.theme-dark-premium .admin-dashboard-redesign .card button {
   opacity:1!important;
 }
+
+
+/* Product-wide finishing pass: legibility, rhythm, responsive behavior */
+#root .app.theme-dark-premium { isolation:isolate; }
+#root .app.theme-dark-premium :where(p,li,small,label,span) { overflow-wrap:anywhere; }
+#root .app.theme-dark-premium :where(input,select,textarea) {
+  color:#1c3858!important; background:#fff!important; border:1px solid #d4e1ef!important;
+  border-radius:12px!important; box-shadow:none!important; min-height:46px;
+}
+#root .app.theme-dark-premium :where(input,select,textarea):focus {
+  border-color:#6ba0eb!important; box-shadow:0 0 0 4px rgba(52,120,229,.11)!important; outline:0!important;
+}
+#root .app.theme-dark-premium :where(input,textarea)::placeholder { color:#91a0b3!important; opacity:1; }
+#root .app.theme-dark-premium :where(button,a) { -webkit-tap-highlight-color:transparent; }
+#root .app.theme-dark-premium button { transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease; }
+#root .app.theme-dark-premium .back-home {
+  display:inline-flex; align-items:center; gap:8px; padding:10px 15px!important; margin:20px 0;
+  color:#2866b7!important; background:#fff!important; border:1px solid #d8e5f3!important;
+  border-radius:11px!important; font-weight:700;
+}
+#root .app.theme-dark-premium .results-header { align-items:center; gap:14px; color:#1c3858; }
+#root .app.theme-dark-premium .results-header strong { color:#19395f!important; font-size:18px; }
+#root .app.theme-dark-premium .results-header span { color:#6c8098!important; }
+#root .app.theme-dark-premium .teacher-card .rating { color:#a66a13!important; font-weight:800; }
+#root .app.theme-dark-premium .teacher-card .teacher-specialty { color:#627891!important; line-height:1.55; }
+#root .app.theme-dark-premium .teacher-card .teacher-stats { border-color:#e7eef6!important; }
+#root .app.theme-dark-premium .teacher-card .teacher-stats strong { color:#1d426b!important; }
+#root .app.theme-dark-premium .teacher-card .teacher-stats small { color:#7b8da3!important; }
+#root .app.theme-dark-premium .teacher-card .favorite-btn {
+  color:#55718f!important; background:#fff!important; border:1px solid #e0e9f4!important;
+  box-shadow:0 4px 12px rgba(27,62,105,.06);
+}
+#root .app.theme-dark-premium .teacher-card .favorite-btn.favorite-active { color:#d94f70!important; background:#fff4f6!important; }
+#root .app.theme-dark-premium .compare-bar { display:flex; flex-wrap:wrap; align-items:center; gap:16px; padding:18px 20px!important; }
+#root .app.theme-dark-premium .compare-title strong { color:#fff!important; }
+#root .app.theme-dark-premium .compare-title span { color:#d6e6fa!important; }
+#root .app.theme-dark-premium .compare-mini-card { color:#fff!important; background:rgba(255,255,255,.1)!important; border:1px solid rgba(255,255,255,.18)!important; }
+#root .app.theme-dark-premium .compare-mini-card strong { color:#fff!important; }
+#root .app.theme-dark-premium .compare-now-btn { color:#245b9f!important; background:#fff!important; border:0!important; border-radius:11px!important; font-weight:800; }
+#root .app.theme-dark-premium .compare-modal,
+#root .app.theme-dark-premium .consultation-modal { color:#1c3858!important; background:#fff!important; border:1px solid #e0e9f4!important; border-radius:22px!important; box-shadow:0 28px 90px rgba(15,39,70,.24)!important; }
+#root .app.theme-dark-premium .comparison-row>div:first-child { color:#4b6682!important; background:#f3f7fc!important; }
+#root .app.theme-dark-premium .comparison-row>div { color:#29445f!important; border-color:#e5edf6!important; }
+#root .app.theme-dark-premium .profile-page { min-height:100vh; padding:24px clamp(16px,5vw,72px) 72px; color:#1c3858!important; background:#f3f7fc!important; }
+#root .app.theme-dark-premium .profile-container { width:min(100%,1180px); margin:0 auto; }
+#root .app.theme-dark-premium .profile-header,
+#root .app.theme-dark-premium .profile-section,
+#root .app.theme-dark-premium .profile-layout>aside,
+#root .app.theme-dark-premium .profile-layout>div {
+  color:#1c3858!important; background:#fff!important; border:1px solid #e0e9f4!important;
+  border-radius:20px!important; box-shadow:var(--pmt-shadow)!important;
+}
+#root .app.theme-dark-premium .profile-header { padding:clamp(22px,4vw,36px)!important; }
+#root .app.theme-dark-premium .profile-header h1,
+#root .app.theme-dark-premium .profile-section h2,
+#root .app.theme-dark-premium .profile-section h3 { color:#19395f!important; }
+#root .app.theme-dark-premium .profile-header p,
+#root .app.theme-dark-premium .profile-section p { color:#627891!important; line-height:1.75; }
+#root .app.theme-dark-premium .profile-tags span { color:#2866b7!important; background:#edf5ff!important; border:1px solid #dceafa!important; border-radius:999px!important; padding:7px 11px!important; }
+#root .app.theme-dark-premium .profile-stat { color:#1d426b!important; }
+#root .app.theme-dark-premium .profile-stat span { color:#71849a!important; }
+#root .app.theme-dark-premium .profile-section { padding:clamp(20px,3vw,30px)!important; margin:18px 0!important; }
+#root .app.theme-dark-premium .profile-layout { gap:20px!important; }
+#root .app.theme-dark-premium .profile-page button:not(.submit-consultation) { border-radius:11px!important; }
+#root .app.theme-dark-premium .profile-page .submit-consultation { color:#fff!important; background:linear-gradient(115deg,#4388ed,#2867ce)!important; border:0!important; border-radius:12px!important; }
+#root .app.theme-dark-premium .teacher-dashboard-redesign,
+#root .app.theme-dark-premium .admin-dashboard-redesign { width:min(100%,1280px); margin:0 auto; padding:clamp(20px,4vw,48px) clamp(16px,3vw,28px) 72px; color:#1c3858!important; }
+#root .app.theme-dark-premium .teacher-dashboard-redesign h1,
+#root .app.theme-dark-premium .admin-dashboard-redesign h1 { color:#17395f!important; font-size:clamp(28px,3vw,40px)!important; }
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card,
+#root .app.theme-dark-premium .admin-dashboard-redesign .card { margin:14px 0; }
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card :where(strong,b,h2,h3,label) ,
+#root .app.theme-dark-premium .admin-dashboard-redesign .card :where(strong,b,h2,h3,label) { color:#19395f!important; }
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card :where(p,small),
+#root .app.theme-dark-premium .admin-dashboard-redesign .card :where(p,small) { color:#627891!important; }
+#root .app.theme-dark-premium .student-dashboard-redesign .card :where(strong,b,h2,h3,label) { color:#19395f!important; }
+#root .app.theme-dark-premium .student-dashboard-redesign .card :where(p,small) { color:#627891!important; }
+#root .app.theme-dark-premium .teacher-dashboard-redesign button,
+#root .app.theme-dark-premium .admin-dashboard-redesign button,
+#root .app.theme-dark-premium .student-dashboard-redesign button { min-height:40px; }
+#root .app.theme-dark-premium .teacher-dashboard-redesign button.signup-btn,
+#root .app.theme-dark-premium .admin-dashboard-redesign button.signup-btn,
+#root .app.theme-dark-premium .student-dashboard-redesign button.signup-btn { color:#fff!important; background:linear-gradient(115deg,#4388ed,#2867ce)!important; border-color:#3478e5!important; }
+#root .app.theme-dark-premium .notification-panel { color:#1c3858!important; }
+#root .app.theme-dark-premium .notification-panel * { max-width:100%; }
+#root .app.theme-dark-premium .auth-page { padding:40px 18px 64px; }
+#root .app.theme-dark-premium .auth-card { margin:auto; }
+@media(max-width:820px) {
+  #root .app.theme-dark-premium .navbar { gap:10px; }
+  #root .app.theme-dark-premium .nav-links { gap:2px!important; }
+  #root .app.theme-dark-premium .nav-links button { padding:8px 10px!important; font-size:12px!important; }
+  #root .app.theme-dark-premium .nav-buttons button { padding:8px 11px!important; font-size:12px!important; }
+  #root .app.theme-dark-premium .profile-layout { display:grid!important; grid-template-columns:1fr!important; }
+  #root .app.theme-dark-premium .profile-header { align-items:flex-start; }
+}
+@media(max-width:560px) {
+  #root .app.theme-dark-premium .navbar { align-items:flex-start; }
+  #root .app.theme-dark-premium .navbar .logo { font-size:18px!important; }
+  #root .app.theme-dark-premium .nav-buttons { margin-left:auto; }
+  #root .app.theme-dark-premium .nav-links { order:4; width:100%; overflow-x:auto; flex-wrap:nowrap; }
+  #root .app.theme-dark-premium .nav-links button { flex:0 0 auto; }
+  #root .app.theme-dark-premium .compare-bar { align-items:stretch; flex-direction:column; }
+  #root .app.theme-dark-premium .compare-selected { flex-wrap:wrap; }
+  #root .app.theme-dark-premium .compare-modal { padding:22px 14px!important; }
+  #root .app.theme-dark-premium .comparison-row { grid-template-columns:100px minmax(120px,1fr) minmax(120px,1fr); }
+  #root .app.theme-dark-premium .comparison-row>div { padding:10px 8px; font-size:12px; }
+}
