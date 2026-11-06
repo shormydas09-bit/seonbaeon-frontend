@@ -2502,12 +2502,15 @@ function TeacherToolsPanel({ user, consultations }) {
   const headers={ "Content-Type":"application/json",Authorization:`Bearer ${user?.token||""}` };
   const [notes,setNotes]=useState([]); const [slots,setSlots]=useState([]); const [analytics,setAnalytics]=useState(null); const [students,setStudents]=useState([]);
   const [studentUserId,setStudentUserId]=useState(""); const [subject,setSubject]=useState(""); const [note,setNote]=useState("");
+  const [editingNoteId,setEditingNoteId]=useState(null); const [editingSubject,setEditingSubject]=useState(""); const [editingText,setEditingText]=useState("");
   const [startsAt,setStartsAt]=useState(""); const [endsAt,setEndsAt]=useState(""); const [slotNote,setSlotNote]=useState("");
   const [notice,setNotice]=useState(""); const [error,setError]=useState("");
   
   async function load(){try{const [n,a,k,st]=await Promise.all([fetch(`${API_URL}/workspace/teacher/progress`,{headers}),fetch(`${API_URL}/workspace/teacher/availability`,{headers}),fetch(`${API_URL}/workspace/teacher/analytics`,{headers}),fetch(`${API_URL}/workspace/teacher/students`,{headers})]);setNotes(await readResponse(n));setSlots(await readResponse(a));setAnalytics(await readResponse(k));setStudents(await readResponse(st));}catch(e){setError(e.message);}}
   useEffect(()=>{load();},[]);
   async function saveNote(e){e.preventDefault();setError("");setNotice("");try{await readResponse(await fetch(`${API_URL}/workspace/teacher/progress`,{method:"POST",headers,body:JSON.stringify({studentUserId,subject,note})}));setSubject("");setNote("");setNotice("Student progress note saved.");await load();}catch(e){setError(e.message);}}
+  async function updateProgressNote(e,id){e.preventDefault();setError("");setNotice("");try{await readResponse(await fetch(`${API_URL}/workspace/teacher/progress/${id}`,{method:"PUT",headers,body:JSON.stringify({subject:editingSubject,note:editingText})}));setEditingNoteId(null);setNotice("Progress note updated.");await load();}catch(e){setError(e.message);}}
+  async function deleteProgressNote(id){if(!window.confirm("Delete this progress note?"))return;setError("");setNotice("");try{await readResponse(await fetch(`${API_URL}/workspace/teacher/progress/${id}`,{method:"DELETE",headers}));setNotice("Progress note deleted.");await load();}catch(e){setError(e.message);}}
   async function addSlot(e){e.preventDefault();setError("");setNotice("");try{await readResponse(await fetch(`${API_URL}/workspace/teacher/availability`,{method:"POST",headers,body:JSON.stringify({startsAt,endsAt,note:slotNote})}));setStartsAt("");setEndsAt("");setSlotNote("");setNotice("Availability slot added.");await load();}catch(e){setError(e.message);}}
   async function removeSlot(id){try{await readResponse(await fetch(`${API_URL}/workspace/teacher/availability/${id}`,{method:"DELETE",headers}));await load();}catch(e){setError(e.message);}}
   return <div className="card" style={{padding:24,marginTop:20}}><h2>Teaching Tools & Analytics</h2>
@@ -2521,7 +2524,15 @@ function TeacherToolsPanel({ user, consultations }) {
       <textarea required maxLength="3000" rows="3" placeholder="Write strengths, improvement areas and homework..." value={note} onChange={e=>setNote(e.target.value)}/>
       <button className="signup-btn" disabled={!studentUserId}>Save progress note</button>
     </form>
-    {notes.map(n=><div key={n.id} style={{borderTop:"1px solid #eee",padding:"10px 0"}}><b>{n.subject}</b><p>{n.note}</p><small>{new Date(n.updatedAt).toLocaleString()}</small></div>)}
+    {notes.map(n=><div key={n.id} style={{borderTop:"1px solid #eee",padding:"10px 0"}}>
+      {editingNoteId===n.id?<form onSubmit={e=>updateProgressNote(e,n.id)} style={{display:"grid",gap:8}}>
+        <input required maxLength="120" aria-label="Edit progress note subject" value={editingSubject} onChange={e=>setEditingSubject(e.target.value)}/>
+        <textarea required maxLength="3000" rows="3" aria-label="Edit progress note" value={editingText} onChange={e=>setEditingText(e.target.value)}/>
+        <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button className="signup-btn" type="submit">Save changes</button><button className="login-btn" type="button" onClick={()=>setEditingNoteId(null)}>Cancel</button></div>
+      </form>:<><b>{n.subject}</b><p style={{whiteSpace:"pre-wrap"}}>{n.note}</p><small>{new Date(n.updatedAt).toLocaleString()}</small>
+        <div style={{display:"flex",gap:8,marginTop:8}}><button className="login-btn" type="button" onClick={()=>{setEditingNoteId(n.id);setEditingSubject(n.subject||"");setEditingText(n.note||"");}}>Edit</button><button className="login-btn" type="button" onClick={()=>deleteProgressNote(n.id)}>Delete</button></div>
+      </>}
+    </div>)}
     <h3 style={{marginTop:24}}>Availability Calendar</h3><form onSubmit={addSlot} style={{display:"grid",gap:10,marginTop:10}}>
       <label>Start <input required type="datetime-local" min={new Date().toISOString().slice(0,16)} value={startsAt} onChange={e=>setStartsAt(e.target.value)}/></label>
       <label>End <input required type="datetime-local" min={startsAt||new Date().toISOString().slice(0,16)} value={endsAt} onChange={e=>setEndsAt(e.target.value)}/></label>
