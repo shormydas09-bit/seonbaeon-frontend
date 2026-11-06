@@ -911,3 +911,62 @@ button:disabled { cursor:not-allowed; opacity:.55; }
   #root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-actions { align-items:stretch!important; }
   #root .app.theme-dark-premium .admin-dashboard-redesign .admin-status-actions { width:100%; }
 }
+
+
+/* Hard-scope safety net: these components must remain light regardless of theme wrapper */
+#root .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card,
+#root .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card {
+  color:#29445f!important; background:#ffffff!important; background-image:none!important;
+  border:1px solid #dce7f4!important; border-radius:18px!important;
+  box-shadow:0 8px 24px rgba(27,62,105,.06)!important;
+}
+#root .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card .admin-student-identity strong,
+#root .admin-dashboard-redesign article.admin-consultation-card .admin-student-identity strong {
+  color:#19395f!important; -webkit-text-fill-color:#19395f!important;
+}
+#root .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card .admin-student-identity span,
+#root .admin-dashboard-redesign article.admin-consultation-card .admin-student-identity span {
+  color:#657b94!important; -webkit-text-fill-color:#657b94!important;
+}
+#root .admin-dashboard-redesign article.admin-consultation-card .admin-consultation-meta span {
+  color:#29445f!important; -webkit-text-fill-color:#29445f!important;
+}
+#root .admin-dashboard-redesign article.admin-consultation-card .admin-consultation-meta b {
+  color:#7b8da3!important; -webkit-text-fill-color:#7b8da3!important;
+}
+#root .admin-dashboard-redesign article.admin-consultation-card .admin-secondary-action,
+#root .admin-dashboard-redesign article.admin-consultation-card .admin-status-action {
+  color:#385675!important; -webkit-text-fill-color:#385675!important;
+  background:#fff!important; border:1px solid #dce6f1!important;
+}
+#root .admin-dashboard-redesign article.admin-consultation-card .admin-status-action.selected {
+  color:#fff!important; -webkit-text-fill-color:#fff!important; background:#3478e5!important;
+}
+#root .admin-dashboard-redesign article.admin-consultation-card .admin-status-badge.status-pending { color:#93600a!important; background:#fff5df!important; }
+#root .admin-dashboard-redesign article.admin-consultation-card .admin-student-details,
+#root .admin-dashboard-redesign article.admin-consultation-card .admin-decision-history {
+  color:#29445f!important; background:#f7faff!important; border:1px solid #e1eaf5!important;
+}
+#root .admin-dashboard-redesign article.admin-consultation-card .admin-student-details :where(h3,b,p,span),
+#root .admin-dashboard-redesign article.admin-consultation-card .admin-decision-history :where(summary,p,b) {
+  color:#29445f!important; -webkit-text-fill-color:#29445f!important;
+}
+#root .admin-dashboard-redesign .card strong,
+#root .admin-dashboard-redesign .workspace-premium-shell .card strong,
+#root .admin-dashboard-redesign>main .card strong {
+  color:#2869c8!important; -webkit-text-fill-color:#2869c8!important;
+  opacity:1!important; filter:none!important;
+}
+#root .admin-dashboard-redesign .card p,
+#root .admin-dashboard-redesign .card small { color:#60758e!important; opacity:1!important; }
+#root .auth-page select,
+#root .admin-dashboard-redesign select,
+#root .workspace-premium-shell select {
+  color:#19395f!important; -webkit-text-fill-color:#19395f!important;
+  background:#fff!important; color-scheme:light!important;
+}
+#root .auth-page select option,
+#root .admin-dashboard-redesign select option,
+#root .workspace-premium-shell select option {
+  color:#19395f!important; background:#fff!important;
+}
