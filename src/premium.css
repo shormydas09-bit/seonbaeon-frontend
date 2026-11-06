@@ -364,3 +364,123 @@ body{
   #root .app.theme-dark-premium .teacher-search-area .search-top{grid-template-columns:1fr!important}
   #root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row{align-items:flex-start!important;flex-direction:column!important}
 }
+
+
+/* Route-level corrections: remove leftover legacy dark blocks from visible pages */
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign,
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-search-area,
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header,
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-grid {
+  color:#203752!important;
+  background:#edf2f8!important;
+  background-image:none!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-search-area {
+  padding:24px!important;
+  border:1px solid #d8e1ec!important;
+  border-radius:20px!important;
+  box-shadow:0 10px 28px rgba(34,57,84,.075)!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header strong {
+  color:#203752!important;-webkit-text-fill-color:#203752!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card {
+  color:#203752!important;background:#fbfcfe!important;background-image:none!important;
+  border:1px solid #d8e1ec!important;border-radius:20px!important;
+  box-shadow:0 10px 28px rgba(34,57,84,.075)!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card :where(h2,strong,b) {
+  color:#203752!important;-webkit-text-fill-color:#203752!important;opacity:1!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card :where(p,small,.teacher-specialty) {
+  color:#657991!important;-webkit-text-fill-color:#657991!important;opacity:1!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-tags span,
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .rating {
+  color:#405b7b!important;-webkit-text-fill-color:#405b7b!important;
+  background:#eaf0f8!important;border:1px solid #d8e1ec!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-stats {
+  border-color:#d8e1ec!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-stats strong {
+  color:#2c4564!important;-webkit-text-fill-color:#2c4564!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-stats small {
+  color:#657991!important;-webkit-text-fill-color:#657991!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .view-profile,
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .view-profile-btn {
+  color:#405b7b!important;background:#edf2f8!important;border:1px solid #c6d3e2!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .compare-btn,
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .compare-profile-btn {
+  color:#fff!important;background:#405b7b!important;border:1px solid #405b7b!important;
+}
+
+/* Teacher profile: every content panel and the page canvas use one light surface system */
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign,
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-container,
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-layout,
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left {
+  color:#203752!important;background:#edf2f8!important;background-image:none!important;
+}
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-header,
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .profile-section,
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-right .booking-card,
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-right .quick-info,
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .review-card {
+  color:#203752!important;background:#fbfcfe!important;background-image:none!important;
+  border:1px solid #d8e1ec!important;border-radius:18px!important;
+  box-shadow:0 10px 28px rgba(34,57,84,.075)!important;
+}
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-header :where(h1,h2,h3,strong,b),
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .profile-section :where(h2,h3,strong,b),
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-right :where(h2,h3,strong,b) {
+  color:#203752!important;-webkit-text-fill-color:#203752!important;opacity:1!important;
+}
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-header :where(p,span),
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .profile-section :where(p,span),
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-right :where(p,span) {
+  color:#657991!important;-webkit-text-fill-color:#657991!important;opacity:1!important;
+}
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .qualification-item,
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .style-card,
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .teaching-details-grid>div {
+  color:#405b7b!important;background:#f1f5fa!important;background-image:none!important;
+  border:1px solid #d8e1ec!important;border-radius:14px!important;
+}
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .qualification-item :where(strong,b,h3),
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .style-card :where(h3,strong),
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .teaching-details-grid>div :where(strong,b) {
+  color:#2c4564!important;-webkit-text-fill-color:#2c4564!important;
+}
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .section-eyebrow {
+  color:#718bab!important;-webkit-text-fill-color:#718bab!important;
+}
+#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .booking-card button {
+  color:#fff!important;background:#405b7b!important;border:1px solid #405b7b!important;
+}
+
+/* Admin teacher profile rows: no inherited navy gradients */
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management .admin-teacher-row {
+  color:#203752!important;background:#f4f7fb!important;background-image:none!important;
+  border:1px solid #d8e1ec!important;border-radius:15px!important;
+  box-shadow:none!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management .admin-teacher-row :where(strong,b) {
+  color:#203752!important;-webkit-text-fill-color:#203752!important;opacity:1!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management .admin-teacher-row :where(p,small) {
+  color:#657991!important;-webkit-text-fill-color:#657991!important;opacity:1!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management .admin-teacher-row .status-pill {
+  color:#405b7b!important;background:#e6edf5!important;border:1px solid #d2deeb!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management .admin-teacher-row .danger-outline-btn {
+  color:#a64c55!important;background:#fff!important;border:1px solid #e7cdd0!important;
+}
+@media(max-width:760px){
+  #root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-search-area{padding:15px!important}
+  #root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-layout{grid-template-columns:1fr!important}
+}
