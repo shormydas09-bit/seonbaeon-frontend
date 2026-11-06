@@ -3445,13 +3445,6 @@ function DownloadPage() {
   );
 }
 function App() {
-  if (window.location.pathname === "/download") {
-    return <DownloadPage />;
-  }
-
-  if (window.location.pathname === "/reset-password") {
-    return <ResetPasswordPage />;
-  }
   const [page, setPage] =
     useState("home");
 
@@ -3475,6 +3468,14 @@ function App() {
         return null;
       }
     });
+
+  if (window.location.pathname === "/download") {
+    return <DownloadPage />;
+  }
+
+  if (window.location.pathname === "/reset-password") {
+    return <ResetPasswordPage />;
+  }
 
   function openLogin() {
     setAuthMode("login");
