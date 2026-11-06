@@ -2340,6 +2340,18 @@ function TeacherProfile({
                           ).toLocaleDateString()
                         : ""}
                     </small>
+                    {currentUser?.role === "STUDENT" && review.reviewerUserId !== currentUser?.id && (
+                      <button type="button" className="login-btn" onClick={async () => {
+                        const reason = window.prompt("Why are you reporting this review?");
+                        if (!reason?.trim()) return;
+                        try {
+                          await readResponse(await fetch(`${API_URL}/teachers/${teacher.id}/reviews/${review.id}/report`, {
+                            method:"POST", headers:{"Content-Type":"application/json",Authorization:`Bearer ${currentUser.token}`}, body:JSON.stringify({reason})
+                          }));
+                          alert("Review reported to the admin team.");
+                        } catch (e) { alert(e.message); }
+                      }}>Report review</button>
+                    )}
                   </div>
                 ))}
 
