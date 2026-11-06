@@ -953,9 +953,9 @@ function TeacherSearch({ goHome, openProfile }) {
                     </div>
 
                     <div className="rating">
-                      {reviews.length
-                    ? `${(reviews.reduce((sum, review) => sum + Number(review.rating || 0), 0) / reviews.length).toFixed(1)} rating`
-                    : teacher.rating ? `${teacher.rating} rating` : "Rating unavailable"}
+                      {teacher.rating
+                        ? `${Number(teacher.rating).toFixed(1)} rating`
+                        : "Rating unavailable"}
                     </div>
                   </div>
 
