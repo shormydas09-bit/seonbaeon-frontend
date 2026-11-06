@@ -2622,7 +2622,7 @@ function StudentDashboard({
     } catch(e) { setStudentDetailsError(e.message || "Could not save student profile."); }
   }
   return (
-    <main className="page">
+    <main className="page student-dashboard-redesign">
       <section
         style={{
           maxWidth: "1100px",
