@@ -238,3 +238,309 @@ a:hover{text-decoration:underline}
  #root .app.theme-dark-premium .student-dashboard-redesign .card,#root .app.theme-dark-premium .teacher-dashboard-redesign .card,#root .app.theme-dark-premium .admin-dashboard-redesign .card{padding:18px!important}
  #root .app.theme-dark-premium .profile-container{padding:18px 13px!important}
 }
+
+
+/* ---------------------------------------------------------
+   EDITORIAL PREMIUM PASS — warm ivory, forest and soft clay
+   Replaces the generic blue/dark look with a calm learning brand.
+---------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=Manrope:wght@500;600;700;800&display=swap');
+
+:root {
+  --ink:#202b25;
+  --muted:#747d73;
+  --soft:#f0f1eb;
+  --line:#e7e7df;
+  --surface:#fffefa;
+  --canvas:#f7f6f1;
+  --blue:#315b49;
+  --blue-dark:#244737;
+  --blue-soft:#edf3ee;
+  --teal:#78947d;
+  --green:#426b51;
+  --red:#bd795e;
+  --radius:18px;
+  --shadow:0 12px 34px rgba(38,52,42,.07);
+  --shadow-lg:0 24px 60px rgba(38,52,42,.11);
+}
+body { background:#f7f6f1!important; color:#202b25!important; }
+#root .app.theme-dark-premium {
+  background:#f7f6f1!important; color:#202b25!important;
+  font-family:"DM Sans",sans-serif!important;
+}
+#root .app.theme-dark-premium h1,
+#root .app.theme-dark-premium h2,
+#root .app.theme-dark-premium h3,
+#root .app.theme-dark-premium h4 {
+  color:#202b25!important; font-family:"DM Serif Display",Georgia,serif!important;
+  font-weight:400!important; letter-spacing:-.025em!important;
+}
+#root .app.theme-dark-premium p { color:#747d73; }
+#root .app.theme-dark-premium :focus-visible {
+  outline:3px solid rgba(49,91,73,.22)!important; outline-offset:3px;
+}
+#root .app.theme-dark-premium .navbar {
+  background:rgba(255,254,250,.94)!important; border-bottom:1px solid #e7e7df!important;
+  box-shadow:0 4px 22px rgba(38,52,42,.035)!important;
+}
+#root .app.theme-dark-premium .navbar .logo { color:#202b25!important; }
+#root .app.theme-dark-premium .navbar .logo span { color:#bd795e!important; }
+#root .app.theme-dark-premium .nav-links button,
+#root .app.theme-dark-premium .nav-buttons button {
+  color:#58665b!important; border-radius:999px!important;
+}
+#root .app.theme-dark-premium .nav-links button:hover,
+#root .app.theme-dark-premium .nav-buttons .login-btn:hover {
+  color:#315b49!important; background:#edf3ee!important;
+}
+#root .app.theme-dark-premium .nav-buttons .signup-btn,
+#root .app.theme-dark-premium .primary-btn,
+#root .app.theme-dark-premium .signup-btn,
+#root .app.theme-dark-premium .auth-submit,
+#root .app.theme-dark-premium .home-cta-button,
+#root .app.theme-dark-premium .preview-action {
+  color:#fffefa!important; background:#315b49!important; border-color:#315b49!important;
+  border-radius:999px!important; box-shadow:0 8px 18px rgba(49,91,73,.16)!important;
+}
+#root .app.theme-dark-premium .nav-buttons .signup-btn:hover,
+#root .app.theme-dark-premium .primary-btn:hover,
+#root .app.theme-dark-premium .signup-btn:hover,
+#root .app.theme-dark-premium .auth-submit:hover,
+#root .app.theme-dark-premium .home-cta-button:hover,
+#root .app.theme-dark-premium .preview-action:hover {
+  background:#244737!important; border-color:#244737!important;
+}
+#root .app.theme-dark-premium .login-btn,
+#root .app.theme-dark-premium .secondary-btn {
+  color:#315b49!important; background:#fffefa!important; border:1px solid #dfe4dc!important;
+  border-radius:999px!important;
+}
+
+/* Home — editorial layout, natural tones and confident typography */
+#root .app.theme-dark-premium #pmt-home-v3 { background:#f7f6f1!important; }
+#root .app.theme-dark-premium #pmt-home-v3 .hero-section {
+  background:
+    radial-gradient(ellipse at 83% 12%,rgba(189,121,94,.10),transparent 32%),
+    linear-gradient(135deg,#f8f7f1 0%,#f1f3ec 100%)!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .small-title,
+#root .app.theme-dark-premium #pmt-home-v3 .home-eyebrow,
+#root .app.theme-dark-premium #pmt-home-v3 .preview-label {
+  color:#9b6a50!important; letter-spacing:.16em!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .hero-copy h1 {
+  color:#202b25!important; font-family:"DM Serif Display",Georgia,serif!important;
+  font-weight:400!important; letter-spacing:-.035em!important; line-height:1.08!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .hero-copy h1 span {
+  color:#426b51!important; -webkit-text-fill-color:#426b51!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .hero-text,
+#root .app.theme-dark-premium #pmt-home-v3 .home-section-heading>p { color:#747d73!important; }
+#root .app.theme-dark-premium #pmt-home-v3 .hero-card {
+  background:#fffefa!important; border:1px solid #e7e7df!important;
+  border-radius:26px!important; box-shadow:0 26px 70px rgba(38,52,42,.10)!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .hero-preview-top,
+#root .app.theme-dark-premium #pmt-home-v3 .hero-preview-foot { color:#879085!important; }
+#root .app.theme-dark-premium #pmt-home-v3 .hero-preview-body h2 {
+  font-family:"DM Serif Display",Georgia,serif!important; font-weight:400!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .hero-preview-body h2 em { color:#426b51!important; }
+#root .app.theme-dark-premium #pmt-home-v3 .preview-feature {
+  background:#f7f7f1!important; border:1px solid #e9e9e1!important; border-radius:15px!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .preview-icon {
+  background:#edf3ee!important; color:#315b49!important; border-radius:12px!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .preview-feature strong { color:#29372e!important; }
+#root .app.theme-dark-premium #pmt-home-v3 .home-categories-section { background:#fffefa!important; }
+#root .app.theme-dark-premium #pmt-home-v3 .home-process-section { background:#f1f2eb!important; }
+#root .app.theme-dark-premium #pmt-home-v3 .home-section-heading h2 {
+  font-family:"DM Serif Display",Georgia,serif!important; font-weight:400!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .home-category-card,
+#root .app.theme-dark-premium #pmt-home-v3 .home-process-section .step {
+  background:#fffefa!important; border:1px solid #e7e7df!important;
+  border-radius:18px!important; box-shadow:0 8px 22px rgba(38,52,42,.035)!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .home-category-card:hover {
+  border-color:#bdcbbd!important; box-shadow:0 16px 34px rgba(38,52,42,.08)!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .category-index,
+#root .app.theme-dark-premium #pmt-home-v3 .step-number { color:#bd795e!important; }
+#root .app.theme-dark-premium #pmt-home-v3 .category-arrow { color:#426b51!important; }
+#root .app.theme-dark-premium #pmt-home-v3 .home-final-cta {
+  background:#294b3c!important; border-radius:26px!important; color:#fffefa!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .home-final-cta h2,
+#root .app.theme-dark-premium #pmt-home-v3 .home-final-cta p { color:#fffefa!important; }
+#root .app.theme-dark-premium #pmt-home-v3 .home-final-cta .home-eyebrow { color:#e0b49b!important; }
+#root .app.theme-dark-premium #pmt-home-v3 .home-final-cta .home-cta-button {
+  color:#294b3c!important; background:#f7f3e9!important; border-color:#f7f3e9!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .home-premium-footer {
+  background:#202b25!important; color:#fffefa!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .home-premium-footer .logo,
+#root .app.theme-dark-premium #pmt-home-v3 .home-premium-footer p,
+#root .app.theme-dark-premium #pmt-home-v3 .home-premium-footer button { color:#f4f2e9!important; }
+
+/* Teacher discovery — clean marketplace cards and refined filters */
+#root .app.theme-dark-premium .teachers-page { background:#f7f6f1!important; }
+#root .app.theme-dark-premium .teachers-header {
+  background:linear-gradient(135deg,#f1f3ec,#f8f7f1)!important;
+}
+#root .app.theme-dark-premium .teachers-header h1 {
+  font-family:"DM Serif Display",Georgia,serif!important; font-weight:400!important;
+}
+#root .app.theme-dark-premium .teacher-search-area { max-width:1220px!important; }
+#root .app.theme-dark-premium .search-top,
+#root .app.theme-dark-premium .teacher-card,
+#root .app.theme-dark-premium .compare-modal {
+  background:#fffefa!important; border:1px solid #e7e7df!important;
+  border-radius:18px!important; box-shadow:0 10px 28px rgba(38,52,42,.045)!important;
+}
+#root .app.theme-dark-premium .search-input-wrapper,
+#root .app.theme-dark-premium .search-top select,
+#root .app.theme-dark-premium .teacher-search-area input,
+#root .app.theme-dark-premium .teacher-search-area select {
+  background:#fffefa!important; border:1px solid #e1e5dc!important;
+  color:#29372e!important; border-radius:12px!important;
+}
+#root .app.theme-dark-premium .teacher-card:hover {
+  border-color:#cbd7ca!important; box-shadow:0 18px 38px rgba(38,52,42,.09)!important;
+}
+#root .app.theme-dark-premium .teacher-avatar { background:#edf1e8!important; color:#426b51!important; }
+#root .app.theme-dark-premium .teacher-tags span {
+  background:#f0f2eb!important; color:#58665b!important; border-radius:999px!important;
+}
+#root .app.theme-dark-premium .profile-btn,
+#root .app.theme-dark-premium .compare-now-btn {
+  background:#315b49!important; color:#fffefa!important; border:1px solid #315b49!important;
+  border-radius:999px!important;
+}
+#root .app.theme-dark-premium .compare-btn {
+  color:#315b49!important; background:#fffefa!important; border:1px solid #dfe4dc!important;
+  border-radius:999px!important;
+}
+#root .app.theme-dark-premium .compare-bar { background:#294b3c!important; border-radius:18px!important; }
+
+/* Authentication — welcoming, quiet, confident */
+#root .app.theme-dark-premium .auth-page {
+  background:
+    radial-gradient(ellipse at 15% 15%,rgba(189,121,94,.10),transparent 30%),
+    linear-gradient(135deg,#f4f3ec,#eef2eb)!important;
+}
+#root .app.theme-dark-premium .auth-card {
+  background:#fffefa!important; border:1px solid #e7e7df!important;
+  border-radius:24px!important; box-shadow:0 24px 64px rgba(38,52,42,.10)!important;
+}
+#root .app.theme-dark-premium .auth-heading h1 {
+  font-family:"DM Serif Display",Georgia,serif!important; font-weight:400!important;
+}
+#root .app.theme-dark-premium .auth-heading p,
+#root .app.theme-dark-premium .auth-switch { color:#747d73!important; }
+#root .app.theme-dark-premium .auth-card input,
+#root .app.theme-dark-premium .auth-card select {
+  background:#fffefa!important; border:1px solid #e1e5dc!important;
+  border-radius:12px!important; color:#29372e!important;
+}
+#root .app.theme-dark-premium .auth-switch button { color:#426b51!important; }
+
+/* All signed-in workspaces — warm canvas, bright cards, clear hierarchy */
+#root .app.theme-dark-premium .student-dashboard-redesign,
+#root .app.theme-dark-premium .teacher-dashboard-redesign,
+#root .app.theme-dark-premium .admin-dashboard-redesign,
+#root .app.theme-dark-premium .workspace-premium-shell {
+  background:#f7f6f1!important; color:#202b25!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign h1,
+#root .app.theme-dark-premium .student-dashboard-redesign h2,
+#root .app.theme-dark-premium .student-dashboard-redesign h3,
+#root .app.theme-dark-premium .teacher-dashboard-redesign h1,
+#root .app.theme-dark-premium .teacher-dashboard-redesign h2,
+#root .app.theme-dark-premium .teacher-dashboard-redesign h3,
+#root .app.theme-dark-premium .admin-dashboard-redesign h1,
+#root .app.theme-dark-premium .admin-dashboard-redesign h2,
+#root .app.theme-dark-premium .admin-dashboard-redesign h3,
+#root .app.theme-dark-premium .workspace-premium-shell h1,
+#root .app.theme-dark-premium .workspace-premium-shell h2,
+#root .app.theme-dark-premium .workspace-premium-shell h3 {
+  color:#202b25!important; font-family:"DM Serif Display",Georgia,serif!important;
+  font-weight:400!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .card,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card,
+#root .app.theme-dark-premium .admin-dashboard-redesign .card,
+#root .app.theme-dark-premium .workspace-premium-shell .card {
+  color:#29372e!important; background:#fffefa!important;
+  border:1px solid #e7e7df!important; border-radius:18px!important;
+  box-shadow:0 10px 28px rgba(38,52,42,.045)!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign p,
+#root .app.theme-dark-premium .teacher-dashboard-redesign p,
+#root .app.theme-dark-premium .admin-dashboard-redesign p,
+#root .app.theme-dark-premium .workspace-premium-shell p,
+#root .app.theme-dark-premium .student-dashboard-redesign label,
+#root .app.theme-dark-premium .teacher-dashboard-redesign label,
+#root .app.theme-dark-premium .admin-dashboard-redesign label { color:#747d73!important; }
+#root .app.theme-dark-premium .student-dashboard-redesign input,
+#root .app.theme-dark-premium .student-dashboard-redesign select,
+#root .app.theme-dark-premium .student-dashboard-redesign textarea,
+#root .app.theme-dark-premium .teacher-dashboard-redesign input,
+#root .app.theme-dark-premium .teacher-dashboard-redesign select,
+#root .app.theme-dark-premium .teacher-dashboard-redesign textarea,
+#root .app.theme-dark-premium .admin-dashboard-redesign input,
+#root .app.theme-dark-premium .admin-dashboard-redesign select,
+#root .app.theme-dark-premium .admin-dashboard-redesign textarea,
+#root .app.theme-dark-premium .workspace-premium-shell input,
+#root .app.theme-dark-premium .workspace-premium-shell select,
+#root .app.theme-dark-premium .workspace-premium-shell textarea {
+  color:#29372e!important; background:#fffefa!important;
+  border:1px solid #e1e5dc!important; border-radius:11px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign button,
+#root .app.theme-dark-premium .teacher-dashboard-redesign button,
+#root .app.theme-dark-premium .admin-dashboard-redesign button,
+#root .app.theme-dark-premium .workspace-premium-shell button {
+  color:#315b49!important; background:#edf3ee!important;
+  border:1px solid #dce7dc!important; border-radius:999px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign button.signup-btn,
+#root .app.theme-dark-premium .teacher-dashboard-redesign button.signup-btn,
+#root .app.theme-dark-premium .admin-dashboard-redesign button.signup-btn,
+#root .app.theme-dark-premium .workspace-premium-shell button.signup-btn {
+  color:#fffefa!important; background:#315b49!important; border-color:#315b49!important;
+}
+#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child {
+  background:#fffefa!important; border:1px solid #e7e7df!important;
+  border-radius:20px!important; box-shadow:0 10px 28px rgba(38,52,42,.045)!important;
+}
+#root .app.theme-dark-premium .notification-panel,
+#root .app.theme-dark-premium .notification-item {
+  color:#29372e!important; background:#fffefa!important; border-color:#e7e7df!important;
+}
+#root .app.theme-dark-premium .notification-item p,
+#root .app.theme-dark-premium .notification-item small { color:#747d73!important; }
+#root .app.theme-dark-premium .form-error {
+  color:#9e4c42!important; background:#fbefeb!important; border-color:#efd8d1!important;
+}
+#root .app.theme-dark-premium .form-success {
+  color:#315b49!important; background:#edf3ee!important; border-color:#dce7dc!important;
+}
+
+/* Responsive refinement */
+@media(max-width:900px) {
+  #root .app.theme-dark-premium #pmt-home-v3 .hero-content { grid-template-columns:1fr!important; }
+  #root .app.theme-dark-premium #pmt-home-v3 .hero-card { max-width:650px; }
+}
+@media(max-width:640px) {
+  #root .app.theme-dark-premium .navbar { background:#fffefa!important; }
+  #root .app.theme-dark-premium #pmt-home-v3 .hero-section { padding:48px 17px 30px!important; }
+  #root .app.theme-dark-premium #pmt-home-v3 .hero-copy h1 { font-size:clamp(39px,11vw,54px)!important; }
+  #root .app.theme-dark-premium #pmt-home-v3 .home-category-grid,
+  #root .app.theme-dark-premium #pmt-home-v3 .home-process-section .steps { grid-template-columns:repeat(2,minmax(0,1fr))!important; }
+  #root .app.theme-dark-premium .teacher-grid { grid-template-columns:1fr!important; }
+  #root .app.theme-dark-premium .auth-card { padding:26px 20px!important; }
+}
