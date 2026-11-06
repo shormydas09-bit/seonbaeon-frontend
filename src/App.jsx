@@ -3156,6 +3156,16 @@ function AdminWorkspace({ currentUser, handleLogout }) {
       await load();
     } catch(e) { setError(e.message || "Could not remove teacher profile."); }
   }
+
+  async function restoreTeacherProfile(teacher) {
+    if (!window.confirm(`Restore ${teacher.name}'s public profile and make it visible to students again?`)) return;
+    setError(""); setNotice("");
+    try {
+      await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${teacher.id}/restore`, { method:"POST", headers }));
+      setNotice(`${teacher.name}'s public teacher profile was restored and published.`);
+      await load();
+    } catch(e) { setError(e.message || "Could not restore teacher profile."); }
+  }
   async function setStatus(id,status) {
     const adminNote = window.prompt("Optional admin note explaining this status update:") || "";
     try {
@@ -3185,7 +3195,9 @@ function AdminWorkspace({ currentUser, handleLogout }) {
       {allTeachers.length===0?<p className="empty-state">No teacher profiles found.</p>:allTeachers.map(t=><div className="admin-teacher-row" key={t.id}>
         <div><strong>{t.name}</strong><p>{t.category} · {t.location} · {t.experience}</p><small>{t.ownerEmail || "No linked email"}</small></div>
         <div className="admin-teacher-meta"><span className={t.verified && t.available ? "status-pill status-active" : "status-pill"}>{t.verified && t.available ? "Published" : t.available ? "Pending" : "Hidden"}</span>
-        {t.available && <button type="button" className="danger-outline-btn" onClick={()=>removeTeacherProfile(t)}>Remove profile</button>}
+        {t.available
+          ? <button type="button" className="danger-outline-btn" onClick={()=>removeTeacherProfile(t)}>Remove profile</button>
+          : <button type="button" className="signup-btn" onClick={()=>restoreTeacherProfile(t)}>Restore profile</button>}
         </div>
       </div>)}
     </div>
