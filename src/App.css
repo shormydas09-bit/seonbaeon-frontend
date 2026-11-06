@@ -5785,3 +5785,37 @@ html:has(.app.theme-dark-premium),body:has(.app.theme-dark-premium),#root:has(.a
 .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row strong{color:#f0f4fc!important}
 .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row p,.app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row small{color:#aab9d1!important}
 @media(max-width:700px){.app.theme-dark-premium .admin-dashboard-redesign{padding:18px 12px 42px!important}.app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-panel{padding:16px!important}.app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-card{padding:17px!important}.app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-meta{grid-template-columns:1fr 1fr!important}.app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-filters{grid-template-columns:1fr!important}}
+
+
+/* FINAL targeted surfaces: use stronger selectors for actual rendered admin markup */
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card{
+  background:#223653!important;background-image:linear-gradient(135deg,#263d5d 0%,#1d304c 100%)!important;
+  background-color:#223653!important;color:#f1f5ff!important;border:1px solid rgba(190,207,239,.2)!important;
+  border-radius:20px!important;padding:24px!important;box-shadow:0 16px 38px rgba(3,9,20,.28),inset 0 1px rgba(255,255,255,.04)!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card *{box-sizing:border-box}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card .admin-consultation-meta{background:transparent!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card .admin-consultation-meta span{color:#e1e9f7!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card .admin-consultation-meta b{color:#9aacca!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card .admin-student-identity strong{color:#f5f7ff!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card .admin-student-identity span{color:#b9c6db!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card .admin-consultation-top,
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card .admin-consultation-footer{border-color:rgba(190,207,239,.15)!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card .admin-secondary-action,
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card .admin-status-action,
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card .admin-remove-action{background:#192b45!important;color:#e0e9f8!important;border:1px solid rgba(180,199,234,.2)!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card .admin-status-action.selected{background:linear-gradient(120deg,#6f8ee8,#526fc5)!important;color:#fff!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-panel{background:#172943!important;background-image:linear-gradient(145deg,#1b304d,#14243b)!important;border:1px solid rgba(180,199,234,.16)!important;border-radius:22px!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .card{background:#1d304c!important;background-image:linear-gradient(145deg,#243956,#1b2d48)!important;color:#eef3ff!important;border:1px solid rgba(180,199,234,.18)!important;border-radius:18px!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .card p{color:#b5c3d9!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .card strong,
+#root .app.theme-dark-premium .admin-dashboard-redesign .card h2{color:#f3f6ff!important}
+#root .app.theme-dark-premium .auth-page{background:#101a2d!important;background-image:radial-gradient(ellipse at 50% 0%,rgba(91,119,202,.22),transparent 48%)!important}
+#root .app.theme-dark-premium .auth-page .auth-card{background:#1c2e49!important;background-image:linear-gradient(145deg,#263b59,#192a44)!important;color:#f1f5ff!important;border:1px solid rgba(180,199,234,.2)!important}
+#root .app.theme-dark-premium .auth-page label{color:#d0dbed!important}
+#root .app.theme-dark-premium .auth-page input,#root .app.theme-dark-premium .auth-page select{background:#101d31!important;color:#f1f5ff!important}
+#root .app.theme-dark-premium .home-category-grid .home-category-card{background:#1b2c47!important;background-image:linear-gradient(145deg,#223754,#172740)!important;border:1px solid rgba(180,199,234,.2)!important;border-radius:18px!important;min-height:150px!important;box-shadow:0 12px 28px rgba(0,0,0,.18)!important}
+#root .app.theme-dark-premium .home-category-grid .home-category-card strong{color:#f2f5ff!important}
+#root .app.theme-dark-premium .home-category-grid .home-category-card .category-index{color:#9eafd0!important}
+#root .app.theme-dark-premium .home-category-grid .home-category-card .category-arrow{color:#9db3ff!important}
+@media(max-width:700px){#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article.admin-consultation-card{padding:17px!important}}
