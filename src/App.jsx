@@ -3282,30 +3282,34 @@ function AdminWorkspace({ currentUser, handleLogout }) {
         </div>
       </div>)}
     </div>
-    <div className="card" style={{padding:24}}>
-      <h2>Consultation Requests ({filteredConsultations.length} of {consultations.length})</h2>
-      <div style={{display:"flex",gap:10,flexWrap:"wrap",margin:"14px 0"}}>
-        <input aria-label="Search consultations" placeholder="Search student or email" value={consultationSearch} onChange={e=>setConsultationSearch(e.target.value)} style={{flex:"1 1 220px",padding:11,border:"1px solid #ddd",borderRadius:9}} />
-        <select aria-label="Filter consultation status" value={consultationFilter} onChange={e=>setConsultationFilter(e.target.value)} style={{padding:11,border:"1px solid #ddd",borderRadius:9}}>
+    <section className="admin-consultations-panel">
+      <div className="admin-consultations-heading">
+        <div><p className="eyebrow">STUDENT & TEACHER ACTIVITY</p><h2>Consultation Requests</h2><p>Review requests, inspect student profiles and manage each decision.</p></div>
+        <span className="admin-total-count">{filteredConsultations.length} of {consultations.length} requests</span>
+      </div>
+      <div className="admin-consultation-filters">
+        <input aria-label="Search consultations" placeholder="Search student, email or teacher..." value={consultationSearch} onChange={e=>setConsultationSearch(e.target.value)} />
+        <select aria-label="Filter consultation status" value={consultationFilter} onChange={e=>setConsultationFilter(e.target.value)}>
           {["ALL","PENDING","APPROVED","REJECTED","COMPLETED"].map(status=><option key={status} value={status}>{status==="ALL"?"All statuses":status}</option>)}
         </select>
       </div>
-      {filteredConsultations.length===0?<p style={{color:"#667085"}}>No matching consultation requests.</p>:filteredConsultations.map(c=><div key={c.id} style={{borderTop:"1px solid #eee",padding:"14px 0"}}>
-        <b>{c.studentName}</b> · {c.email}<p>{c.preferredDate} · {c.preferredTime} · <strong>{c.status}</strong></p>
-        <button className="login-btn" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide":"View"} Student Profile</button>
-        {selectedStudent===c.id && <div style={{background:"#f8fafc",padding:12,borderRadius:10,marginTop:8}}>
-          <p><b>Age / Group:</b> {c.studentProfile?.age||"—"} / {c.studentProfile?.ageGroup||"—"}</p>
-          <p><b>English Level:</b> {c.studentProfile?.englishLevel||"—"}</p><p><b>Learning Goals:</b> {c.studentProfile?.learningGoals||"—"}</p>
-          <p><b>Preferred Category:</b> {c.studentProfile?.preferredCategory||"—"}</p><p><b>Interests:</b> {c.studentProfile?.interests||"—"}</p>
-          <p><b>Schedule:</b> {c.studentProfile?.preferredSchedule||"—"}</p><p><b>About:</b> {c.studentProfile?.introduction||"—"}</p>
-          {c.studentProfile?.guardianName&&<p><b>Guardian:</b> {c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}
-        </div>}
-        {c.teacherDecision && <p><b>Teacher decision:</b> {c.teacherDecision} {c.teacherDecisionAt||""}</p>}
-        {c.rejectionReason && <p style={{color:"#b42318"}}><b>Rejection reason:</b> {c.rejectionReason}</p>}
-        {c.adminPreviousStatus && <p><b>Admin changed:</b> {c.adminPreviousStatus} → {c.status} · {c.adminNote||""} · {c.adminDecisionAt||""}</p>}{c.decisionHistory && <p style={{whiteSpace:"pre-line"}}><b>Decision History:</b>{"\\n"}{c.decisionHistory}</p>}
-        <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:8}}>{["PENDING","APPROVED","REJECTED","COMPLETED"].map(s=><button key={s} className="login-btn" onClick={()=>setStatus(c.id,s)}>{s}</button>)}</div><button type="button" className="login-btn" style={{marginTop:8}} onClick={async()=>{if(!window.confirm("Remove this consultation from your admin dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${c.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setConsultations(old=>old.filter(x=>x.id!==c.id));setNotice("Consultation hidden from your dashboard.");}catch(e){setError(e.message);}}}>Remove from my dashboard</button>
-      </div>)}
-    </div>
+      <div className="admin-consultation-list">
+        {filteredConsultations.length===0?<div className="admin-empty-state"><span>✦</span><strong>No matching requests</strong><p>Try changing your search or status filter.</p></div>:filteredConsultations.map(c=><article className="admin-consultation-card" key={c.id}>
+          <div className="admin-consultation-top">
+            <div className="admin-student-identity"><div className="admin-avatar">{(c.studentName||"S").trim().charAt(0).toUpperCase()}</div><div><strong>{c.studentName||"Student"}</strong><span>{c.email||"No email"}{c.teacherName? " · with "+c.teacherName:""}</span></div></div>
+            <span className={"admin-status-badge status-"+String(c.status||"unknown").toLowerCase()}>{c.status||"UNKNOWN"}</span>
+          </div>
+          <div className="admin-consultation-meta"><span><b>Requested date</b>{c.preferredDate||"Not specified"}</span><span><b>Preferred time</b>{c.preferredTime||"Not specified"}</span><span><b>Request ID</b>#{c.id}</span></div>
+          <div className="admin-consultation-actions">
+            <button type="button" className="admin-secondary-action" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide student details":"View student profile"}</button>
+            <div className="admin-status-actions">{["PENDING","APPROVED","REJECTED","COMPLETED"].map(status=><button type="button" key={status} className={c.status===status?"admin-status-action selected":"admin-status-action"} onClick={()=>setStatus(c.id,status)}>{status.charAt(0)+status.slice(1).toLowerCase()}</button>)}</div>
+          </div>
+          {selectedStudent===c.id && <div className="admin-student-details"><h3>Student learning profile</h3><div className="admin-detail-grid"><p><b>Age / Group</b>{c.studentProfile?.age||"—"} / {c.studentProfile?.ageGroup||"—"}</p><p><b>English level</b>{c.studentProfile?.englishLevel||"—"}</p><p><b>Learning goals</b>{c.studentProfile?.learningGoals||"—"}</p><p><b>Preferred category</b>{c.studentProfile?.preferredCategory||"—"}</p><p><b>Interests</b>{c.studentProfile?.interests||"—"}</p><p><b>Preferred schedule</b>{c.studentProfile?.preferredSchedule||"—"}</p><p><b>Introduction</b>{c.studentProfile?.introduction||"—"}</p>{c.studentProfile?.guardianName&&<p><b>Guardian</b>{c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}</div></div>}
+          {(c.teacherDecision||c.rejectionReason||c.adminPreviousStatus||c.decisionHistory)&&<details className="admin-decision-history"><summary>Decision history & notes</summary>{c.teacherDecision&&<p><b>Teacher decision:</b> {c.teacherDecision} · {c.teacherDecisionAt||""}</p>}{c.rejectionReason&&<p className="admin-rejection-note"><b>Rejection reason:</b> {c.rejectionReason}</p>}{c.adminPreviousStatus&&<p><b>Admin changed:</b> {c.adminPreviousStatus} → {c.status} · {c.adminNote||""} · {c.adminDecisionAt||""}</p>}{c.decisionHistory&&<p className="admin-history-text">{c.decisionHistory.replace(/\\n/g,"\n")}</p>}</details>}
+          <div className="admin-consultation-footer"><span>Admin view only</span><button type="button" className="admin-remove-action" onClick={async()=>{if(!window.confirm("Remove this consultation from your admin dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${c.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setConsultations(old=>old.filter(x=>x.id!==c.id));setNotice("Consultation hidden from your dashboard.");}catch(e){setError(e.message);}}}>Remove from my dashboard</button></div>
+        </article>)}
+      </div>
+    </section>
     <AdminToolsPanel user={currentUser} />\n  </WorkspaceShell></div>;
 }
 
