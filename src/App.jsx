@@ -2445,6 +2445,9 @@ function StudentDashboard({
   const [profileBusy, setProfileBusy] = useState(false);
   const [profileNotice, setProfileNotice] = useState("");
   const [profileError, setProfileError] = useState("");
+  const [studentDetails, setStudentDetails] = useState({ age:"", ageGroup:"", englishLevel:"", learningGoals:"", preferredCategory:"", interests:"", preferredSchedule:"", introduction:"", guardianName:"", guardianPhone:"" });
+  const [studentDetailsNotice, setStudentDetailsNotice] = useState("");
+  const [studentDetailsError, setStudentDetailsError] = useState("");
   const [myRequests, setMyRequests] = useState([]);
   const [requestError, setRequestError] = useState("");
   const [favoriteTeachers, setFavoriteTeachers] = useState([]);
@@ -2470,6 +2473,24 @@ function StudentDashboard({
       headers: { Authorization: `Bearer ${currentUser.token}` }
     }).then(readResponse).then(setMyRequests).catch((e) => setRequestError(e.message));
   }, [currentUser?.token]);
+  useEffect(() => {
+    if (!currentUser?.token) return;
+    fetch(`${API_URL}/workspace/student/profile`, { headers: { Authorization: `Bearer ${currentUser.token}` } })
+      .then(readResponse).then((data) => setStudentDetails((old) => ({ ...old, ...data })))
+      .catch((e) => setStudentDetailsError(e.message));
+  }, [currentUser?.token]);
+  async function saveStudentDetails(e) {
+    e.preventDefault(); setStudentDetailsNotice(""); setStudentDetailsError("");
+    try {
+      const response = await fetch(`${API_URL}/workspace/student/profile`, {
+        method:"PUT", headers:{"Content-Type":"application/json",Authorization:`Bearer ${currentUser?.token || ""}`},
+        body:JSON.stringify({ ...studentDetails, name:profileName.trim(), age:studentDetails.age ? Number(studentDetails.age) : null })
+      });
+      const saved = await readResponse(response);
+      setStudentDetails((old)=>({...old,...saved}));
+      setStudentDetailsNotice("Student learning profile saved.");
+    } catch(e) { setStudentDetailsError(e.message || "Could not save student profile."); }
+  }
   return (
     <main className="page">
       <section
@@ -2577,6 +2598,18 @@ function StudentDashboard({
           </div>
 
           <div className="card">
+            <div className="dashboard-card-label">LEARNING PROFILE</div>
+            <h3>My Learning Profile</h3>
+            {studentDetailsNotice && <p style={{color:"#067647"}}>{studentDetailsNotice}</p>}
+            {studentDetailsError && <p style={{color:"#b42318"}}>{studentDetailsError}</p>}
+            <form onSubmit={saveStudentDetails}>
+              {[
+                ["age","Age"],["ageGroup","Age group (Child / Teen / Adult)"],["englishLevel","Current English level"],["learningGoals","Learning goals"],["preferredCategory","Preferred English category"],["interests","Interests / hobbies"],["preferredSchedule","Preferred learning schedule"],["introduction","About me"],["guardianName","Parent / guardian name (if applicable)"],["guardianPhone","Parent / guardian phone (if applicable)"]
+              ].map(([key,label])=><label key={key} style={{display:"block",marginTop:10}}>{label}{key==="learningGoals"||key==="interests"||key==="introduction"?<textarea rows={key==="introduction"?3:2} value={studentDetails[key]||""} onChange={e=>setStudentDetails(old=>({...old,[key]:e.target.value}))} style={{width:"100%",marginTop:5}}/>:<input type={key==="age"?"number":"text"} value={studentDetails[key]||""} onChange={e=>setStudentDetails(old=>({...old,[key]:e.target.value}))} style={{width:"100%",marginTop:5}}/>}</label>)}
+              <button className="signup-btn" type="submit" style={{marginTop:14}}>Save Learning Profile</button>
+            </form>
+          </div>
+          <div className="card">
             <div className="dashboard-card-label">DISCOVER</div>
 
             <h3>Find English Teachers</h3>
@@ -2610,6 +2643,8 @@ function StudentDashboard({
               <p key={r.id} style={{padding:"8px 0",borderTop:"1px solid #eee"}}>
                 <strong>{r.preferredDate} · {r.preferredTime}</strong><br />
                 Status: {r.status}
+                {r.rejectionReason && <><br/><b>Teacher's reason:</b> {r.rejectionReason}</>}
+                {r.adminPreviousStatus && <><br/><b>Admin status change:</b> {r.adminPreviousStatus} → {r.status} {r.adminNote || ""}</>}
               </p>
             ))}
           </div>
