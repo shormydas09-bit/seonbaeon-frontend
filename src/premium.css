@@ -970,3 +970,152 @@ button:disabled { cursor:not-allowed; opacity:.55; }
 #root .workspace-premium-shell select option {
   color:#19395f!important; background:#fff!important;
 }
+
+
+/* PICK MY TEACHER — unified soft-navy premium visual system */
+#root .app.theme-dark-premium {
+  --pmt-ink:#203a59;
+  --pmt-muted:#657b95;
+  --pmt-navy:#344f70;
+  --pmt-navy-deep:#263f5e;
+  --pmt-blue:#6485b4;
+  --pmt-line:#d6e0ec;
+  --pmt-canvas:#eaf0f7;
+  --pmt-surface:#f8fafd;
+  --pmt-shadow:0 12px 32px rgba(35,57,84,.09);
+  color:var(--pmt-ink)!important;
+  background:var(--pmt-canvas)!important;
+}
+#root .app.theme-dark-premium :where(h1,h2,h3,h4,strong,b,label) {
+  color:var(--pmt-ink);
+}
+#root .app.theme-dark-premium :where(p,small,.muted,.subtitle) { color:var(--pmt-muted); }
+#root .app.theme-dark-premium .navbar {
+  color:var(--pmt-ink)!important; background:#f8fafd!important;
+  border-bottom:1px solid var(--pmt-line)!important;
+  box-shadow:0 4px 18px rgba(35,57,84,.045)!important;
+}
+#root .app.theme-dark-premium .logo { color:var(--pmt-navy-deep)!important; }
+#root .app.theme-dark-premium .logo span { color:#7892b3!important; }
+#root .app.theme-dark-premium .nav-links button,
+#root .app.theme-dark-premium .login-btn { color:#526b88!important; }
+#root .app.theme-dark-premium .nav-links button:hover { color:#203a59!important; }
+#root .app.theme-dark-premium .signup-btn,
+#root .app.theme-dark-premium .primary-btn,
+#root .app.theme-dark-premium .auth-submit,
+#root .app.theme-dark-premium .submit-consultation {
+  color:#fff!important; background:linear-gradient(135deg,#526f94,#344f70)!important;
+  border:1px solid #405d80!important; box-shadow:0 7px 18px rgba(52,79,112,.18)!important;
+}
+#root .app.theme-dark-premium :where(.hero-section,.teachers-page,.teacher-search-redesign,.profile-page,.workspace-premium-shell,.page) {
+  color:var(--pmt-ink)!important; background:var(--pmt-canvas)!important;
+}
+#root .app.theme-dark-premium .hero-section {
+  background:linear-gradient(135deg,#e8eff7 0%,#f2f6fb 58%,#e4ecf5 100%)!important;
+}
+#root .app.theme-dark-premium .hero-content h1 { color:#233f60!important; }
+#root .app.theme-dark-premium .hero-content h1 span,
+#root .app.theme-dark-premium .small-title { color:#7189a8!important; }
+#root .app.theme-dark-premium .hero-text { color:#637b96!important; }
+#root .app.theme-dark-premium :where(.card,.teacher-card,.profile-header,.profile-section,.auth-card,.compare-modal,.consultation-modal,.admin-consultations-panel,.admin-teacher-management) {
+  color:var(--pmt-ink)!important; background:var(--pmt-surface)!important;
+  border:1px solid var(--pmt-line)!important; border-radius:18px!important;
+  box-shadow:var(--pmt-shadow)!important;
+}
+#root .app.theme-dark-premium .teacher-card :where(h2,h3,strong) { color:var(--pmt-ink)!important; }
+#root .app.theme-dark-premium .teacher-card :where(p,small,.teacher-specialty) { color:var(--pmt-muted)!important; }
+#root .app.theme-dark-premium .teachers-header {
+  color:var(--pmt-ink)!important;
+  background:linear-gradient(125deg,#dfe8f3,#f3f6fb)!important;
+  border-bottom:1px solid var(--pmt-line)!important;
+}
+#root .app.theme-dark-premium .teachers-header :where(h1,h2,strong) { color:#263f5e!important; }
+#root .app.theme-dark-premium .auth-page {
+  background:radial-gradient(ellipse at 15% 10%,#dce7f3 0%,transparent 42%),linear-gradient(135deg,#e8eff7,#f4f7fb)!important;
+}
+#root .app.theme-dark-premium .auth-card {
+  background:#f9fbfe!important; border:1px solid #d3dfec!important;
+  box-shadow:0 24px 65px rgba(37,60,89,.14)!important;
+}
+#root .app.theme-dark-premium .auth-page :where(h1,h2,.auth-logo) { color:#263f5e!important; }
+#root .app.theme-dark-premium :where(input,select,textarea) {
+  color:#263f5e!important; -webkit-text-fill-color:#263f5e!important;
+  background:#f9fbfe!important; border:1px solid #cbd8e7!important;
+  border-radius:11px!important;
+}
+#root .app.theme-dark-premium :where(input,select,textarea)::placeholder {
+  color:#899bb0!important; -webkit-text-fill-color:#899bb0!important;
+}
+#root .app.theme-dark-premium :where(input,select,textarea):focus {
+  border-color:#829bb9!important; box-shadow:0 0 0 3px rgba(100,133,180,.16)!important; outline:0!important;
+}
+#root .app.theme-dark-premium select,
+#root .app.theme-dark-premium select option { color:#263f5e!important; background:#f9fbfe!important; color-scheme:light!important; }
+#root .app.theme-dark-premium .workspace-premium-shell {
+  width:100%!important; min-height:calc(100vh - 78px)!important;
+  padding:38px clamp(16px,4vw,44px) 72px!important;
+}
+#root .app.theme-dark-premium .workspace-premium-shell>section {
+  width:min(100%,1280px)!important; max-width:1280px!important; margin:0 auto!important;
+}
+#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child {
+  color:var(--pmt-ink)!important; background:linear-gradient(120deg,#f9fbfe,#e6edf6)!important;
+  border:1px solid var(--pmt-line)!important; border-radius:22px!important;
+  box-shadow:var(--pmt-shadow)!important;
+}
+#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child :where(h1,h2) { color:#263f5e!important; }
+#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child p { color:#657b95!important; }
+#root .app.theme-dark-premium .admin-dashboard-redesign .card,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card,
+#root .app.theme-dark-premium .student-dashboard-redesign .card {
+  color:var(--pmt-ink)!important; background:#f9fbfe!important;
+  border:1px solid var(--pmt-line)!important; border-radius:17px!important;
+  box-shadow:0 8px 22px rgba(35,57,84,.07)!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign :where(h1,h2,h3,strong,b,label),
+#root .app.theme-dark-premium .teacher-dashboard-redesign :where(h1,h2,h3,strong,b,label),
+#root .app.theme-dark-premium .student-dashboard-redesign :where(h1,h2,h3,strong,b,label) {
+  color:#263f5e!important; -webkit-text-fill-color:#263f5e!important; opacity:1!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign :where(p,small,span),
+#root .app.theme-dark-premium .teacher-dashboard-redesign :where(p,small),
+#root .app.theme-dark-premium .student-dashboard-redesign :where(p,small) {
+  color:#657b95!important; -webkit-text-fill-color:#657b95!important; opacity:1!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card,
+#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card,
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article {
+  color:#263f5e!important; background:#f4f7fb!important; background-image:none!important;
+  border:1px solid #d2deeb!important; border-radius:17px!important;
+  box-shadow:0 9px 24px rgba(35,57,84,.075)!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card :where(strong,b,h3),
+#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card :where(strong,b,h3) {
+  color:#263f5e!important; -webkit-text-fill-color:#263f5e!important; opacity:1!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card :where(p,span,small),
+#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card :where(p,span,small) {
+  color:#657b95!important; -webkit-text-fill-color:#657b95!important; opacity:1!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card .admin-consultation-meta,
+#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card .admin-consultation-meta {
+  border-color:#dce5ef!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card :where(.admin-secondary-action,.admin-status-action,.admin-remove-action),
+#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card :where(.admin-secondary-action,.admin-status-action,.admin-remove-action) {
+  color:#405d80!important; -webkit-text-fill-color:#405d80!important;
+  background:#edf2f8!important; border:1px solid #d2deeb!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article :where(.admin-status-action.selected) {
+  color:#fff!important; -webkit-text-fill-color:#fff!important;
+  background:#526f94!important; border-color:#526f94!important;
+}
+#root .app.theme-dark-premium :where(.back-home,.secondary-btn,.admin-secondary-action,.admin-status-action) {
+  color:#405d80!important; background:#edf2f8!important; border:1px solid #d2deeb!important;
+}
+#root .app.theme-dark-premium :where(button) { transition:all .18s ease; }
+#root .app.theme-dark-premium :where(button):focus-visible { outline:3px solid rgba(100,133,180,.35)!important; outline-offset:2px!important; }
+@media(max-width:760px) {
+  #root .app.theme-dark-premium .workspace-premium-shell { padding:22px 14px 52px!important; }
+  #root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card .admin-consultation-meta { grid-template-columns:1fr!important; }
+}
