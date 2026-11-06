@@ -2894,6 +2894,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
 
 function AdminWorkspace({ currentUser, handleLogout }) {
   const [teachers, setTeachers] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
   const [consultations, setConsultations] = useState([]);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
@@ -2923,8 +2924,12 @@ function AdminWorkspace({ currentUser, handleLogout }) {
     } catch(e) { setError(e.message); }
   }
   async function setStatus(id,status) {
-    try { await readResponse(await fetch(`${API_URL}/workspace/admin/consultations/${id}/status`,{method:"PATCH",headers,body:JSON.stringify({status})})); await load(); }
-    catch(e){setError(e.message);}
+    const adminNote = window.prompt("Optional admin note explaining this status update:") || "";
+    try {
+      await readResponse(await fetch(`${API_URL}/workspace/admin/consultations/${id}/status`,{method:"PATCH",headers,body:JSON.stringify({status,adminNote})}));
+      setNotice("Consultation status updated. Previous decision is retained in history.");
+      await load();
+    } catch(e){setError(e.message);}
   }
   return <WorkspaceShell title="Admin Dashboard" subtitle="Review teacher applications and manage requests" user={currentUser} onLogout={handleLogout}>
     {notice&&<p style={{background:"#ecfdf3",color:"#067647",padding:12,borderRadius:10}}>{notice}</p>}
@@ -2942,8 +2947,19 @@ function AdminWorkspace({ currentUser, handleLogout }) {
     <div className="card" style={{padding:24}}>
       <h2>Consultation Requests ({consultations.length})</h2>
       {consultations.length===0?<p style={{color:"#667085"}}>No requests yet.</p>:consultations.map(c=><div key={c.id} style={{borderTop:"1px solid #eee",padding:"14px 0"}}>
-        <b>{c.studentName}</b> · {c.email}<p>{c.preferredDate} · {c.preferredTime} · {c.status}</p>
-        <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>{["APPROVED","REJECTED","COMPLETED"].map(s=><button key={s} className="login-btn" onClick={()=>setStatus(c.id,s)}>{s}</button>)}</div>
+        <b>{c.studentName}</b> · {c.email}<p>{c.preferredDate} · {c.preferredTime} · <strong>{c.status}</strong></p>
+        <button className="login-btn" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide":"View"} Student Profile</button>
+        {selectedStudent===c.id && <div style={{background:"#f8fafc",padding:12,borderRadius:10,marginTop:8}}>
+          <p><b>Age / Group:</b> {c.studentProfile?.age||"—"} / {c.studentProfile?.ageGroup||"—"}</p>
+          <p><b>English Level:</b> {c.studentProfile?.englishLevel||"—"}</p><p><b>Learning Goals:</b> {c.studentProfile?.learningGoals||"—"}</p>
+          <p><b>Preferred Category:</b> {c.studentProfile?.preferredCategory||"—"}</p><p><b>Interests:</b> {c.studentProfile?.interests||"—"}</p>
+          <p><b>Schedule:</b> {c.studentProfile?.preferredSchedule||"—"}</p><p><b>About:</b> {c.studentProfile?.introduction||"—"}</p>
+          {c.studentProfile?.guardianName&&<p><b>Guardian:</b> {c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}
+        </div>}
+        {c.teacherDecision && <p><b>Teacher decision:</b> {c.teacherDecision} {c.teacherDecisionAt||""}</p>}
+        {c.rejectionReason && <p style={{color:"#b42318"}}><b>Rejection reason:</b> {c.rejectionReason}</p>}
+        {c.adminPreviousStatus && <p><b>Admin changed:</b> {c.adminPreviousStatus} → {c.status} · {c.adminNote||""} · {c.adminDecisionAt||""}</p>}
+        <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:8}}>{["PENDING","APPROVED","REJECTED","COMPLETED"].map(s=><button key={s} className="login-btn" onClick={()=>setStatus(c.id,s)}>{s}</button>)}</div>
       </div>)}
     </div>
   </WorkspaceShell>;
