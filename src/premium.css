@@ -458,3 +458,20 @@ button,input,select,textarea{font:inherit}
  #root .app.theme-dark-premium .teacher-availability-form>*{grid-column:1!important}
  #root .app.theme-dark-premium .admin-user-actions{width:100%}
 }
+
+/* CALM PREMIUM PALETTE — softer contrast, less navy and glare */
+:root{--pmt-bg:#f1f2ef;--pmt-paper:#fafaf7;--pmt-soft:#f5f6f2;--pmt-soft-blue:#e9eeeb;--pmt-ink:#293b3b;--pmt-muted:#788582;--pmt-line:#dfe5df;--pmt-navy:#526d68;--pmt-navy-deep:#3f5b56;--pmt-blue:#829b91;--pmt-shadow:0 10px 28px rgba(39,58,53,.065)}
+html,body,#root{background:#f1f2ef!important}
+#root .app.theme-dark-premium,#root .app.theme-dark-premium .workspace-premium-shell,#root .app.theme-dark-premium .student-dashboard-redesign,#root .app.theme-dark-premium .teacher-dashboard-redesign,#root .app.theme-dark-premium .admin-dashboard-redesign{background:#f1f2ef!important;color:#293b3b!important}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child,#root .app.theme-dark-premium .teacher-dashboard-redesign .workspace-heading,#root .app.theme-dark-premium .admin-dashboard-redesign .workspace-heading{background:linear-gradient(125deg,#526d68,#71877d)!important;border:1px solid rgba(255,255,255,.22)!important;box-shadow:0 12px 30px rgba(55,79,70,.12)!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .card,#root .app.theme-dark-premium .teacher-dashboard-redesign .card,#root .app.theme-dark-premium .admin-dashboard-redesign .card,#root .app.theme-dark-premium .teacher-tools-panel,#root .app.theme-dark-premium .teacher-tools-section,#root .app.theme-dark-premium .admin-tools-panel{background:#fafaf7!important;color:#344542!important;border-color:#e1e6df!important;box-shadow:0 6px 20px rgba(45,63,57,.045)!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .card :where(h2,h3),#root .app.theme-dark-premium .teacher-dashboard-redesign .card :where(h2,h3),#root .app.theme-dark-premium .admin-dashboard-redesign .card :where(h2,h3),#root .app.theme-dark-premium .teacher-tools-panel h2,#root .app.theme-dark-premium .teacher-tools-section h3{color:#3c5550!important}
+#root .app.theme-dark-premium .student-dashboard-redesign :where(input,select,textarea),#root .app.theme-dark-premium .teacher-dashboard-redesign :where(input,select,textarea),#root .app.theme-dark-premium .admin-dashboard-redesign :where(input,select,textarea){background:#f1f3ef!important;color:#40514d!important;border:1px solid #dce3dc!important;box-shadow:none!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .signup-btn,#root .app.theme-dark-premium .teacher-dashboard-redesign .signup-btn,#root .app.theme-dark-premium .admin-dashboard-redesign .signup-btn,#root .app.theme-dark-premium .navbar .nav-buttons .signup-btn{background:#607b72!important;color:#fff!important;box-shadow:none!important}
+#root .app.theme-dark-premium .teacher-analytics-tile,#root .app.theme-dark-premium .teacher-progress-item,#root .app.theme-dark-premium .teacher-availability-item{background:#f1f4ef!important;border-color:#e1e7df!important}
+#root .app.theme-dark-premium .dashboard-card-label,#root .app.theme-dark-premium .teacher-tools-heading .eyebrow,#root .app.theme-dark-premium .section-eyebrow{color:#82978d!important}
+#root .app.theme-dark-premium .admin-suspend-btn{background:#f8eeeb!important;color:#a65e50!important;border-color:#efdbd5!important}
+#root .app.theme-dark-premium .admin-reactivate-btn{background:#edf4ee!important;color:#557c65!important;border-color:#d7e6d9!important}
+#root .app.theme-dark-premium .navbar{background:rgba(250,250,247,.96)!important;border-color:#e1e6df!important}
+#root .app.theme-dark-premium .navbar .logo{color:#344a45!important}
+#root .app.theme-dark-premium .navbar .nav-links button,#root .app.theme-dark-premium .navbar .nav-buttons button{color:#61746e!important}
