@@ -2935,8 +2935,26 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         const imageData = await readResponse(uploaded);
         nextProfile.profileImageUrl = imageData.secure_url;
       }
-      const res = await fetch(`${API_URL}/workspace/teacher/profile`, { method: "PUT", headers, body: JSON.stringify({ ...nextProfile, hourlyRate: nextProfile.hourlyRate ? Number(nextProfile.hourlyRate) : null, lessonDuration: nextProfile.lessonDuration ? Number(nextProfile.lessonDuration) : null }) });
-      await readResponse(res); setNotice("Profile saved. It is waiting for admin verification.");
+      const requiredFields = [
+        ["specialty", "teaching specialty"],
+        ["experience", "teaching experience"],
+        ["qualification", "qualifications"],
+        ["bio", "teaching introduction"],
+        ["hourlyRate", "hourly rate"],
+        ["languages", "languages"],
+        ["ageRange", "student age range"],
+        ["teachingMode", "teaching mode"],
+        ["availability", "weekly availability"]
+      ];
+      const missing = requiredFields.find(([key]) => !String(nextProfile[key] ?? "").trim());
+      if (missing) throw new Error(`Please add your ${missing[1]} before submitting.`);
+      if (!Number.isFinite(Number(nextProfile.hourlyRate)) || Number(nextProfile.hourlyRate) <= 0) throw new Error("Enter a valid hourly rate greater than zero.");
+      if (!Number.isFinite(Number(nextProfile.lessonDuration)) || Number(nextProfile.lessonDuration) < 15) throw new Error("Lesson duration must be at least 15 minutes.");
+      const res = await fetch(`${API_URL}/workspace/teacher/profile`, { method: "PUT", headers, body: JSON.stringify({ ...nextProfile, hourlyRate: Number(nextProfile.hourlyRate), lessonDuration: Number(nextProfile.lessonDuration) }) });
+      const savedProfile = await readResponse(res);
+      setProfile(old => ({ ...old, ...savedProfile }));
+      setProfileImage(null);
+      setNotice("Application submitted. Your profile is now waiting for admin verification.");
     } catch (e) { setError(e.message); } finally { setBusy(false); }
   }
   async function updateConsultationStatus(id, status) {
@@ -3015,6 +3033,11 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
     {notice && <p style={{ background: "#ecfdf3", color: "#067647", padding: 12, borderRadius: 10 }}>{notice}</p>}
     {lessonNotice && <p style={{background:"#ecfdf3",color:"#067647",padding:12,borderRadius:10}}>{lessonNotice}</p>}
     {error && <p style={{ background: "#fef3f2", color: "#b42318", padding: 12, borderRadius: 10 }}>{error}</p>}
+    {!profile.verified && <div className="card" style={{padding:20,marginBottom:18,border:"1px solid #42577b",background:"#17243b",color:"#e8eefc"}}>
+      <div style={{fontSize:12,fontWeight:800,letterSpacing:".12em",color:"#a9b9e8"}}>APPLICATION STATUS</div>
+      <h2 style={{margin:"8px 0",color:"#f4f7ff"}}>{!profile.id ? "Complete your teacher application" : profile.available === false ? "Application needs attention" : "Waiting for admin verification"}</h2>
+      <p style={{margin:0,color:"#c3cde2",lineHeight:1.65}}>{!profile.id ? "Complete the profile form below and submit it for review. Your public teacher listing will appear only after approval." : profile.available === false ? "Your previous application was not approved. Update your profile and submit it again for a new review." : "Your application has been received. You can edit your details while it is under review. Your public profile and teaching tools unlock after approval."}</p>
+    </div>}
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 20 }}>
       <form className="card" onSubmit={saveProfile} style={{ padding: 24 }}>
         <h2>My Teacher Profile</h2>
@@ -3028,7 +3051,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         ].map(([key,label])=><label key={key} style={{ display:"block", marginTop:12 }}>{label}{key==="bio" || key==="qualification" || key==="availability" ? <textarea name={key} value={profile[key] || ""} onChange={change} rows={key==="bio"?4:2} style={{ width:"100%", marginTop:6 }} /> : <input name={key} type={key==="hourlyRate"||key==="lessonDuration"?"number":"text"} value={profile[key] ?? ""} onChange={change} style={{ width:"100%", marginTop:6 }} />}</label>)}
         <button className="signup-btn" disabled={busy} style={{ marginTop:18 }}>{busy ? "Saving..." : "Save profile"}</button>
       </form>
-      <div style={{ display:"grid", gap:20, alignContent:"start" }}>
+      {profile.verified && <div style={{ display:"grid", gap:20, alignContent:"start" }}>
         <form className="card" onSubmit={addVideo} style={{ padding:24 }}>
           <h2>Demo Videos ({videos.length}/2)</h2>
           <p style={{ color:"#667085" }}>Add up to two YouTube or public video links. Use your own teaching videos.</p>
@@ -3060,9 +3083,9 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
               <button type="button" className="signup-btn" disabled={busy} style={{marginTop:10}} onClick={()=>scheduleLesson(c)}>Schedule lesson</button>
             </div>}</div>)}
         </div>
-      </div>
+      </div>}
     </div>
-  <TeacherToolsPanel user={currentUser} consultations={consultations} />\n  </WorkspaceShell></div>;
+  {profile.verified && <TeacherToolsPanel user={currentUser} consultations={consultations} />}\n  </WorkspaceShell></div>;
 }
 
 function AdminWorkspace({ currentUser, handleLogout }) {
