@@ -953,7 +953,9 @@ function TeacherSearch({ goHome, openProfile }) {
                     </div>
 
                     <div className="rating">
-                      {teacher.rating ? `${teacher.rating} rating` : "Rating unavailable"}
+                      {reviews.length
+                    ? `${(reviews.reduce((sum, review) => sum + Number(review.rating || 0), 0) / reviews.length).toFixed(1)} rating`
+                    : teacher.rating ? `${teacher.rating} rating` : "Rating unavailable"}
                     </div>
                   </div>
 
@@ -1636,6 +1638,10 @@ function TeacherProfile({
         saved,
         ...current,
       ]);
+      setReviewEligibility((current) => ({
+        ...current,
+        alreadyReviewed: true,
+      }));
 
       setReviewText("");
       setReviewRating(5);
