@@ -2736,6 +2736,62 @@ function StudentDashboard({
 }
 
 
+function NotificationCenter({ user }) {
+  const [items, setItems] = useState([]);
+  const [unread, setUnread] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
+  async function load() {
+    if (!user?.token) return;
+    try {
+      const response = await fetch(`${API_URL}/notifications`, {
+        headers: { Authorization: `Bearer ${user.token}` }
+      });
+      const data = await readResponse(response);
+      setItems(Array.isArray(data?.items) ? data.items : []);
+      setUnread(Number(data?.unreadCount || 0));
+      setError("");
+    } catch (e) { setError(e.message || "Could not load notifications."); }
+  }
+  useEffect(() => { load(); }, [user?.token]);
+  async function markRead(id) {
+    try {
+      await readResponse(await fetch(`${API_URL}/notifications/${id}/read`, {
+        method: "PATCH", headers: { Authorization: `Bearer ${user?.token || ""}` }
+      }));
+      await load();
+    } catch (e) { setError(e.message); }
+  }
+  async function markAllRead() {
+    try {
+      await readResponse(await fetch(`${API_URL}/notifications/read-all`, {
+        method: "PATCH", headers: { Authorization: `Bearer ${user?.token || ""}` }
+      }));
+      await load();
+    } catch (e) { setError(e.message); }
+  }
+  return <div style={{ position: "relative" }}>
+    <button type="button" className="login-btn" onClick={() => { setOpen(v => !v); if (!open) load(); }}
+      aria-expanded={open} aria-label={`Notifications, ${unread} unread`}>
+      Notifications {unread > 0 ? `(${unread})` : ""}
+    </button>
+    {open && <div style={{ position: "absolute", zIndex: 30, right: 0, top: "calc(100% + 8px)", width: "min(360px, 85vw)", maxHeight: 420, overflowY: "auto", background: "#fff", border: "1px solid #e5e7eb", borderRadius: 14, boxShadow: "0 12px 32px rgba(16,24,40,.16)", padding: 14 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+        <strong>Notifications</strong>
+        <button type="button" className="login-btn" onClick={markAllRead} disabled={!unread}>Mark all read</button>
+      </div>
+      {error && <p style={{ color: "#b42318" }}>{error}</p>}
+      {!items.length && !error && <p style={{ color: "#667085" }}>No notifications yet.</p>}
+      {items.map(item => <button key={item.id} type="button" onClick={() => !item.read && markRead(item.id)}
+        style={{ display: "block", width: "100%", textAlign: "left", border: 0, borderTop: "1px solid #eee", background: item.read ? "#fff" : "#f0f6ff", padding: "12px 8px", cursor: "pointer", color: "#101828" }}>
+        <strong>{item.title}</strong>
+        <span style={{ display: "block", fontSize: 13, marginTop: 4 }}>{item.message}</span>
+        <small style={{ color: "#667085" }}>{item.createdAt ? new Date(item.createdAt).toLocaleString() : ""} · {item.read ? "Read" : "Unread"}</small>
+      </button>)}
+    </div>}
+  </div>;
+}
+
 function WorkspaceShell({ title, subtitle, user, onLogout, children }) {
   return (
     <main style={{ minHeight: "75vh", background: "#f5f7fb", padding: "42px 20px" }}>
@@ -2746,7 +2802,10 @@ function WorkspaceShell({ title, subtitle, user, onLogout, children }) {
             <h1 style={{ margin: 0, color: "#101828" }}>{title}</h1>
             <p style={{ color: "#667085", margin: "8px 0 0" }}>{subtitle} · {user?.email}</p>
           </div>
-          <button className="login-btn" onClick={onLogout}>Log out</button>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+            <NotificationCenter user={user} />
+            <button className="login-btn" onClick={onLogout}>Log out</button>
+          </div>
         </div>
         {children}
       </section>
