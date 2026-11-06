@@ -328,3 +328,133 @@ button,input,select,textarea{font:inherit}
   #root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar{grid-template-columns:1fr!important}
   #root .app.theme-dark-premium .teacher-profile-redesign .profile-section{padding:20px!important}
 }
+
+
+/* CAPSTONE PHASE 1 + 2 — coherent dashboard and workspace experience */
+#root .app.theme-dark-premium .student-dashboard-redesign,
+#root .app.theme-dark-premium .teacher-dashboard-redesign,
+#root .app.theme-dark-premium .admin-dashboard-redesign{
+  color:#1e3551!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section,
+#root .app.theme-dark-premium .teacher-dashboard-redesign>main,
+#root .app.theme-dark-premium .admin-dashboard-redesign>main{
+  max-width:1240px!important;margin:0 auto!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .workspace-heading,
+#root .app.theme-dark-premium .admin-dashboard-redesign .workspace-heading{
+  background:linear-gradient(125deg,#203b5c,#3f6289)!important;
+  color:#fff!important;border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:24px!important;padding:34px!important;
+  box-shadow:0 18px 44px rgba(25,50,80,.16)!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child :where(h1,h2,h3,p,strong,span),
+#root .app.theme-dark-premium .teacher-dashboard-redesign .workspace-heading :where(h1,h2,h3,p),
+#root .app.theme-dark-premium .admin-dashboard-redesign .workspace-heading :where(h1,h2,h3,p){
+  color:#fff!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .card,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card,
+#root .app.theme-dark-premium .admin-dashboard-redesign .card,
+#root .app.theme-dark-premium .teacher-tools-panel,
+#root .app.theme-dark-premium .teacher-tools-section,
+#root .app.theme-dark-premium .admin-tools-panel{
+  background:#fff!important;color:#1e3551!important;
+  border:1px solid #dce5ef!important;border-radius:19px!important;
+  box-shadow:0 8px 26px rgba(31,53,79,.055)!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .card,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card,
+#root .app.theme-dark-premium .admin-dashboard-redesign .card{padding:23px!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .card h2,
+#root .app.theme-dark-premium .student-dashboard-redesign .card h3,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card h2,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card h3,
+#root .app.theme-dark-premium .admin-dashboard-redesign .card h2,
+#root .app.theme-dark-premium .admin-dashboard-redesign .card h3,
+#root .app.theme-dark-premium .teacher-tools-panel h2,
+#root .app.theme-dark-premium .teacher-tools-section h3{
+  color:#203b5c!important;font-family:Manrope,sans-serif!important;
+}
+#root .app.theme-dark-premium .dashboard-card-label,
+#root .app.theme-dark-premium .teacher-tools-heading .eyebrow,
+#root .app.theme-dark-premium .section-eyebrow{
+  color:#718eaf!important;font-size:10px!important;font-weight:800!important;
+  letter-spacing:.15em!important;margin-bottom:9px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .card p,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card p,
+#root .app.theme-dark-premium .admin-dashboard-redesign .card p,
+#root .app.theme-dark-premium .teacher-tools-panel p,
+#root .app.theme-dark-premium .teacher-tools-section p{color:#687e98!important;line-height:1.65!important}
+#root .app.theme-dark-premium .student-dashboard-redesign input,
+#root .app.theme-dark-premium .student-dashboard-redesign select,
+#root .app.theme-dark-premium .student-dashboard-redesign textarea,
+#root .app.theme-dark-premium .teacher-dashboard-redesign input,
+#root .app.theme-dark-premium .teacher-dashboard-redesign select,
+#root .app.theme-dark-premium .teacher-dashboard-redesign textarea,
+#root .app.theme-dark-premium .admin-dashboard-redesign input,
+#root .app.theme-dark-premium .admin-dashboard-redesign select,
+#root .app.theme-dark-premium .admin-dashboard-redesign textarea{
+  min-height:42px!important;padding:10px 12px!important;
+  color:#243c59!important;background:#f8fafd!important;
+  border:1px solid #d8e2ed!important;border-radius:10px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign textarea,
+#root .app.theme-dark-premium .teacher-dashboard-redesign textarea,
+#root .app.theme-dark-premium .admin-dashboard-redesign textarea{min-height:92px!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .signup-btn,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .signup-btn,
+#root .app.theme-dark-premium .admin-dashboard-redesign .signup-btn{
+  min-height:43px!important;padding:10px 17px!important;border-radius:11px!important;
+  background:linear-gradient(135deg,#52769d,#304e72)!important;color:#fff!important;
+  font-weight:700!important;
+}
+#root .app.theme-dark-premium .teacher-tools-panel{
+  margin-top:22px!important;padding:26px!important;display:grid!important;gap:18px!important;
+}
+#root .app.theme-dark-premium .teacher-tools-heading h2{margin:7px 0!important;font-size:25px!important}
+#root .app.theme-dark-premium .teacher-analytics-grid{
+  display:grid!important;grid-template-columns:repeat(auto-fit,minmax(125px,1fr))!important;gap:12px!important;
+}
+#root .app.theme-dark-premium .teacher-analytics-tile{
+  background:#f3f7fc!important;border:1px solid #e0e8f1!important;
+  border-radius:14px!important;padding:17px!important;
+}
+#root .app.theme-dark-premium .teacher-analytics-tile small{display:block;color:#7287a0!important;font-size:11px!important}
+#root .app.theme-dark-premium .teacher-analytics-tile strong{display:block;margin-top:7px;color:#294969!important;font-size:25px!important}
+#root .app.theme-dark-premium .teacher-tools-section{padding:22px!important;box-shadow:none!important}
+#root .app.theme-dark-premium .teacher-progress-form,
+#root .app.theme-dark-premium .teacher-availability-form{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+#root .app.theme-dark-premium .teacher-progress-form textarea,
+#root .app.theme-dark-premium .teacher-progress-form button,
+#root .app.theme-dark-premium .teacher-availability-form button{grid-column:1/-1!important}
+#root .app.theme-dark-premium .teacher-progress-item,
+#root .app.theme-dark-premium .teacher-availability-item{
+  padding:15px!important;margin-top:10px!important;background:#f7f9fc!important;
+  border:1px solid #e4ebf3!important;border-radius:13px!important;
+}
+#root .app.theme-dark-premium .admin-user-actions{display:flex!important;align-items:center!important;gap:9px!important;flex-wrap:wrap!important}
+#root .app.theme-dark-premium .admin-account-active{color:#18815b!important;font-weight:700!important}
+#root .app.theme-dark-premium .admin-account-suspended{color:#b54747!important;font-weight:700!important}
+#root .app.theme-dark-premium .admin-suspend-btn,
+#root .app.theme-dark-premium .admin-reactivate-btn{
+  min-height:38px!important;padding:8px 13px!important;border-radius:9px!important;
+  font-weight:700!important;border:1px solid transparent!important;
+}
+#root .app.theme-dark-premium .admin-suspend-btn{background:#fff1f0!important;color:#b42318!important;border-color:#ffd5d2!important}
+#root .app.theme-dark-premium .admin-reactivate-btn{background:#eaf8f1!important;color:#16794d!important;border-color:#c8eedb!important}
+#root .app.theme-dark-premium :where(button,a,input,select,textarea):focus-visible{
+  outline:3px solid rgba(82,118,157,.35)!important;outline-offset:2px!important;
+}
+@media(max-width:700px){
+ #root .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child{padding:24px!important}
+ #root .app.theme-dark-premium .student-dashboard-redesign .card{padding:18px!important}
+ #root .app.theme-dark-premium .teacher-tools-panel{padding:17px!important}
+ #root .app.theme-dark-premium .teacher-progress-form,
+ #root .app.theme-dark-premium .teacher-availability-form{grid-template-columns:1fr!important}
+ #root .app.theme-dark-premium .teacher-progress-form>*,
+ #root .app.theme-dark-premium .teacher-availability-form>*{grid-column:1!important}
+ #root .app.theme-dark-premium .admin-user-actions{width:100%}
+}
