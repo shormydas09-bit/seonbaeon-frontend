@@ -2500,12 +2500,12 @@ function StudentProgressPanel({ user }) {
 
 function TeacherToolsPanel({ user, consultations }) {
   const headers={ "Content-Type":"application/json",Authorization:`Bearer ${user?.token||""}` };
-  const [notes,setNotes]=useState([]); const [slots,setSlots]=useState([]); const [analytics,setAnalytics]=useState(null);
+  const [notes,setNotes]=useState([]); const [slots,setSlots]=useState([]); const [analytics,setAnalytics]=useState(null); const [students,setStudents]=useState([]);
   const [studentUserId,setStudentUserId]=useState(""); const [subject,setSubject]=useState(""); const [note,setNote]=useState("");
   const [startsAt,setStartsAt]=useState(""); const [endsAt,setEndsAt]=useState(""); const [slotNote,setSlotNote]=useState("");
   const [notice,setNotice]=useState(""); const [error,setError]=useState("");
-  const students=[...new Map((consultations||[]).filter(c=>["APPROVED","COMPLETED"].includes(c.status)).map(c=>[String(c.email).toLowerCase(),{email:c.email,name:c.studentName,userId:c.studentUserId}])).values()];
-  async function load(){try{const [n,a,k]=await Promise.all([fetch(`${API_URL}/workspace/teacher/progress`,{headers}),fetch(`${API_URL}/workspace/teacher/availability`,{headers}),fetch(`${API_URL}/workspace/teacher/analytics`,{headers})]);setNotes(await readResponse(n));setSlots(await readResponse(a));setAnalytics(await readResponse(k));}catch(e){setError(e.message);}}
+  
+  async function load(){try{const [n,a,k,st]=await Promise.all([fetch(`${API_URL}/workspace/teacher/progress`,{headers}),fetch(`${API_URL}/workspace/teacher/availability`,{headers}),fetch(`${API_URL}/workspace/teacher/analytics`,{headers}),fetch(`${API_URL}/workspace/teacher/students`,{headers})]);setNotes(await readResponse(n));setSlots(await readResponse(a));setAnalytics(await readResponse(k));setStudents(await readResponse(st));}catch(e){setError(e.message);}}
   useEffect(()=>{load();},[]);
   async function saveNote(e){e.preventDefault();setError("");setNotice("");try{await readResponse(await fetch(`${API_URL}/workspace/teacher/progress`,{method:"POST",headers,body:JSON.stringify({studentUserId,subject,note})}));setSubject("");setNote("");setNotice("Student progress note saved.");await load();}catch(e){setError(e.message);}}
   async function addSlot(e){e.preventDefault();setError("");setNotice("");try{await readResponse(await fetch(`${API_URL}/workspace/teacher/availability`,{method:"POST",headers,body:JSON.stringify({startsAt,endsAt,note:slotNote})}));setStartsAt("");setEndsAt("");setSlotNote("");setNotice("Availability slot added.");await load();}catch(e){setError(e.message);}}
