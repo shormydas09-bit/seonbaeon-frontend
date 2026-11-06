@@ -3553,7 +3553,7 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <div className="app theme-dark-premium">
       <nav className="navbar">
         <button
           className="logo logo-button"
