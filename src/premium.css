@@ -1,840 +1,213 @@
-/* PICK MY TEACHER — CLEAN SOFT-NAVY PREMIUM SYSTEM
-   Single final visual layer. App.css supplies component structure; this file owns appearance.
-   Palette: soft navy, slate blue, cool mist and warm white. */
+/* Pick My Teacher — unified premium UI
+   Structural layout remains in App.css. This file is the single visual system. */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap');
 
 :root{
-  color-scheme:light;
-  --pmt-bg:#edf2f8;
-  --pmt-bg-deep:#e5ecf5;
-  --pmt-surface:#fbfcfe;
-  --pmt-surface-soft:#f4f7fb;
-  --pmt-surface-blue:#eaf0f8;
-  --pmt-ink:#203752;
-  --pmt-ink-strong:#172d47;
-  --pmt-muted:#657991;
-  --pmt-muted-light:#8798ac;
-  --pmt-line:#d8e1ec;
-  --pmt-line-strong:#c6d3e2;
-  --pmt-navy:#405b7b;
-  --pmt-navy-deep:#2c4564;
-  --pmt-blue:#718bab;
-  --pmt-blue-light:#dce6f1;
-  --pmt-success:#28775d;
-  --pmt-danger:#b94d55;
-  --pmt-shadow:0 10px 28px rgba(34,57,84,.075);
-  --pmt-shadow-hover:0 16px 36px rgba(34,57,84,.12);
-  --pmt-radius:16px;
-  --pmt-radius-lg:22px;
+ --pmt-bg:#edf2f8;--pmt-paper:#fff;--pmt-soft:#f5f8fc;--pmt-soft-blue:#e8eff7;
+ --pmt-ink:#1e3551;--pmt-muted:#667b94;--pmt-line:#d9e3ee;--pmt-navy:#405d80;
+ --pmt-navy-deep:#294462;--pmt-blue:#718eaf;--pmt-shadow:0 12px 34px rgba(31,53,79,.08);
+ --pmt-radius:20px;
 }
-html{background:var(--pmt-bg);scroll-behavior:smooth}
-body{
-  min-width:320px;background:var(--pmt-bg);color:var(--pmt-ink);
-  font-family:"DM Sans",Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
-  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility
-}
-#root .app.theme-dark-premium{
-  min-height:100vh;color:var(--pmt-ink)!important;background:var(--pmt-bg)!important;
-  font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif;
-}
-#root .app.theme-dark-premium :where(h1,h2,h3,h4,h5){
-  color:var(--pmt-ink-strong)!important;letter-spacing:-.025em
-}
-#root .app.theme-dark-premium :where(p,small,.muted,.subtitle){
-  color:var(--pmt-muted)
-}
-#root .app.theme-dark-premium :where(button,input,select,textarea){font:inherit}
-#root .app.theme-dark-premium button{cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease}
-#root .app.theme-dark-premium button:focus-visible,
-#root .app.theme-dark-premium a:focus-visible{outline:3px solid rgba(91,125,164,.35)!important;outline-offset:2px}
-
-/* Navigation */
-#root .app.theme-dark-premium .navbar{
-  min-height:76px;height:auto;padding:14px clamp(18px,6vw,88px);
-  background:rgba(250,252,254,.96)!important;border-bottom:1px solid var(--pmt-line)!important;
-  box-shadow:0 4px 18px rgba(32,55,82,.045)!important;backdrop-filter:blur(12px)
-}
-#root .app.theme-dark-premium .logo{color:var(--pmt-ink-strong)!important;font-family:Manrope,sans-serif;font-weight:800}
-#root .app.theme-dark-premium .logo span{color:#8297b1!important}
-#root .app.theme-dark-premium .nav-links{gap:clamp(12px,2vw,28px)}
-#root .app.theme-dark-premium .nav-links button,
-#root .app.theme-dark-premium .login-btn{color:#526982!important;font-weight:600}
-#root .app.theme-dark-premium .nav-links button:hover,
-#root .app.theme-dark-premium .login-btn:hover{color:#1f3855!important}
-#root .app.theme-dark-premium .signup-btn,
-#root .app.theme-dark-premium .primary-btn,
-#root .app.theme-dark-premium .auth-submit,
-#root .app.theme-dark-premium .submit-consultation{
-  color:#fff!important;background:linear-gradient(135deg,#526f91,#354f70)!important;
-  border:1px solid #405d7e!important;border-radius:11px!important;
-  box-shadow:0 7px 16px rgba(45,70,101,.16)!important;font-weight:750
-}
-#root .app.theme-dark-premium .signup-btn:hover,
-#root .app.theme-dark-premium .primary-btn:hover,
-#root .app.theme-dark-premium .auth-submit:hover{background:#2e4868!important;transform:translateY(-1px)}
+*{box-sizing:border-box}
+html,body,#root{min-height:100%;background:var(--pmt-bg)!important}
+body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;color:var(--pmt-ink)!important;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit}
+#root .app.theme-dark-premium{min-height:100vh;background:var(--pmt-bg)!important;background-image:none!important;color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium :where(h1,h2,h3,h4,h5,strong,b){color:var(--pmt-ink)}
+#root .app.theme-dark-premium :where(p,small){color:var(--pmt-muted)}
+#root .app.theme-dark-premium :where(input,select,textarea){color:var(--pmt-ink);background:#fff;border:1px solid var(--pmt-line);border-radius:12px}
+#root .app.theme-dark-premium :where(input,select,textarea)::placeholder{color:#91a0b2;opacity:1}
+#root .app.theme-dark-premium :where(input,select,textarea):focus{outline:0;border-color:#829bb8;box-shadow:0 0 0 3px rgba(89,119,155,.14)}
+#root .app.theme-dark-premium button:focus-visible,#root .app.theme-dark-premium a:focus-visible{outline:3px solid rgba(113,142,175,.4);outline-offset:3px}
+#root .app.theme-dark-premium .navbar{height:76px;padding:0 clamp(18px,6vw,88px);background:rgba(255,255,255,.96)!important;border-bottom:1px solid var(--pmt-line)!important;box-shadow:0 4px 20px rgba(31,53,79,.045)!important;backdrop-filter:blur(12px)}
+#root .app.theme-dark-premium .navbar .logo{font:800 21px Manrope,sans-serif;color:var(--pmt-ink)!important;letter-spacing:-.7px}
+#root .app.theme-dark-premium .navbar .logo span{color:var(--pmt-blue)!important}
+#root .app.theme-dark-premium .navbar .nav-links{gap:clamp(14px,2.3vw,34px)}
+#root .app.theme-dark-premium .navbar .nav-links button,#root .app.theme-dark-premium .navbar .nav-buttons button{color:#526982!important;font-weight:600;background:transparent;border:0}
+#root .app.theme-dark-premium .navbar .nav-links button:hover{color:var(--pmt-navy-deep)!important}
+#root .app.theme-dark-premium .navbar .nav-buttons .signup-btn{padding:11px 18px;border-radius:11px;background:var(--pmt-navy)!important;color:#fff!important}
+#root .app.theme-dark-premium .mobile-nav-panel{background:#fff!important;border:1px solid var(--pmt-line)!important;box-shadow:var(--pmt-shadow)}
+#root .app.theme-dark-premium .mobile-nav-panel button{color:var(--pmt-ink)!important}
 
 /* Home */
-#root .app.theme-dark-premium .hero-section{
-  color:var(--pmt-ink)!important;
-  background:linear-gradient(125deg,#e4ebf4 0%,#f2f5f9 55%,#e8eef6 100%)!important
-}
-#root .app.theme-dark-premium .hero-content h1{color:#203954!important;font-family:Manrope,sans-serif}
-#root .app.theme-dark-premium .hero-content h1 span,
-#root .app.theme-dark-premium .small-title{color:#7188a4!important}
-#root .app.theme-dark-premium .hero-text{color:#60758d!important}
-#root .app.theme-dark-premium .secondary-btn,
-#root .app.theme-dark-premium .back-home{
-  color:#405a78!important;background:#f9fbfd!important;border:1px solid var(--pmt-line-strong)!important;
-  border-radius:11px!important
-}
-
-/* Marketplace and teacher cards */
-#root .app.theme-dark-premium .teachers-page,
-#root .app.theme-dark-premium .teacher-search-redesign,
-#root .app.theme-dark-premium .profile-page,
-#root .app.theme-dark-premium .page{
-  color:var(--pmt-ink)!important;background:var(--pmt-bg)!important
-}
-#root .app.theme-dark-premium .teachers-header{
-  color:var(--pmt-ink)!important;background:linear-gradient(120deg,#e1e9f3,#f1f5fa)!important;
-  border-bottom:1px solid var(--pmt-line)!important
-}
-#root .app.theme-dark-premium .teachers-header :where(h1,h2){color:var(--pmt-ink-strong)!important}
-#root .app.theme-dark-premium .teachers-header p{color:var(--pmt-muted)!important}
-#root .app.theme-dark-premium .teacher-search-area{color:var(--pmt-ink)!important}
-#root .app.theme-dark-premium .teacher-card,
-#root .app.theme-dark-premium .profile-header,
-#root .app.theme-dark-premium .profile-section,
-#root .app.theme-dark-premium .profile-layout>aside,
-#root .app.theme-dark-premium .profile-layout>div,
-#root .app.theme-dark-premium .auth-card,
-#root .app.theme-dark-premium .compare-modal,
-#root .app.theme-dark-premium .consultation-modal{
-  color:var(--pmt-ink)!important;background:var(--pmt-surface)!important;
-  border:1px solid var(--pmt-line)!important;border-radius:var(--pmt-radius-lg)!important;
-  box-shadow:var(--pmt-shadow)!important
-}
-#root .app.theme-dark-premium .teacher-card:hover{box-shadow:var(--pmt-shadow-hover)!important;transform:translateY(-2px)}
-#root .app.theme-dark-premium .teacher-card :where(h2,h3,strong,b){color:var(--pmt-ink-strong)!important}
-#root .app.theme-dark-premium .teacher-card :where(p,small,.teacher-specialty){color:var(--pmt-muted)!important}
-#root .app.theme-dark-premium .teacher-card .teacher-stats{border-color:#e3e9f0!important}
-#root .app.theme-dark-premium .teacher-card .teacher-stats strong{color:#405c7d!important}
-#root .app.theme-dark-premium .teacher-card .favorite-btn{color:#607894!important;background:#f5f8fb!important;border:1px solid var(--pmt-line)!important}
-#root .app.theme-dark-premium .teacher-card .favorite-btn.favorite-active{color:#bd5b70!important;background:#fff2f4!important}
-#root .app.theme-dark-premium .profile-page{padding:28px clamp(16px,5vw,72px) 72px!important}
-#root .app.theme-dark-premium .profile-container{width:min(100%,1180px)!important;margin:0 auto!important}
-#root .app.theme-dark-premium .profile-header,
-#root .app.theme-dark-premium .profile-section{padding:clamp(20px,3vw,32px)!important;margin-bottom:18px!important}
-#root .app.theme-dark-premium .profile-header :where(h1,h2,h3),
-#root .app.theme-dark-premium .profile-section :where(h2,h3){color:var(--pmt-ink-strong)!important}
-#root .app.theme-dark-premium .profile-header p,
-#root .app.theme-dark-premium .profile-section p{color:var(--pmt-muted)!important;line-height:1.7}
-#root .app.theme-dark-premium .profile-tags span{color:#405c7d!important;background:#eaf0f7!important;border:1px solid #dce5ef!important;border-radius:999px!important}
-
-/* Authentication */
-#root .app.theme-dark-premium .auth-page,
-#root .app.theme-dark-premium .auth-page.auth-premium-redesign{
-  min-height:calc(100vh - 76px)!important;display:grid!important;place-items:center!important;
-  padding:clamp(26px,5vw,60px) 18px!important;
-  background:radial-gradient(ellipse at 12% 10%,#dce6f1 0%,transparent 40%),linear-gradient(135deg,#eaf0f7,#f3f6fa)!important
-}
-#root .app.theme-dark-premium .auth-page .auth-card{
-  width:min(100%,480px)!important;max-width:480px!important;margin:0 auto!important;
-  padding:clamp(26px,4vw,42px)!important;background:#fbfcfe!important;
-  border:1px solid #d3deea!important;border-radius:24px!important;
-  box-shadow:0 22px 60px rgba(37,58,84,.14)!important
-}
-#root .app.theme-dark-premium .auth-page .auth-logo{color:#263f5d!important;font-family:Manrope,sans-serif;font-size:25px;font-weight:800}
-#root .app.theme-dark-premium .auth-page .auth-logo span{color:#8298b2!important}
-#root .app.theme-dark-premium .auth-page .auth-heading h1{color:#203954!important;font-size:clamp(28px,4vw,36px)!important}
-#root .app.theme-dark-premium .auth-page .auth-heading p{color:#657a92!important;line-height:1.7}
-#root .app.theme-dark-premium .auth-page label{color:#405a77!important;font-weight:700!important;font-size:13px!important}
-#root .app.theme-dark-premium :where(input,select,textarea){
-  width:100%;min-height:46px;padding:11px 13px;color:#263f5d!important;
-  -webkit-text-fill-color:#263f5d!important;background:#fbfcfe!important;
-  border:1px solid #ccd8e6!important;border-radius:11px!important;box-shadow:none!important
-}
-#root .app.theme-dark-premium :where(input,select,textarea)::placeholder{color:#8b9bae!important;-webkit-text-fill-color:#8b9bae!important;opacity:1}
-#root .app.theme-dark-premium :where(input,select,textarea):focus{
-  outline:0!important;border-color:#8299b5!important;box-shadow:0 0 0 3px rgba(89,119,155,.15)!important
-}
-#root .app.theme-dark-premium select,
-#root .app.theme-dark-premium select option{color:#263f5d!important;background:#fbfcfe!important;color-scheme:light!important}
-#root .app.theme-dark-premium .auth-page .auth-switch{color:#71839a!important}
-#root .app.theme-dark-premium .auth-page .auth-switch button{color:#405f82!important;font-weight:750}
-#root .app.theme-dark-premium .auth-page .form-error{color:#a3444b!important;background:#fff1f1!important;border:1px solid #f0d6d7!important;border-radius:11px!important}
-#root .app.theme-dark-premium .auth-page .form-success{color:#28775d!important;background:#edf8f2!important;border:1px solid #d3ebdc!important;border-radius:11px!important}
-
-/* Dashboards — shared shell */
-#root .app.theme-dark-premium .workspace-premium-shell{
-  width:100%!important;min-height:calc(100vh - 76px)!important;
-  padding:clamp(24px,4vw,44px) clamp(14px,4vw,42px) 72px!important;
-  color:var(--pmt-ink)!important;background:var(--pmt-bg)!important
-}
-#root .app.theme-dark-premium .workspace-premium-shell>section{
-  width:min(100%,1240px)!important;max-width:1240px!important;margin:0 auto!important
-}
-#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child{
-  padding:clamp(22px,3vw,34px)!important;margin-bottom:22px!important;
-  color:var(--pmt-ink)!important;background:linear-gradient(120deg,#f9fbfd,#e7edf5)!important;
-  border:1px solid var(--pmt-line)!important;border-radius:22px!important;box-shadow:var(--pmt-shadow)!important
-}
-#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child h1{color:#203954!important;font-family:Manrope,sans-serif;font-size:clamp(28px,3vw,40px)!important}
-#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child p{color:#657a92!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign,
-#root .app.theme-dark-premium .teacher-dashboard-redesign{color:var(--pmt-ink)!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .card,
-#root .app.theme-dark-premium .teacher-dashboard-redesign .card,
-#root .app.theme-dark-premium .student-dashboard-redesign .card{
-  color:var(--pmt-ink)!important;background:#fbfcfe!important;
-  border:1px solid var(--pmt-line)!important;border-radius:17px!important;
-  box-shadow:0 8px 22px rgba(34,57,84,.065)!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .card :where(h2,h3,strong,b,label),
-#root .app.theme-dark-premium .teacher-dashboard-redesign .card :where(h2,h3,strong,b,label),
-#root .app.theme-dark-premium .student-dashboard-redesign .card :where(h2,h3,strong,b,label){
-  color:#263f5d!important;-webkit-text-fill-color:#263f5d!important;opacity:1!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .card :where(p,small),
-#root .app.theme-dark-premium .teacher-dashboard-redesign .card :where(p,small),
-#root .app.theme-dark-premium .student-dashboard-redesign .card :where(p,small){
-  color:#657a92!important;-webkit-text-fill-color:#657a92!important;opacity:1!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .card strong{font-size:28px!important;font-weight:800!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management,
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-panel{
-  display:block!important;width:100%!important;padding:clamp(20px,3vw,30px)!important;margin:18px 0!important;
-  color:var(--pmt-ink)!important;background:#fbfcfe!important;border:1px solid var(--pmt-line)!important;
-  border-radius:20px!important;box-shadow:var(--pmt-shadow)!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-heading :where(h2,h3){color:#263f5d!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-heading p{color:#657a92!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-filters{
-  display:grid!important;grid-template-columns:minmax(0,1fr) 220px!important;gap:12px!important;margin:18px 0!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list{display:grid!important;grid-template-columns:1fr!important;gap:14px!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card,
-#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card,
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article{
-  display:block!important;width:100%!important;padding:22px!important;margin:0 0 14px!important;
-  color:#2b435e!important;background:linear-gradient(145deg,#f8fafd,#edf2f8)!important;
-  border:1px solid #d3deea!important;border-radius:18px!important;
-  box-shadow:0 9px 24px rgba(34,57,84,.075)!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card :where(strong,b,h3),
-#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card :where(strong,b,h3){
-  color:#263f5d!important;-webkit-text-fill-color:#263f5d!important;opacity:1!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card :where(p,span,small),
-#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card :where(p,span,small){
-  color:#657a92!important;-webkit-text-fill-color:#657a92!important;opacity:1!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign article .admin-avatar{background:#dce6f1!important;color:#365271!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign article .admin-consultation-meta{border-color:#d8e1ec!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign article :where(.admin-secondary-action,.admin-status-action,.admin-remove-action){
-  color:#405a78!important;-webkit-text-fill-color:#405a78!important;background:#e9eff6!important;border:1px solid #d1dce9!important;border-radius:10px!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign article .admin-status-action.selected{
-  color:#fff!important;-webkit-text-fill-color:#fff!important;background:#526f91!important;border-color:#526f91!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign article .admin-status-badge.status-pending{color:#8b641d!important;background:#f8efd9!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign article .admin-status-badge.status-approved{color:#28775d!important;background:#e6f3ec!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign article .admin-status-badge.status-rejected{color:#a3444b!important;background:#fbeaea!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign article .admin-student-details,
-#root .app.theme-dark-premium .admin-dashboard-redesign article .admin-decision-history{
-  color:#304963!important;background:#f5f8fb!important;border:1px solid #dce5ef!important;border-radius:13px!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign article .admin-student-details :where(h3,b,p,span),
-#root .app.theme-dark-premium .admin-dashboard-redesign article .admin-decision-history :where(summary,p,b){color:#405a78!important;-webkit-text-fill-color:#405a78!important}
-#root .app.theme-dark-premium .student-dashboard-redesign>section{width:min(100%,1200px)!important}
-#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2){
-  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px!important
-}
-#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2)>.card{padding:22px!important;margin:0!important}
-#root .app.theme-dark-premium .student-dashboard-redesign>section>.card{padding:22px!important;margin:18px 0!important}
-
-/* Comparison, notices and small details */
-#root .app.theme-dark-premium .compare-bar{background:#304a68!important;color:#f6f8fb!important;border:1px solid #405a78!important;border-radius:16px!important}
-#root .app.theme-dark-premium .compare-bar :where(strong,span){color:#f6f8fb!important}
-#root .app.theme-dark-premium .compare-mini-card{background:rgba(255,255,255,.1)!important;border:1px solid rgba(255,255,255,.18)!important;color:#fff!important}
-#root .app.theme-dark-premium .compare-now-btn{color:#fff!important;background:#526f91!important;border-radius:10px!important}
-#root .app.theme-dark-premium .notification-panel{color:var(--pmt-ink)!important;background:#fbfcfe!important;border:1px solid var(--pmt-line)!important;box-shadow:var(--pmt-shadow)!important}
-#root .app.theme-dark-premium .notification-panel :where(h2,h3,strong){color:var(--pmt-ink-strong)!important}
-#root .app.theme-dark-premium .notification-panel :where(p,small){color:var(--pmt-muted)!important}
-#root .app.theme-dark-premium .form-error{color:#a3444b!important;background:#fff1f1!important;border:1px solid #f0d6d7!important}
-#root .app.theme-dark-premium .form-success{color:#28775d!important;background:#edf8f2!important;border:1px solid #d3ebdc!important}
-#root .app.theme-dark-premium .back-home{display:inline-flex;align-items:center;gap:8px;padding:10px 15px!important;margin:18px 0}
-#root .app.theme-dark-premium :where(.card,.teacher-card,.profile-section,.admin-consultation-card){overflow-wrap:anywhere}
-
-@media(max-width:900px){
-  #root .app.theme-dark-premium .navbar{padding:12px 18px;gap:12px;flex-wrap:wrap}
-  #root .app.theme-dark-premium .nav-links{gap:8px}
-  #root .app.theme-dark-premium .nav-links button{padding:8px 10px;font-size:13px}
-  #root .app.theme-dark-premium .profile-layout{grid-template-columns:1fr!important}
-}
-@media(max-width:640px){
-  #root .app.theme-dark-premium .navbar{min-height:unset}
-  #root .app.theme-dark-premium .navbar .logo{font-size:19px}
-  #root .app.theme-dark-premium .nav-links{order:3;width:100%;overflow-x:auto;flex-wrap:nowrap}
-  #root .app.theme-dark-premium .nav-links button{flex:0 0 auto}
-  #root .app.theme-dark-premium .nav-buttons{margin-left:auto}
-  #root .app.theme-dark-premium .hero-section{grid-template-columns:1fr!important;padding:54px 22px!important;gap:28px!important}
-  #root .app.theme-dark-premium .hero-content h1{font-size:clamp(38px,10vw,54px)!important}
-  #root .app.theme-dark-premium .auth-page .auth-card{padding:25px 21px!important}
-  #root .app.theme-dark-premium .workspace-premium-shell{padding:20px 12px 48px!important}
-  #root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-filters{grid-template-columns:1fr!important}
-  #root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card,
-  #root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card{padding:16px!important}
-  #root .app.theme-dark-premium .admin-dashboard-redesign article .admin-consultation-meta{grid-template-columns:1fr!important;gap:10px!important}
-  #root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2){grid-template-columns:1fr!important}
-  #root .app.theme-dark-premium .compare-bar{flex-direction:column;align-items:stretch}
-}
-
-
-/* Screenshot QA: replace legacy midnight discovery and admin rows with soft-navy surfaces */
-#root .app.theme-dark-premium .teacher-search-area{
-  width:min(88%,1280px)!important;max-width:1280px!important;margin:0 auto!important;
-  padding:0 0 76px!important;color:#263f5d!important;
-  background:transparent!important;background-image:none!important;border:0!important;
-  border-radius:0!important;box-shadow:none!important
-}
-#root .app.theme-dark-premium .teacher-search-area .search-top{
-  display:grid!important;grid-template-columns:minmax(280px,1.6fr) minmax(180px,.8fr) minmax(150px,.65fr)!important;
-  gap:12px!important;padding:16px!important;
-  color:#2c4564!important;background:#e3eaf3!important;background-image:none!important;
-  border:1px solid #d1dce9!important;border-radius:16px!important;
-  box-shadow:0 8px 22px rgba(34,57,84,.07)!important
-}
-#root .app.theme-dark-premium .teacher-search-area .search-input-wrapper{
-  min-width:0!important;background:#fbfcfe!important;border:1px solid #cbd7e5!important;border-radius:11px!important
-}
-#root .app.theme-dark-premium .teacher-search-area .search-input-wrapper span{color:#526a85!important}
-#root .app.theme-dark-premium .teacher-search-area .search-input-wrapper input{
-  background:transparent!important;border:0!important;box-shadow:none!important
-}
-#root .app.theme-dark-premium .teacher-search-area .search-top select{
-  min-width:0!important;color:#304963!important;background:#fbfcfe!important;border:1px solid #cbd7e5!important
-}
-#root .app.theme-dark-premium .teacher-search-area .results-header,
-#root .app.theme-dark-premium .teacher-search-area .results-header strong{color:#263f5d!important}
-#root .app.theme-dark-premium .teacher-search-area .results-header span{color:#6b7f96!important}
-#root .app.theme-dark-premium .teacher-grid>.teacher-card{
-  min-width:0!important;color:#2b435e!important;background:#fbfcfe!important;background-image:none!important;
-  border:1px solid #d3deea!important;border-radius:18px!important;
-  box-shadow:0 10px 26px rgba(34,57,84,.075)!important
-}
-#root .app.theme-dark-premium .teacher-grid>.teacher-card :where(h2,h3,strong,b){
-  color:#263f5d!important;-webkit-text-fill-color:#263f5d!important
-}
-#root .app.theme-dark-premium .teacher-grid>.teacher-card :where(p,small,.teacher-specialty,.teacher-stats small){
-  color:#687d95!important;-webkit-text-fill-color:#687d95!important
-}
-#root .app.theme-dark-premium .teacher-grid>.teacher-card .teacher-tags span{
-  color:#4c6582!important;background:#eaf0f7!important;border:1px solid #dce5ef!important
-}
-#root .app.theme-dark-premium .teacher-grid>.teacher-card .teacher-stats{
-  border-top:1px solid #dce5ef!important;border-bottom:1px solid #dce5ef!important
-}
-#root .app.theme-dark-premium .teacher-grid>.teacher-card .teacher-actions .view-profile{
-  color:#405a78!important;background:#edf2f8!important;border:1px solid #d4deea!important
-}
-#root .app.theme-dark-premium .teacher-grid>.teacher-card .teacher-actions .compare-btn{
-  color:#fff!important;background:#526f91!important;border:1px solid #526f91!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row{
-  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important;
-  padding:17px 18px!important;margin:10px 0!important;
-  color:#2c4564!important;background:#eef3f8!important;background-image:none!important;
-  border:1px solid #d8e2ed!important;border-radius:14px!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row :where(strong,b){
-  color:#263f5d!important;-webkit-text-fill-color:#263f5d!important;opacity:1!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row :where(p,small){
-  color:#687d95!important;-webkit-text-fill-color:#687d95!important;opacity:1!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-meta .status-pill{
-  color:#506781!important;background:#e1e9f2!important;border:1px solid #d0dbe8!important
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-meta .danger-outline-btn{
-  color:#a3444b!important;background:#fff7f6!important;border:1px solid #efcece!important
-}
-@media(max-width:760px){
-  #root .app.theme-dark-premium .teacher-search-area{width:calc(100% - 28px)!important}
-  #root .app.theme-dark-premium .teacher-search-area .search-top{grid-template-columns:1fr!important}
-  #root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row{align-items:flex-start!important;flex-direction:column!important}
-}
-
-
-/* Route-level corrections: remove leftover legacy dark blocks from visible pages */
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign,
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-search-area,
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header,
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-grid {
-  color:#203752!important;
-  background:#edf2f8!important;
-  background-image:none!important;
-}
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-search-area {
-  padding:24px!important;
-  border:1px solid #d8e1ec!important;
-  border-radius:20px!important;
-  box-shadow:0 10px 28px rgba(34,57,84,.075)!important;
-}
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header strong {
-  color:#203752!important;-webkit-text-fill-color:#203752!important;
-}
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card {
-  color:#203752!important;background:#fbfcfe!important;background-image:none!important;
-  border:1px solid #d8e1ec!important;border-radius:20px!important;
-  box-shadow:0 10px 28px rgba(34,57,84,.075)!important;
-}
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card :where(h2,strong,b) {
-  color:#203752!important;-webkit-text-fill-color:#203752!important;opacity:1!important;
-}
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card :where(p,small,.teacher-specialty) {
-  color:#657991!important;-webkit-text-fill-color:#657991!important;opacity:1!important;
-}
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-tags span,
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .rating {
-  color:#405b7b!important;-webkit-text-fill-color:#405b7b!important;
-  background:#eaf0f8!important;border:1px solid #d8e1ec!important;
-}
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-stats {
-  border-color:#d8e1ec!important;
-}
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-stats strong {
-  color:#2c4564!important;-webkit-text-fill-color:#2c4564!important;
-}
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-stats small {
-  color:#657991!important;-webkit-text-fill-color:#657991!important;
-}
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .view-profile,
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .view-profile-btn {
-  color:#405b7b!important;background:#edf2f8!important;border:1px solid #c6d3e2!important;
-}
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .compare-btn,
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .compare-profile-btn {
-  color:#fff!important;background:#405b7b!important;border:1px solid #405b7b!important;
-}
-
-/* Teacher profile: every content panel and the page canvas use one light surface system */
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign,
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-container,
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-layout,
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left {
-  color:#203752!important;background:#edf2f8!important;background-image:none!important;
-}
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-header,
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .profile-section,
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-right .booking-card,
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-right .quick-info,
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .review-card {
-  color:#203752!important;background:#fbfcfe!important;background-image:none!important;
-  border:1px solid #d8e1ec!important;border-radius:18px!important;
-  box-shadow:0 10px 28px rgba(34,57,84,.075)!important;
-}
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-header :where(h1,h2,h3,strong,b),
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .profile-section :where(h2,h3,strong,b),
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-right :where(h2,h3,strong,b) {
-  color:#203752!important;-webkit-text-fill-color:#203752!important;opacity:1!important;
-}
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-header :where(p,span),
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .profile-section :where(p,span),
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-right :where(p,span) {
-  color:#657991!important;-webkit-text-fill-color:#657991!important;opacity:1!important;
-}
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .qualification-item,
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .style-card,
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .teaching-details-grid>div {
-  color:#405b7b!important;background:#f1f5fa!important;background-image:none!important;
-  border:1px solid #d8e1ec!important;border-radius:14px!important;
-}
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .qualification-item :where(strong,b,h3),
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .style-card :where(h3,strong),
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-left .teaching-details-grid>div :where(strong,b) {
-  color:#2c4564!important;-webkit-text-fill-color:#2c4564!important;
-}
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .section-eyebrow {
-  color:#718bab!important;-webkit-text-fill-color:#718bab!important;
-}
-#root .app.theme-dark-premium .profile-page.teacher-profile-redesign .booking-card button {
-  color:#fff!important;background:#405b7b!important;border:1px solid #405b7b!important;
-}
-
-/* Admin teacher profile rows: no inherited navy gradients */
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management .admin-teacher-row {
-  color:#203752!important;background:#f4f7fb!important;background-image:none!important;
-  border:1px solid #d8e1ec!important;border-radius:15px!important;
-  box-shadow:none!important;
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management .admin-teacher-row :where(strong,b) {
-  color:#203752!important;-webkit-text-fill-color:#203752!important;opacity:1!important;
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management .admin-teacher-row :where(p,small) {
-  color:#657991!important;-webkit-text-fill-color:#657991!important;opacity:1!important;
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management .admin-teacher-row .status-pill {
-  color:#405b7b!important;background:#e6edf5!important;border:1px solid #d2deeb!important;
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management .admin-teacher-row .danger-outline-btn {
-  color:#a64c55!important;background:#fff!important;border:1px solid #e7cdd0!important;
-}
-@media(max-width:760px){
-  #root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-search-area{padding:15px!important}
-  #root .app.theme-dark-premium .profile-page.teacher-profile-redesign .profile-layout{grid-template-columns:1fr!important}
-}
-
-
-/* VISUAL QA: force soft-navy surfaces on every previously dark page section */
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign,
-#root .app.theme-dark-premium .teacher-profile-redesign.profile-page {
-  background:#eaf0f7!important;
-  background-image:linear-gradient(180deg,#edf2f8 0%,#e7edf5 100%)!important;
-  color:#203752!important;
-}
-#root .app.theme-dark-premium .teacher-search-redesign .teacher-search-area {
-  width:min(88%,1240px)!important;max-width:1240px!important;
-  margin:0 auto!important;padding:22px 0 72px!important;
-  background:transparent!important;background-image:none!important;
-}
-#root .app.theme-dark-premium .teacher-search-redesign .search-top {
-  background:#f8fafd!important;background-image:none!important;
-  border:1px solid #d6e0ec!important;border-radius:18px!important;
-  box-shadow:0 10px 28px rgba(34,57,84,.075)!important;
-}
-#root .app.theme-dark-premium .teacher-search-redesign .teacher-grid {
-  gap:22px!important;
-}
-#root .app.theme-dark-premium .teacher-search-redesign .teacher-card {
-  background:#fbfcfe!important;background-image:none!important;
-  color:#203752!important;border:1px solid #d5dfeb!important;
-  border-radius:20px!important;box-shadow:0 10px 26px rgba(34,57,84,.075)!important;
-}
-#root .app.theme-dark-premium .teacher-search-redesign .teacher-card :where(h2,h3,strong,b) {
-  color:#203752!important;-webkit-text-fill-color:#203752!important;opacity:1!important;
-}
-#root .app.theme-dark-premium .teacher-search-redesign .teacher-card :where(p,span,small) {
-  color:#657991!important;-webkit-text-fill-color:#657991!important;opacity:1!important;
-}
-#root .app.theme-dark-premium .teacher-search-redesign .teacher-card .teacher-specialty {
-  color:#657991!important;-webkit-text-fill-color:#657991!important;
-}
-#root .app.theme-dark-premium .teacher-search-redesign .teacher-card .profile-btn {
-  color:#405b7b!important;background:transparent!important;
-}
-#root .app.theme-dark-premium .teacher-search-redesign .teacher-card .compare-btn {
-  color:#fff!important;-webkit-text-fill-color:#fff!important;
-  background:linear-gradient(135deg,#526f91,#354f70)!important;
-}
-#root .app.theme-dark-premium .teacher-search-redesign .teacher-card .rating,
-#root .app.theme-dark-premium .teacher-search-redesign .teacher-card .rating-unavailable {
-  color:#617894!important;background:#edf2f8!important;border:1px solid #dce5ef!important;
-}
-#root .app.theme-dark-premium .teacher-profile-redesign {
-  min-height:100vh!important;padding:32px clamp(16px,5vw,70px) 76px!important;
-  background:#eaf0f7!important;background-image:linear-gradient(180deg,#edf2f8,#e7edf5)!important;
-}
-#root .app.theme-dark-premium .teacher-profile-redesign .profile-container {
-  width:min(100%,1180px)!important;margin:0 auto!important;
-  background:transparent!important;background-image:none!important;
-}
-#root .app.theme-dark-premium .teacher-profile-redesign .profile-header,
-#root .app.theme-dark-premium .teacher-profile-redesign .profile-section,
-#root .app.theme-dark-premium .teacher-profile-redesign .profile-left,
-#root .app.theme-dark-premium .teacher-profile-redesign .profile-right,
-#root .app.theme-dark-premium .teacher-profile-redesign .quick-info {
-  color:#203752!important;background:#fbfcfe!important;background-image:none!important;
-  border:1px solid #d6e0ec!important;border-radius:19px!important;
-  box-shadow:0 9px 25px rgba(34,57,84,.065)!important;
-}
-#root .app.theme-dark-premium .teacher-profile-redesign .profile-section {
-  padding:clamp(20px,3vw,30px)!important;margin:0 0 18px!important;
-}
-#root .app.theme-dark-premium .teacher-profile-redesign :where(h1,h2,h3,strong,b) {
-  color:#203752!important;-webkit-text-fill-color:#203752!important;opacity:1!important;
-}
-#root .app.theme-dark-premium .teacher-profile-redesign :where(p,span,small) {
-  color:#657991!important;-webkit-text-fill-color:#657991!important;opacity:1!important;
-}
-#root .app.theme-dark-premium .teacher-profile-redesign .qualification-item,
-#root .app.theme-dark-premium .teacher-profile-redesign .profile-style-card,
-#root .app.theme-dark-premium .teacher-profile-redesign .teaching-style-card,
-#root .app.theme-dark-premium .teacher-profile-redesign .profile-detail-row {
-  color:#405b7b!important;background:#f1f5fa!important;
-  border:1px solid #dce5ef!important;border-radius:14px!important;
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management {
-  background:#fbfcfe!important;background-image:none!important;
-  color:#203752!important;border:1px solid #d6e0ec!important;
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row {
-  display:flex!important;align-items:center!important;justify-content:space-between!important;
-  gap:16px!important;min-height:88px!important;padding:18px 20px!important;margin:12px 0!important;
-  color:#203752!important;background:#f0f4f9!important;background-image:none!important;
-  border:1px solid #d7e1ed!important;border-radius:15px!important;
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row :where(strong,b) {
-  color:#203752!important;-webkit-text-fill-color:#203752!important;opacity:1!important;
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row :where(p,small) {
-  color:#657991!important;-webkit-text-fill-color:#657991!important;opacity:1!important;
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row .status-pill {
-  color:#526b89!important;background:#e3ebf4!important;border:1px solid #d3deea!important;
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row .status-active {
-  color:#28775d!important;background:#e6f3ec!important;border-color:#d1e9dc!important;
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row .danger-outline-btn {
-  color:#a3444b!important;background:#fff7f6!important;border:1px solid #f0d6d7!important;
-}
-@media(max-width:760px) {
-  #root .app.theme-dark-premium .teacher-search-redesign .teacher-search-area {width:92%!important}
-  #root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row {align-items:flex-start!important;flex-direction:column!important}
-}
-
-/* Unified soft-navy premium finish: one shared canvas and readable controls */
-html,body,#root{min-height:100%;background:#edf2f8!important}
-body{color:#203752!important;font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important}
-#root .app.theme-dark-premium{min-height:100vh!important;background:#edf2f8!important;background-image:none!important;color:#203752!important}
-#root .app.theme-dark-premium .navbar{background:#fbfcfe!important;border-bottom:1px solid #d8e1ec!important;box-shadow:0 4px 18px rgba(32,55,82,.045)!important}
-#root .app.theme-dark-premium .navbar :where(.logo,.nav-links button,.nav-buttons button){color:#405b7b!important}
-#root .app.theme-dark-premium .home-premium-redesign{min-height:100vh!important;background:#edf2f8!important;color:#203752!important}
-#root .app.theme-dark-premium .home-premium-redesign>section:not(.hero-section){background:#edf2f8!important;background-image:none!important;color:#203752!important}
-#root .app.theme-dark-premium .home-premium-redesign .hero-section{background:linear-gradient(135deg,#f8fafd,#e8eef6)!important;color:#203752!important}
-#root .app.theme-dark-premium .home-premium-redesign .hero-content h1{color:#203752!important}
+#root .app.theme-dark-premium .home-premium-redesign{background:var(--pmt-bg)!important;color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .home-premium-redesign .hero-section{margin:0 auto;padding:clamp(58px,8vw,108px) clamp(22px,7vw,100px) 34px;background:linear-gradient(135deg,#fbfcfe 0%,#edf3f9 100%)!important;color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .home-premium-redesign .hero-content{width:min(100%,1240px);margin:auto;gap:clamp(36px,7vw,100px);align-items:center}
+#root .app.theme-dark-premium .home-premium-redesign .hero-content h1{font:800 clamp(42px,5.5vw,72px)/1.04 Manrope,sans-serif;letter-spacing:-2.6px;color:var(--pmt-ink)!important}
 #root .app.theme-dark-premium .home-premium-redesign .hero-content h1 span{color:#718bab!important}
-#root .app.theme-dark-premium .home-premium-redesign .hero-text{color:#657991!important}
-#root .app.theme-dark-premium .home-premium-redesign .hero-card{background:linear-gradient(150deg,#263d5d,#172943)!important;color:#f3f6fc!important;border:1px solid rgba(190,207,239,.2)!important;box-shadow:0 22px 48px rgba(26,43,67,.2)!important}
-#root .app.theme-dark-premium .home-premium-redesign .hero-card :where(h2,strong,b,p,small,span){color:#e8eef8!important}
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign{background:#edf2f8!important;color:#203752!important}
-#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teachers-header{background:linear-gradient(135deg,#f8fafd,#e8eef6)!important;color:#203752!important}
-#root .app.theme-dark-premium .workspace-premium-shell,#root .app.theme-dark-premium .admin-dashboard-redesign,#root .app.theme-dark-premium .teacher-dashboard-redesign,#root .app.theme-dark-premium .student-dashboard-redesign{background:#edf2f8!important;background-image:none!important;color:#203752!important}
-#root .app.theme-dark-premium .workspace-premium-shell{padding:clamp(24px,4vw,44px) clamp(14px,4vw,42px) 72px!important}
-#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child{background:linear-gradient(120deg,#fbfcfe,#e8eef6)!important;color:#203752!important;border:1px solid #d8e1ec!important;box-shadow:0 10px 28px rgba(34,57,84,.075)!important}
-#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child :where(h1,h2,strong){color:#203752!important}
-#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child p{color:#657991!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .card,#root .app.theme-dark-premium .teacher-dashboard-redesign .card,#root .app.theme-dark-premium .student-dashboard-redesign .card,#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management,#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-panel{background:#fbfcfe!important;background-image:none!important;color:#203752!important;border:1px solid #d8e1ec!important;border-radius:18px!important;box-shadow:0 9px 25px rgba(34,57,84,.065)!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row{background:#f1f5fa!important;background-image:none!important;border:1px solid #d8e1ec!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article,#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card,#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card{background:#f3f6fa!important;background-image:none!important;color:#203752!important;border:1px solid #d8e1ec!important;box-shadow:0 8px 22px rgba(34,57,84,.06)!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article :where(h2,h3,strong,b,span,p,small){color:#405b7b!important;-webkit-text-fill-color:#405b7b!important;opacity:1!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article :where(.admin-status-action,.admin-secondary-action,.admin-remove-action){background:#e8eef6!important;color:#405b7b!important;border:1px solid #d5dfeb!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article .admin-status-action.selected{background:#405b7b!important;color:#fff!important}
-/* Auth page: remove navy input fill inherited from the old theme */
-#root .app.theme-dark-premium .auth-page,#root .app.theme-dark-premium .auth-page.auth-premium-redesign{min-height:calc(100vh - 76px)!important;display:grid!important;place-items:center!important;padding:clamp(28px,5vw,64px) 18px!important;background:linear-gradient(135deg,#e8eef6,#f4f7fb 55%,#e9eff7)!important}
-#root .app.theme-dark-premium .auth-page .auth-card{width:min(100%,480px)!important;padding:clamp(28px,4vw,42px)!important;background:#fbfcfe!important;color:#203752!important;border:1px solid #d8e1ec!important;border-radius:24px!important;box-shadow:0 20px 55px rgba(34,57,84,.12)!important}
-#root .app.theme-dark-premium .auth-page .auth-heading :where(h1,.auth-logo){color:#203752!important}
-#root .app.theme-dark-premium .auth-page .auth-heading p{color:#657991!important}
-#root .app.theme-dark-premium .auth-page label{display:block!important;color:#405b7b!important;font-weight:700!important;margin:0 0 8px!important}
-#root .app.theme-dark-premium .auth-page input,#root .app.theme-dark-premium .auth-page select,#root .app.theme-dark-premium .auth-page textarea{display:block!important;width:100%!important;min-height:48px!important;padding:12px 14px!important;background:#fff!important;background-image:none!important;color:#203752!important;-webkit-text-fill-color:#203752!important;border:1px solid #ccd8e6!important;border-radius:11px!important;box-shadow:none!important;opacity:1!important;color-scheme:light!important}
-#root .app.theme-dark-premium .auth-page input::placeholder,#root .app.theme-dark-premium .auth-page textarea::placeholder{color:#8a9aae!important;-webkit-text-fill-color:#8a9aae!important;opacity:1!important}
-#root .app.theme-dark-premium .auth-page input:focus,#root .app.theme-dark-premium .auth-page select:focus{outline:none!important;border-color:#8299b5!important;box-shadow:0 0 0 3px rgba(89,119,155,.14)!important}
-#root .app.theme-dark-premium .auth-page select option{background:#fff!important;color:#203752!important}
-#root .app.theme-dark-premium .auth-page .auth-submit{min-height:48px!important;background:linear-gradient(135deg,#526f91,#354f70)!important;color:#fff!important;border:0!important;border-radius:11px!important}
-#root .app.theme-dark-premium .auth-page .auth-switch{color:#657991!important}
-#root .app.theme-dark-premium .auth-page .auth-switch button{color:#405b7b!important}
+#root .app.theme-dark-premium .home-premium-redesign .hero-text{max-width:620px;color:#667b94!important;font-size:17px;line-height:1.8}
+#root .app.theme-dark-premium .home-premium-redesign .small-title,#root .app.theme-dark-premium .home-premium-redesign .home-eyebrow{color:#718bab!important;letter-spacing:.16em;font-weight:800}
+#root .app.theme-dark-premium .home-premium-redesign .hero-card{background:linear-gradient(150deg,#2b4567,#172b45)!important;border:1px solid rgba(192,210,236,.22)!important;border-radius:26px!important;box-shadow:0 24px 60px rgba(31,53,79,.2)!important;color:#f5f8fc!important}
+#root .app.theme-dark-premium .home-premium-redesign .hero-card :where(h2,strong,b,p,small,span){color:#eaf0f8!important}
+#root .app.theme-dark-premium .home-premium-redesign .hero-card .preview-label,#root .app.theme-dark-premium .home-premium-redesign .hero-card .hero-preview-foot{color:#aebfd4!important}
+#root .app.theme-dark-premium .home-premium-redesign .primary-btn,#root .app.theme-dark-premium .home-premium-redesign .home-cta-button{background:linear-gradient(135deg,#526f91,#354f70)!important;color:#fff!important;border:0!important;border-radius:12px!important;padding:14px 20px;font-weight:700}
+#root .app.theme-dark-premium .home-premium-redesign .secondary-btn{background:#fff!important;color:var(--pmt-navy)!important;border:1px solid var(--pmt-line)!important;border-radius:12px!important;padding:14px 20px}
+#root .app.theme-dark-premium .home-premium-redesign .home-categories-section,#root .app.theme-dark-premium .home-premium-redesign .how-section{background:var(--pmt-bg)!important;color:var(--pmt-ink)!important;padding:70px clamp(22px,7vw,100px)}
+#root .app.theme-dark-premium .home-premium-redesign .home-section-heading{max-width:1240px;margin:0 auto 30px}
+#root .app.theme-dark-premium .home-premium-redesign .home-category-grid,#root .app.theme-dark-premium .home-premium-redesign .steps{max-width:1240px;margin:auto}
+#root .app.theme-dark-premium .home-premium-redesign .home-category-card,#root .app.theme-dark-premium .home-premium-redesign .step{background:#fff!important;border:1px solid var(--pmt-line)!important;border-radius:18px!important;box-shadow:0 8px 24px rgba(31,53,79,.045);color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .home-premium-redesign .home-category-card strong,#root .app.theme-dark-premium .home-premium-redesign .step h3{color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .home-premium-redesign .home-final-cta{margin:0 clamp(16px,5vw,70px) 50px;padding:clamp(28px,5vw,60px);border-radius:24px;background:linear-gradient(120deg,#e4ebf4,#f8fafd)!important;color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .home-premium-redesign .home-final-cta :where(h2,p){color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .home-premium-redesign .home-premium-footer{background:#e4ebf4!important;color:var(--pmt-muted)!important}
 
+/* Teacher search */
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign{min-height:100vh;padding-bottom:70px;background:var(--pmt-bg)!important;background-image:none!important;color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teachers-header{max-width:1240px;margin:0 auto;padding:48px 28px 30px;background:transparent!important;color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teachers-header h1{font:800 clamp(30px,4vw,48px)/1.15 Manrope,sans-serif;letter-spacing:-1.2px;color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teachers-header p{color:var(--pmt-muted)!important}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .back-home{background:#fff!important;color:var(--pmt-navy)!important;border:1px solid var(--pmt-line)!important;border-radius:11px!important;padding:11px 16px}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-search-area{max-width:1240px;width:calc(100% - 48px);margin:0 auto;padding:0!important;background:transparent!important}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top{display:grid;grid-template-columns:minmax(250px,1.5fr) repeat(2,minmax(150px,.75fr));gap:12px;padding:18px;background:#fff!important;border:1px solid var(--pmt-line)!important;border-radius:18px!important;box-shadow:var(--pmt-shadow)!important}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-input-wrapper{display:flex;align-items:center;gap:12px;min-width:0}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-input-wrapper span{color:var(--pmt-muted)!important;font-size:11px;font-weight:800;letter-spacing:.1em}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-input-wrapper input,#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top select{width:100%;min-width:0;min-height:48px;padding:0 14px;background:#f8fafd!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:11px!important}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top select:last-child{grid-column:1/-1;max-width:calc(50% - 6px)}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header{display:flex;justify-content:space-between;gap:14px;align-items:center;margin:28px 2px 16px}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header strong{color:var(--pmt-ink)!important;font-size:17px}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header span{color:var(--pmt-muted)!important;font-size:13px}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card{position:relative;display:flex;flex-direction:column;min-width:0;padding:24px;background:#fff!important;background-image:none!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:20px!important;box-shadow:0 10px 28px rgba(31,53,79,.065)!important;transition:transform .2s,box-shadow .2s}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card:hover{transform:translateY(-3px);box-shadow:0 18px 38px rgba(31,53,79,.1)!important}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card :where(h2,h3,strong,b){color:var(--pmt-ink)!important;-webkit-text-fill-color:var(--pmt-ink)!important;opacity:1!important}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card :where(p,small,span){color:var(--pmt-muted)!important;-webkit-text-fill-color:var(--pmt-muted)!important;opacity:1!important}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-avatar{width:62px;height:62px;border-radius:50%;background:#e6edf6!important;color:var(--pmt-navy)!important;overflow:hidden}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-avatar img{width:100%;height:100%;object-fit:cover}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .rating{background:#f0f4f9!important;color:#627995!important;border:1px solid #e1e8f0!important;border-radius:999px;padding:7px 10px}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-tags span{display:inline-flex;background:#eef3f8!important;color:#536b87!important;border-radius:999px;padding:7px 10px}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-stats{border-top:1px solid var(--pmt-line)!important;border-bottom:1px solid var(--pmt-line)!important;padding:16px 0;margin:18px 0}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-stats strong{color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .favorite-btn{background:#f3f6fa!important;color:#526b89!important;border:1px solid var(--pmt-line)!important;border-radius:50%}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-actions{display:flex;gap:10px;margin-top:auto}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .profile-btn{flex:1;background:#f3f6fa!important;color:var(--pmt-navy)!important;border:1px solid var(--pmt-line)!important;border-radius:11px!important}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .compare-btn{flex:1;background:linear-gradient(135deg,#526f91,#354f70)!important;color:#fff!important;border:0!important;border-radius:11px!important}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .compare-bar,#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .no-results{background:#fff!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:18px!important;box-shadow:var(--pmt-shadow)}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .compare-bar :where(h2,strong,p,span){color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-retry-btn{background:var(--pmt-navy)!important;color:#fff!important;border-radius:10px;padding:11px 16px}
 
-/* =========================================================
-   PICK MY TEACHER — UNIFIED PREMIUM DARK THEME
-   Deep ink canvas, layered charcoal surfaces, cool blue accent.
-   This is the final visual layer across every route.
-   ========================================================= */
-:root{
-  color-scheme:dark;
-  --pmt-bg:#0b1220;
-  --pmt-bg-deep:#080e19;
-  --pmt-surface:#121d2e;
-  --pmt-surface-soft:#172438;
-  --pmt-surface-blue:#1a2b42;
-  --pmt-ink:#e7edf6;
-  --pmt-ink-strong:#f4f7fc;
-  --pmt-muted:#a5b3c6;
-  --pmt-muted-light:#8293aa;
-  --pmt-line:#293a51;
-  --pmt-line-strong:#3a506d;
-  --pmt-navy:#8eadd2;
-  --pmt-navy-deep:#54769e;
-  --pmt-blue:#8eadd2;
-  --pmt-blue-light:#263c58;
-  --pmt-success:#72c7a4;
-  --pmt-danger:#f08b91;
-  --pmt-shadow:0 14px 36px rgba(0,0,0,.24);
-  --pmt-shadow-hover:0 20px 44px rgba(0,0,0,.34);
-}
-html,body,#root{min-height:100%;background:#0b1220!important;color:#e7edf6!important;color-scheme:dark!important}
-body{background:#0b1220!important;color:#e7edf6!important}
-#root .app.theme-dark-premium{
-  min-height:100vh!important;background:#0b1220!important;background-image:none!important;color:#e7edf6!important;
-}
-#root .app.theme-dark-premium :where(h1,h2,h3,h4,h5,h6,strong,b){color:#f4f7fc}
-#root .app.theme-dark-premium :where(p,small,label,.muted,.subtitle){color:#a5b3c6}
-#root .app.theme-dark-premium :where(section,main,article,aside){scroll-margin-top:88px}
+/* Teacher profile */
+#root .app.theme-dark-premium .teacher-profile-redesign{min-height:100vh;padding:36px 24px 76px;background:var(--pmt-bg)!important;background-image:none!important;color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-container{width:min(100%,1180px);margin:0 auto;background:transparent!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-header{display:flex;gap:28px;align-items:center;padding:30px;background:linear-gradient(120deg,#fff,#f1f5fa)!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:22px!important;box-shadow:var(--pmt-shadow)!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-avatar{width:116px;height:116px;flex:0 0 116px;border-radius:50%;overflow:hidden;background:#e5edf6!important;color:var(--pmt-navy)!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-avatar img{width:100%;height:100%;object-fit:cover}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-main-info{flex:1;min-width:0}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-name-line h1{font:800 clamp(28px,4vw,42px) Manrope,sans-serif;color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-main-info :where(p,span){color:var(--pmt-muted)!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-tags span{background:#eaf0f7!important;color:#526b88!important;border:1px solid #dce5ef!important;border-radius:999px;padding:8px 12px}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-stat-row{display:flex;gap:32px;border-top:1px solid var(--pmt-line);margin-top:20px;padding-top:18px}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-stat strong{display:block;color:var(--pmt-ink)!important;font-size:20px}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-stat span{color:var(--pmt-muted)!important;font-size:12px}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;margin-top:20px;align-items:start}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-left{display:grid;gap:18px;min-width:0}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-section,#root .app.theme-dark-premium .teacher-profile-redesign .profile-right>*,#root .app.theme-dark-premium .teacher-profile-redesign .quick-info{padding:26px;background:#fff!important;background-image:none!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:18px!important;box-shadow:0 8px 24px rgba(31,53,79,.05)!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-section h2{font:700 22px Manrope,sans-serif;color:var(--pmt-ink)!important;margin-bottom:14px}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-section :where(p,span,small){color:var(--pmt-muted)!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .section-eyebrow{color:#718bab!important;letter-spacing:.14em;font-weight:800}
+#root .app.theme-dark-premium .teacher-profile-redesign .qualification-list{display:grid;gap:10px}
+#root .app.theme-dark-premium .teacher-profile-redesign .qualification-item,#root .app.theme-dark-premium .teacher-profile-redesign .style-card,#root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid>div{background:#f4f7fb!important;color:var(--pmt-ink)!important;border:1px solid #e0e7f0!important;border-radius:13px!important;padding:16px}
+#root .app.theme-dark-premium .teacher-profile-redesign .qualification-item :where(strong,h3){color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .style-card{display:flex;gap:16px;align-items:center}
+#root .app.theme-dark-premium .teacher-profile-redesign .style-icon{background:#e4ebf4!important;color:var(--pmt-navy)!important;border-radius:12px;padding:14px;font-weight:800}
+#root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid span{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+#root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid strong{display:block;margin-top:6px;color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-right{display:grid;gap:16px}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-right button,#root .app.theme-dark-premium .teacher-profile-redesign .submit-consultation{background:linear-gradient(135deg,#526f91,#354f70)!important;color:#fff!important;border:0!important;border-radius:11px!important;padding:13px 16px}
+#root .app.theme-dark-premium .teacher-profile-redesign .review-card,#root .app.theme-dark-premium .teacher-profile-redesign .review-form{background:#f5f8fc!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:14px!important;padding:18px}
+#root .app.theme-dark-premium .teacher-profile-redesign .review-card :where(p,strong,span){color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .consultation-modal{background:#fff!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:22px!important;box-shadow:0 24px 70px rgba(20,38,60,.24)}
+#root .app.theme-dark-premium .teacher-profile-redesign .consultation-modal :where(h2,p,label){color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .consultation-modal :where(input,select,textarea){width:100%;background:#fff!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:10px!important;padding:12px}
 
-/* Navigation */
-#root .app.theme-dark-premium .navbar{
-  background:rgba(13,22,36,.96)!important;border-bottom:1px solid #293a51!important;
-  box-shadow:0 8px 28px rgba(0,0,0,.2)!important;backdrop-filter:blur(16px);
-}
-#root .app.theme-dark-premium .navbar :where(.logo,.nav-links button,.nav-buttons button){color:#dce6f3!important}
-#root .app.theme-dark-premium .navbar .logo span{color:#91b4df!important}
+/* Workspaces */
+#root .app.theme-dark-premium .workspace-premium-shell,#root .app.theme-dark-premium .admin-dashboard-redesign,#root .app.theme-dark-premium .teacher-dashboard-redesign,#root .app.theme-dark-premium .student-dashboard-redesign{background:var(--pmt-bg)!important;background-image:none!important;color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .workspace-premium-shell{padding:38px 22px 72px!important}
+#root .app.theme-dark-premium .workspace-premium-shell>section{max-width:1180px!important}
+#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child{padding:28px 32px!important;background:linear-gradient(120deg,#fff,#edf3f9)!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:22px!important;box-shadow:var(--pmt-shadow)!important}
+#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child :where(h1,h2,strong){color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child p{color:var(--pmt-muted)!important}
+#root .app.theme-dark-premium .workspace-premium-shell .card,#root .app.theme-dark-premium .admin-dashboard-redesign .card,#root .app.theme-dark-premium .teacher-dashboard-redesign .card,#root .app.theme-dark-premium .student-dashboard-redesign .card,#root .app.theme-dark-premium .admin-teacher-management,#root .app.theme-dark-premium .admin-consultations-panel{background:#fff!important;background-image:none!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:18px!important;box-shadow:0 8px 24px rgba(31,53,79,.05)!important}
+#root .app.theme-dark-premium .workspace-premium-shell :where(h1,h2,h3,h4,strong,b){color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .workspace-premium-shell :where(p,small,label){color:var(--pmt-muted)!important}
+#root .app.theme-dark-premium .workspace-premium-shell :where(input,select,textarea){width:100%;min-height:44px;padding:11px 13px;background:#fff!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:10px!important}
+#root .app.theme-dark-premium .workspace-premium-shell .signup-btn,#root .app.theme-dark-premium .workspace-premium-shell .primary-btn{background:linear-gradient(135deg,#526f91,#354f70)!important;color:#fff!important;border:0!important;border-radius:10px!important;padding:11px 16px}
+#root .app.theme-dark-premium .workspace-premium-shell .login-btn{background:#f0f4f9!important;color:var(--pmt-navy)!important;border:1px solid var(--pmt-line)!important;border-radius:10px!important;padding:11px 16px}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management{padding:24px!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 20px;margin:12px 0;background:#f4f7fb!important;background-image:none!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:14px!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row :where(strong,b){color:var(--pmt-ink)!important;-webkit-text-fill-color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row :where(p,small){color:var(--pmt-muted)!important;-webkit-text-fill-color:var(--pmt-muted)!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .status-pill{background:#eaf0f7!important;color:#526b88!important;border:1px solid var(--pmt-line)!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .danger-outline-btn{background:#fff6f5!important;color:#a34c51!important;border:1px solid #efd9d8!important;border-radius:10px;padding:10px 13px}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-panel{padding:24px!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-heading{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:18px}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-heading :where(h2,h3){color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-heading p{color:var(--pmt-muted)!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-filters{display:grid;grid-template-columns:1fr 220px;gap:12px;margin-bottom:18px}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-filters :where(input,select){width:100%;min-height:46px;padding:11px 14px;background:#f8fafd!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:11px!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-card{padding:22px;margin:14px 0;background:#f8fafd!important;background-image:none!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:16px!important;box-shadow:none!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-card :where(strong,b,p,span,small){color:var(--pmt-ink)!important;-webkit-text-fill-color:var(--pmt-ink)!important;opacity:1!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-card .admin-student-identity span,#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-card .admin-consultation-meta b{color:var(--pmt-muted)!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-meta{border-top:1px solid var(--pmt-line)!important;border-bottom:1px solid var(--pmt-line)!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-status-action,#root .app.theme-dark-premium .admin-dashboard-redesign .admin-secondary-action,#root .app.theme-dark-premium .admin-dashboard-redesign .admin-remove-action{background:#edf2f8!important;color:var(--pmt-navy)!important;border:1px solid var(--pmt-line)!important;border-radius:9px!important;padding:9px 12px}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-status-action.selected{background:var(--pmt-navy)!important;color:#fff!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-status-badge{background:#e8eef6!important;color:#536c89!important;border:1px solid var(--pmt-line)!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-student-details{background:#fff!important;border:1px solid var(--pmt-line)!important;border-radius:13px!important;padding:18px}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-detail-grid p{color:var(--pmt-muted)!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-detail-grid b{color:var(--pmt-navy)!important}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-decision-history{background:#fff!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:12px;padding:14px}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-empty-state{background:#f5f8fc!important;color:var(--pmt-muted)!important;border:1px dashed #cbd7e5!important;border-radius:14px;padding:28px;text-align:center}
 
-/* Shared page canvas and sections */
-#root .app.theme-dark-premium .home-premium-redesign,
-#root .app.theme-dark-premium .teachers-page,
-#root .app.theme-dark-premium .teacher-search-redesign,
-#root .app.theme-dark-premium .profile-page,
-#root .app.theme-dark-premium .teacher-profile-redesign,
-#root .app.theme-dark-premium .page,
-#root .app.theme-dark-premium .workspace-premium-shell,
-#root .app.theme-dark-premium .admin-dashboard-redesign,
-#root .app.theme-dark-premium .teacher-dashboard-redesign,
-#root .app.theme-dark-premium .student-dashboard-redesign{
-  background:#0b1220!important;background-image:none!important;color:#e7edf6!important;
-}
-#root .app.theme-dark-premium .home-premium-redesign>section:not(.hero-section){
-  background:#0b1220!important;background-image:none!important;color:#e7edf6!important;
-}
-#root .app.theme-dark-premium .hero-section{
-  background:radial-gradient(ellipse at 78% 18%,rgba(72,111,158,.19),transparent 38%),linear-gradient(135deg,#111e31,#0b1220 72%)!important;
-  color:#f4f7fc!important;
-}
-#root .app.theme-dark-premium .hero-content h1{color:#f4f7fc!important}
-#root .app.theme-dark-premium .hero-content h1 span,
-#root .app.theme-dark-premium .small-title{color:#9ab9df!important}
-#root .app.theme-dark-premium .hero-text{color:#a5b3c6!important}
-#root .app.theme-dark-premium .hero-card{
-  background:linear-gradient(150deg,#1b2c43,#101a2a)!important;color:#f4f7fc!important;
-  border:1px solid #344c69!important;box-shadow:0 24px 58px rgba(0,0,0,.36)!important;
-}
-#root .app.theme-dark-premium .hero-card :where(h2,strong,b,p,small,span){color:#e7edf6!important}
+/* Auth and reset forms */
+#root .app.theme-dark-premium .auth-page{min-height:calc(100vh - 76px);display:grid;place-items:center;padding:48px 18px;background:linear-gradient(135deg,#e8eef6,#f6f8fb 55%,#e9eff7)!important}
+#root .app.theme-dark-premium .auth-card{width:min(100%,480px);padding:clamp(28px,4vw,42px);background:#fff!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:24px!important;box-shadow:0 20px 55px rgba(34,57,84,.12)!important}
+#root .app.theme-dark-premium .auth-heading{text-align:left;margin-bottom:28px}
+#root .app.theme-dark-premium .auth-logo{font:800 22px Manrope,sans-serif;color:var(--pmt-ink)!important;margin-bottom:26px}
+#root .app.theme-dark-premium .auth-logo span{color:var(--pmt-blue)!important}
+#root .app.theme-dark-premium .auth-heading h1{font:800 38px/1.1 Manrope,sans-serif;color:var(--pmt-ink)!important;letter-spacing:-1px}
+#root .app.theme-dark-premium .auth-heading p{color:var(--pmt-muted)!important;line-height:1.65;margin-top:12px}
+#root .app.theme-dark-premium .auth-card form{display:grid;gap:10px}
+#root .app.theme-dark-premium .auth-card label{color:#435d7b!important;font-weight:700;margin-top:8px}
+#root .app.theme-dark-premium .auth-card :where(input,select,textarea){width:100%;min-height:50px;padding:12px 14px;background:#fbfcfe!important;color:var(--pmt-ink)!important;-webkit-text-fill-color:var(--pmt-ink)!important;border:1px solid #cfdbe8!important;border-radius:12px!important;box-shadow:none!important;color-scheme:light!important}
+#root .app.theme-dark-premium .auth-card :where(input,select,textarea)::placeholder{color:#91a0b2!important;-webkit-text-fill-color:#91a0b2!important;opacity:1!important}
+#root .app.theme-dark-premium .auth-card select option{background:#fff!important;color:var(--pmt-ink)!important}
+#root .app.theme-dark-premium .auth-card .auth-submit{width:100%;min-height:50px;margin-top:10px;background:linear-gradient(135deg,#526f91,#354f70)!important;color:#fff!important;border:0!important;border-radius:12px!important;font-weight:800}
+#root .app.theme-dark-premium .auth-card .auth-switch{margin-top:22px;text-align:center;color:var(--pmt-muted)!important}
+#root .app.theme-dark-premium .auth-card .auth-switch button{color:var(--pmt-navy)!important;background:none!important;border:0!important;font-weight:800}
+#root .app.theme-dark-premium .auth-card .form-error{background:#fff1f1!important;color:#a33e48!important;border:1px solid #f0d4d5!important;border-radius:10px;padding:12px}
+#root .app.theme-dark-premium .auth-card .form-success{background:#edf8f2!important;color:#28775d!important;border:1px solid #d3eadc!important;border-radius:10px;padding:12px}
+#root .app.theme-dark-premium .compare-overlay,#root .app.theme-dark-premium .consultation-overlay{background:rgba(22,39,60,.56)!important;backdrop-filter:blur(5px)}
+#root .app.theme-dark-premium .compare-modal{background:#fff!important;color:var(--pmt-ink)!important;border:1px solid var(--pmt-line)!important;border-radius:22px!important}
+#root .app.theme-dark-premium .compare-modal :where(h2,strong,p,span){color:var(--pmt-ink)!important}
 
-/* Marketplace header, filters and teacher cards */
-#root .app.theme-dark-premium .teachers-header{
-  background:linear-gradient(130deg,#142238,#101a2a)!important;color:#f4f7fc!important;
-  border:1px solid #293a51!important;
+/* Responsive */
+@media(max-width:900px){
+ #root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-layout{grid-template-columns:1fr}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-right{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-#root .app.theme-dark-premium .teachers-header :where(h1,h2,h3){color:#f4f7fc!important}
-#root .app.theme-dark-premium .teachers-header p{color:#a5b3c6!important}
-#root .app.theme-dark-premium .teacher-search-area,
-#root .app.theme-dark-premium .teacher-search-area form,
-#root .app.theme-dark-premium .search-panel,
-#root .app.theme-dark-premium .filter-panel{
-  background:#121d2e!important;color:#e7edf6!important;border:1px solid #293a51!important;
-}
-#root .app.theme-dark-premium .teacher-card,
-#root .app.theme-dark-premium .profile-header,
-#root .app.theme-dark-premium .profile-section,
-#root .app.theme-dark-premium .profile-layout>aside,
-#root .app.theme-dark-premium .profile-layout>div,
-#root .app.theme-dark-premium .teacher-profile-redesign .profile-left,
-#root .app.theme-dark-premium .teacher-profile-redesign .profile-right,
-#root .app.theme-dark-premium .teacher-profile-redesign .quick-info,
-#root .app.theme-dark-premium .auth-card,
-#root .app.theme-dark-premium .compare-modal,
-#root .app.theme-dark-premium .consultation-modal{
-  color:#e7edf6!important;background:#121d2e!important;background-image:none!important;
-  border:1px solid #293a51!important;border-radius:18px!important;box-shadow:var(--pmt-shadow)!important;
-}
-#root .app.theme-dark-premium .teacher-card :where(h2,h3,strong,b),
-#root .app.theme-dark-premium .teacher-profile-redesign :where(h1,h2,h3,strong,b){color:#f4f7fc!important;-webkit-text-fill-color:#f4f7fc!important}
-#root .app.theme-dark-premium .teacher-card :where(p,small,.teacher-specialty),
-#root .app.theme-dark-premium .teacher-profile-redesign :where(p,span,small){color:#a5b3c6!important;-webkit-text-fill-color:#a5b3c6!important}
-#root .app.theme-dark-premium .teacher-card:hover{border-color:#526f91!important;box-shadow:var(--pmt-shadow-hover)!important;transform:translateY(-3px)}
-#root .app.theme-dark-premium .teacher-card .teacher-stats{border-color:#293a51!important}
-#root .app.theme-dark-premium .teacher-card .teacher-stats strong{color:#b6cbea!important}
-#root .app.theme-dark-premium .teacher-card .favorite-btn{color:#b8c9df!important;background:#1b2b40!important;border:1px solid #344a65!important}
-#root .app.theme-dark-premium .teacher-card .rating-unavailable{color:#b2c0d2!important;background:#1a293d!important;border:1px solid #344a65!important}
-#root .app.theme-dark-premium .profile-tags span,
-#root .app.theme-dark-premium .qualification-item,
-#root .app.theme-dark-premium .profile-style-card,
-#root .app.theme-dark-premium .teaching-style-card,
-#root .app.theme-dark-premium .profile-detail-row{
-  color:#c7d5e7!important;background:#1a293d!important;border:1px solid #30445f!important;
-}
-
-/* Workspace and dashboard */
-#root .app.theme-dark-premium .workspace-premium-shell{padding:clamp(24px,4vw,44px) clamp(14px,4vw,42px) 72px!important}
-#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child{
-  background:linear-gradient(120deg,#17263b,#111c2d)!important;color:#e7edf6!important;
-  border:1px solid #30435c!important;border-radius:22px!important;box-shadow:var(--pmt-shadow)!important;
-}
-#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child :where(h1,h2,strong){color:#f4f7fc!important}
-#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child p{color:#a5b3c6!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .card,
-#root .app.theme-dark-premium .teacher-dashboard-redesign .card,
-#root .app.theme-dark-premium .student-dashboard-redesign .card,
-#root .app.theme-dark-premium .admin-teacher-management,
-#root .app.theme-dark-premium .admin-consultations-panel,
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management{
-  background:#121d2e!important;background-image:none!important;color:#e7edf6!important;
-  border:1px solid #293a51!important;border-radius:18px!important;box-shadow:var(--pmt-shadow)!important;
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row,
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article,
-#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card,
-#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card{
-  background:#172438!important;background-image:none!important;color:#e7edf6!important;
-  border:1px solid #30445f!important;border-radius:15px!important;
-}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row :where(strong,b,h2,h3){color:#f4f7fc!important;-webkit-text-fill-color:#f4f7fc!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row :where(p,small){color:#a5b3c6!important;-webkit-text-fill-color:#a5b3c6!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article :where(h2,h3,strong,b,span,p,small){color:#d5e1f0!important;-webkit-text-fill-color:#d5e1f0!important;opacity:1!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article :where(.admin-status-action,.admin-secondary-action,.admin-remove-action){background:#20334b!important;color:#d5e1f0!important;border:1px solid #3a506d!important}
-#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list article .admin-status-action.selected{background:#52769f!important;color:#fff!important}
-
-/* Login, signup and every form control */
-#root .app.theme-dark-premium .auth-page,
-#root .app.theme-dark-premium .auth-page.auth-premium-redesign{
-  min-height:calc(100vh - 76px)!important;display:grid!important;place-items:center!important;
-  padding:clamp(28px,5vw,64px) 18px!important;
-  background:radial-gradient(ellipse at 50% 0%,rgba(70,105,148,.18),transparent 48%),#0b1220!important;
-}
-#root .app.theme-dark-premium .auth-page .auth-card{
-  width:min(100%,480px)!important;padding:clamp(28px,4vw,42px)!important;
-  background:#121d2e!important;color:#e7edf6!important;border:1px solid #30445f!important;
-  border-radius:24px!important;box-shadow:0 24px 64px rgba(0,0,0,.38)!important;
-}
-#root .app.theme-dark-premium .auth-page .auth-heading :where(h1,.auth-logo){color:#f4f7fc!important}
-#root .app.theme-dark-premium .auth-page .auth-heading p{color:#a5b3c6!important}
-#root .app.theme-dark-premium label{color:#c4d2e3!important}
-#root .app.theme-dark-premium :where(input,select,textarea),
-#root .app.theme-dark-premium .auth-page :where(input,select,textarea){
-  width:100%!important;min-height:46px!important;padding:11px 14px!important;
-  background:#0d1726!important;background-image:none!important;color:#edf3fb!important;
-  -webkit-text-fill-color:#edf3fb!important;border:1px solid #344a65!important;
-  border-radius:11px!important;box-shadow:none!important;opacity:1!important;color-scheme:dark!important;
-}
-#root .app.theme-dark-premium :where(input,textarea)::placeholder{color:#8293aa!important;-webkit-text-fill-color:#8293aa!important;opacity:1!important}
-#root .app.theme-dark-premium :where(input,select,textarea):focus{
-  outline:none!important;border-color:#83a6d1!important;box-shadow:0 0 0 3px rgba(111,151,199,.18)!important;
-}
-#root .app.theme-dark-premium select option{background:#121d2e!important;color:#edf3fb!important}
-#root .app.theme-dark-premium .auth-page .auth-submit{
-  min-height:49px!important;background:linear-gradient(135deg,#668bb7,#42668f)!important;
-  color:#fff!important;border:1px solid #7899bf!important;border-radius:11px!important;
-  box-shadow:0 8px 22px rgba(49,82,120,.28)!important;
-}
-#root .app.theme-dark-premium .auth-page .auth-switch{color:#a5b3c6!important}
-#root .app.theme-dark-premium .auth-page .auth-switch button{color:#a9c6e8!important}
-
-/* Buttons and feedback */
-#root .app.theme-dark-premium :where(.signup-btn,.primary-btn,.submit-consultation,.auth-submit){
-  color:#fff!important;background:linear-gradient(135deg,#668bb7,#42668f)!important;
-  border:1px solid #7899bf!important;box-shadow:0 8px 22px rgba(49,82,120,.22)!important;
-}
-#root .app.theme-dark-premium :where(.secondary-btn,.back-home,.login-btn){
-  color:#d5e1f0!important;background:#1a293d!important;border:1px solid #344a65!important;
-}
-#root .app.theme-dark-premium :where(button,a){transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease}
-#root .app.theme-dark-premium button:focus-visible,#root .app.theme-dark-premium a:focus-visible{outline:3px solid rgba(131,166,209,.45)!important;outline-offset:3px}
-#root .app.theme-dark-premium :where(.form-error){color:#ffc4c7!important;background:#351e29!important;border:1px solid #70404c!important}
-#root .app.theme-dark-premium :where(.form-success){color:#a8e3c8!important;background:#163329!important;border:1px solid #2d654f!important}
-
-/* Responsive refinements */
-@media(max-width:760px){
-  #root .app.theme-dark-premium .workspace-premium-shell{padding:20px 12px 48px!important}
-  #root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row{align-items:flex-start!important;flex-direction:column!important}
-  #root .app.theme-dark-premium .home-premium-redesign .hero-section{padding:42px 20px!important}
+@media(max-width:680px){
+ #root .app.theme-dark-premium .navbar{height:66px;padding:0 16px}
+ #root .app.theme-dark-premium .navbar .nav-links,#root .app.theme-dark-premium .navbar .nav-buttons{display:none}
+ #root .app.theme-dark-premium .home-premium-redesign .hero-section{padding:46px 20px 26px}
+ #root .app.theme-dark-premium .home-premium-redesign .hero-content h1{font-size:42px;letter-spacing:-1.5px}
+ #root .app.theme-dark-premium .home-premium-redesign .home-categories-section,#root .app.theme-dark-premium .home-premium-redesign .how-section{padding:46px 18px}
+ #root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teachers-header{padding:32px 20px 22px}
+ #root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-search-area{width:calc(100% - 32px)}
+ #root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top{grid-template-columns:1fr;padding:14px}
+ #root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top select:last-child{grid-column:auto;max-width:none}
+ #root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-grid{grid-template-columns:1fr}
+ #root .app.theme-dark-premium .teacher-profile-redesign{padding:22px 14px 50px}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-header{align-items:flex-start;flex-direction:column;padding:22px}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-stat-row{gap:18px;flex-wrap:wrap}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-section{padding:19px}
+ #root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid{grid-template-columns:1fr}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-right{grid-template-columns:1fr}
+ #root .app.theme-dark-premium .workspace-premium-shell{padding:22px 12px 48px!important}
+ #root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child{padding:22px!important}
+ #root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-panel{padding:16px!important}
+ #root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-heading{align-items:flex-start;flex-direction:column}
+ #root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-filters{grid-template-columns:1fr}
+ #root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row{align-items:flex-start;flex-direction:column}
+ #root .app.theme-dark-premium .auth-card{padding:26px 22px}
 }
