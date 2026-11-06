@@ -5560,3 +5560,55 @@ input:focus,select:focus,textarea:focus{border-color:#8ca5ff!important;box-shado
 #pmt-home-v3 .footer-brand p,#pmt-home-v3 .footer-links button{color:#9eacc5!important}
 #pmt-home-v3 .home-premium-footer .copyright{border-color:rgba(163,184,232,.12)!important;color:#687b9c!important}
 @media(max-width:680px){#pmt-home-v3 .hero-section{background:radial-gradient(ellipse at 90% 8%,rgba(62,93,177,.28),transparent 38%),#0b1428!important}#pmt-home-v3 .home-final-cta{background:linear-gradient(135deg,#1a2b50,#304e8b)!important}}
+
+
+/* Unified midnight sapphire design system — all authenticated and discovery screens */
+.theme-dark-premium{--pmt-bg:#080f1e;--pmt-surface:#111d33;--pmt-surface-2:#162541;--pmt-border:rgba(157,180,230,.16);--pmt-text:#edf3ff;--pmt-muted:#9baac4;--pmt-blue:#7895ff;--pmt-teal:#70d5c3;color:var(--pmt-text);background:var(--pmt-bg);min-height:100vh}
+.theme-dark-premium .navbar{background:rgba(8,15,30,.94)!important;border-bottom:1px solid var(--pmt-border)!important;box-shadow:0 8px 30px rgba(0,0,0,.18)!important;backdrop-filter:blur(18px)}
+.theme-dark-premium .navbar .logo{color:#f3f6ff!important}
+.theme-dark-premium .navbar .logo span{color:#8da6ff!important}
+.theme-dark-premium .nav-links button,.theme-dark-premium .nav-buttons button{color:#b5c2da!important}
+.theme-dark-premium .nav-links button:hover{color:#fff!important}
+.theme-dark-premium .nav-buttons .signup-btn,.theme-dark-premium .nav-buttons .get-started-btn{background:linear-gradient(115deg,#7895ff,#526fe0)!important;color:#fff!important;border:1px solid rgba(184,199,255,.25)!important;box-shadow:0 8px 24px rgba(75,103,215,.25)!important}
+.theme-dark-premium .teachers-page,.theme-dark-premium .profile-page,.theme-dark-premium .page,.theme-dark-premium .workspace-premium-shell,.theme-dark-premium .teacher-dashboard-redesign,.theme-dark-premium .admin-dashboard-redesign{background:var(--pmt-bg)!important;color:var(--pmt-text)!important}
+.theme-dark-premium .teachers-header h1,.theme-dark-premium .profile-container h1,.theme-dark-premium .profile-container h2,.theme-dark-premium .page h1,.theme-dark-premium .workspace-premium-shell h1,.theme-dark-premium .teacher-dashboard-redesign h2,.theme-dark-premium .admin-dashboard-redesign h2{color:#f1f5ff!important}
+.theme-dark-premium .teachers-header p,.theme-dark-premium .profile-container p,.theme-dark-premium .page p,.theme-dark-premium .workspace-premium-shell p{color:var(--pmt-muted)}
+.theme-dark-premium .teachers-header .small-title,.theme-dark-premium .page .dashboard-eyebrow{color:#9db2ff!important}
+.theme-dark-premium .search-top,.theme-dark-premium .search-input-wrapper,.theme-dark-premium .teacher-card,.theme-dark-premium .profile-card,.theme-dark-premium .profile-container .card,.theme-dark-premium .page .card,.theme-dark-premium .workspace-premium-shell .card,.theme-dark-premium .teacher-dashboard-redesign .card,.theme-dark-premium .admin-dashboard-redesign .card,.theme-dark-premium .dashboard-panel,.theme-dark-premium .dashboard-section,.theme-dark-premium .notification-panel{background:linear-gradient(145deg,#14223c,#101b30)!important;border:1px solid var(--pmt-border)!important;color:var(--pmt-text)!important;box-shadow:0 14px 38px rgba(0,0,0,.20)!important}
+.theme-dark-premium .search-top input,.theme-dark-premium .search-top select,.theme-dark-premium input,.theme-dark-premium select,.theme-dark-premium textarea{background:#0c172a!important;color:#edf3ff!important;border:1px solid rgba(157,180,230,.22)!important;border-radius:10px!important}
+.theme-dark-premium input::placeholder,.theme-dark-premium textarea::placeholder{color:#7183a2!important}
+.theme-dark-premium .search-input-wrapper{background:#0c172a!important}
+.theme-dark-premium .search-input-wrapper input{background:transparent!important;border:0!important}
+.theme-dark-premium .teacher-card h2,.theme-dark-premium .teacher-card h3,.theme-dark-premium .teacher-card strong,.theme-dark-premium .profile-container strong,.theme-dark-premium .page strong,.theme-dark-premium .workspace-premium-shell strong{color:#eef3ff!important}
+.theme-dark-premium .teacher-card p,.theme-dark-premium .teacher-card small,.theme-dark-premium .teacher-card span,.theme-dark-premium .profile-container small,.theme-dark-premium .profile-container label{color:#a3b1ca!important}
+.theme-dark-premium button:not(.logo):not(.nav-links button){transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.theme-dark-premium .teacher-card button,.theme-dark-premium .profile-container button,.theme-dark-premium .page button,.theme-dark-premium .workspace-premium-shell button,.theme-dark-premium .teacher-dashboard-redesign button,.theme-dark-premium .admin-dashboard-redesign button{border-radius:10px}
+.theme-dark-premium .teacher-card button.primary,.theme-dark-premium .teacher-card .view-profile,.theme-dark-premium .profile-container .primary-btn,.theme-dark-premium .page .primary-btn,.theme-dark-premium .workspace-premium-shell button[type=submit],.theme-dark-premium .teacher-dashboard-redesign button[type=submit],.theme-dark-premium .admin-dashboard-redesign button[type=submit]{background:linear-gradient(110deg,#718fff,#536fe0)!important;color:#fff!important;border:1px solid rgba(184,199,255,.18)!important;box-shadow:0 8px 22px rgba(65,92,198,.22)!important}
+.theme-dark-premium .teacher-card button:hover,.theme-dark-premium .profile-container button:hover,.theme-dark-premium .page button:hover,.theme-dark-premium .workspace-premium-shell button:hover{border-color:rgba(145,169,255,.5)}
+.theme-dark-premium .teacher-search-area .results-header,.theme-dark-premium .teacher-search-area .results-header strong{color:#eaf0ff!important}
+.theme-dark-premium .back-home,.theme-dark-premium .profile-container .back-button{background:#14223c!important;color:#dce6fb!important;border:1px solid var(--pmt-border)!important}
+.theme-dark-premium .workspace-premium-shell{padding-top:42px!important}
+.theme-dark-premium .workspace-premium-shell>section>div:first-child{background:linear-gradient(120deg,#17294b,#101c32)!important;border:1px solid var(--pmt-border)!important;border-radius:18px!important;padding:25px!important;box-shadow:0 16px 42px rgba(0,0,0,.2)!important}
+.theme-dark-premium .workspace-premium-shell>section>div:first-child h1{color:#f4f7ff!important}
+.theme-dark-premium .workspace-premium-shell>section>div:first-child p{color:#a8b8d5!important}
+.theme-dark-premium .workspace-premium-shell .card label,.theme-dark-premium .teacher-dashboard-redesign label,.theme-dark-premium .admin-dashboard-redesign label{color:#c5d1e7!important}
+.theme-dark-premium table{color:#eaf0ff!important;border-color:var(--pmt-border)!important}
+.theme-dark-premium th{background:#1a2b49!important;color:#dce6ff!important}
+.theme-dark-premium td{border-color:var(--pmt-border)!important;color:#bdc9df!important}
+.theme-dark-premium tr:nth-child(even){background:rgba(255,255,255,.025)!important}
+.theme-dark-premium .profile-page .profile-container{color:#edf3ff!important}
+.theme-dark-premium .profile-page .profile-container>div,.theme-dark-premium .profile-page .profile-container section{color:inherit}
+.theme-dark-premium .profile-page .profile-container .card,.theme-dark-premium .profile-page .consultation-modal{background:#14223c!important;color:#edf3ff!important;border:1px solid var(--pmt-border)!important}
+.theme-dark-premium .profile-page .consultation-modal h2,.theme-dark-premium .profile-page .consultation-modal p{color:#edf3ff!important}
+.theme-dark-premium .page .student-dashboard-redesign,.theme-dark-premium .student-dashboard-redesign{color:#edf3ff!important}
+.theme-dark-premium .student-dashboard-redesign section>div{color:inherit}
+.theme-dark-premium .student-dashboard-redesign [style*="background: white"],.theme-dark-premium .teacher-dashboard-redesign [style*="background: white"],.theme-dark-premium .admin-dashboard-redesign [style*="background: white"]{background:#14223c!important;color:#edf3ff!important}
+.theme-dark-premium .student-dashboard-redesign [style*="color: rgb(16, 24, 40)"],.theme-dark-premium .teacher-dashboard-redesign [style*="color: rgb(16, 24, 40)"],.theme-dark-premium .admin-dashboard-redesign [style*="color: rgb(16, 24, 40)"]{color:#edf3ff!important}
+.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-redesign,.theme-dark-premium .admin-dashboard-redesign .admin-dashboard-redesign{background:transparent!important}
+.theme-dark-premium .teacher-dashboard-redesign .card,.theme-dark-premium .admin-dashboard-redesign .card{background:linear-gradient(145deg,#14223c,#101b30)!important;border:1px solid var(--pmt-border)!important;color:#edf3ff!important}
+.theme-dark-premium .notification-panel,.theme-dark-premium .notification-item{background:#14223c!important;color:#edf3ff!important;border-color:var(--pmt-border)!important}
+.theme-dark-premium .notification-item p,.theme-dark-premium .notification-item small{color:#aab8d0!important}
+.theme-dark-premium .error,.theme-dark-premium .success{border-radius:10px}
+.theme-dark-premium a{color:#9bb2ff}
+.theme-dark-premium :focus-visible{outline:2px solid #86a0ff!important;outline-offset:2px}
+@media(max-width:760px){.theme-dark-premium .navbar{padding:0 16px!important}.theme-dark-premium .nav-links{gap:10px!important}.theme-dark-premium .workspace-premium-shell{padding:25px 12px!important}.theme-dark-premium .teachers-header{padding:42px 20px 25px!important}.theme-dark-premium .teacher-search-area{width:calc(100% - 28px)!important}.theme-dark-premium .search-top{grid-template-columns:1fr!important}.theme-dark-premium .teacher-grid{grid-template-columns:1fr!important}}
