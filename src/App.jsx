@@ -3125,7 +3125,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       setBusy(false);
     }
   }
-  return <WorkspaceShell title="Teacher Dashboard" subtitle="Manage your teaching profile and demo lessons" user={currentUser} onLogout={handleLogout}>
+  return <div className="teacher-dashboard-redesign"><WorkspaceShell title="Teacher Dashboard" subtitle="Manage your teaching profile and demo lessons" user={currentUser} onLogout={handleLogout}>
     {notice && <p style={{ background: "#ecfdf3", color: "#067647", padding: 12, borderRadius: 10 }}>{notice}</p>}
     {lessonNotice && <p style={{background:"#ecfdf3",color:"#067647",padding:12,borderRadius:10}}>{lessonNotice}</p>}
     {error && <p style={{ background: "#fef3f2", color: "#b42318", padding: 12, borderRadius: 10 }}>{error}</p>}
@@ -3176,7 +3176,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         </div>
       </div>
     </div>
-  <TeacherToolsPanel user={currentUser} consultations={consultations} />\n  </WorkspaceShell>;
+  <TeacherToolsPanel user={currentUser} consultations={consultations} />\n  </WorkspaceShell></div>;
 }
 
 function AdminWorkspace({ currentUser, handleLogout }) {
