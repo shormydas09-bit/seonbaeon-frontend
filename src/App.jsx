@@ -2515,7 +2515,7 @@ function TeacherToolsPanel({ user, consultations }) {
     {analytics&&<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(110px,1fr))",gap:10,margin:"16px 0"}}>{[["Students",analytics.students],["Consultations",analytics.consultations],["Pending",analytics.pendingConsultations],["Lessons",analytics.lessons],["Completed",analytics.completedLessons],["Reviews",analytics.reviews],["Rating",Number(analytics.averageRating||0).toFixed(1)]].map(([k,v])=><div key={k} style={{background:"#f8fafc",padding:12,borderRadius:10}}><small>{k}</small><h3 style={{margin:"4px 0"}}>{v??0}</h3></div>)}</div>}
     <h3 style={{marginTop:18}}>Add Student Progress Note</h3>
     <form onSubmit={saveNote} style={{display:"grid",gap:10,marginTop:10}}>
-      <select required value={studentUserId} onChange={e=>setStudentUserId(e.target.value)}><option value="">Select linked student</option>{students.map(st=><option key={st.email} value={st.userId||""} disabled={!st.userId}>{st.name} · {st.email}</option>)}</select>
+      <select required value={studentUserId} onChange={e=>setStudentUserId(e.target.value)}><option value="">Select linked student</option>{students.map(st=><option key={st.id} value={st.id}>{st.name} · {st.email}</option>)}</select>
       
       <input required maxLength="120" placeholder="Topic / subject (e.g. Phonics)" value={subject} onChange={e=>setSubject(e.target.value)}/>
       <textarea required maxLength="3000" rows="3" placeholder="Write strengths, improvement areas and homework..." value={note} onChange={e=>setNote(e.target.value)}/>
