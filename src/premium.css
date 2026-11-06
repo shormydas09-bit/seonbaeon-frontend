@@ -849,3 +849,65 @@ button:disabled { cursor:not-allowed; opacity:.55; }
   #root .app.theme-dark-premium .auth-page { min-height:calc(100vh - 66px)!important; padding:28px 16px!important; }
   #root .app.theme-dark-premium .auth-page .auth-card { padding:26px 22px!important; border-radius:20px!important; }
 }
+
+
+/* FINAL OVERRIDES — remove legacy navy consultation cards and native select menus */
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card {
+  color:#29445f!important; background:#fff!important; background-image:none!important;
+  border:1px solid #dce7f4!important; border-radius:18px!important;
+  box-shadow:0 8px 24px rgba(27,62,105,.06)!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card .admin-student-identity strong {
+  color:#19395f!important; -webkit-text-fill-color:#19395f!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card .admin-student-identity span {
+  color:#657b94!important; -webkit-text-fill-color:#657b94!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card .admin-consultation-meta {
+  border-top:1px solid #e7eef6!important; border-bottom:1px solid #e7eef6!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card .admin-consultation-meta span {
+  color:#29445f!important; -webkit-text-fill-color:#29445f!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card .admin-consultation-meta b {
+  color:#7b8da3!important; -webkit-text-fill-color:#7b8da3!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card .admin-secondary-action,
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card .admin-status-action {
+  color:#385675!important; -webkit-text-fill-color:#385675!important;
+  background:#fff!important; border:1px solid #dce6f1!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card .admin-status-action.selected {
+  color:#fff!important; -webkit-text-fill-color:#fff!important;
+  background:#3478e5!important; border-color:#3478e5!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card .admin-student-details,
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card .admin-decision-history {
+  color:#29445f!important; background:#f7faff!important; border:1px solid #e1eaf5!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card .admin-student-details :where(h3,b,p,span),
+#root .app.theme-dark-premium .admin-dashboard-redesign article.admin-consultation-card.premium-surface-card .admin-decision-history :where(summary,p,b) {
+  color:#29445f!important; -webkit-text-fill-color:#29445f!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign>main .card strong,
+#root .app.theme-dark-premium .admin-dashboard-redesign .workspace-premium-shell .card strong {
+  color:#2869c8!important; -webkit-text-fill-color:#2869c8!important; opacity:1!important;
+}
+#root .app.theme-dark-premium .auth-page select,
+#root .app.theme-dark-premium .admin-dashboard-redesign select,
+#root .app.theme-dark-premium .workspace-premium-shell select {
+  color:#19395f!important; background-color:#fff!important; color-scheme:light!important;
+}
+#root .app.theme-dark-premium .auth-page select option,
+#root .app.theme-dark-premium .admin-dashboard-redesign select option,
+#root .app.theme-dark-premium .workspace-premium-shell select option {
+  color:#19395f!important; background:#fff!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-card :where(button,span,b,strong,p,small) {
+  text-shadow:none!important;
+}
+@media(max-width:680px) {
+  #root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-meta { grid-template-columns:1fr!important; }
+  #root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-actions { align-items:stretch!important; }
+  #root .app.theme-dark-premium .admin-dashboard-redesign .admin-status-actions { width:100%; }
+}
