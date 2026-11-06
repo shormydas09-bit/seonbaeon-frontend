@@ -455,3 +455,76 @@ button:disabled { cursor:not-allowed; opacity:.55; }
 @media(prefers-reduced-motion:reduce) {
   *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; transition-duration:.01ms!important; }
 }
+
+
+/* Contrast and legibility repair — overrides legacy theme remnants */
+#root .app.theme-dark-premium #pmt-home-v3 .home-category-card strong {
+  display:block!important; color:#19395f!important; -webkit-text-fill-color:#19395f!important;
+  opacity:1!important; visibility:visible!important; font-size:18px!important; font-weight:800!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .home-category-card .category-index,
+#root .app.theme-dark-premium #pmt-home-v3 .home-category-card .category-arrow {
+  color:#3478e5!important; -webkit-text-fill-color:#3478e5!important; opacity:1!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .home-category-card {
+  color:#19395f!important; -webkit-text-fill-color:#19395f!important;
+  min-height:156px!important; display:flex!important; flex-direction:column!important;
+  align-items:flex-start!important; justify-content:space-between!important; text-align:left!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .home-section-heading h2,
+#root .app.theme-dark-premium #pmt-home-v3 .home-process-section .home-section-heading h2 {
+  color:#19395f!important; -webkit-text-fill-color:#19395f!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .home-process-section .home-section-heading h2 span {
+  color:#6488ed!important; -webkit-text-fill-color:#6488ed!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .home-process-section .step h3 {
+  color:#19395f!important; -webkit-text-fill-color:#19395f!important; opacity:1!important;
+}
+#root .app.theme-dark-premium #pmt-home-v3 .home-process-section .step p {
+  color:#647a95!important; -webkit-text-fill-color:#647a95!important; opacity:1!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign label,
+#root .app.theme-dark-premium .student-dashboard-redesign label,
+#root .app.theme-dark-premium .admin-dashboard-redesign label,
+#root .app.theme-dark-premium .workspace-premium-shell label {
+  display:block!important; color:#405a78!important; -webkit-text-fill-color:#405a78!important;
+  opacity:1!important; visibility:visible!important; font-size:13px!important;
+  font-weight:750!important; letter-spacing:0!important; text-transform:none!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card label,
+#root .app.theme-dark-premium .teacher-dashboard-redesign form label {
+  color:#405a78!important; -webkit-text-fill-color:#405a78!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card h2,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card h3,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card strong,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card b {
+  color:#19395f!important; -webkit-text-fill-color:#19395f!important; opacity:1!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card p,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card small {
+  color:#627790!important; -webkit-text-fill-color:#627790!important; opacity:1!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card input,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card select,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card textarea,
+#root .app.theme-dark-premium .student-dashboard-redesign .card input,
+#root .app.theme-dark-premium .student-dashboard-redesign .card select,
+#root .app.theme-dark-premium .student-dashboard-redesign .card textarea {
+  color:#19395f!important; -webkit-text-fill-color:#19395f!important;
+  background:#fff!important; border:1px solid #cbdced!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign input[type="file"] {
+  color:#405a78!important; -webkit-text-fill-color:#405a78!important;
+  background:#fff!important; border:1px solid #d5e2f0!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign input::placeholder,
+#root .app.theme-dark-premium .teacher-dashboard-redesign textarea::placeholder {
+  color:#8798ad!important; -webkit-text-fill-color:#8798ad!important; opacity:1!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card button,
+#root .app.theme-dark-premium .student-dashboard-redesign .card button,
+#root .app.theme-dark-premium .admin-dashboard-redesign .card button {
+  opacity:1!important;
+}
