@@ -2783,6 +2783,18 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       await readResponse(res); setNotice("Profile saved. It is waiting for admin verification.");
     } catch (e) { setError(e.message); } finally { setBusy(false); }
   }
+  async function updateConsultationStatus(id, status) {
+    setBusy(true); setError(""); setNotice("");
+    try {
+      const response = await fetch(`${API_URL}/workspace/teacher/consultations/${id}/status`, {
+        method: "PATCH", headers, body: JSON.stringify({ status })
+      });
+      await readResponse(response);
+      setNotice(status === "APPROVED" ? "Consultation request approved." : "Consultation request rejected.");
+      await load();
+    } catch (e) { setError(e.message || "Could not update consultation request."); }
+    finally { setBusy(false); }
+  }
   async function addVideo(e) {
     e.preventDefault(); setBusy(true); setError(""); setNotice("");
     try {
@@ -2817,7 +2829,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         </form>
         <div className="card" style={{ padding:24 }}>
           <h2>Demo Class Requests</h2>
-          {consultations.length===0 ? <p style={{color:"#667085"}}>No requests yet.</p> : consultations.map(c=><div key={c.id} style={{borderTop:"1px solid #eee",padding:"12px 0"}}><b>{c.studentName}</b><p>{c.preferredDate} · {c.preferredTime} · {c.status}</p><p>{c.message}</p></div>)}
+          {consultations.length===0 ? <p style={{color:"#667085"}}>No requests yet.</p> : consultations.map(c=><div key={c.id} style={{borderTop:"1px solid #eee",padding:"12px 0"}}><b>{c.studentName}</b><p>{c.preferredDate} · {c.preferredTime} · <strong>{c.status}</strong></p><p>{c.message}</p>{c.status==="PENDING" && <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button type="button" className="signup-btn" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"APPROVED")}>Approve</button><button type="button" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"REJECTED")} style={{background:"#fff",color:"#b42318",border:"1px solid #fda29b",borderRadius:10,padding:"10px 16px",fontWeight:600,cursor:"pointer"}}>Reject</button></div>}</div>)}
         </div>
       </div>
     </div>
