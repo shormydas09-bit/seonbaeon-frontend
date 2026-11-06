@@ -3255,7 +3255,7 @@ function AdminWorkspace({ currentUser, handleLogout }) {
       await load();
     } catch(e){setError(e.message);}
   }
-  return <WorkspaceShell title="Admin Dashboard" subtitle="Review teacher applications and manage requests" user={currentUser} onLogout={handleLogout}>
+  return <div className="admin-dashboard-redesign"><WorkspaceShell title="Admin Dashboard" subtitle="Review teacher applications and manage requests" user={currentUser} onLogout={handleLogout}>
     {notice&&<p style={{background:"#ecfdf3",color:"#067647",padding:12,borderRadius:10}}>{notice}</p>}
     {error&&<p style={{background:"#fef3f2",color:"#b42318",padding:12,borderRadius:10}}>{error}</p>}
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",gap:12,marginBottom:20}}>
@@ -3306,7 +3306,7 @@ function AdminWorkspace({ currentUser, handleLogout }) {
         <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:8}}>{["PENDING","APPROVED","REJECTED","COMPLETED"].map(s=><button key={s} className="login-btn" onClick={()=>setStatus(c.id,s)}>{s}</button>)}</div><button type="button" className="login-btn" style={{marginTop:8}} onClick={async()=>{if(!window.confirm("Remove this consultation from your admin dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${c.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setConsultations(old=>old.filter(x=>x.id!==c.id));setNotice("Consultation hidden from your dashboard.");}catch(e){setError(e.message);}}}>Remove from my dashboard</button>
       </div>)}
     </div>
-    <AdminToolsPanel user={currentUser} />\n  </WorkspaceShell>;
+    <AdminToolsPanel user={currentUser} />\n  </WorkspaceShell></div>;
 }
 
 function ResetPasswordPage() {
