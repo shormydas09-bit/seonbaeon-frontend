@@ -89,13 +89,26 @@ function AuthPage({ mode, setMode, onLogin }) {
               role: accountRole,
             };
 
-      const response = await fetch(`${API_URL}${endpoint}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), 90000);
+      let response;
+      try {
+        response = await fetch(`${API_URL}${endpoint}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+          signal: controller.signal,
+        });
+      } catch (requestError) {
+        if (requestError.name === "AbortError") {
+          throw new Error("The server is taking too long to respond. Please wait a minute and try logging in again.");
+        }
+        throw new Error("Could not reach the login server. Please check your connection and try again.");
+      } finally {
+        window.clearTimeout(timeoutId);
+      }
 
       const data = await readResponse(response);
 
