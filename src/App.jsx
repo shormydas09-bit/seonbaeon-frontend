@@ -2492,7 +2492,7 @@ function TeacherToolsPanel({ user, consultations }) {
   const [studentUserId,setStudentUserId]=useState(""); const [subject,setSubject]=useState(""); const [note,setNote]=useState("");
   const [startsAt,setStartsAt]=useState(""); const [endsAt,setEndsAt]=useState(""); const [slotNote,setSlotNote]=useState("");
   const [notice,setNotice]=useState(""); const [error,setError]=useState("");
-  const students=[...new Map((consultations||[]).filter(c=>["APPROVED","COMPLETED"].includes(c.status)).map(c=>[String(c.email).toLowerCase(),{email:c.email,name:c.studentName}])).values()];
+  const students=[...new Map((consultations||[]).filter(c=>["APPROVED","COMPLETED"].includes(c.status)).map(c=>[String(c.email).toLowerCase(),{email:c.email,name:c.studentName,userId:c.studentUserId}])).values()];
   async function load(){try{const [n,a,k]=await Promise.all([fetch(`${API_URL}/workspace/teacher/progress`,{headers}),fetch(`${API_URL}/workspace/teacher/availability`,{headers}),fetch(`${API_URL}/workspace/teacher/analytics`,{headers})]);setNotes(await readResponse(n));setSlots(await readResponse(a));setAnalytics(await readResponse(k));}catch(e){setError(e.message);}}
   useEffect(()=>{load();},[]);
   async function saveNote(e){e.preventDefault();setError("");setNotice("");try{await readResponse(await fetch(`${API_URL}/workspace/teacher/progress`,{method:"POST",headers,body:JSON.stringify({studentUserId,subject,note})}));setSubject("");setNote("");setNotice("Student progress note saved.");await load();}catch(e){setError(e.message);}}
@@ -2503,8 +2503,8 @@ function TeacherToolsPanel({ user, consultations }) {
     {analytics&&<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(110px,1fr))",gap:10,margin:"16px 0"}}>{[["Students",analytics.students],["Consultations",analytics.consultations],["Pending",analytics.pendingConsultations],["Lessons",analytics.lessons],["Completed",analytics.completedLessons],["Reviews",analytics.reviews],["Rating",Number(analytics.averageRating||0).toFixed(1)]].map(([k,v])=><div key={k} style={{background:"#f8fafc",padding:12,borderRadius:10}}><small>{k}</small><h3 style={{margin:"4px 0"}}>{v??0}</h3></div>)}</div>}
     <h3 style={{marginTop:18}}>Add Student Progress Note</h3>
     <form onSubmit={saveNote} style={{display:"grid",gap:10,marginTop:10}}>
-      <select required value={studentUserId} onChange={e=>setStudentUserId(e.target.value)}><option value="">Select linked student</option>{students.map(st=><option key={st.email} value={st.userId||""} disabled>{st.name} · {st.email} (student ID unavailable)</option>)}</select>
-      <p style={{fontSize:13,color:"#667085"}}>Progress notes require the student's account ID. Select a linked student after the student ID is available in your consultation records.</p>
+      <select required value={studentUserId} onChange={e=>setStudentUserId(e.target.value)}><option value="">Select linked student</option>{students.map(st=><option key={st.email} value={st.userId||""} disabled={!st.userId}>{st.name} · {st.email}</option>)}</select>
+      
       <input required maxLength="120" placeholder="Topic / subject (e.g. Phonics)" value={subject} onChange={e=>setSubject(e.target.value)}/>
       <textarea required maxLength="3000" rows="3" placeholder="Write strengths, improvement areas and homework..." value={note} onChange={e=>setNote(e.target.value)}/>
       <button className="signup-btn" disabled={!studentUserId}>Save progress note</button>
