@@ -635,3 +635,136 @@ button:disabled { cursor:not-allowed; opacity:.55; }
   #root .app.theme-dark-premium .comparison-row { grid-template-columns:100px minmax(120px,1fr) minmax(120px,1fr); }
   #root .app.theme-dark-premium .comparison-row>div { padding:10px 8px; font-size:12px; }
 }
+
+
+/* Visual QA fixes from the recorded student and admin journeys */
+#root .app.theme-dark-premium .workspace-premium-shell {
+  width:100%!important; min-height:calc(100vh - 76px)!important; padding:42px clamp(16px,4vw,44px) 76px!important;
+  color:#183653!important; background:#f2f6fc!important;
+}
+#root .app.theme-dark-premium .workspace-premium-shell>section {
+  width:min(100%,1280px)!important; max-width:1280px!important; margin:0 auto!important;
+}
+#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child {
+  min-height:132px; padding:30px 34px!important; margin:0 0 24px!important;
+  align-items:center!important; background:linear-gradient(115deg,#fff 0%,#edf5ff 100%)!important;
+  border:1px solid #dce8f5!important; border-radius:22px!important; box-shadow:0 10px 30px rgba(31,65,108,.06)!important;
+}
+#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child h1 {
+  color:#17395f!important; font-size:clamp(30px,3vw,40px)!important; line-height:1.15!important;
+}
+#root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child p {
+  color:#60758e!important; font-size:14px!important; line-height:1.65!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .card,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .card {
+  color:#1c3858!important; background:#fff!important; border:1px solid #dfe8f3!important;
+  border-radius:18px!important; box-shadow:0 8px 24px rgba(27,62,105,.055)!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign>main,
+#root .app.theme-dark-premium .teacher-dashboard-redesign>main { background:transparent!important; }
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-management,
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-panel {
+  display:block!important; width:100%!important; padding:clamp(20px,3vw,30px)!important;
+  color:#1c3858!important; background:#fff!important; border:1px solid #dfe8f3!important;
+  border-radius:20px!important; box-shadow:0 8px 24px rgba(27,62,105,.055)!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-panel {
+  margin:20px 0!important; overflow:visible!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-filters {
+  display:grid!important; grid-template-columns:minmax(0,1fr) 210px!important; gap:12px!important; margin:18px 0!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-list {
+  display:grid!important; grid-template-columns:1fr!important; gap:14px!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-card,
+#root .app.theme-dark-premium .admin-dashboard-redesign .premium-surface-card {
+  width:100%!important; padding:20px!important; color:#1c3858!important;
+  background:#f8fbff!important; border:1px solid #dce7f4!important; border-radius:17px!important;
+  box-shadow:none!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-card :where(strong,b,h3) {
+  color:#19395f!important; -webkit-text-fill-color:#19395f!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-card :where(p,span,small) {
+  color:#617790!important; -webkit-text-fill-color:#617790!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-card button {
+  color:#2b65b2!important; background:#edf5ff!important; border:1px solid #d8e6f6!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-card button[class*="active"],
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-card button[aria-pressed="true"] {
+  color:#fff!important; background:#3478e5!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-filters input,
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-filters select {
+  color:#1c3858!important; background:#fff!important; border:1px solid #d4e1ef!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-section-heading h2,
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-heading h2 {
+  color:#19395f!important; font-size:22px!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-section-heading p,
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultations-heading p {
+  color:#687d96!important; line-height:1.65!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row {
+  min-height:90px; background:#f8fbff!important; border-color:#e0eaf5!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row :where(strong,b) { color:#19395f!important; }
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-teacher-row :where(p,small) { color:#627891!important; }
+#root .app.theme-dark-premium .page.student-dashboard-redesign>section {
+  width:min(100%,1320px)!important; max-width:1320px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2) {
+  display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr))!important; gap:18px!important;
+  align-items:stretch!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2)>.card {
+  min-width:0!important; padding:24px!important; margin:0!important;
+  background:#fff!important; border:1px solid #dfe8f3!important; border-radius:19px!important;
+  box-shadow:0 8px 24px rgba(27,62,105,.055)!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2)>.card h3 {
+  margin:5px 0 13px!important; color:#19395f!important; font-size:19px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2)>.card p {
+  color:#617790!important; font-size:14px!important; line-height:1.65!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2)>.card input,
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2)>.card textarea {
+  min-height:44px!important; padding:10px 12px!important; color:#19395f!important;
+  background:#fbfdff!important; border:1px solid #d5e2f0!important; border-radius:10px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2)>.card label {
+  color:#405a78!important; font-size:13px!important; font-weight:700!important; line-height:1.5!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>.card,
+#root .app.theme-dark-premium .student-dashboard-redesign>section>.card h2 {
+  color:#19395f!important; background:#fff!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>.card {
+  padding:24px!important; margin:20px 0!important; border:1px solid #dfe8f3!important;
+  border-radius:19px!important; box-shadow:0 8px 24px rgba(27,62,105,.055)!important;
+}
+#root .app.theme-dark-premium .profile-page {
+  min-height:100vh!important; padding:26px clamp(16px,5vw,72px) 76px!important;
+  color:#1c3858!important; background:#f2f6fc!important;
+}
+#root .app.theme-dark-premium .profile-container { max-width:1200px!important; margin:0 auto!important; }
+#root .app.theme-dark-premium .profile-header,
+#root .app.theme-dark-premium .profile-section,
+#root .app.theme-dark-premium .profile-layout .profile-left,
+#root .app.theme-dark-premium .profile-layout .profile-right,
+#root .app.theme-dark-premium .profile-layout aside,
+#root .app.theme-dark-premium .profile-layout .profile-sidebar {
+  color:#1c3858!important; background:#fff!important; border-color:#dfe8f3!important;
+}
+#root .app.theme-dark-premium .profile-layout { align-items:start!important; }
+#root .app.theme-dark-premium .profile-section { margin:0 0 18px!important; }
+@media(max-width:760px) {
+  #root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2) { grid-template-columns:1fr!important; }
+  #root .app.theme-dark-premium .admin-dashboard-redesign .admin-consultation-filters { grid-template-columns:1fr!important; }
+  #root .app.theme-dark-premium .workspace-premium-shell>section>div:first-child { padding:22px!important; }
+}
