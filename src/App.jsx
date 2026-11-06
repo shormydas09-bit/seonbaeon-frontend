@@ -390,206 +390,61 @@ function AuthPage({ mode, setMode, onLogin }) {
 ========================= */
 
 function HomePage({ goToTeachers }) {
+  const categories = ["Kids English", "Phonics", "Speaking", "Reading & Writing", "Grammar", "Storytelling", "School English"];
   return (
     <div className="home-premium-redesign">
       <section className="hero-section" id="home">
         <div className="hero-content">
-          <p className="small-title">
-            FIND THE RIGHT ENGLISH TEACHER
-          </p>
-
-          <h1>
-            Know your teacher
-            <br />
-            <span>before you join.</span>
-          </h1>
-
-          <p className="hero-text">
-            Discover English teachers for Korean children, explore
-            qualifications, read reviews, and watch sample demo
-            lessons before choosing.
-          </p>
-
-          <div className="hero-buttons">
-            <button
-              className="primary-btn"
-              onClick={goToTeachers}
-            >
-              Find a Teacher
-            </button>
-
-            <button
-              className="secondary-btn"
-              onClick={() =>
-                document
-                  .getElementById("how")
-                  ?.scrollIntoView({
-                    behavior: "smooth",
-                  })
-              }
-            >
-              How It Works
-            </button>
+          <div className="hero-copy">
+            <p className="small-title"><span className="hero-kicker-dot" /> A MORE CONFIDENT WAY TO LEARN ENGLISH</p>
+            <h1>Choose the right teacher.<br /><span>Start with confidence.</span></h1>
+            <p className="hero-text">Finding an English teacher should feel simple. Explore teaching styles, watch demo lessons, compare profiles and choose the right fit for your learning goals.</p>
+            <div className="hero-buttons">
+              <button className="primary-btn" onClick={goToTeachers}>Explore English teachers <span aria-hidden="true">↗</span></button>
+              <button className="secondary-btn" onClick={() => document.getElementById("how")?.scrollIntoView({behavior:"smooth"})}>See how it works</button>
+            </div>
+            <div className="hero-feature-line"><span>Teacher profiles</span><i /> <span>Demo lessons</span><i /> <span>Student reviews</span></div>
           </div>
-
-          <div className="trust-info">
-            <div>
-              <strong>Profile</strong>
-              <span>Know your teacher</span>
+          <div className="hero-card" aria-label="Preview of the teacher discovery experience">
+            <div className="hero-preview-top"><span className="preview-window-dots"><i/><i/><i/></span><span>TEACHER DISCOVERY</span><span className="preview-live-dot">●</span></div>
+            <div className="hero-preview-body">
+              <div className="preview-label">YOUR LEARNING JOURNEY</div>
+              <h2>Find a teacher who fits <em>your goals.</em></h2>
+              <p>Explore the details that help you make a thoughtful choice.</p>
+              <div className="preview-feature"><span className="preview-icon">01</span><div><strong>Explore teaching profiles</strong><small>Experience, approach and specialties</small></div><b>↗</b></div>
+              <div className="preview-feature"><span className="preview-icon">02</span><div><strong>Watch sample lessons</strong><small>Get a feel for each teaching style</small></div><b>↗</b></div>
+              <div className="preview-feature"><span className="preview-icon">03</span><div><strong>Compare with confidence</strong><small>Reviews and details in one place</small></div><b>↗</b></div>
+              <button className="preview-action" onClick={goToTeachers}>Start exploring <span>→</span></button>
             </div>
-
-            <div>
-              <strong>Reviews</strong>
-              <span>Hear from students</span>
-            </div>
-
-            <div>
-              <strong>Demo</strong>
-              <span>See the teaching style</span>
-            </div>
+            <div className="hero-preview-foot"><span> PICK MY TEACHER</span><span>LEARN WITH CLARITY</span></div>
           </div>
         </div>
+        <div className="hero-bottom-note"><span>MADE FOR BETTER TEACHER DISCOVERY</span><span>ENGLISH LEARNING · YOUR WAY</span></div>
+      </section>
 
-        <div className="hero-card">
-          <div className="card-top">
-            <span className="online">Available</span>
-            <span>4.9 rating</span>
-          </div>
-
-          <div className="mentor-avatar" aria-hidden="true">PMT</div>
-
-          <h2>English Teacher</h2>
-
-          <p className="mentor-subtitle">
-            Kids English & Phonics
-          </p>
-
-          <div className="mentor-details">
-            <div>
-              <strong>8+</strong>
-              <span>Years Experience</span>
-            </div>
-
-            <div>
-              <strong>250+</strong>
-              <span>Students</span>
-            </div>
-
-            <div>
-              <strong>98%</strong>
-              <span>Positive Reviews</span>
-            </div>
-          </div>
-
-          <button
-            className="view-profile"
-            onClick={goToTeachers}
-          >
-            View Teacher Profile
-          </button>
+      <section className="home-categories-section">
+        <div className="home-section-heading"><div><p className="home-eyebrow">EXPLORE YOUR OPTIONS</p><h2>English learning, shaped around you.</h2></div><p>From first words to confident conversations, discover a teaching focus that matches your next step.</p></div>
+        <div className="home-category-grid">
+          {categories.map((category,index)=><button type="button" className="home-category-card" key={category} onClick={goToTeachers}><span className="category-index">0{index+1}</span><strong>{category}</strong><span className="category-arrow">↗</span></button>)}
         </div>
       </section>
 
-      <section className="search-section">
-        <p className="small-title">START YOUR SEARCH</p>
-
-        <h2>Find an English teacher that fits you.</h2>
-
-        <div className="search-box">
-          <select defaultValue="English" disabled>
-            <option value="English">English</option>
-          </select>
-
-          <select defaultValue="All">
-            <option value="All">Select Location</option>
-            <option value="Busan">Busan</option>
-            <option value="Seoul">Seoul</option>
-            <option value="Daegu">Daegu</option>
-          </select>
-
-          <button onClick={goToTeachers}>
-            Search Teachers
-          </button>
-        </div>
-      </section>
-
-      <section className="how-section" id="how">
-        <p className="small-title">
-          HOW PICK MY TEACHER WORKS
-        </p>
-
-        <h2>
-          Make a better decision
-          <br />
-          <span>before you commit.</span>
-        </h2>
-
+      <section className="how-section home-process-section" id="how">
+        <div className="home-section-heading"><div><p className="home-eyebrow">A CLEARER WAY TO CHOOSE</p><h2>From browsing to your<br/><span>best-fit teacher.</span></h2></div><p>No guesswork. Get a closer look at the people behind the lessons before you decide.</p></div>
         <div className="steps">
-          <div className="step">
-            <div className="step-number">01</div>
-            <h3>Find</h3>
-            <p>
-              Search English teachers based on location and
-              learning needs.
-            </p>
-          </div>
-
-          <div className="step">
-            <div className="step-number">02</div>
-            <h3>Watch</h3>
-            <p>
-              Watch a sample demo lesson and understand the
-              teaching style.
-            </p>
-          </div>
-
-          <div className="step">
-            <div className="step-number">03</div>
-            <h3>Trust</h3>
-            <p>
-              Check qualifications and read reviews from
-              previous students.
-            </p>
-          </div>
-
-          <div className="step">
-            <div className="step-number">04</div>
-            <h3>Choose</h3>
-            <p>
-              Compare English teachers and choose with more
-              confidence.
-            </p>
-          </div>
+          <article className="step"><div className="step-number">01</div><h3>Discover</h3><p>Browse English teachers by learning focus, teaching style and profile details.</p></article>
+          <article className="step"><div className="step-number">02</div><h3>Get a feel</h3><p>Watch demo lessons to understand how a teacher explains and engages.</p></article>
+          <article className="step"><div className="step-number">03</div><h3>Compare</h3><p>Review qualifications, teaching information and feedback side by side.</p></article>
+          <article className="step"><div className="step-number">04</div><h3>Connect</h3><p>Request an introduction and take the next step when you feel ready.</p></article>
         </div>
       </section>
 
-      <section className="cta-section">
-        <h2>Don't choose a class blindly.</h2>
-
-        <p>
-          See the teacher. Feel the style. Choose with
-          confidence.
-        </p>
-
-        <button
-          className="primary-btn"
-          onClick={goToTeachers}
-        >
-          Explore English Teachers
-        </button>
+      <section className="home-final-cta">
+        <div><p className="home-eyebrow">YOUR NEXT STEP STARTS HERE</p><h2>Make your next English class<br/>a more confident choice.</h2><p>Explore teacher profiles and find a learning approach that feels right.</p></div>
+        <button className="home-cta-button" onClick={goToTeachers}>Find your English teacher <span>↗</span></button>
       </section>
 
-      <footer>
-        <div className="logo">
-          Pick My Teacher<span>.</span>
-        </div>
-
-        <p>Know the teacher before joining the class.</p>
-
-        <p className="copyright">
-          © 2026 Pick My Teacher. All rights reserved.
-        </p>
-      </footer>
+      <footer className="home-premium-footer"><div className="footer-brand"><div className="logo">Pick My Teacher<span>.</span></div><p>Know your teacher before you join.</p></div><div className="footer-links"><button onClick={goToTeachers}>Find Teachers</button><button onClick={()=>document.getElementById("how")?.scrollIntoView({behavior:"smooth"})}>How It Works</button></div><div className="copyright">© 2026 Pick My Teacher. All rights reserved.</div></footer>
     </div>
   );
 }
