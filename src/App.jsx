@@ -3292,7 +3292,7 @@ function AdminWorkspace({ currentUser, handleLogout }) {
         {c.teacherDecision && <p><b>Teacher decision:</b> {c.teacherDecision} {c.teacherDecisionAt||""}</p>}
         {c.rejectionReason && <p style={{color:"#b42318"}}><b>Rejection reason:</b> {c.rejectionReason}</p>}
         {c.adminPreviousStatus && <p><b>Admin changed:</b> {c.adminPreviousStatus} → {c.status} · {c.adminNote||""} · {c.adminDecisionAt||""}</p>}{c.decisionHistory && <p style={{whiteSpace:"pre-line"}}><b>Decision History:</b>{"\\n"}{c.decisionHistory}</p>}
-        <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:8}}>{["PENDING","APPROVED","REJECTED","COMPLETED"].map(s=><button key={s} className="login-btn" onClick={()=>setStatus(c.id,s)}>{s}</button>)}</div>
+        <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:8}}>{["PENDING","APPROVED","REJECTED","COMPLETED"].map(s=><button key={s} className="login-btn" onClick={()=>setStatus(c.id,s)}>{s}</button>)}</div><button type="button" className="login-btn" style={{marginTop:8}} onClick={async()=>{if(!window.confirm("Remove this consultation from your admin dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${c.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setConsultations(old=>old.filter(x=>x.id!==c.id));setNotice("Consultation hidden from your dashboard.");}catch(e){setError(e.message);}}}>Remove from my dashboard</button>
       </div>)}
     </div>
     <AdminToolsPanel user={currentUser} />\n  </WorkspaceShell>;
