@@ -1268,10 +1268,12 @@ function TeacherProfile({
     useState(true);
   const [reviewError, setReviewError] =
     useState("");
-
-  const [reviewName, setReviewName] = useState(
-    currentUser?.name || ""
-  );
+  const [reviewEligibility, setReviewEligibility] = useState({
+    loading: true,
+    eligible: false,
+    alreadyReviewed: false,
+    error: "",
+  });
 
   const [reviewRating, setReviewRating] =
     useState(5);
@@ -1354,6 +1356,59 @@ function TeacherProfile({
 
     loadReviews();
   }, [teacher]);
+
+  useEffect(() => {
+    if (!teacher) return;
+
+    let cancelled = false;
+
+    async function checkReviewEligibility() {
+      if (!currentUser?.token || currentUser?.role !== "STUDENT") {
+        setReviewEligibility({
+          loading: false,
+          eligible: false,
+          alreadyReviewed: false,
+          error: "",
+        });
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `${API_URL}/teachers/${teacher.id}/reviews/eligibility`,
+          { headers: { Authorization: `Bearer ${currentUser.token}` } }
+        );
+        const data = await readResponse(response);
+        if (!cancelled) {
+          setReviewEligibility({
+            loading: false,
+            eligible: Boolean(data?.eligible),
+            alreadyReviewed: Boolean(data?.alreadyReviewed),
+            error: "",
+          });
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setReviewEligibility({
+            loading: false,
+            eligible: false,
+            alreadyReviewed: false,
+            error: err.message || "Could not check review eligibility.",
+          });
+        }
+      }
+    }
+
+    setReviewEligibility({
+      loading: true,
+      eligible: false,
+      alreadyReviewed: false,
+      error: "",
+    });
+    checkReviewEligibility();
+
+    return () => { cancelled = true; };
+  }, [teacher, currentUser]);
 
   /* =========================
      LOAD MULTIPLE VIDEOS
@@ -1547,10 +1602,11 @@ function TeacherProfile({
   async function submitReview(e) {
     e.preventDefault();
 
-    if (
-      !reviewName.trim() ||
-      !reviewText.trim()
-    ) {
+    if (!reviewText.trim()) {
+      return;
+    }
+    if (!currentUser?.token || currentUser?.role !== "STUDENT") {
+      setReviewError("Please log in with a Student account to submit a review.");
       return;
     }
 
@@ -1564,10 +1620,9 @@ function TeacherProfile({
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${currentUser.token}`,
           },
           body: JSON.stringify({
-            studentName:
-              reviewName.trim(),
             rating: Number(reviewRating),
             text: reviewText.trim(),
           }),
@@ -2285,65 +2340,48 @@ function TeacherProfile({
               <div className="review-form-card">
                 <h3>Write a Review</h3>
 
-                <form
-                  onSubmit={submitReview}
-                >
-                  <input
-                    value={reviewName}
-                    onChange={(e) =>
-                      setReviewName(
-                        e.target.value
-                      )
-                    }
-                    placeholder="Your name"
-                    required
-                  />
+                {reviewEligibility.loading ? (
+                  <p>Checking review eligibility...</p>
+                ) : !currentUser?.token || currentUser?.role !== "STUDENT" ? (
+                  <p>Please log in with a Student account to write a review.</p>
+                ) : reviewEligibility.error ? (
+                  <div className="form-error">{reviewEligibility.error}</div>
+                ) : reviewEligibility.alreadyReviewed ? (
+                  <p>You have already reviewed this teacher. Thank you for sharing your experience!</p>
+                ) : !reviewEligibility.eligible ? (
+                  <p>You can write a review after this teacher approves your consultation request.</p>
+                ) : (
+                  <form onSubmit={submitReview}>
+                    <select
+                      value={reviewRating}
+                      onChange={(e) => setReviewRating(Number(e.target.value))}
+                      aria-label="Review rating"
+                    >
+                      <option value="5">5 / 5</option>
+                      <option value="4">4 / 5</option>
+                      <option value="3">3 / 5</option>
+                      <option value="2">2 / 5</option>
+                      <option value="1">1 / 5</option>
+                    </select>
 
-                  <select
-                    value={reviewRating}
-                    onChange={(e) =>
-                      setReviewRating(
-                        Number(
-                          e.target.value
-                        )
-                      )
-                    }
-                  >
-                    <option value="5">5 / 5</option>
+                    <textarea
+                      value={reviewText}
+                      onChange={(e) => setReviewText(e.target.value)}
+                      rows="4"
+                      maxLength={2000}
+                      placeholder="Share your experience..."
+                      required
+                    />
 
-                    <option value="4">4 / 5</option>
-
-                    <option value="3">3 / 5</option>
-
-                    <option value="2">2 / 5</option>
-
-                    <option value="1">1 / 5</option>
-                  </select>
-
-                  <textarea
-                    value={reviewText}
-                    onChange={(e) =>
-                      setReviewText(
-                        e.target.value
-                      )
-                    }
-                    rows="4"
-                    placeholder="Share your experience..."
-                    required
-                  />
-
-                  <button
-                    className="submit-consultation"
-                    type="submit"
-                    disabled={
-                      reviewSubmitting
-                    }
-                  >
-                    {reviewSubmitting
-                      ? "Submitting..."
-                      : "Submit Review"}
-                  </button>
-                </form>
+                    <button
+                      className="submit-consultation"
+                      type="submit"
+                      disabled={reviewSubmitting}
+                    >
+                      {reviewSubmitting ? "Submitting..." : "Submit Review"}
+                    </button>
+                  </form>
+                )}
               </div>
             </section>
           </div>
