@@ -2806,6 +2806,8 @@ function StudentDashboard({
           </div>
         </div>
 
+        <StudentProgressPanel user={currentUser} />
+
         <div className="card">
           <h2>English Learning Categories</h2>
 
