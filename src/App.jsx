@@ -3532,7 +3532,7 @@ function App() {
     );
 
     setCurrentUser(user);
-    setPage(user.role === "TEACHER" ? "teacher-dashboard" : user.role === "ADMIN" ? "admin-dashboard" : "home");
+    setPage(user.role === "TEACHER" ? "teacher-dashboard" : user.role === "ADMIN" ? "admin-dashboard" : "dashboard");
   }
 
   function handleProfileUpdated(updated) {
