@@ -5192,3 +5192,58 @@ input:focus,select:focus,textarea:focus{border-color:#8ca5ff!important;box-shado
 .admin-dashboard-redesign [style*="borderTop"]{border-color:#e8edf5!important}
 @media(max-width:700px){.navbar{padding-left:16px;padding-right:16px}.teacher-dashboard-redesign,.admin-dashboard-redesign{overflow-x:hidden}.admin-dashboard-redesign .card{padding:17px!important}.auth-card{margin:16px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+
+
+/* Premium admin consultation management */
+.admin-consultations-panel{background:transparent;margin:8px 0 24px}
+.admin-consultations-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin:0 2px 20px}
+.admin-consultations-heading h2{font-size:clamp(23px,3vw,30px);margin:4px 0 7px;letter-spacing:-.04em;color:#17233d}
+.admin-consultations-heading p:not(.eyebrow){margin:0;color:#718096;font-size:14px}
+.admin-consultations-heading .eyebrow{margin:0;color:#5874cf;font-size:10px;font-weight:800;letter-spacing:.14em}
+.admin-total-count{padding:9px 13px;border:1px solid #e0e7f3;background:#fff;border-radius:999px;color:#52627c;font-size:12px;font-weight:700}
+.admin-consultation-filters{display:flex;gap:12px;margin:0 0 16px;flex-wrap:wrap}
+.admin-consultation-filters input{flex:1 1 260px;min-width:0;padding:13px 15px!important;background:#fff;border:1px solid #e3e9f3!important;border-radius:13px!important}
+.admin-consultation-filters select{min-width:170px;padding:12px 14px!important;background:#fff;border:1px solid #e3e9f3!important;border-radius:13px!important}
+.admin-consultation-list{display:grid;gap:13px}
+.admin-consultation-card{background:#fff;border:1px solid #e6ebf4;border-radius:18px;padding:20px 22px;box-shadow:0 7px 24px rgba(35,54,91,.045);transition:box-shadow .2s,border-color .2s}
+.admin-consultation-card:hover{border-color:#d3ddf0;box-shadow:0 12px 30px rgba(35,54,91,.075)}
+.admin-consultation-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.admin-student-identity{display:flex;align-items:center;gap:12px;min-width:0}
+.admin-avatar{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(145deg,#e7edff,#dce6ff);color:#3658c9;font-size:16px;font-weight:800}
+.admin-student-identity>div:last-child{display:grid;gap:4px;min-width:0}
+.admin-student-identity strong{color:#1d2b45;font-size:15px}
+.admin-student-identity span{color:#78869b;font-size:12px;overflow-wrap:anywhere}
+.admin-status-badge{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.045em;background:#f1f4f9;color:#64748b}
+.admin-status-badge:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.admin-status-badge.status-pending{background:#fff6e5;color:#a66a08}
+.admin-status-badge.status-approved{background:#eaf8f0;color:#218253}
+.admin-status-badge.status-rejected{background:#fff0ef;color:#c4473e}
+.admin-status-badge.status-completed{background:#edf2ff;color:#4864c7}
+.admin-consultation-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0;padding:14px 0;border-top:1px solid #eff2f7;border-bottom:1px solid #eff2f7}
+.admin-consultation-meta span{display:grid;gap:5px;color:#34445e;font-size:13px;overflow-wrap:anywhere}
+.admin-consultation-meta b{color:#98a2b3;font-size:10px;text-transform:uppercase;letter-spacing:.07em}
+.admin-consultation-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.admin-secondary-action,.admin-status-action,.admin-remove-action{border:1px solid #e1e7f1!important;background:#fff!important;color:#465775!important;border-radius:10px!important;padding:9px 12px!important;font-size:12px!important;font-weight:700!important}
+.admin-secondary-action:hover,.admin-status-action:hover{background:#f5f7fc!important;border-color:#cbd6eb!important}
+.admin-status-actions{display:flex;gap:6px;flex-wrap:wrap}
+.admin-status-action{padding:8px 10px!important;font-size:11px!important;color:#66758d!important}
+.admin-status-action.selected{background:#edf2ff!important;border-color:#cdd9ff!important;color:#3155ce!important}
+.admin-student-details{margin-top:15px;padding:17px;border:1px solid #e8edf6;border-radius:14px;background:#f8faff}
+.admin-student-details h3{margin:0 0 13px;color:#253653;font-size:14px}
+.admin-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px}
+.admin-detail-grid p{display:grid;gap:4px;margin:0;color:#47566e;font-size:13px;overflow-wrap:anywhere}
+.admin-detail-grid b{font-size:10px;color:#8a97aa;text-transform:uppercase;letter-spacing:.06em}
+.admin-decision-history{margin-top:14px;padding:11px 13px;border-radius:11px;background:#fafbfe;border:1px solid #edf0f6;color:#66758d;font-size:12px}
+.admin-decision-history summary{cursor:pointer;font-weight:700;color:#596983}
+.admin-decision-history p{margin:10px 0 0;overflow-wrap:anywhere;line-height:1.6}
+.admin-decision-history .admin-rejection-note{color:#c4473e}
+.admin-history-text{white-space:pre-line}
+.admin-consultation-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.admin-consultation-footer>span{color:#a0aaba;font-size:11px}
+.admin-remove-action{border-color:#f1d9d7!important;color:#b84c45!important;background:#fffafa!important}
+.admin-remove-action:hover{background:#fff1f0!important}
+.admin-empty-state{padding:44px 20px;text-align:center;background:#fff;border:1px dashed #dce4f0;border-radius:16px;color:#7b899e}
+.admin-empty-state span{display:block;margin-bottom:10px;color:#5874cf;font-size:25px}
+.admin-empty-state strong{display:block;color:#34445e}
+.admin-empty-state p{margin:6px 0 0;font-size:13px}
+@media(max-width:650px){.admin-consultation-card{padding:16px}.admin-consultation-meta{grid-template-columns:1fr 1fr}.admin-consultation-actions{align-items:stretch}.admin-status-actions{width:100%}.admin-status-action{flex:1 1 40%}.admin-detail-grid{grid-template-columns:1fr}.admin-consultations-heading{align-items:flex-start}}
