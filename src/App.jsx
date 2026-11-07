@@ -2668,74 +2668,7 @@ function StudentDashboard({
               {lesson.meetingLink && <p><a href={lesson.meetingLink} target="_blank" rel="noreferrer">Join lesson</a></p>}
               <div className="student-lesson-actions">{lesson.status === "SCHEDULED" && <button type="button" className="compare-btn" onClick={async()=>{if(!window.confirm("Cancel this lesson?"))return;const reason=window.prompt("Optional cancellation reason:")||"";try{await readResponse(await fetch(`${API_URL}/lessons/${lesson.id}/status`,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:`Bearer ${currentUser.token}`},body:JSON.stringify({status:"CANCELLED",reason})}));setMyLessons(old=>old.map(x=>x.id===lesson.id?{...x,status:"CANCELLED",cancellationReason:reason}:x));}catch(e){setLessonError(e.message);}}}>Cancel lesson</button>}<button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this lesson from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/LESSON/${lesson.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyLessons(old=>old.filter(x=>x.id!==lesson.id));}catch(e){setLessonError(e.message);}}}>Remove from dashboard</button></div>
             </div>)}
-          </div>
-          <div className="card student-learning-card">
-            <div className="dashboard-card-label">LEARNING PROFILE</div>
-            <h3>My Learning Profile</h3>
-            {studentDetailsNotice && <p style={{color:"#067647"}}>{studentDetailsNotice}</p>}
-            {studentDetailsError && <p style={{color:"#b42318"}}>{studentDetailsError}</p>}
-            <form className="student-profile-form" onSubmit={saveStudentDetails}>
-              {[
-                { title:"Personal details", hint:"A few basics to help us understand your learning needs.", fields:[["age","Age"],["ageGroup","Age group"],["guardianName","Parent / guardian name"],["guardianPhone","Parent / guardian phone"]] },
-                { title:"Learning preferences", hint:"Tell us what you want to improve and how you like to learn.", fields:[["englishLevel","Current English level"],["preferredCategory","Preferred English category"],["preferredSchedule","Preferred learning schedule"],["learningGoals","Learning goals"],["interests","Interests / hobbies"]] },
-                { title:"A little about you", hint:"Help your teacher get to know you before the first lesson.", fields:[["introduction","About me"]] }
-              ].map((group,index)=><details className="student-profile-group" key={group.title} open={index===0}>
-                <summary><span className="student-profile-step">{String(index+1).padStart(2,"0")}</span><span className="student-profile-group-copy"><strong>{group.title}</strong><small>{group.hint}</small></span><span className="student-profile-chevron">⌄</span></summary>
-                <div className="student-profile-fields">
-                  {group.fields.map(([key,label])=><label key={key}>{label}{key==="learningGoals"||key==="interests"||key==="introduction"?<textarea rows={key==="introduction"?3:2} value={studentDetails[key]||""} onChange={e=>setStudentDetails(old=>({...old,[key]:e.target.value}))}/>:<input type={key==="age"?"number":"text"} value={studentDetails[key]||""} onChange={e=>setStudentDetails(old=>({...old,[key]:e.target.value}))}/>}</label>)}
-                </div>
-              </details>)}
-              <div className="student-profile-submit-row"><span>Your preferences help us recommend suitable English teachers.</span><button className="signup-btn" type="submit">Save Learning Profile <span aria-hidden="true">→</span></button></div>
-            </form>
-          </div>
-          <div className="card student-discover-card">
-            <div className="dashboard-card-label">DISCOVER</div>
-
-            <h3>Find English Teachers</h3>
-
-            <p>
-              Explore English teachers for speaking,
-              phonics, grammar, reading, storytelling
-              and school English.
-            </p>
-
-            <button
-              className="signup-btn"
-              onClick={goToTeachers}
-            >
-              Find Teachers
-            </button>
-          </div>
-
-          <div className="card student-requests-card">
-            <div className="dashboard-card-label">REQUESTS</div>
-
-            <h3>Consultations</h3>
-
-            <p>
-              Track teacher decisions, preferred times and updates to your requests.
-            </p>
-
-            {requestError && <p style={{color:"#b42318"}}>{requestError}</p>}
-            {myRequests.length === 0 ? <p style={{color:"#667085"}}>No lesson requests yet. Open a teacher profile and request a lesson to get started.</p> : myRequests.map((r) => (
-              <div key={r.id} className="student-request-item" style={{padding:"16px 0",borderTop:"1px solid rgba(148,163,184,.18)"}}>
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12,flexWrap:"wrap"}}>
-                  <strong>{r.teacherName || "English teacher"}</strong>
-                  <span style={{fontSize:12,fontWeight:700,letterSpacing:".04em",padding:"5px 10px",borderRadius:999,background:r.status==="APPROVED"?"rgba(34,197,94,.13)":r.status==="REJECTED"?"rgba(239,68,68,.13)":"rgba(148,163,184,.14)",color:r.status==="APPROVED"?"#4ade80":r.status==="REJECTED"?"#f87171":"#cbd5e1"}}>{r.status || "PENDING"}</span>
-                </div>
-                <p style={{margin:"7px 0",color:"#94a3b8",fontSize:13}}>{r.teacherCategory || "English"} · Preferred: {r.preferredDate} at {r.preferredTime}</p>
-                {r.message && <p style={{margin:"6px 0"}}>{r.message}</p>}
-                {r.status==="PENDING" && <p style={{fontSize:13,color:"#94a3b8"}}>Waiting for the teacher to review your request.</p>}
-                {r.status==="APPROVED" && <p style={{fontSize:13,color:"#4ade80"}}>Approved. Your teacher will arrange the lesson time and meeting details.</p>}
-                {r.status==="REJECTED" && <p style={{fontSize:13,color:"#fca5a5"}}>Not approved. {r.rejectionReason || "Please choose another teacher or request a different time."}</p>}
-                {r.adminPreviousStatus && <p style={{fontSize:12,color:"#94a3b8"}}>Admin update: {r.adminPreviousStatus} → {r.status}. {r.adminNote || ""}</p>}
-                {r.decisionHistory && <details style={{fontSize:12,color:"#94a3b8",marginTop:8}}><summary style={{cursor:"pointer"}}>View request history</summary><pre style={{whiteSpace:"pre-wrap",fontFamily:"inherit"}}>{r.decisionHistory}</pre></details>}
-                <button type="button" className="login-btn" style={{marginTop:8}} onClick={async()=>{if(!window.confirm("Remove this request from your dashboard only? The teacher and admin records will remain unchanged."))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${r.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyRequests(old=>old.filter(x=>x.id!==r.id));}catch(e){setRequestError(e.message);}}}>Hide request</button>
-              </div>
-            ))}
-          </div>
-
-          <div className="card student-favorites-card">
+            <div className="card student-favorites-card">
             <div className="dashboard-card-label">SAVED</div>
 
             <h3>Favorite Teachers</h3>
