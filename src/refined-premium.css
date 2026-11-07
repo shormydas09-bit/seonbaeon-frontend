@@ -5639,3 +5639,198 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid{grid-template-columns:1fr!important}
  #root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar{grid-template-columns:1fr!important}
 }
+
+
+/* COMPARE SELECTION BAR — refined compact premium component */
+#root .app.theme-dark-premium .teacher-search-redesign .compare-bar{
+  display:grid!important;grid-template-columns:minmax(220px,.8fr) minmax(280px,1.35fr) auto!important;
+  align-items:center!important;gap:18px!important;
+  padding:18px 20px!important;margin:24px 0 20px!important;
+  border-radius:20px!important;
+  background:linear-gradient(120deg,#172b44 0%,#13243a 60%,#102037 100%)!important;
+  border:1px solid #304966!important;
+  box-shadow:0 16px 38px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.045)!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .compare-title strong{
+  display:block!important;color:#f1f6ff!important;font-size:17px!important;font-weight:850!important;
+  letter-spacing:-.25px!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .compare-title span{
+  display:block!important;margin-top:6px!important;color:#9eb3ce!important;font-size:12px!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .compare-selected{
+  display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:9px!important;min-width:0!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .compare-mini-card{
+  display:flex!important;align-items:center!important;gap:9px!important;
+  min-height:46px!important;padding:7px 10px!important;border-radius:13px!important;
+  background:#203854!important;border:1px solid #3b5878!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .compare-mini-card>span{
+  display:grid!important;place-items:center!important;flex:0 0 28px!important;width:28px!important;height:28px!important;
+  overflow:hidden!important;border-radius:9px!important;background:#345174!important;
+  color:#dff7f3!important;font-size:11px!important;font-weight:850!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .compare-mini-card>span img{
+  width:100%!important;height:100%!important;object-fit:cover!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .compare-mini-card strong{
+  color:#e8f1ff!important;font-size:12px!important;font-weight:750!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .compare-mini-card button{
+  display:grid!important;place-items:center!important;width:25px!important;height:25px!important;
+  border-radius:8px!important;background:#152941!important;border:1px solid #405b79!important;
+  color:#b9cce2!important;font-size:15px!important;line-height:1!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .compare-bar>button,
+#root .app.theme-dark-premium .teacher-search-redesign .compare-now,
+#root .app.theme-dark-premium .teacher-search-redesign .compare-bar button:last-child{
+  min-height:48px!important;padding:0 21px!important;border-radius:13px!important;
+  background:linear-gradient(135deg,#76d8cd,#50b8ad)!important;
+  border:1px solid rgba(153,239,226,.45)!important;color:#092522!important;
+  font-size:14px!important;font-weight:850!important;white-space:nowrap!important;
+  box-shadow:0 8px 20px rgba(52,171,158,.18)!important;
+  transition:transform .18s ease,filter .18s ease!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .compare-bar>button:hover,
+#root .app.theme-dark-premium .teacher-search-redesign .compare-bar button:last-child:hover{
+  transform:translateY(-2px)!important;filter:brightness(1.06)!important;
+}
+/* Comparison dialog */
+#root .app.theme-dark-premium .compare-overlay{
+  background:rgba(3,9,18,.82)!important;backdrop-filter:blur(15px)!important;
+  padding:22px!important;
+}
+#root .app.theme-dark-premium .compare-modal{
+  width:min(1120px,100%)!important;max-height:min(92dvh,940px)!important;
+  padding:34px!important;border-radius:26px!important;
+  background:linear-gradient(145deg,#172a42,#0e1c2f)!important;
+  border:1px solid #3a5270!important;
+  box-shadow:0 32px 100px rgba(0,0,0,.58)!important;
+  color:#edf4ff!important;
+}
+#root .app.theme-dark-premium .compare-modal-heading .small-title{
+  color:#7edbd0!important;letter-spacing:1.8px!important;font-size:10px!important;font-weight:850!important;
+}
+#root .app.theme-dark-premium .compare-modal-heading h2{
+  color:#f4f7ff!important;font-size:clamp(28px,3vw,38px)!important;
+  letter-spacing:-1px!important;font-weight:850!important;margin:8px 0!important;
+}
+#root .app.theme-dark-premium .compare-modal :where(p,.compare-subtitle,.comparison-rating){
+  color:#aebfd5!important;line-height:1.65!important;
+}
+#root .app.theme-dark-premium .compare-modal .comparison-table{
+  border:1px solid #354d69!important;border-radius:17px!important;
+  overflow:hidden!important;background:#102036!important;
+}
+#root .app.theme-dark-premium .compare-modal .comparison-row{
+  background:#12243a!important;border-color:#2b415d!important;
+}
+#root .app.theme-dark-premium .compare-modal .comparison-row:nth-child(even){
+  background:#172b43!important;
+}
+#root .app.theme-dark-premium .compare-modal .comparison-row>*{
+  border-color:#2b415d!important;color:#d1def0!important;
+}
+#root .app.theme-dark-premium .compare-modal .comparison-header{
+  background:linear-gradient(135deg,#1d3551,#172a42)!important;
+}
+#root .app.theme-dark-premium .compare-modal .comparison-feature-heading{
+  color:#f0f5ff!important;font-weight:850!important;
+}
+#root .app.theme-dark-premium .compare-modal .comparison-teacher :where(strong,h3){
+  color:#eff7ff!important;font-weight:800!important;
+}
+#root .app.theme-dark-premium .compare-modal .comparison-avatar{
+  background:#294563!important;border:1px solid #4b698b!important;color:#a8eee3!important;
+}
+#root .app.theme-dark-premium .compare-modal .compare-close{
+  width:42px!important;height:42px!important;border-radius:13px!important;
+  background:#263f5d!important;color:#eff6ff!important;border:1px solid #496583!important;
+}
+/* Consultation modal — premium, legible and consistent */
+#root .app.theme-dark-premium .consultation-overlay{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  padding:24px!important;background:rgba(2,7,16,.82)!important;backdrop-filter:blur(16px)!important;
+}
+#root .app.theme-dark-premium .consultation-modal{
+  position:relative!important;width:min(650px,100%)!important;max-height:92dvh!important;
+  overflow-y:auto!important;padding:36px!important;border-radius:26px!important;
+  background:linear-gradient(150deg,#1b304a 0%,#13243a 58%,#102035 100%)!important;
+  border:1px solid #405a78!important;
+  box-shadow:0 32px 100px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
+#root .app.theme-dark-premium .consultation-modal:before{
+  content:"CONSULTATION REQUEST"!important;display:block!important;
+  color:#7edbd0!important;font-size:10px!important;font-weight:900!important;
+  letter-spacing:2px!important;margin:0 58px 12px 0!important;
+}
+#root .app.theme-dark-premium .consultation-modal h2{
+  color:#f4f7ff!important;font-size:clamp(26px,3vw,34px)!important;
+  font-weight:850!important;letter-spacing:-.8px!important;margin:0 58px 8px 0!important;
+}
+#root .app.theme-dark-premium .consultation-modal>p{
+  color:#afc1d8!important;font-size:14px!important;line-height:1.65!important;margin:0 0 25px!important;
+}
+#root .app.theme-dark-premium .consultation-modal form{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:9px 14px!important;
+}
+#root .app.theme-dark-premium .consultation-modal form label{
+  display:block!important;align-self:end!important;margin:8px 0 0!important;
+  color:#dce8f7!important;font-size:12px!important;font-weight:750!important;
+}
+#root .app.theme-dark-premium .consultation-modal form input,
+#root .app.theme-dark-premium .consultation-modal form select,
+#root .app.theme-dark-premium .consultation-modal form textarea{
+  width:100%!important;min-width:0!important;min-height:48px!important;
+  padding:12px 14px!important;border-radius:12px!important;
+  background:#0b192b!important;border:1px solid #354e6c!important;
+  color:#f0f5ff!important;-webkit-text-fill-color:#f0f5ff!important;
+  font:500 14px/1.5 'DM Sans',Inter,system-ui,sans-serif!important;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.2)!important;outline:none!important;
+}
+#root .app.theme-dark-premium .consultation-modal form input::placeholder,
+#root .app.theme-dark-premium .consultation-modal form textarea::placeholder{
+  color:#7187a3!important;-webkit-text-fill-color:#7187a3!important;
+}
+#root .app.theme-dark-premium .consultation-modal form input:focus,
+#root .app.theme-dark-premium .consultation-modal form textarea:focus{
+  border-color:#79d7cc!important;box-shadow:0 0 0 3px rgba(121,215,204,.13)!important;
+}
+#root .app.theme-dark-premium .consultation-modal form label:nth-of-type(6),
+#root .app.theme-dark-premium .consultation-modal form textarea,
+#root .app.theme-dark-premium .consultation-modal form .submit-consultation{
+  grid-column:1/-1!important;
+}
+#root .app.theme-dark-premium .consultation-modal form textarea{
+  min-height:112px!important;resize:vertical!important;
+}
+#root .app.theme-dark-premium .consultation-modal .close-consultation{
+  position:absolute!important;top:22px!important;right:22px!important;
+  display:grid!important;place-items:center!important;width:42px!important;height:42px!important;
+  border-radius:13px!important;background:#263f5d!important;
+  color:#f2f7ff!important;border:1px solid #4a6685!important;font-size:23px!important;
+}
+#root .app.theme-dark-premium .consultation-modal .submit-consultation{
+  min-height:54px!important;margin-top:12px!important;border:0!important;border-radius:13px!important;
+  background:linear-gradient(120deg,#83e0d5,#50b9ad)!important;color:#082522!important;
+  font-size:15px!important;font-weight:900!important;
+  box-shadow:0 10px 25px rgba(65,181,168,.2)!important;
+}
+#root .app.theme-dark-premium .consultation-modal .form-error{
+  grid-column:1/-1!important;padding:12px 14px!important;border-radius:12px!important;
+  background:rgba(210,86,102,.12)!important;border:1px solid rgba(240,123,137,.35)!important;color:#ffb6c0!important;
+}
+@media(max-width:760px){
+ #root .app.theme-dark-premium .teacher-search-redesign .compare-bar{grid-template-columns:1fr!important;gap:12px!important}
+ #root .app.theme-dark-premium .teacher-search-redesign .compare-bar>button,
+ #root .app.theme-dark-premium .teacher-search-redesign .compare-bar button:last-child{width:100%!important}
+ #root .app.theme-dark-premium .compare-modal{padding:22px 16px!important}
+ #root .app.theme-dark-premium .consultation-modal{padding:28px 20px!important}
+}
+@media(max-width:560px){
+ #root .app.theme-dark-premium .consultation-modal form{grid-template-columns:1fr!important}
+ #root .app.theme-dark-premium .consultation-modal form>*{grid-column:1/-1!important}
+}
