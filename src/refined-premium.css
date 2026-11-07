@@ -5256,3 +5256,63 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header,
  #root .teachers-page.teacher-search-redesign .results-header{align-items:flex-start!important;flex-direction:column!important;gap:4px!important}
 }
+
+
+/* FINAL PASS — teacher discovery page: legibility, compact filters, balanced spacing */
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teachers-header h1{
+  color:#f4f7ff!important;
+  -webkit-text-fill-color:#f4f7ff!important;
+  opacity:1!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teachers-header>div>p:last-child{
+  color:#b8c8df!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-search-area{
+  padding:16px!important;
+  margin-bottom:16px!important;
+  background:linear-gradient(145deg,#172941 0%,#101d30 100%)!important;
+  border-color:#304866!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top{
+  grid-template-columns:minmax(320px,1.65fr) minmax(220px,1.15fr) minmax(170px,.9fr) minmax(180px,.95fr)!important;
+  gap:12px!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top>select:last-child{
+  grid-column:auto!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-input-wrapper,
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top>select{
+  min-height:50px!important;
+  height:50px!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top>select{
+  background:#0d1b2d!important;
+  color:#edf4ff!important;
+  border:1px solid #3a5270!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header{
+  min-height:38px!important;
+  margin:12px 2px 6px!important;
+  align-items:center!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header strong{
+  color:#edf4ff!important;
+  font-size:15px!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header span{
+  color:#a9bdd6!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-grid{
+  margin-top:10px!important;
+  gap:18px!important;
+}
+@media(max-width:1120px){
+  #root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+@media(max-width:620px){
+  #root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+}
