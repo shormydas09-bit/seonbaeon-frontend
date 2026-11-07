@@ -816,3 +816,119 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
 #root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid>.student-learning-card{grid-area:learning!important}
 @media(max-width:900px){#root .app.theme-dark-premium .student-dashboard-redesign .student-overview-expanded{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:650px){#root .app.theme-dark-premium .student-dashboard-redesign .student-overview-expanded{grid-template-columns:1fr!important}#root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid{grid-template-columns:1fr!important;grid-template-areas:"account" "discover" "learning"!important}}
+
+
+/* Final override: student overview accordion cards */
+#root .app .student-dashboard-redesign .student-overview-accordion{
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  align-items:start!important;gap:18px!important;width:100%!important;
+  margin:0 0 28px!important;box-sizing:border-box!important;
+}
+#root .app .student-dashboard-redesign details.student-overview-accordion-item{
+  display:block!important;position:relative!important;min-width:0!important;width:100%!important;
+  margin:0!important;padding:0!important;overflow:hidden!important;box-sizing:border-box!important;
+  border:1px solid rgba(132,165,203,.22)!important;border-radius:18px!important;
+  background:linear-gradient(145deg,#1b304b 0%,#14263e 100%)!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.18)!important;color:#edf4ff!important;
+}
+#root .app .student-dashboard-redesign details.student-overview-accordion-item[open]{
+  border-color:rgba(117,211,199,.48)!important;
+}
+#root .app .student-dashboard-redesign .student-overview-summary{
+  display:flex!important;flex-direction:row!important;align-items:center!important;
+  justify-content:flex-start!important;gap:14px!important;width:100%!important;
+  min-height:112px!important;margin:0!important;padding:20px 21px!important;
+  box-sizing:border-box!important;list-style:none!important;cursor:pointer!important;
+  text-align:left!important;background:transparent!important;
+}
+#root .app .student-dashboard-redesign .student-overview-summary::-webkit-details-marker{display:none!important}
+#root .app .student-dashboard-redesign .student-overview-summary::marker{content:""!important;display:none!important}
+#root .app .student-dashboard-redesign .student-overview-summary>.overview-icon{
+  display:flex!important;flex:0 0 48px!important;align-items:center!important;justify-content:center!important;
+  width:48px!important;height:48px!important;margin:0!important;padding:0!important;
+  border:1px solid rgba(105,207,194,.15)!important;border-radius:14px!important;
+  background:rgba(105,207,194,.12)!important;color:#79d9ce!important;font-size:23px!important;
+}
+#root .app .student-dashboard-redesign .student-overview-summary-copy{
+  display:grid!important;grid-template-columns:auto 1fr!important;align-items:baseline!important;
+  gap:3px 9px!important;flex:1 1 auto!important;min-width:0!important;margin:0!important;
+}
+#root .app .student-dashboard-redesign .student-overview-summary-copy small{
+  display:block!important;grid-column:1/-1!important;margin:0!important;padding:0!important;
+  color:#83d1c9!important;font-size:10px!important;font-weight:800!important;
+  letter-spacing:1.25px!important;line-height:1.45!important;white-space:normal!important;
+}
+#root .app .student-dashboard-redesign .student-overview-summary-copy strong{
+  display:block!important;margin:0!important;color:#f3f7ff!important;
+  font-size:27px!important;font-weight:750!important;line-height:1.15!important;
+}
+#root .app .student-dashboard-redesign .student-overview-summary-copy>span{
+  display:block!important;margin:0!important;color:#9bb2d0!important;
+  font-size:12px!important;line-height:1.4!important;white-space:normal!important;
+}
+#root .app .student-dashboard-redesign .student-overview-expand{
+  display:flex!important;align-items:center!important;gap:6px!important;flex:0 0 auto!important;
+  margin-left:auto!important;color:#a7bad4!important;font-size:11px!important;font-weight:700!important;
+  white-space:nowrap!important;
+}
+#root .app .student-dashboard-redesign .student-overview-expand b{
+  display:grid!important;place-items:center!important;width:25px!important;height:25px!important;
+  border-radius:8px!important;background:rgba(105,207,194,.11)!important;color:#7bd9ce!important;
+  font-size:15px!important;transition:transform .2s ease!important;
+}
+#root .app .student-dashboard-redesign details[open]>.student-overview-summary .student-overview-expand b{transform:rotate(180deg)!important}
+#root .app .student-dashboard-redesign .student-overview-expanded-content{
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:0!important;
+  width:100%!important;margin:0!important;padding:0 18px 12px!important;box-sizing:border-box!important;
+  border-top:1px solid rgba(132,164,203,.17)!important;background:rgba(7,19,34,.12)!important;
+}
+#root .app .student-dashboard-redesign .student-overview-table-row{
+  display:flex!important;flex-direction:row!important;align-items:center!important;
+  justify-content:space-between!important;gap:14px!important;width:100%!important;min-width:0!important;
+  margin:0!important;padding:15px 3px!important;box-sizing:border-box!important;
+  border:0!important;border-bottom:1px solid rgba(132,164,203,.14)!important;
+  border-radius:0!important;background:transparent!important;text-align:left!important;
+}
+#root .app .student-dashboard-redesign .student-overview-table-row:last-child{border-bottom:0!important}
+#root .app .student-dashboard-redesign .student-overview-row-main{
+  display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+  gap:5px!important;flex:1 1 auto!important;min-width:0!important;
+}
+#root .app .student-dashboard-redesign .student-overview-row-main>strong{
+  display:block!important;margin:0!important;color:#f1f6ff!important;font-size:13px!important;font-weight:750!important;
+}
+#root .app .student-dashboard-redesign .student-overview-row-main>span{
+  display:block!important;margin:0!important;color:#9bb2d0!important;font-size:11px!important;
+  line-height:1.5!important;overflow-wrap:anywhere!important;
+}
+#root .app .student-dashboard-redesign .student-overview-row-meta{
+  display:flex!important;flex:0 0 auto!important;flex-direction:column!important;
+  align-items:flex-end!important;gap:9px!important;min-width:0!important;
+}
+#root .app .student-dashboard-redesign .student-overview-row-actions{
+  display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;
+  justify-content:flex-end!important;gap:7px!important;
+}
+#root .app .student-dashboard-redesign .student-overview-row-actions button,
+#root .app .student-dashboard-redesign .student-overview-table-row>.login-btn{
+  min-height:34px!important;padding:7px 11px!important;font-size:11px!important;white-space:nowrap!important;
+}
+#root .app .student-dashboard-redesign .student-overview-empty{
+  margin:0!important;padding:18px 3px 7px!important;color:#9bb2d0!important;font-size:12px!important;
+}
+#root .app .student-dashboard-redesign .student-overview-expanded-content .student-request-history{
+  margin-top:5px!important;color:#a9bfdc!important;font-size:11px!important;
+}
+#root .app .student-dashboard-redesign .student-overview-expanded-content .student-request-history summary{
+  display:block!important;padding:0!important;cursor:pointer!important;color:#a9bfdc!important;
+}
+@media(max-width:1050px){
+ #root .app .student-dashboard-redesign .student-overview-accordion{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:680px){
+ #root .app .student-dashboard-redesign .student-overview-accordion{grid-template-columns:minmax(0,1fr)!important;gap:12px!important}
+ #root .app .student-dashboard-redesign .student-overview-summary{min-height:94px!important;padding:16px!important}
+ #root .app .student-dashboard-redesign .student-overview-expanded-content{padding:0 14px 9px!important}
+ #root .app .student-dashboard-redesign .student-overview-table-row{align-items:flex-start!important;gap:9px!important}
+ #root .app .student-dashboard-redesign .student-overview-row-meta{align-items:flex-end!important}
+}
