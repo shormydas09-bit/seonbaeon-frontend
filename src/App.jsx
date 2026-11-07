@@ -2419,15 +2419,25 @@ function TeacherToolsPanel({ user, consultations }) {
       <textarea required maxLength="3000" rows="3" placeholder="Write strengths, improvement areas and homework..." value={note} onChange={e=>setNote(e.target.value)}/>
       <button className="signup-btn" disabled={!studentUserId}>Save progress note</button>
     </form>
-    <div className="teacher-progress-list">{notes.map(n=><article className="teacher-progress-item" key={n.id}>
-      {editingNoteId===n.id?<form onSubmit={e=>updateProgressNote(e,n.id)} style={{display:"grid",gap:8}}>
-        <input required maxLength="120" aria-label="Edit progress note subject" value={editingSubject} onChange={e=>setEditingSubject(e.target.value)}/>
-        <textarea required maxLength="3000" rows="3" aria-label="Edit progress note" value={editingText} onChange={e=>setEditingText(e.target.value)}/>
-        <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button className="signup-btn" type="submit">Save changes</button><button className="login-btn" type="button" onClick={()=>setEditingNoteId(null)}>Cancel</button></div>
-      </form>:<><b>{n.subject}</b><p style={{whiteSpace:"pre-wrap"}}>{n.note}</p><small>{new Date(n.updatedAt).toLocaleString()}</small>
-        <div style={{display:"flex",gap:8,marginTop:8}}><button className="login-btn" type="button" onClick={()=>{setEditingNoteId(n.id);setEditingSubject(n.subject||"");setEditingText(n.note||"");}}>Edit</button><button className="login-btn" type="button" onClick={()=>deleteProgressNote(n.id)}>Delete</button></div>
-      </>}
-    </article>)}</div></div>
+    <div className="teacher-progress-library">
+      <div className="teacher-progress-library-heading"><div><span className="teacher-library-kicker">FEEDBACK LIBRARY</span><h4>Saved progress notes</h4><p>Every note stays here with its student and date. Scroll this list to browse older feedback.</p></div><span className="teacher-note-count">{notes.length} {notes.length===1?"NOTE":"NOTES"}</span></div>
+      <div className="teacher-progress-list">{notes.length===0?<div className="teacher-notes-empty">Your saved student feedback will appear here.</div>:notes.map(n=>{
+        const linkedStudent=students.find(st=>String(st.id)===String(n.studentUserId||n.studentId||n.student?.id));
+        const studentLabel=n.studentName||n.student?.name||linkedStudent?.name||"Linked student";
+        return <article className="teacher-progress-item" key={n.id}>
+          {editingNoteId===n.id?<form onSubmit={e=>updateProgressNote(e,n.id)} style={{display:"grid",gap:8}}>
+            <input required maxLength="120" aria-label="Edit progress note subject" value={editingSubject} onChange={e=>setEditingSubject(e.target.value)}/>
+            <textarea required maxLength="3000" rows="3" aria-label="Edit progress note" value={editingText} onChange={e=>setEditingText(e.target.value)}/>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button className="signup-btn" type="submit">Save changes</button><button className="login-btn" type="button" onClick={()=>setEditingNoteId(null)}>Cancel</button></div>
+          </form>:<>
+            <div className="teacher-note-card-top"><b>{n.subject}</b><span className="teacher-note-student">{studentLabel}</span></div>
+            <p className="teacher-note-content" style={{whiteSpace:"pre-wrap"}}>{n.note}</p>
+            <div className="teacher-note-meta"><span>UPDATED</span><time dateTime={n.updatedAt}>{new Date(n.updatedAt).toLocaleString()}</time></div>
+            <div className="teacher-note-actions"><button className="login-btn" type="button" onClick={()=>{setEditingNoteId(n.id);setEditingSubject(n.subject||"");setEditingText(n.note||"");}}>Edit</button><button className="login-btn" type="button" onClick={()=>deleteProgressNote(n.id)}>Delete</button></div>
+          </>}
+        </article>;
+      })}</div>
+    </div></div>
     <div className="teacher-tools-section teacher-availability-section"><h3>Availability Calendar</h3><p className="section-hint">Choose the times students can book a consultation or lesson.</p><form className="teacher-availability-form" onSubmit={addSlot}>
       <label>Start <input required type="datetime-local" min={new Date().toISOString().slice(0,16)} value={startsAt} onChange={e=>setStartsAt(e.target.value)}/></label>
       <label>End <input required type="datetime-local" min={startsAt||new Date().toISOString().slice(0,16)} value={endsAt} onChange={e=>setEndsAt(e.target.value)}/></label>
