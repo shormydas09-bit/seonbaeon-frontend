@@ -1814,30 +1814,30 @@ function TeacherProfile({
             </div>
 
             <div className="profile-stat-row" aria-label="Teacher overview">
-              {teacher.rating && (
+              {Number(teacher.rating) > 0 && (
                 <div className="profile-stat">
-                  <strong>{teacher.rating}</strong>
+                  <strong>{Number(teacher.rating).toFixed(1)}</strong>
                   <span>Rating</span>
                 </div>
               )}
 
-              {teacher.reviewCount && (
+              {Number(teacher.reviewCount) > 0 && (
                 <div className="profile-stat">
-                  <strong>{teacher.reviewCount}</strong>
+                  <strong>{Number(teacher.reviewCount)}</strong>
                   <span>Reviews</span>
                 </div>
               )}
 
-              {teacher.experience && (
+              {teacher.experience && String(teacher.experience).trim() !== "0" && (
                 <div className="profile-stat">
                   <strong>{teacher.experience}</strong>
                   <span>Experience</span>
                 </div>
               )}
 
-              {teacher.studentCount && (
+              {Number(teacher.studentCount) > 0 && (
                 <div className="profile-stat">
-                  <strong>{teacher.studentCount}+</strong>
+                  <strong>{Number(teacher.studentCount)}+</strong>
                   <span>Students taught</span>
                 </div>
               )}
