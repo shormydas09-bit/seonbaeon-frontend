@@ -2598,6 +2598,12 @@ function StudentDashboard({
           </div>
         </div>
 
+        <div className="student-overview-strip" aria-label="Learning overview">
+          <div className="student-overview-item"><span className="overview-icon">▣</span><div><small>UPCOMING LESSONS</small><strong>{myLessons.filter((lesson) => lesson.status === "SCHEDULED").length}</strong><span>Scheduled sessions</span></div></div>
+          <div className="student-overview-item"><span className="overview-icon">◷</span><div><small>CONSULTATIONS</small><strong>{myRequests.length}</strong><span>Teacher requests</span></div></div>
+          <div className="student-overview-item"><span className="overview-icon">♡</span><div><small>FAVORITE TEACHERS</small><strong>{favoriteTeachers.length}</strong><span>Saved profiles</span></div></div>
+        </div>
+
         <div
           style={{
             display: "grid",
