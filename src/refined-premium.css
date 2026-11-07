@@ -3665,3 +3665,35 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app .teacher-dashboard-redesign form.teacher-availability-form>button{grid-column:1!important;width:100%!important;max-width:none!important}
  #root .app .teacher-dashboard-redesign .teacher-availability-list{grid-template-columns:1fr!important}
 }
+
+
+/* Availability calendar — final layout balance */
+@media(min-width:621px){
+ #root .app .teacher-dashboard-redesign form.teacher-availability-form{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-areas:"start end" "note action"!important;
+  align-items:end!important;gap:13px 14px!important;
+ }
+ #root .app .teacher-dashboard-redesign form.teacher-availability-form>label:first-child{grid-area:start!important}
+ #root .app .teacher-dashboard-redesign form.teacher-availability-form>label:nth-child(2){grid-area:end!important}
+ #root .app .teacher-dashboard-redesign form.teacher-availability-form>input{grid-area:note!important;width:100%!important;max-width:none!important}
+ #root .app .teacher-dashboard-redesign form.teacher-availability-form>button{
+  grid-area:action!important;justify-self:end!important;min-width:205px!important;
+  width:auto!important;height:52px!important;margin:0 0 0 auto!important;
+ }
+}
+#root .app .teacher-dashboard-redesign .teacher-availability-list:has(>.teacher-availability-item:only-child){
+ grid-template-columns:minmax(0,1fr)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-availability-list:has(>.teacher-availability-item:only-child) .teacher-availability-item{
+ min-height:76px!important;padding:16px 20px 16px 23px!important;
+}
+@media(max-width:620px){
+ #root .app .teacher-dashboard-redesign form.teacher-availability-form{
+  grid-template-areas:none!important;
+ }
+ #root .app .teacher-dashboard-redesign form.teacher-availability-form>label:first-child,
+ #root .app .teacher-dashboard-redesign form.teacher-availability-form>label:nth-child(2),
+ #root .app .teacher-dashboard-redesign form.teacher-availability-form>input,
+ #root .app .teacher-dashboard-redesign form.teacher-availability-form>button{grid-area:auto!important}
+}
