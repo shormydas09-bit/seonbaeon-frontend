@@ -2598,19 +2598,51 @@ function StudentDashboard({
           </div>
         </div>
 
-        <div className="student-overview-strip student-overview-expanded" aria-label="Learning overview">
-          <section className="student-overview-item student-overview-lessons"><div className="overview-topline"><span className="overview-icon">▣</span><div><small>UPCOMING LESSONS</small><strong>{myLessons.filter(lesson=>lesson.status==="SCHEDULED").length}</strong><span>Scheduled sessions</span></div></div>
-            {lessonError&&<p className="student-inline-error">{lessonError}</p>}<div className="overview-detail-list">
-              {myLessons.length===0?<div className="overview-empty">No lessons scheduled yet.</div>:myLessons.map(lesson=><article className="overview-detail-row" key={lesson.id}><div className="overview-detail-copy"><strong>{lesson.teacherName||"Your English teacher"}</strong><span>{new Date(lesson.scheduledAt).toLocaleString()} · {lesson.durationMinutes} min</span><em className={`student-status-pill ${lesson.status==="SCHEDULED"?"is-scheduled":""}`}>{lesson.status}</em>{lesson.meetingLink&&<a className="student-join-link" href={lesson.meetingLink} target="_blank" rel="noreferrer">Join lesson ↗</a>}</div><div className="overview-detail-actions">{lesson.status==="SCHEDULED"&&<button type="button" className="compare-btn" onClick={async()=>{if(!window.confirm("Cancel this lesson?"))return;const reason=window.prompt("Optional cancellation reason:")||"";try{await readResponse(await fetch(`${API_URL}/lessons/${lesson.id}/status`,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:`Bearer ${currentUser.token}`},body:JSON.stringify({status:"CANCELLED",reason})}));setMyLessons(old=>old.map(x=>x.id===lesson.id?{...x,status:"CANCELLED",cancellationReason:reason}:x));}catch(e){setLessonError(e.message);}}}>Cancel</button>}<button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this lesson from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/LESSON/${lesson.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyLessons(old=>old.filter(x=>x.id!==lesson.id));}catch(e){setLessonError(e.message);}}}>Hide</button></div></article>)}
-            </div></section>
-          <section className="student-overview-item student-overview-consultations"><div className="overview-topline"><span className="overview-icon">◷</span><div><small>CONSULTATIONS</small><strong>{myRequests.length}</strong><span>Teacher requests</span></div></div>
-            {requestError&&<p className="student-inline-error">{requestError}</p>}<div className="overview-detail-list">
-              {myRequests.length===0?<div className="overview-empty">No consultation requests yet.</div>:myRequests.map(r=><article className="overview-detail-row consultation-overview-row" key={r.id}><div className="overview-detail-copy"><strong>{r.teacherName||"English teacher"}</strong><span>{r.teacherCategory||"English"} · {r.preferredDate} at {r.preferredTime}</span><em className={`student-status-pill ${r.status==="APPROVED"?"is-approved":r.status==="REJECTED"?"is-rejected":"is-pending"}`}>{r.status||"PENDING"}</em>{r.message&&<span>{r.message}</span>}{r.status==="PENDING"&&<span>Waiting for teacher review.</span>}{r.status==="APPROVED"&&<span className="request-positive">Approved · Your teacher will arrange lesson details.</span>}{r.status==="REJECTED"&&<span className="request-negative">Not approved. {r.rejectionReason||"Please try another time."}</span>}{r.adminPreviousStatus&&<span>Admin update: {r.adminPreviousStatus} → {r.status}. {r.adminNote||""}</span>}{r.decisionHistory&&<details className="student-request-history"><summary>View request history</summary><pre>{r.decisionHistory}</pre></details>}</div><button type="button" className="login-btn overview-hide-button" onClick={async()=>{if(!window.confirm("Remove this request from your dashboard only? The teacher and admin records will remain unchanged."))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${r.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyRequests(old=>old.filter(x=>x.id!==r.id));}catch(e){setRequestError(e.message);}}}>Hide</button></article>)}
-            </div></section>
-          <section className="student-overview-item student-overview-favorites"><div className="overview-topline"><span className="overview-icon">♡</span><div><small>FAVORITE TEACHERS</small><strong>{favoriteTeachers.length}</strong><span>Saved profiles</span></div></div>
-            {favoriteError&&<p className="student-inline-error">{favoriteError}</p>}<div className="overview-detail-list">
-              {favoriteTeachers.length===0?<div className="overview-empty">No saved teachers yet.</div>:favoriteTeachers.map(teacher=><article className="overview-favorite-row" key={teacher.id}><div><strong>{teacher.name}</strong><span>{teacher.category} · {teacher.location}</span></div><button className="login-btn" onClick={()=>{const next=favoriteTeachers.filter(item=>item.id!==teacher.id);setFavoriteTeachers(next);localStorage.setItem(FAVORITES_KEY,JSON.stringify(next.map(item=>item.id)));}}>Remove</button></article>)}
-            </div></section>
+        <div className="student-overview-accordion" aria-label="Learning overview" style={{display:"grid",gap:12,margin:"0 0 28px"}}>
+          <details className="student-overview-accordion-item">
+            <summary className="student-overview-summary">
+              <span className="overview-icon">▣</span>
+              <span className="student-overview-summary-copy"><small>UPCOMING LESSONS</small><strong>{myLessons.filter(lesson=>lesson.status==="SCHEDULED").length}</strong><span>Scheduled sessions</span></span>
+              <span className="student-overview-expand">View details <b>⌄</b></span>
+            </summary>
+            <div className="student-overview-expanded-content">
+              {lessonError&&<p className="student-inline-error">{lessonError}</p>}
+              {myLessons.length===0?<p className="student-overview-empty">No lessons scheduled yet.</p>:myLessons.map(lesson=><div className="student-overview-table-row" key={lesson.id}>
+                <div className="student-overview-row-main"><strong>{lesson.teacherName||"Your English teacher"}</strong><span>{new Date(lesson.scheduledAt).toLocaleString()} · {lesson.durationMinutes} min</span>{lesson.meetingLink&&<a className="student-join-link" href={lesson.meetingLink} target="_blank" rel="noreferrer">Join lesson ↗</a>}</div>
+                <div className="student-overview-row-meta"><em className={`student-status-pill ${lesson.status==="SCHEDULED"?"is-scheduled":""}`}>{lesson.status}</em><div className="student-overview-row-actions">{lesson.status==="SCHEDULED"&&<button type="button" className="compare-btn" onClick={async()=>{if(!window.confirm("Cancel this lesson?"))return;const reason=window.prompt("Optional cancellation reason:")||"";try{await readResponse(await fetch(`${API_URL}/lessons/${lesson.id}/status`,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:`Bearer ${currentUser.token}`},body:JSON.stringify({status:"CANCELLED",reason})}));setMyLessons(old=>old.map(x=>x.id===lesson.id?{...x,status:"CANCELLED",cancellationReason:reason}:x));}catch(e){setLessonError(e.message);}}}>Cancel lesson</button>}<button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this lesson from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/LESSON/${lesson.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyLessons(old=>old.filter(x=>x.id!==lesson.id));}catch(e){setLessonError(e.message);}}}>Hide</button></div></div>
+              </div>)}
+            </div>
+          </details>
+
+          <details className="student-overview-accordion-item">
+            <summary className="student-overview-summary">
+              <span className="overview-icon">◷</span>
+              <span className="student-overview-summary-copy"><small>CONSULTATIONS</small><strong>{myRequests.length}</strong><span>Teacher requests</span></span>
+              <span className="student-overview-expand">View details <b>⌄</b></span>
+            </summary>
+            <div className="student-overview-expanded-content">
+              {requestError&&<p className="student-inline-error">{requestError}</p>}
+              {myRequests.length===0?<p className="student-overview-empty">No consultation requests yet.</p>:myRequests.map(r=><div className="student-overview-table-row" key={r.id}>
+                <div className="student-overview-row-main"><strong>{r.teacherName||"English teacher"}</strong><span>{r.teacherCategory||"English"} · {r.preferredDate} at {r.preferredTime}</span>{r.message&&<span>{r.message}</span>}{r.status==="PENDING"&&<span>Waiting for teacher review.</span>}{r.status==="APPROVED"&&<span className="request-positive">Approved · Your teacher will arrange lesson details.</span>}{r.status==="REJECTED"&&<span className="request-negative">Not approved. {r.rejectionReason||"Please try another time."}</span>}{r.adminPreviousStatus&&<span>Admin update: {r.adminPreviousStatus} → {r.status}. {r.adminNote||""}</span>}{r.decisionHistory&&<details className="student-request-history"><summary>View request history</summary><pre>{r.decisionHistory}</pre></details>}</div>
+                <div className="student-overview-row-meta"><em className={`student-status-pill ${r.status==="APPROVED"?"is-approved":r.status==="REJECTED"?"is-rejected":"is-pending"}`}>{r.status||"PENDING"}</em><button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this request from your dashboard only? The teacher and admin records will remain unchanged."))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${r.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyRequests(old=>old.filter(x=>x.id!==r.id));}catch(e){setRequestError(e.message);}}}>Hide</button></div>
+              </div>)}
+            </div>
+          </details>
+
+          <details className="student-overview-accordion-item">
+            <summary className="student-overview-summary">
+              <span className="overview-icon">♡</span>
+              <span className="student-overview-summary-copy"><small>FAVORITE TEACHERS</small><strong>{favoriteTeachers.length}</strong><span>Saved profiles</span></span>
+              <span className="student-overview-expand">View details <b>⌄</b></span>
+            </summary>
+            <div className="student-overview-expanded-content">
+              {favoriteError&&<p className="student-inline-error">{favoriteError}</p>}
+              {favoriteTeachers.length===0?<p className="student-overview-empty">No saved teachers yet.</p>:favoriteTeachers.map(teacher=><div className="student-overview-table-row" key={teacher.id}>
+                <div className="student-overview-row-main"><strong>{teacher.name}</strong><span>{teacher.category} · {teacher.location}</span></div>
+                <button className="login-btn" onClick={()=>{const next=favoriteTeachers.filter(item=>item.id!==teacher.id);setFavoriteTeachers(next);localStorage.setItem(FAVORITES_KEY,JSON.stringify(next.map(item=>item.id)));}}>Remove</button>
+              </div>)}
+            </div>
+          </details>
         </div>
 
         {/* Keep profile and discovery panels grouped in the dashboard grid. */}
