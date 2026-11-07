@@ -4092,3 +4092,107 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app .teacher-dashboard-redesign .teacher-availability-item>span{flex-basis:100%!important}
  #root .app .teacher-dashboard-redesign .teacher-availability-item button{margin-left:48px!important}
 }
+
+
+/* Stable dashboard rhythm: growing collections scroll inside their own panels */
+#root .app .teacher-dashboard-redesign .teacher-progress-list{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  align-content:start!important;max-height:470px!important;overflow-y:auto!important;
+  overflow-x:hidden!important;padding:3px 8px 8px 2px!important;
+  overscroll-behavior:contain!important;scrollbar-gutter:stable!important;
+  scrollbar-width:thin!important;scrollbar-color:#527b91 rgba(7,20,34,.45)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-progress-list::-webkit-scrollbar,
+#root .app .teacher-dashboard-redesign .teacher-availability-list::-webkit-scrollbar,
+#root .app .teacher-dashboard-redesign .teacher-tools-stack::-webkit-scrollbar{width:8px}
+#root .app .teacher-dashboard-redesign .teacher-progress-list::-webkit-scrollbar-track,
+#root .app .teacher-dashboard-redesign .teacher-availability-list::-webkit-scrollbar-track{background:rgba(5,17,30,.42);border-radius:20px}
+#root .app .teacher-dashboard-redesign .teacher-progress-list::-webkit-scrollbar-thumb,
+#root .app .teacher-dashboard-redesign .teacher-availability-list::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#69c9c0,#547ba6);border:2px solid #10253a;border-radius:20px}
+#root .app .teacher-dashboard-redesign .teacher-progress-item{position:relative!important;min-width:0!important}
+#root .app .teacher-dashboard-redesign .teacher-progress-item p{overflow-wrap:anywhere!important}
+#root .app .teacher-dashboard-redesign .teacher-progress-item form{min-width:0!important}
+#root .app .teacher-dashboard-redesign .teacher-progress-item form :is(input,textarea){box-sizing:border-box!important;width:100%!important;min-width:0!important}
+#root .app .teacher-dashboard-redesign .teacher-availability-list{
+  max-height:300px!important;overflow-y:auto!important;overflow-x:hidden!important;
+  padding:3px 8px 5px 2px!important;overscroll-behavior:contain!important;
+  scrollbar-width:thin!important;scrollbar-color:#527b91 rgba(7,20,34,.45)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-dashboard-main-grid{
+  align-items:start!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:22px!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-profile-form,
+#root .app .teacher-dashboard-redesign .teacher-demo-card,
+#root .app .teacher-dashboard-redesign .teacher-lessons-card,
+#root .app .teacher-dashboard-redesign .teacher-requests-card{
+  min-width:0!important;border-radius:23px!important;
+  background:linear-gradient(145deg,#192e47 0%,#14283f 58%,#112238 100%)!important;
+  border:1px solid rgba(137,183,211,.2)!important;
+  box-shadow:0 20px 48px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.055)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-profile-form{padding:25px!important}
+#root .app .teacher-dashboard-redesign .teacher-tools-stack{min-width:0!important;gap:20px!important}
+#root .app .teacher-dashboard-redesign :is(.teacher-demo-card,.teacher-lessons-card,.teacher-requests-card)>h2{
+  font-size:21px!important;letter-spacing:-.045em!important;margin:0 0 12px!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-demo-card>p,
+#root .app .teacher-dashboard-redesign .teacher-lessons-card>p,
+#root .app .teacher-dashboard-redesign .teacher-requests-card>p{
+  color:#afc5dc!important;line-height:1.75!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-demo-item,
+#root .app .teacher-dashboard-redesign .teacher-lesson-item,
+#root .app .teacher-dashboard-redesign .teacher-request-item{
+  min-width:0!important;margin-top:13px!important;padding:17px!important;
+  border-radius:16px!important;background:linear-gradient(145deg,#132940,#102238)!important;
+  border:1px solid rgba(134,180,211,.18)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-demo-item a,
+#root .app .teacher-dashboard-redesign .teacher-lesson-item a{color:#82e0d4!important}
+#root .app .teacher-dashboard-redesign .teacher-lesson-item>p,
+#root .app .teacher-dashboard-redesign .teacher-request-item>p{
+  color:#b5c9dd!important;line-height:1.7!important;overflow-wrap:anywhere!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-request-item> b,
+#root .app .teacher-dashboard-redesign .teacher-lesson-item> b{color:#eff6ff!important}
+#root .app .teacher-dashboard-redesign .teacher-student-profile{
+  background:rgba(6,19,33,.68)!important;border:1px solid rgba(123,174,207,.18)!important;
+  color:#d8e7f5!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-profile-fields :is(input,textarea,select){
+  min-width:0!important;border-radius:12px!important;
+  background:#0c1d30!important;border:1px solid rgba(137,178,211,.22)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-profile-fields :is(input,textarea,select):focus{
+  outline:none!important;border-color:#76d4c9!important;box-shadow:0 0 0 4px rgba(105,213,202,.1)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-profile-footer{
+  border-top:1px solid rgba(142,182,211,.16)!important;padding-top:18px!important;margin-top:18px!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-analytics-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-analytics-tile{
+  min-width:0!important;min-height:100px!important;padding:17px!important;
+  border-radius:16px!important;background:linear-gradient(145deg,#132a42,#102238)!important;
+  border:1px solid rgba(128,176,207,.18)!important;
+  box-shadow:0 10px 24px rgba(0,0,0,.13),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-analytics-tile strong{
+  display:block!important;margin-top:12px!important;font-size:27px!important;
+  letter-spacing:-.045em!important;color:#f3f8ff!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-analytics-tile small{
+  color:#a9c1d9!important;font-size:11px!important;font-weight:800!important;letter-spacing:.07em!important;
+}
+@media(max-width:900px){
+ #root .app .teacher-dashboard-redesign .teacher-dashboard-main-grid{grid-template-columns:minmax(0,1fr)!important}
+ #root .app .teacher-dashboard-redesign .teacher-analytics-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:620px){
+ #root .app .teacher-dashboard-redesign .teacher-progress-list{grid-template-columns:minmax(0,1fr)!important;max-height:420px!important}
+ #root .app .teacher-dashboard-redesign .teacher-profile-form,
+ #root .app .teacher-dashboard-redesign :is(.teacher-demo-card,.teacher-lessons-card,.teacher-requests-card){padding:17px!important}
+}
