@@ -2595,9 +2595,7 @@ function StudentDashboard({
             Manage your Pick My Teacher learning experience
             from one place.
           </p>
-          <div style={{ marginTop: 16 }}>
-            <NotificationCenter user={currentUser} />
-          </div>
+          <div className="student-hero-actions"><NotificationCenter user={currentUser} /></div>
         </div>
 
         <div className="student-overview-accordion" aria-label="Learning overview">
@@ -2804,7 +2802,9 @@ function NotificationCenter({ user }) {
   const [unread, setUnread] = useState(0);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   async function load() {
+    setLoading(true);
     if (!user?.token) return;
     try {
       const response = await fetch(`${API_URL}/notifications`, {
@@ -2815,6 +2815,7 @@ function NotificationCenter({ user }) {
       setUnread(Number(data?.unreadCount || 0));
       setError("");
     } catch (e) { setError(e.message || "Could not load notifications."); }
+    finally { setLoading(false); }
   }
   useEffect(() => { load(); }, [user?.token]);
   async function markRead(id) {
@@ -2854,7 +2855,7 @@ function NotificationCenter({ user }) {
   return <div className="notification-center">
     <button type="button" className="login-btn" onClick={() => { setOpen(v => !v); if (!open) load(); }}
       aria-expanded={open} aria-label={`Notifications, ${unread} unread`}>
-      Notifications {unread > 0 ? `(${unread})` : ""}
+      <span className="notification-bell-mark">♢</span><span>Notifications</span>{unread > 0 && <span className="notification-count">{unread > 99 ? "99+" : unread}</span>}
     </button>
     {open && <DashboardOverlay title="Notifications" subtitle={`${unread} unread · Your latest account updates`} onClose={()=>setOpen(false)}>
       <div className="notification-panel">
@@ -2866,7 +2867,8 @@ function NotificationCenter({ user }) {
           </div>
         </div>
         {error && <p className="form-error">{error}</p>}
-        {!items.length && !error && <div className="notification-empty">You’re all caught up. No notifications yet.</div>}
+        {loading && !items.length && <div className="notification-empty">Loading your notifications…</div>}
+        {!loading && !items.length && !error && <div className="notification-empty">You’re all caught up. No notifications yet.</div>}
         {items.map(item => <div key={item.id} className={`notification-item ${item.read ? "is-read" : "is-unread"}`}>
           <button type="button" className="notification-content" onClick={() => !item.read && markRead(item.id)}>
             <strong>{item.title}</strong><span>{item.message}</span>
