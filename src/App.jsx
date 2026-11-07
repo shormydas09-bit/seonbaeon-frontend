@@ -2885,13 +2885,13 @@ function WorkspaceShell({ title, subtitle, user, onLogout, children }) {
   return (
     <main className="workspace-premium-shell" style={{ minHeight: "75vh", background: "#f5f7fb", padding: "42px 20px" }}>
       <section style={{ maxWidth: 1080, margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "center", flexWrap: "wrap", marginBottom: 28 }}>
-          <div>
-            <p style={{ color: "#2563eb", fontWeight: 800, letterSpacing: 1, margin: "0 0 8px" }}>PICK MY TEACHER · WORKSPACE</p>
-            <h1 style={{ margin: 0, color: "#101828" }}>{title}</h1>
-            <p style={{ color: "#667085", margin: "8px 0 0" }}>{subtitle} · {user?.email}</p>
+        <div className="workspace-premium-heading">
+          <div className="workspace-heading-copy">
+            <p className="workspace-eyebrow">PICK MY TEACHER · WORKSPACE</p>
+            <h1>{title}</h1>
+            <p className="workspace-subtitle">{subtitle} · {user?.email}</p>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <div className="workspace-heading-actions">
             <NotificationCenter user={user} />
             <button className="login-btn" onClick={onLogout}>Log out</button>
           </div>
@@ -3129,25 +3129,30 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       <p style={{margin:0,color:"#c3cde2",lineHeight:1.65}}>{!profile.id ? "Complete the profile form below and submit it for review. Your public teacher listing will appear only after approval." : profile.available === false ? "Your previous application was not approved. Update your profile and submit it again for a new review." : "Your application has been received. You can edit your details while it is under review. Your public profile and teaching tools unlock after approval."}</p>
     </div>}
     <div className="teacher-dashboard-main-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 20 }}>
-      <form className="card teacher-profile-form" onSubmit={saveProfile} style={{ padding: 24 }}>
-        <h2>My Teacher Profile</h2>
-        <label style={{display:"block",marginTop:12}}>Profile picture</label>
-        {(imagePreview || profile.profileImageUrl) && <img src={imagePreview || profile.profileImageUrl} alt="Teacher profile preview" style={{width:112,height:112,objectFit:"cover",borderRadius:"50%",margin:"8px 0"}} />}
-        <input type="file" accept="image/*" onChange={e=>{const f=e.target.files?.[0];if(f){setProfileImage(f);setImagePreview(URL.createObjectURL(f));}}} style={{display:"block",margin:"8px 0 16px"}} />
-        <small style={{color:"#667085"}}>JPG, PNG or WebP · maximum 5 MB. Uploads securely to Cloudinary when you save.</small>
-        <label>Teaching category</label><select name="category" value={profile.category} onChange={change}>{["Kids English","Phonics","Speaking","Reading & Writing","Grammar","Storytelling","School English"].map(x=><option key={x}>{x}</option>)}</select>
-        {[
-          ["location","Location / Online"],["specialty","Specialty"],["experience","Teaching experience"],["teachingStyle","Teaching style"],["qualification","Qualifications"],["bio","About your teaching"],["hourlyRate","Hourly rate"],["lessonDuration","Lesson duration (minutes)"],["languages","Languages"],["ageRange","Student age range"],["teachingMode","Teaching mode"],["availability","Availability"]
-        ].map(([key,label])=><label key={key} style={{ display:"block", marginTop:12 }}>{label}{key==="bio" || key==="qualification" || key==="availability" ? <textarea name={key} value={profile[key] || ""} onChange={change} rows={key==="bio"?4:2} style={{ width:"100%", marginTop:6 }} /> : <input name={key} type={key==="hourlyRate"||key==="lessonDuration"?"number":"text"} value={profile[key] ?? ""} onChange={change} style={{ width:"100%", marginTop:6 }} />}</label>)}
-        <label style={{display:"block",marginTop:14}}>Issuing institution / certificate provider
-          <input name="qualificationInstitution" value={profile.qualificationInstitution || ""} onChange={change} placeholder="e.g. University or certification body" style={{width:"100%",marginTop:6}} />
-        </label>
-        <label style={{display:"block",marginTop:14}}>Qualification evidence (PDF, JPG or PNG · max 10 MB)
-          <input type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" onChange={e=>setQualificationFile(e.target.files?.[0] || null)} style={{display:"block",marginTop:8}} />
-        </label>
-        {profile.qualificationDocumentUrl && <p style={{fontSize:13}}>Current document: <a href={profile.qualificationDocumentUrl} target="_blank" rel="noreferrer">View uploaded evidence</a></p>}
-        <p style={{fontSize:12,color:"#667085"}}>Upload a teaching certificate or relevant degree. Do not upload passports or unrelated identity documents.</p>
-        <button className="signup-btn" disabled={busy} style={{ marginTop:18 }}>{busy ? "Saving..." : "Save profile"}</button>
+      <form className="card teacher-profile-form" onSubmit={saveProfile}>
+        <div className="teacher-form-heading">
+          <div><span className="teacher-form-kicker">YOUR PUBLIC LISTING</span><h2>My Teacher Profile</h2><p>Keep your teaching details clear and up to date.</p></div>
+          <span className="teacher-form-step">PROFILE</span>
+        </div>
+        <div className="teacher-profile-photo-field">
+          <div className="teacher-photo-preview">{(imagePreview || profile.profileImageUrl) ? <img src={imagePreview || profile.profileImageUrl} alt="Teacher profile preview" /> : <span>✦</span>}</div>
+          <div className="teacher-photo-copy"><label>Profile picture</label><input type="file" accept="image/*" onChange={e=>{const f=e.target.files?.[0];if(f){setProfileImage(f);setImagePreview(URL.createObjectURL(f));}}} /><small>JPG, PNG or WebP · maximum 5 MB</small></div>
+        </div>
+        <div className="teacher-profile-fields">
+          <label>Teaching category<select name="category" value={profile.category} onChange={change}>{["Kids English","Phonics","Speaking","Reading & Writing","Grammar","Storytelling","School English"].map(x=><option key={x}>{x}</option>)}</select></label>
+          {[
+            ["location","Location / Online"],["specialty","Specialty"],["experience","Teaching experience"],["teachingStyle","Teaching style"],["qualification","Qualifications"],["bio","About your teaching"],["hourlyRate","Hourly rate"],["lessonDuration","Lesson duration (minutes)"],["languages","Languages"],["ageRange","Student age range"],["teachingMode","Teaching mode"],["availability","Availability"]
+          ].map(([key,label])=><label key={key} className={["bio","qualification","availability"].includes(key)?"teacher-field-wide":""}>{label}{key==="bio" || key==="qualification" || key==="availability" ? <textarea name={key} value={profile[key] || ""} onChange={change} rows={key==="bio"?3:2} /> : <input name={key} type={key==="hourlyRate"||key==="lessonDuration"?"number":"text"} value={profile[key] ?? ""} onChange={change} />}</label>)}
+          <label className="teacher-field-wide">Issuing institution / certificate provider
+            <input name="qualificationInstitution" value={profile.qualificationInstitution || ""} onChange={change} placeholder="e.g. University or certification body" />
+          </label>
+          <label className="teacher-field-wide">Qualification evidence <span className="teacher-field-hint">PDF, JPG or PNG · max 10 MB</span>
+            <input type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" onChange={e=>setQualificationFile(e.target.files?.[0] || null)} />
+          </label>
+        </div>
+        {profile.qualificationDocumentUrl && <p className="teacher-current-document">Current document: <a href={profile.qualificationDocumentUrl} target="_blank" rel="noreferrer">View uploaded evidence</a></p>}
+        <p className="teacher-privacy-note">Upload a teaching certificate or relevant degree. Do not upload passports or unrelated identity documents.</p>
+        <div className="teacher-profile-footer"><span>Changes are saved to your teacher profile.</span><button className="signup-btn" disabled={busy}>{busy ? "Saving..." : "Save profile"}</button></div>
       </form>
       {profile.verified && <div className="teacher-tools-stack" style={{ display:"grid", gap:20, alignContent:"start" }}>
         <form className="card teacher-demo-card" onSubmit={addVideo} style={{ padding:24 }}>
@@ -3198,7 +3203,8 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         </div>
       </div>}
     </div>
-  {profile.verified && <TeacherToolsPanel user={currentUser} consultations={consultations} />}\n  </WorkspaceShell></div>;
+  {profile.verified && <TeacherToolsPanel user={currentUser} consultations={consultations} />}
+  </WorkspaceShell></div>;
 }
 
 function AdminWorkspace({ currentUser, handleLogout }) {
