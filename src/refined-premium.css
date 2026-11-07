@@ -267,3 +267,24 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
 #root .app.theme-dark-premium .auth-page .auth-card input:-webkit-autofill:focus,
 #root .app.theme-dark-premium .auth-page .auth-card input:-webkit-autofill:active{-webkit-text-fill-color:#edf3fa!important;box-shadow:0 0 0 1000px #0b1625 inset!important;caret-color:#83cfc4!important;transition:background-color 99999s ease-out 0s!important}
 #root .app.theme-dark-premium .auth-page .auth-card input::placeholder{-webkit-text-fill-color:#71839b!important;color:#71839b!important;opacity:1!important}
+
+
+/* Consultation modal controls: keep native date/time pickers interactive and visible */
+#root .app.theme-dark-premium .consultation-overlay{position:fixed!important;inset:0!important;z-index:99999!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:22px!important;background:rgba(3,8,17,.78)!important;backdrop-filter:blur(8px)!important;pointer-events:auto!important}
+#root .app.theme-dark-premium .consultation-modal{position:relative!important;z-index:100000!important;width:min(100%,560px)!important;max-height:min(88vh,820px)!important;overflow-y:auto!important;overscroll-behavior:contain!important;padding:32px!important;border:1px solid rgba(155,184,220,.2)!important;border-radius:20px!important;background:linear-gradient(155deg,#172940,#101d2e)!important;color:#edf3fa!important;pointer-events:auto!important}
+#root .app.theme-dark-premium .consultation-modal form{position:relative!important;display:flex!important;flex-direction:column!important;gap:0!important;pointer-events:auto!important}
+#root .app.theme-dark-premium .consultation-modal label{display:block!important;margin:13px 0 7px!important;color:#cbd7e6!important;font-size:12px!important;font-weight:700!important}
+#root .app.theme-dark-premium .consultation-modal input,
+#root .app.theme-dark-premium .consultation-modal textarea{position:relative!important;z-index:1!important;display:block!important;width:100%!important;min-height:48px!important;padding:12px 14px!important;border:1px solid rgba(155,184,220,.22)!important;border-radius:11px!important;background:#091625!important;color:#f0f5fc!important;-webkit-text-fill-color:#f0f5fc!important;font:500 14px/1.5 "DM Sans",sans-serif!important;opacity:1!important;pointer-events:auto!important;touch-action:manipulation!important;cursor:text!important;box-shadow:none!important}
+#root .app.theme-dark-premium .consultation-modal input[type="date"],
+#root .app.theme-dark-premium .consultation-modal input[type="time"],
+#root .app.theme-dark-premium .consultation-modal input[type="datetime-local"]{color-scheme:dark!important;min-height:52px!important;cursor:pointer!important;appearance:auto!important;-webkit-appearance:auto!important}
+#root .app.theme-dark-premium .consultation-modal input[type="date"]::-webkit-calendar-picker-indicator,
+#root .app.theme-dark-premium .consultation-modal input[type="time"]::-webkit-calendar-picker-indicator,
+#root .app.theme-dark-premium .consultation-modal input[type="datetime-local"]::-webkit-calendar-picker-indicator{display:block!important;opacity:1!important;filter:invert(.9)!important;cursor:pointer!important;width:18px!important;height:18px!important}
+#root .app.theme-dark-premium .consultation-modal input:focus,
+#root .app.theme-dark-premium .consultation-modal textarea:focus{outline:none!important;border-color:#83cfc4!important;box-shadow:0 0 0 3px rgba(131,207,196,.12)!important}
+#root .app.theme-dark-premium .consultation-modal input[readonly]{cursor:not-allowed!important;opacity:.8!important}
+#root .app.theme-dark-premium .consultation-modal .close-consultation{z-index:2!important;color:#cbd7e6!important;background:#20344b!important;pointer-events:auto!important}
+#root .app.theme-dark-premium .consultation-modal .submit-consultation{min-height:48px!important;margin-top:20px!important;border:0!important;border-radius:11px!important;background:linear-gradient(110deg,#8bd7cd,#72c5ba)!important;color:#09201e!important;font-weight:800!important;cursor:pointer!important}
+@media(max-width:650px){#root .app.theme-dark-premium .consultation-overlay{align-items:flex-end!important;padding:10px!important}#root .app.theme-dark-premium .consultation-modal{max-height:92dvh!important;padding:24px 19px!important;border-radius:18px 18px 12px 12px!important}}
