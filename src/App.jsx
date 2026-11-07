@@ -2428,7 +2428,7 @@ function TeacherToolsPanel({ user, consultations, lessons = [] }) {
     </form>
     <div className="teacher-progress-library">
       <div className="teacher-progress-library-heading"><div><span className="teacher-library-kicker">FEEDBACK LIBRARY</span><h4>Saved progress notes</h4><p>Every note stays here with its student and date. Scroll this list to browse older feedback.</p></div><span className="teacher-note-count">{notes.length} {notes.length===1?"NOTE":"NOTES"}</span></div>
-      <div className="teacher-progress-list">{notes.length===0?<div className="teacher-notes-empty">Your saved student feedback will appear here.</div>:notes.map(n=>{
+      <div className="teacher-progress-list">{notes.length===0?<div className="teacher-notes-empty">No progress notes have been added yet.</div>:notes.map(n=>{
         const linkedStudent=students.find(st=>String(st.id)===String(n.studentUserId||n.studentId||n.student?.id));
         const studentLabel=n.studentName||n.student?.name||linkedStudent?.name||"Linked student";
         return <article className="teacher-progress-item" key={n.id}>
@@ -2438,14 +2438,15 @@ function TeacherToolsPanel({ user, consultations, lessons = [] }) {
             <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button className="signup-btn" type="submit">Save changes</button><button className="login-btn" type="button" onClick={()=>setEditingNoteId(null)}>Cancel</button></div>
           </form>:<>
             <div className="teacher-note-card-top"><b>{n.subject}</b><span className="teacher-note-student">{studentLabel}</span></div>
-            <p className="teacher-note-content" style={{whiteSpace:"pre-wrap"}}>{n.note}</p>
+            <p className={`teacher-note-content ${expandedNoteId===n.id?"is-expanded":""}`} style={{whiteSpace:"pre-wrap"}}>{n.note}</p>
+            <button type="button" className="teacher-note-expand" aria-expanded={expandedNoteId===n.id} onClick={()=>setExpandedNoteId(expandedNoteId===n.id?null:n.id)}>{expandedNoteId===n.id?"Show less":"View full feedback"}</button>
             <div className="teacher-note-meta"><span>UPDATED</span><time dateTime={n.updatedAt}>{new Date(n.updatedAt).toLocaleString()}</time></div>
             <div className="teacher-note-actions"><button className="login-btn" type="button" onClick={()=>{setEditingNoteId(n.id);setEditingSubject(n.subject||"");setEditingText(n.note||"");}}>Edit</button><button className="login-btn" type="button" onClick={()=>deleteProgressNote(n.id)}>Delete</button></div>
           </>}
         </article>;
       })}</div>
     </div></div>
-    <div className="teacher-tools-section teacher-availability-section"><h3>Availability Calendar</h3><p className="section-hint">Choose the times students can book a consultation or lesson.</p><form className="teacher-availability-form" onSubmit={addSlot}>
+    <div className="teacher-tools-section teacher-availability-section"><h3>Availability Calendar</h3><p className="section-hint">Set the time slots when students can request a consultation or book a lesson.</p><form className="teacher-availability-form" onSubmit={addSlot}>
       <label>Start <input required type="datetime-local" min={new Date().toISOString().slice(0,16)} value={startsAt} onChange={e=>setStartsAt(e.target.value)}/></label>
       <label>End <input required type="datetime-local" min={startsAt||new Date().toISOString().slice(0,16)} value={endsAt} onChange={e=>setEndsAt(e.target.value)}/></label>
       <input placeholder="Optional note" value={slotNote} onChange={e=>setSlotNote(e.target.value)}/>
@@ -3156,7 +3157,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       <div className="teacher-dashboard-left-stack">
       <form className="card teacher-profile-form" onSubmit={saveProfile}>
         <div className="teacher-form-heading">
-          <div><span className="teacher-form-kicker">YOUR PUBLIC LISTING</span><h2>My Teacher Profile</h2><p>Keep your teaching details clear and up to date.</p></div>
+          <div><span className="teacher-form-kicker">TEACHER PROFILE</span><h2>My Teacher Profile</h2><p>Maintain the information students use to understand your experience and teaching approach.</p></div>
           <span className="teacher-form-step">PROFILE</span>
         </div>
         <div className="teacher-profile-photo-field">
@@ -3177,14 +3178,14 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         </div>
         {profile.qualificationDocumentUrl && <p className="teacher-current-document">Current document: <a href={profile.qualificationDocumentUrl} target="_blank" rel="noreferrer">View uploaded evidence</a></p>}
         <p className="teacher-privacy-note">Upload a teaching certificate or relevant degree. Do not upload passports or unrelated identity documents.</p>
-        <div className="teacher-profile-footer"><span>Changes are saved to your teacher profile.</span><button className="signup-btn" disabled={busy}>{busy ? "Saving..." : "Save profile"}</button></div>
+        <div className="teacher-profile-footer"><span>Your profile information is saved securely.</span><button className="signup-btn" disabled={busy}>{busy ? "Saving..." : "Save profile"}</button></div>
       </form>
       {profile.verified && <TeacherToolsPanel user={currentUser} consultations={consultations} lessons={lessons} />}
       </div>
       {profile.verified && <div className="teacher-tools-stack" style={{ display:"grid", gap:20, alignContent:"start" }}>
         <form className="card teacher-demo-card" onSubmit={addVideo} style={{ padding:24 }}>
           <h2>Demo Videos ({videos.length}/2)</h2>
-          <p style={{ color:"#9aa6bd", lineHeight:1.6 }}>Share up to two teaching demos. Paste a YouTube link or upload a video directly from your device.</p>
+          <p style={{ color:"#9aa6bd", lineHeight:1.6 }}>Add up to two short teaching demonstrations so prospective students can understand your teaching style.</p>
           <div style={{display:"flex",gap:8,flexWrap:"wrap",margin:"14px 0"}}>
             <button type="button" className={videoMode==="youtube"?"signup-btn":"login-btn"} onClick={()=>setVideoMode("youtube")}>YouTube link</button>
             <button type="button" className={videoMode==="upload"?"signup-btn":"login-btn"} onClick={()=>setVideoMode("upload")}>Upload from device</button>
@@ -3199,8 +3200,8 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
             {busy && <div style={{height:7,background:"#26334a",borderRadius:99,overflow:"hidden",margin:"10px 0"}}><div style={{height:"100%",width:videoUploadProgress+"%",background:"#8b9cff",transition:"width .2s"}} /></div>}
             {busy && <p style={{fontSize:12,color:"#9aa6bd"}}>Uploading video… {videoUploadProgress}%</p>}
           </>}
-          <p style={{fontSize:12,color:"#9aa6bd",lineHeight:1.6}}>Upload only your own teaching demonstration. Video upload availability and maximum file size are subject to your Cloudinary account limits.</p>
-          <button className="signup-btn" disabled={busy || videos.length>=2}>{videos.length>=2?"Two videos added":busy?(videoMode==="upload"?"Uploading...":"Saving..."):"Add demo video"}</button>
+          <p style={{fontSize:12,color:"#9aa6bd",lineHeight:1.6}}>Upload videos you own or are authorized to share. File size limits depend on the platform's upload service.</p>
+          <button className="signup-btn" disabled={busy || videos.length>=2}>{videos.length>=2?"Video limit reached":busy?(videoMode==="upload"?"Uploading...":"Saving..."):"Add demo video"}</button>
           {videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);const isUploaded=v.videoType==="uploaded";return <div className="teacher-demo-item" key={v.id}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}><p style={{margin:"0 0 10px"}}><a href={v.videoUrl} target="_blank" rel="noreferrer">{v.title}</a> <small style={{color:"#9aa6bd"}}>{isUploaded?"· Uploaded video":"· YouTube"}</small></p><button type="button" disabled={busy} onClick={()=>deleteVideo(v.id)} style={{background:"transparent",color:"#fda29b",border:"1px solid #b54745",borderRadius:8,padding:"7px 12px",fontWeight:600,cursor:"pointer"}}>Delete</button></div>{isUploaded ? <video controls playsInline preload="metadata" src={v.videoUrl} style={{width:"100%",aspectRatio:"16 / 9",borderRadius:12,background:"#080d18"}} /> : videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} style={{width:"100%",aspectRatio:"16 / 9",border:0,borderRadius:12}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p style={{color:"#9aa6bd"}}>Preview is unavailable for this link. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</div>})}
         </form>
         <div className="card teacher-lessons-card" style={{ padding:24 }}>
@@ -3208,7 +3209,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
           {lessons.length===0 ? <p style={{color:"#667085"}}>Scheduled lessons will appear here.</p> : lessons.map(lesson=><div className="teacher-lesson-item" key={lesson.id}>
             <b>{lesson.studentName}</b><p>{new Date(lesson.scheduledAt).toLocaleString()} · {lesson.durationMinutes} min · <strong>{lesson.status}</strong></p>
             {lesson.meetingLink && <p><a href={lesson.meetingLink} target="_blank" rel="noreferrer">Meeting link</a></p>}
-            {<div style={{marginTop:8}}><button type="button" className="login-btn" disabled={busy} onClick={async()=>{if(!window.confirm("Remove this lesson from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/LESSON/${lesson.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setLessons(old=>old.filter(x=>x.id!==lesson.id));}catch(e){setError(e.message);}}}>Remove from my dashboard</button></div>}{lesson.status==="SCHEDULED" && <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+            {<div style={{marginTop:8}}><button type="button" className="login-btn" disabled={busy} onClick={async()=>{if(!window.confirm("Remove this lesson from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/LESSON/${lesson.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setLessons(old=>old.filter(x=>x.id!==lesson.id));}catch(e){setError(e.message);}}}>Hide from dashboard</button></div>}{lesson.status==="SCHEDULED" && <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
               <button type="button" className="login-btn" disabled={busy} onClick={()=>rescheduleLesson(lesson)}>Reschedule</button>
               <button type="button" className="signup-btn" disabled={busy} onClick={()=>updateLesson(lesson.id,"COMPLETED")}>Mark completed</button>
               <button type="button" disabled={busy} onClick={()=>updateLesson(lesson.id,"CANCELLED")}>Cancel</button>
