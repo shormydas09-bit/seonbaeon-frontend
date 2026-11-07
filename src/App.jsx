@@ -2391,7 +2391,7 @@ function StudentProgressPanel({ user }) {
   const [items,setItems]=useState([]);
   const [error,setError]=useState("");
   const [expandedItemId,setExpandedItemId]=useState(null);
-  useEffect(()=>{fetch(\`\${API_URL}/workspace/student/progress\`,{headers:{Authorization:\`Bearer \${user?.token||""}\`}}).then(readResponse).then(setItems).catch(e=>setError(e.message));},[]);
+  useEffect(()=>{fetch(`${API_URL}/workspace/student/progress`,{headers:{Authorization:`Bearer ${user?.token||""}`}}).then(readResponse).then(setItems).catch(e=>setError(e.message));},[]);
   return <div className="card student-progress-panel" style={{padding:24,marginTop:20}}>
     <div className="dashboard-card-label">YOUR GROWTH</div>
     <div className="student-progress-heading"><div><h2>My Learning Progress</h2><p>Feedback and next steps from your English teacher.</p></div><span className="teacher-note-count">{items.length} {items.length===1?"UPDATE":"UPDATES"}</span></div>
@@ -2399,7 +2399,7 @@ function StudentProgressPanel({ user }) {
     {items.length===0?<p className="student-progress-empty">Your teacher's feedback will appear here after your first progress update.</p>:
       <div className="student-progress-list">{items.map(n=><article key={n.id} className="student-progress-item">
         <div className="student-progress-item-heading"><b>{n.subject||"Learning update"}</b><small>{new Date(n.updatedAt).toLocaleDateString()}</small></div>
-        <p className={\`student-progress-copy \${expandedItemId===n.id?"is-expanded":""}\`}>{n.note}</p>
+        <p className={`student-progress-copy ${expandedItemId===n.id?"is-expanded":""}`}>{n.note}</p>
         <button type="button" className="student-progress-toggle" aria-expanded={expandedItemId===n.id} onClick={()=>setExpandedItemId(expandedItemId===n.id?null:n.id)}>{expandedItemId===n.id?"Show less":"Read full feedback"}</button>
       </article>)}</div>}
   </div>;
