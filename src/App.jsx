@@ -3194,7 +3194,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         <p className="teacher-privacy-note">Upload a teaching certificate or relevant degree. Do not upload passports or unrelated identity documents.</p>
         <div className="teacher-profile-footer"><span>Your profile information is saved securely.</span><button className="signup-btn" disabled={busy}>{busy ? "Saving..." : "Save profile"}</button></div>
       </form>
-      {profile.verified && <div className="teacher-tools-stack" style={{ display:"grid", gap:20, alignContent:"start" }}>
+      {profile.verified && <>
         <form className="card teacher-demo-card" onSubmit={addVideo} style={{ padding:24 }}>
           <h2>Demo Videos ({videos.length}/2)</h2>
           <p style={{ color:"#9aa6bd", lineHeight:1.6 }}>Add up to two short teaching demonstrations so prospective students can understand your teaching style.</p>
@@ -3240,7 +3240,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
               {lessonNotice && <p className="lesson-scheduler-message success" role="status">{lessonNotice}</p>}
               <button type="button" className="signup-btn" disabled={busy} style={{marginTop:10}} onClick={()=>scheduleLesson(c)}>{busy?"Scheduling...":"Schedule lesson"}</button>
             </div>}</div>)}</div>}
-        </div>
+        </>
       </div>}
     </div>
     {profile.verified && <TeacherToolsPanel user={currentUser} consultations={consultations} lessons={lessons} />}
