@@ -2596,3 +2596,38 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
 #root .app .teacher-dashboard-redesign .teacher-analytics-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 #root .app .teacher-dashboard-redesign .teacher-profile-footer{align-items:flex-start!important;flex-direction:column!important}
 }
+
+/* FIX: legacy premium.css uses a more specific first-child selector that paints
+   the WorkspaceShell heading white. Override that exact selector in teacher scope. */
+#root .app.theme-dark-premium .teacher-dashboard-redesign .workspace-premium-shell>section>div:first-child,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .workspace-premium-shell>section>.workspace-premium-heading,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .workspace-premium-heading,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .workspace-premium-heading[style]{
+  background:radial-gradient(ellipse at 88% 0,rgba(112,207,194,.16),transparent 42%),linear-gradient(120deg,#172d46 0%,#102033 58%,#182d43 100%)!important;
+  background-color:#14263b!important;background-image:radial-gradient(ellipse at 88% 0,rgba(112,207,194,.16),transparent 42%),linear-gradient(120deg,#172d46 0%,#102033 58%,#182d43 100%)!important;
+  color:#f2f6fc!important;border:1px solid rgba(139,172,205,.2)!important;
+  border-radius:22px!important;box-shadow:0 18px 50px rgba(0,0,0,.25),inset 0 1px rgba(255,255,255,.03)!important;
+  min-height:154px!important;padding:30px 36px!important;margin:0 0 24px!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .workspace-premium-heading :is(h1,h2,h3,p),
+#root .app.theme-dark-premium .teacher-dashboard-redesign .workspace-premium-heading .workspace-subtitle{
+  color:#edf4fc!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .workspace-premium-heading .workspace-eyebrow{color:#83d8ce!important}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .workspace-premium-heading .workspace-subtitle{color:#a8bbd0!important}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .workspace-premium-heading .workspace-heading-actions button{
+  background:#1b3049!important;color:#eaf2fa!important;border:1px solid rgba(139,172,205,.2)!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.card,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-stack>.card,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-panel{
+  background:linear-gradient(155deg,#172b43 0%,#101d2e 100%)!important;
+  color:#edf4fc!important;border:1px solid rgba(139,172,205,.18)!important;
+  box-shadow:0 15px 38px rgba(0,0,0,.2)!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-profile-form :is(h2,h3,label),
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-demo-card :is(h2,h3,label),
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-section :is(h2,h3,label){color:#eaf2fa!important}
+@media(max-width:680px){
+ #root .app.theme-dark-premium .teacher-dashboard-redesign .workspace-premium-shell>section>div:first-child{padding:20px!important;min-height:0!important}
+}
