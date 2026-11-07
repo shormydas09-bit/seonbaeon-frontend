@@ -2945,7 +2945,12 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         fetch(`${API_URL}/workspace/teacher/consultations`, { headers })
       ]);
       const pd = await readResponse(p);
-      if (pd && pd.profile !== "NOT_CREATED") setProfile(old => ({ ...old, ...pd }));
+      if (pd && pd.profile !== "NOT_CREATED") {
+        setProfile(old => ({ ...old, ...pd }));
+        // Clear stale client-side validation from an earlier save attempt once
+        // the latest persisted profile has loaded successfully.
+        setError("");
+      }
       setVideos(await readResponse(v));
       setConsultations(await readResponse(c));
       const lessonResponse = await fetch(`${API_URL}/lessons`, { headers });
@@ -3001,7 +3006,9 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       const savedProfile = await readResponse(res);
       setProfile(old => ({ ...old, ...savedProfile }));
       setProfileImage(null);
-      setNotice("Application submitted. Your profile is now waiting for admin verification.");
+      setNotice(savedProfile.verified
+        ? "Profile updated. Your teacher approval remains active."
+        : "Application submitted. Your profile is now waiting for admin verification.");
     } catch (e) { setError(e.message); } finally { setBusy(false); }
   }
   async function updateConsultationStatus(id, status) {
