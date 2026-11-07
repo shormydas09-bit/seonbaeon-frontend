@@ -3697,3 +3697,121 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app .teacher-dashboard-redesign form.teacher-availability-form>input,
  #root .app .teacher-dashboard-redesign form.teacher-availability-form>button{grid-area:auto!important}
 }
+
+
+/* Premium scheduler — remove the nested-box look and use a refined booking surface */
+#root .app .teacher-dashboard-redesign .teacher-tools-section.teacher-availability-section{
+  position:relative!important;isolation:isolate!important;overflow:hidden!important;
+  padding:30px 32px 28px!important;border-radius:25px!important;
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(92,211,198,.12),transparent 38%),
+    linear-gradient(135deg,#172b43 0%,#14243a 54%,#101f32 100%)!important;
+  border:1px solid rgba(132,176,207,.2)!important;
+  box-shadow:0 22px 55px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.055)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-tools-section.teacher-availability-section:after{
+  content:"";position:absolute;z-index:-1;right:-90px;top:-145px;width:360px;height:360px;
+  border:1px solid rgba(111,211,200,.075);border-radius:50%;
+  box-shadow:0 0 0 24px rgba(111,211,200,.018),0 0 0 52px rgba(111,211,200,.014)!important;
+  pointer-events:none;
+}
+#root .app .teacher-dashboard-redesign .teacher-availability-section h3{
+  padding:0!important;margin:0!important;font-size:26px!important;font-weight:800!important;
+  letter-spacing:-.045em!important;color:#f4f8ff!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-availability-section h3:before{
+  content:"";display:inline-block;width:4px;height:25px;margin:0 13px 0 0;
+  vertical-align:-4px;border-radius:8px;background:linear-gradient(180deg,#82e0d5,#6ba7dc)!important;
+  box-shadow:0 0 16px rgba(105,213,202,.25)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-availability-section h3:after{display:none!important}
+#root .app .teacher-dashboard-redesign .teacher-availability-section>.section-hint{
+  margin:9px 0 22px!important;color:#a9bfd5!important;font-size:13px!important;line-height:1.6!important;
+}
+#root .app .teacher-dashboard-redesign form.teacher-availability-form{
+  display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-areas:"start end" "note action"!important;
+  gap:16px 18px!important;align-items:end!important;
+  margin:0!important;padding:0!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;
+}
+#root .app .teacher-dashboard-redesign form.teacher-availability-form>label:first-child{grid-area:start!important}
+#root .app .teacher-dashboard-redesign form.teacher-availability-form>label:nth-child(2){grid-area:end!important}
+#root .app .teacher-dashboard-redesign form.teacher-availability-form>input{grid-area:note!important}
+#root .app .teacher-dashboard-redesign form.teacher-availability-form>button{
+  grid-area:action!important;justify-self:end!important;align-self:end!important;
+  min-width:220px!important;height:54px!important;margin:0!important;
+  border-radius:14px!important;background:linear-gradient(110deg,#8bd7c4,#69b6ad)!important;
+  border:1px solid rgba(204,255,239,.3)!important;color:#08241f!important;
+  font-size:13px!important;font-weight:850!important;letter-spacing:.01em!important;
+  box-shadow:0 10px 24px rgba(65,164,147,.22),inset 0 1px 0 rgba(255,255,255,.45)!important;
+  transition:transform .2s ease,box-shadow .2s ease,filter .2s ease!important;
+}
+#root .app .teacher-dashboard-redesign form.teacher-availability-form>button:hover{
+  transform:translateY(-2px)!important;filter:brightness(1.05)!important;
+  box-shadow:0 14px 28px rgba(65,164,147,.3)!important;
+}
+#root .app .teacher-dashboard-redesign form.teacher-availability-form label{
+  display:flex!important;flex-direction:column!important;gap:9px!important;
+  color:#dce9f7!important;font-size:11px!important;font-weight:800!important;
+  text-transform:uppercase!important;letter-spacing:.11em!important;
+}
+#root .app .teacher-dashboard-redesign form.teacher-availability-form label input,
+#root .app .teacher-dashboard-redesign form.teacher-availability-form>input{
+  box-sizing:border-box!important;width:100%!important;max-width:none!important;min-width:0!important;
+  height:56px!important;min-height:56px!important;padding:0 16px!important;
+  border-radius:14px!important;background:rgba(7,20,35,.82)!important;
+  border:1px solid rgba(132,171,205,.25)!important;color:#f2f7ff!important;
+  font-size:13px!important;font-weight:650!important;color-scheme:dark!important;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.16),0 4px 14px rgba(0,0,0,.08)!important;
+  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease!important;
+}
+#root .app .teacher-dashboard-redesign form.teacher-availability-form input::placeholder{color:#7892ad!important;font-weight:500!important}
+#root .app .teacher-dashboard-redesign form.teacher-availability-form input:focus{
+  outline:none!important;border-color:#79d9ce!important;background:#0c2033!important;
+  box-shadow:0 0 0 4px rgba(105,213,202,.1),0 8px 20px rgba(0,0,0,.12)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-availability-list{
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:10px!important;
+  margin-top:22px!important;padding-top:20px!important;
+  border-top:1px solid rgba(137,177,207,.13)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-availability-item{
+  position:relative!important;display:flex!important;align-items:center!important;
+  justify-content:space-between!important;gap:18px!important;min-height:76px!important;
+  margin:0!important;padding:15px 17px 15px 22px!important;overflow:hidden!important;
+  border-radius:15px!important;background:linear-gradient(105deg,rgba(29,57,79,.9),rgba(18,39,60,.88))!important;
+  border:1px solid rgba(126,174,202,.2)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 8px 20px rgba(0,0,0,.1)!important;
+  transition:background .2s ease,border-color .2s ease,transform .2s ease!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-availability-item:before{
+  content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:4px;
+  background:linear-gradient(180deg,#7ce0d3,#78aee0)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-availability-item span{
+  display:flex!important;align-items:center!important;gap:12px!important;min-width:0!important;
+  color:#e5eef8!important;font-size:13px!important;font-weight:700!important;line-height:1.6!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-availability-item span:before{
+  content:"";flex:0 0 34px;width:34px;height:34px;border-radius:11px;
+  background:rgba(112,211,199,.1);border:1px solid rgba(112,211,199,.18);
+  box-shadow:inset 0 1px rgba(255,255,255,.06);
+}
+#root .app .teacher-dashboard-redesign .teacher-availability-item button{
+  flex:0 0 auto!important;min-height:40px!important;padding:0 16px!important;
+  border-radius:11px!important;background:rgba(31,52,76,.88)!important;
+  border:1px solid rgba(143,177,207,.23)!important;color:#dce8f5!important;
+  font-size:11px!important;font-weight:800!important;transition:all .18s ease!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-availability-item button:hover{
+  color:#ffc2c2!important;border-color:rgba(244,133,133,.42)!important;background:rgba(109,49,57,.22)!important;
+}
+@media(max-width:760px){
+ #root .app .teacher-dashboard-redesign .teacher-tools-section.teacher-availability-section{padding:22px 19px!important}
+ #root .app .teacher-dashboard-redesign form.teacher-availability-form{
+  grid-template-columns:minmax(0,1fr)!important;grid-template-areas:"start" "end" "note" "action"!important;
+ }
+ #root .app .teacher-dashboard-redesign form.teacher-availability-form>button{width:100%!important;min-width:0!important}
+ #root .app .teacher-dashboard-redesign .teacher-availability-item{align-items:flex-start!important;flex-wrap:wrap!important}
+}
