@@ -2439,8 +2439,9 @@ function TeacherToolsPanel({ user, consultations, lessons = [] }) {
       <button className="signup-btn" disabled={!studentUserId}>Save progress note</button>
     </form>
     <div className="teacher-progress-library">
-      <div className="teacher-progress-library-heading"><div><span className="teacher-library-kicker">FEEDBACK LIBRARY</span><h4>Progress update history</h4><p>Your updates stay organised by student and date. Select the note count to view the full history.</p></div><button type="button" className="teacher-note-count teacher-note-count-toggle" aria-expanded={showProgressHistory} aria-controls="teacher-progress-history" onClick={()=>setShowProgressHistory(v=>!v)}>{notes.length} {notes.length===1?"NOTE":"NOTES"} <span aria-hidden="true">{showProgressHistory?"−":"+"}</span></button></div>
-      {showProgressHistory&&<div className="teacher-progress-history-panel" id="teacher-progress-history"><div className="teacher-progress-history-toolbar"><span>{notes.length} saved {notes.length===1?"update":"updates"}</span><button type="button" className="login-btn" onClick={()=>setShowProgressHistory(false)}>Close history</button></div><div className="teacher-progress-list">{notes.length===0?<div className="teacher-notes-empty">No progress notes have been added yet.</div>:notes.map(n=>{
+      <div className="teacher-progress-library-heading"><div><span className="teacher-library-kicker">FEEDBACK LIBRARY</span><h4>Progress update history</h4><p>Your updates stay organised by student and date. Select the note count to open your full feedback history.</p></div><button type="button" className="teacher-note-count teacher-note-count-toggle" aria-expanded={showProgressHistory} aria-controls="teacher-progress-history" onClick={()=>setShowProgressHistory(v=>!v)}>{notes.length} {notes.length===1?"NOTE":"NOTES"} <span aria-hidden="true">{showProgressHistory?"−":"+"}</span></button></div>
+      {showProgressHistory&&<DashboardOverlay title="Progress update history" subtitle={`${notes.length} saved ${notes.length===1?"update":"updates"} · Review feedback by student and date`} onClose={()=>setShowProgressHistory(false)}>
+        <div className="teacher-progress-history-modal-list">{notes.length===0?<div className="teacher-notes-empty">No progress notes have been added yet.</div>:notes.map(n=>{
         const linkedStudent=students.find(st=>String(st.id)===String(n.studentUserId||n.studentId||n.student?.id));
         const studentLabel=n.studentName||n.student?.name||linkedStudent?.name||"Linked student";
         return <article className="teacher-progress-item" key={n.id}>
@@ -2456,7 +2457,8 @@ function TeacherToolsPanel({ user, consultations, lessons = [] }) {
             <div className="teacher-note-actions"><button className="login-btn" type="button" onClick={()=>{setEditingNoteId(n.id);setEditingSubject(n.subject||"");setEditingText(n.note||"");}}>Edit</button><button className="login-btn" type="button" onClick={()=>deleteProgressNote(n.id)}>Delete</button></div>
           </>}
         </article>;
-      })}</div></div>}
+      })}</div></div>
+      </DashboardOverlay>}
     </div></div>
     <div className="teacher-tools-section teacher-availability-section"><h3>Availability Calendar</h3><p className="section-hint">Set the time slots when students can request a consultation or book a lesson.</p><form className="teacher-availability-form" onSubmit={addSlot}>
       <label>Start <input required type="datetime-local" min={new Date().toISOString().slice(0,16)} value={startsAt} onChange={e=>setStartsAt(e.target.value)}/></label>
