@@ -2604,7 +2604,7 @@ function StudentDashboard({
           <div className="student-overview-item"><span className="overview-icon">♡</span><div><small>FAVORITE TEACHERS</small><strong>{favoriteTeachers.length}</strong><span>Saved profiles</span></div></div>
         </div>
 
-        <div
+        <div className="student-dashboard-grid"
           style={{
             display: "grid",
             gridTemplateColumns:
