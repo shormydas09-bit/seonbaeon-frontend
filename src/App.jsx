@@ -3152,7 +3152,8 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       <h2 style={{margin:"8px 0",color:"#f4f7ff"}}>{!profile.id ? "Complete your teacher application" : profile.available === false ? "Application needs attention" : "Waiting for admin verification"}</h2>
       <p style={{margin:0,color:"#c3cde2",lineHeight:1.65}}>{!profile.id ? "Complete the profile form below and submit it for review. Your public teacher listing will appear only after approval." : profile.available === false ? "Your previous application was not approved. Update your profile and submit it again for a new review." : "Your application has been received. You can edit your details while it is under review. Your public profile and teaching tools unlock after approval."}</p>
     </div>}
-    <div className="teacher-dashboard-main-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 20 }}>
+    <div className="teacher-dashboard-main-grid">
+      <div className="teacher-dashboard-left-stack">
       <form className="card teacher-profile-form" onSubmit={saveProfile}>
         <div className="teacher-form-heading">
           <div><span className="teacher-form-kicker">YOUR PUBLIC LISTING</span><h2>My Teacher Profile</h2><p>Keep your teaching details clear and up to date.</p></div>
@@ -3178,6 +3179,8 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         <p className="teacher-privacy-note">Upload a teaching certificate or relevant degree. Do not upload passports or unrelated identity documents.</p>
         <div className="teacher-profile-footer"><span>Changes are saved to your teacher profile.</span><button className="signup-btn" disabled={busy}>{busy ? "Saving..." : "Save profile"}</button></div>
       </form>
+      {profile.verified && <TeacherToolsPanel user={currentUser} consultations={consultations} lessons={lessons} />}
+      </div>
       {profile.verified && <div className="teacher-tools-stack" style={{ display:"grid", gap:20, alignContent:"start" }}>
         <form className="card teacher-demo-card" onSubmit={addVideo} style={{ padding:24 }}>
           <h2>Demo Videos ({videos.length}/2)</h2>
@@ -3227,7 +3230,6 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         </div>
       </div>}
     </div>
-  {profile.verified && <TeacherToolsPanel user={currentUser} consultations={consultations} lessons={lessons} />}
   </WorkspaceShell></div>;
 }
 
