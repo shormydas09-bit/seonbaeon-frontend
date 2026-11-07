@@ -654,3 +654,64 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app.theme-dark-premium .student-dashboard-redesign .student-profile-group summary{padding:13px!important}
  #root .app.theme-dark-premium .student-dashboard-redesign .student-profile-submit-row{align-items:flex-start!important;flex-direction:column!important}
 }
+
+
+/* Student dashboard v3 — one learning hub for lessons + consultation requests */
+#root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid{
+ grid-template-areas:"account lessons" "discover favorites" "learning learning"!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-lessons-card{
+ grid-area:lessons!important;min-height:0!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-consultations-inline{
+ margin-top:24px!important;padding-top:21px!important;border-top:1px solid rgba(139,166,198,.2)!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-subsection-heading{
+ display:flex!important;align-items:center!important;gap:13px!important;margin-bottom:13px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-subsection-heading>div{min-width:0!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-subsection-heading h4{
+ margin:0!important;color:#edf4fb!important;font-size:16px!important;font-weight:750!important;letter-spacing:-.02em!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-subsection-heading p{
+ margin:3px 0 0!important;color:#8298b2!important;font-size:11px!important;line-height:1.5!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-consultations-inline>.student-request-item{
+ box-sizing:border-box!important;width:100%!important;margin:10px 0 0!important;padding:16px 18px!important;
+ border:1px solid #2b425e!important;border-radius:13px!important;background:rgba(7,20,35,.26)!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-consultations-inline>.student-request-item>div:first-child{
+ padding:0!important;margin:0 0 9px!important;align-items:center!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-consultations-inline .student-request-item p{
+ margin:7px 0!important;line-height:1.55!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-consultations-inline .student-request-item button{margin-top:9px!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-learning-card .student-profile-group{
+ display:block!important;width:100%!important;max-width:none!important;box-sizing:border-box!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-learning-card .student-profile-group summary{
+ width:100%!important;box-sizing:border-box!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-learning-card .student-profile-fields{
+ width:100%!important;box-sizing:border-box!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-learning-card .student-profile-fields label{width:100%!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-learning-card .student-profile-fields input,
+#root .app.theme-dark-premium .student-dashboard-redesign .student-learning-card .student-profile-fields textarea{box-sizing:border-box!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-learning-card .student-profile-group:nth-child(4){margin-bottom:0!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-account-card,
+#root .app.theme-dark-premium .student-dashboard-redesign .student-lessons-card,
+#root .app.theme-dark-premium .student-dashboard-redesign .student-discover-card,
+#root .app.theme-dark-premium .student-dashboard-redesign .student-favorites-card{
+ min-height:0!important;height:auto!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-lessons-card>div[style*="borderTop"]{
+ padding:15px 0!important;border-top:1px solid rgba(139,166,198,.2)!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-lessons-card h3{margin-bottom:12px!important}
+@media(max-width:800px){
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid{grid-template-areas:"account" "lessons" "discover" "favorites" "learning"!important}
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-learning-card .student-profile-fields{grid-template-columns:1fr!important}
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-subsection-heading{align-items:flex-start!important}
+}
