@@ -3240,6 +3240,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
               {lessonNotice && <p className="lesson-scheduler-message success" role="status">{lessonNotice}</p>}
               <button type="button" className="signup-btn" disabled={busy} style={{marginTop:10}} onClick={()=>scheduleLesson(c)}>{busy?"Scheduling...":"Schedule lesson"}</button>
             </div>}</div>)}</div>}
+          </div>
         </>
       </div>}
     </div>
