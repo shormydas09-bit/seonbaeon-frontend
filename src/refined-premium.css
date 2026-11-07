@@ -1171,3 +1171,55 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  .dashboard-overlay-content .notification-panel-heading{align-items:flex-start!important;flex-direction:column!important}
  .student-overview-trigger{min-height:94px!important}
 }
+
+
+/* Final interaction corrections: button-based overview tiles and truly
+   collapsed learning-profile sections (author display rules override UA). */
+#root .app .student-dashboard-redesign button.student-overview-trigger{
+  display:flex!important;position:relative!important;align-items:center!important;gap:14px!important;
+  width:100%!important;min-width:0!important;min-height:112px!important;margin:0!important;
+  padding:20px 21px!important;box-sizing:border-box!important;text-align:left!important;
+  border:1px solid rgba(132,165,203,.22)!important;border-radius:18px!important;
+  background:linear-gradient(145deg,#1b304b 0%,#14263e 100%)!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.18)!important;color:#edf4ff!important;
+  cursor:pointer!important;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+#root .app .student-dashboard-redesign button.student-overview-trigger:hover{
+  border-color:rgba(117,211,199,.52)!important;transform:translateY(-2px)!important;
+  box-shadow:0 16px 34px rgba(0,0,0,.24)!important;
+}
+#root .app .student-dashboard-redesign button.student-overview-trigger .overview-icon{
+  display:flex!important;flex:0 0 48px!important;align-items:center!important;justify-content:center!important;
+  width:48px!important;height:48px!important;border:1px solid rgba(105,207,194,.15)!important;
+  border-radius:14px!important;background:rgba(105,207,194,.12)!important;color:#79d9ce!important;font-size:23px!important;
+}
+#root .app .student-dashboard-redesign button.student-overview-trigger .student-overview-summary-copy{
+  display:grid!important;grid-template-columns:auto 1fr!important;align-items:baseline!important;
+  gap:3px 9px!important;flex:1 1 auto!important;min-width:0!important;
+}
+#root .app .student-dashboard-redesign button.student-overview-trigger .student-overview-summary-copy small{
+  grid-column:1/-1!important;color:#83d1c9!important;font-size:10px!important;font-weight:800!important;letter-spacing:1.25px!important;
+}
+#root .app .student-dashboard-redesign button.student-overview-trigger .student-overview-summary-copy strong{
+  color:#f3f7ff!important;font-size:27px!important;font-weight:750!important;line-height:1.15!important;
+}
+#root .app .student-dashboard-redesign button.student-overview-trigger .student-overview-summary-copy>span{
+  color:#9bb2d0!important;font-size:12px!important;line-height:1.4!important;
+}
+#root .app .student-dashboard-redesign button.student-overview-trigger .student-overview-expand{
+  display:flex!important;align-items:center!important;gap:6px!important;margin-left:auto!important;
+  color:#a7bad4!important;font-size:11px!important;font-weight:700!important;white-space:nowrap!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-profile-group:not([open]) > .student-profile-fields{
+  display:none!important;
+}
+#root .app .student-dashboard-redesign .student-profile-group:not([open]) > .student-profile-fields{
+  display:none!important;
+}
+@media(max-width:1050px){
+ #root .app .student-dashboard-redesign .student-overview-accordion{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:680px){
+ #root .app .student-dashboard-redesign .student-overview-accordion{grid-template-columns:minmax(0,1fr)!important}
+ #root .app .student-dashboard-redesign button.student-overview-trigger{min-height:94px!important;padding:16px!important}
+}
