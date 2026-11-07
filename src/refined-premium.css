@@ -4746,3 +4746,49 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
 #root .app.theme-dark-premium .dashboard-overlay-dialog .teacher-progress-history-modal-list .teacher-note-content.is-expanded{
   display:block!important;-webkit-line-clamp:unset!important;overflow:visible!important;
 }
+
+
+/* Teacher workspace final layout fix:
+   unwrap the profile column so the profile form participates in the same grid
+   as demo videos, lessons and requests instead of leaving an empty grid cell. */
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr)!important;
+  grid-auto-flow:row!important;
+  align-items:start!important;
+  gap:18px!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-left-stack,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-stack{
+  display:contents!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid .teacher-profile-form{
+  grid-column:1!important;grid-row:1!important;
+  width:100%!important;min-width:0!important;align-self:stretch!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid .teacher-demo-card{
+  grid-column:2!important;grid-row:1!important;
+  width:100%!important;min-width:0!important;align-self:stretch!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid .teacher-lessons-card{
+  grid-column:1!important;grid-row:2!important;
+  width:100%!important;min-width:0!important;align-self:start!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid .teacher-requests-card{
+  grid-column:2!important;grid-row:2!important;
+  width:100%!important;min-width:0!important;align-self:start!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid :is(.teacher-profile-form,.teacher-demo-card,.teacher-lessons-card,.teacher-requests-card){
+  box-sizing:border-box!important;margin:0!important;
+}
+@media(max-width:900px){
+  #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid .teacher-profile-form,
+  #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid .teacher-demo-card,
+  #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid .teacher-lessons-card,
+  #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid .teacher-requests-card{
+    grid-column:1!important;grid-row:auto!important;
+  }
+}
