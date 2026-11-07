@@ -2457,7 +2457,7 @@ function TeacherToolsPanel({ user, consultations, lessons = [] }) {
             <div className="teacher-note-actions"><button className="login-btn" type="button" onClick={()=>{setEditingNoteId(n.id);setEditingSubject(n.subject||"");setEditingText(n.note||"");}}>Edit</button><button className="login-btn" type="button" onClick={()=>deleteProgressNote(n.id)}>Delete</button></div>
           </>}
         </article>;
-      })}</div></div>
+      })}</div>
       </DashboardOverlay>}
     </div></div>
     <div className="teacher-tools-section teacher-availability-section"><h3>Availability Calendar</h3><p className="section-hint">Set the time slots when students can request a consultation or book a lesson.</p><form className="teacher-availability-form" onSubmit={addSlot}>
