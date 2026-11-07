@@ -3168,7 +3168,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       <p style={{margin:0,color:"#c3cde2",lineHeight:1.65}}>{!profile.id ? "Complete the profile form below and submit it for review. Your public teacher listing will appear only after approval." : profile.available === false ? "Your previous application was not approved. Update your profile and submit it again for a new review." : "Your application has been received. You can edit your details while it is under review. Your public profile and teaching tools unlock after approval."}</p>
     </div>}
     <div className="teacher-dashboard-main-grid">
-      <div className="teacher-dashboard-left-stack">
+      
       <form className="card teacher-profile-form" onSubmit={saveProfile}>
         <div className="teacher-form-heading">
           <div><span className="teacher-form-kicker">TEACHER PROFILE</span><h2>My Teacher Profile</h2><p>Maintain the information students use to understand your experience and teaching approach.</p></div>
@@ -3194,7 +3194,6 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         <p className="teacher-privacy-note">Upload a teaching certificate or relevant degree. Do not upload passports or unrelated identity documents.</p>
         <div className="teacher-profile-footer"><span>Your profile information is saved securely.</span><button className="signup-btn" disabled={busy}>{busy ? "Saving..." : "Save profile"}</button></div>
       </form>
-      </div>
       {profile.verified && <div className="teacher-tools-stack" style={{ display:"grid", gap:20, alignContent:"start" }}>
         <form className="card teacher-demo-card" onSubmit={addVideo} style={{ padding:24 }}>
           <h2>Demo Videos ({videos.length}/2)</h2>
