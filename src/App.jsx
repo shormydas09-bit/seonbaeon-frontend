@@ -2659,35 +2659,51 @@ function StudentDashboard({
 
           <div className="card student-lessons-card">
             <div className="dashboard-card-label">MY LEARNING</div>
-            <h3>My Lessons ({myLessons.length})</h3>
-            {lessonError && <p style={{color:"#b42318"}}>{lessonError}</p>}
-            {myLessons.length === 0 ? <p style={{color:"#667085"}}>No lessons scheduled yet. Approved consultation lessons will appear here.</p> : myLessons.map((lesson) => <div key={lesson.id} style={{borderTop:"1px solid #eaecf0",padding:"12px 0"}}>
-              <strong>{lesson.teacherName}</strong>
-              <p style={{margin:"5px 0"}}>{new Date(lesson.scheduledAt).toLocaleString()} · {lesson.durationMinutes} minutes</p>
-              <span style={{fontSize:13,fontWeight:600}}>{lesson.status}</span>
-              {lesson.meetingLink && <p><a href={lesson.meetingLink} target="_blank" rel="noreferrer">Join lesson</a></p>}
-              <div className="student-lesson-actions">{lesson.status === "SCHEDULED" && <button type="button" className="compare-btn" onClick={async()=>{if(!window.confirm("Cancel this lesson?"))return;const reason=window.prompt("Optional cancellation reason:")||"";try{await readResponse(await fetch(`${API_URL}/lessons/${lesson.id}/status`,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:`Bearer ${currentUser.token}`},body:JSON.stringify({status:"CANCELLED",reason})}));setMyLessons(old=>old.map(x=>x.id===lesson.id?{...x,status:"CANCELLED",cancellationReason:reason}:x));}catch(e){setLessonError(e.message);}}}>Cancel lesson</button>}<button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this lesson from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/LESSON/${lesson.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyLessons(old=>old.filter(x=>x.id!==lesson.id));}catch(e){setLessonError(e.message);}}}>Remove from dashboard</button></div>
-            </div>)}
-            <div className="card student-favorites-card">
-            <div className="dashboard-card-label">SAVED</div>
+            <div className="student-section-title-row"><div><h3>My Lessons</h3><p>Your upcoming and previous learning sessions.</p></div><span className="student-count-pill">{myLessons.length} total</span></div>
+            {lessonError && <p className="student-inline-error">{lessonError}</p>}
+            {myLessons.length===0 ? <div className="student-empty-state"><span className="student-empty-icon">▣</span><div><strong>No lessons scheduled yet</strong><p>Approved consultation lessons will appear here once your teacher confirms a session.</p></div></div> : myLessons.map(lesson=><article key={lesson.id} className="student-lesson-row">
+              <div className="student-lesson-main"><span className="student-lesson-icon">▣</span><div className="student-lesson-copy"><strong>{lesson.teacherName||"Your English teacher"}</strong><p>{new Date(lesson.scheduledAt).toLocaleString()} · {lesson.durationMinutes} minutes</p><span className={`student-status-pill ${lesson.status==="SCHEDULED"?"is-scheduled":""}`}>{lesson.status}</span>{lesson.meetingLink&&<a className="student-join-link" href={lesson.meetingLink} target="_blank" rel="noreferrer">Join lesson ↗</a>}</div></div>
+              <div className="student-lesson-actions">{lesson.status==="SCHEDULED"&&<button type="button" className="compare-btn" onClick={async()=>{if(!window.confirm("Cancel this lesson?"))return;const reason=window.prompt("Optional cancellation reason:")||"";try{await readResponse(await fetch(`${API_URL}/lessons/${lesson.id}/status`,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:`Bearer ${currentUser.token}`},body:JSON.stringify({status:"CANCELLED",reason})}));setMyLessons(old=>old.map(x=>x.id===lesson.id?{...x,status:"CANCELLED",cancellationReason:reason}:x));}catch(e){setLessonError(e.message);}}}>Cancel</button>}<button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this lesson from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/LESSON/${lesson.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyLessons(old=>old.filter(x=>x.id!==lesson.id));}catch(e){setLessonError(e.message);}}}>Hide</button></div>
+            </article>)}
+            <div className="student-consultations-inline">
+              <div className="student-subsection-heading"><span className="student-subsection-icon">◷</span><div><h4>Consultation requests</h4><p>Teacher decisions and updates on your requests.</p></div><span className="student-count-pill">{myRequests.length}</span></div>
+              {requestError&&<p className="student-inline-error">{requestError}</p>}
+              {myRequests.length===0?<div className="student-empty-state compact"><div><strong>No consultation requests yet</strong><p>Visit a teacher profile to request a consultation.</p></div></div>:myRequests.map(r=><article key={r.id} className="student-request-item">
+                <div className="student-request-heading"><strong>{r.teacherName||"English teacher"}</strong><span className={`student-status-pill ${r.status==="APPROVED"?"is-approved":r.status==="REJECTED"?"is-rejected":"is-pending"}`}>{r.status||"PENDING"}</span></div>
+                <p className="student-request-meta">{r.teacherCategory||"English"} · Preferred: {r.preferredDate} at {r.preferredTime}</p>
+                {r.message&&<p className="student-request-message">{r.message}</p>}
+                {r.status==="PENDING"&&<p className="student-request-note">Waiting for the teacher to review your request.</p>}
+                {r.status==="APPROVED"&&<p className="student-request-note is-positive">Approved. Your teacher will arrange the lesson time and meeting details.</p>}
+                {r.status==="REJECTED"&&<p className="student-request-note is-negative">Not approved. {r.rejectionReason||"Please choose another teacher or request a different time."}</p>}
+                {r.adminPreviousStatus&&<p className="student-request-note">Admin update: {r.adminPreviousStatus} → {r.status}. {r.adminNote||""}</p>}
+                {r.decisionHistory&&<details className="student-request-history"><summary>View request history</summary><pre>{r.decisionHistory}</pre></details>}
+                <button type="button" className="login-btn student-hide-request" onClick={async()=>{if(!window.confirm("Remove this request from your dashboard only? The teacher and admin records will remain unchanged."))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${r.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyRequests(old=>old.filter(x=>x.id!==r.id));}catch(e){setRequestError(e.message);}}}>Hide request</button>
+              </article>)}
+            </div>
+          </div>
 
-            <h3>Favorite Teachers</h3>
+          <div className="card student-discover-card"><div className="dashboard-card-label">DISCOVER</div><h3>Find English Teachers</h3><p>Explore English teachers for speaking, phonics, grammar, reading, storytelling and school English.</p><button className="signup-btn" onClick={goToTeachers}>Find Teachers <span aria-hidden="true">→</span></button></div>
 
-            {favoriteError && <p style={{ color: "#b42318" }}>{favoriteError}</p>}
-            {favoriteTeachers.length === 0 ? (
-              <p style={{ color: "#667085" }}>No favorite teachers saved yet. Browse teachers and tap the heart to save one.</p>
-            ) : favoriteTeachers.map((teacher) => (
-              <div key={teacher.id} className="student-favorite-item" style={{ padding: "10px 0", borderTop: "1px solid #eee" }}>
-                <strong>{teacher.name}</strong>
-                <p style={{ margin: "4px 0", color: "#667085" }}>{teacher.category} · {teacher.location}</p>
-                <button className="login-btn" onClick={() => {
-                  const next = favoriteTeachers.filter((item) => item.id !== teacher.id);
-                  setFavoriteTeachers(next);
-                  const ids = next.map((item) => item.id);
-                  localStorage.setItem(FAVORITES_KEY, JSON.stringify(ids));
-                }}>Remove</button>
-              </div>
-            ))}
+          <div className="card student-favorites-card">
+            <div className="dashboard-card-label">SAVED</div><div className="student-section-title-row"><h3>Favorite Teachers</h3><span className="student-count-pill">{favoriteTeachers.length}</span></div>
+            {favoriteError&&<p className="student-inline-error">{favoriteError}</p>}
+            {favoriteTeachers.length===0?<div className="student-empty-state compact"><div><strong>No saved teachers yet</strong><p>Tap the heart on a teacher profile to save it here.</p></div></div>:favoriteTeachers.map(teacher=><div key={teacher.id} className="student-favorite-item"><div><strong>{teacher.name}</strong><p>{teacher.category} · {teacher.location}</p></div><button className="login-btn" onClick={()=>{const next=favoriteTeachers.filter(item=>item.id!==teacher.id);setFavoriteTeachers(next);localStorage.setItem(FAVORITES_KEY,JSON.stringify(next.map(item=>item.id)));}}>Remove</button></div>)}
+          </div>
+
+          <div className="card student-learning-card">
+            <div className="dashboard-card-label">LEARNING PROFILE</div><h3>My Learning Profile</h3><p className="student-profile-intro">A few details help us recommend teachers and prepare more useful lessons.</p>
+            {studentDetailsNotice&&<p className="student-inline-success">{studentDetailsNotice}</p>}{studentDetailsError&&<p className="student-inline-error">{studentDetailsError}</p>}
+            <form className="student-profile-form" onSubmit={saveStudentDetails}>
+              {[
+                {title:"Personal details",hint:"Basic information for your learning profile.",fields:[["age","Age"],["ageGroup","Age group"],["guardianName","Parent / guardian name"],["guardianPhone","Parent / guardian phone"]]},
+                {title:"Learning preferences",hint:"Your current level, goals and preferred way to learn.",fields:[["englishLevel","Current English level"],["preferredCategory","Preferred English category"],["preferredSchedule","Preferred learning schedule"],["learningGoals","Learning goals"],["interests","Interests / hobbies"]]},
+                {title:"A little about you",hint:"Share anything that helps your teacher understand you.",fields:[["introduction","About me"]]}
+              ].map((group,index)=><details className="student-profile-group" key={group.title} open={index===0}>
+                <summary><span className="student-profile-step">{String(index+1).padStart(2,"0")}</span><span className="student-profile-group-copy"><strong>{group.title}</strong><small>{group.hint}</small></span><span className="student-profile-chevron">⌄</span></summary>
+                <div className="student-profile-fields">{group.fields.map(([key,label])=><label key={key}>{label}{["learningGoals","interests","introduction"].includes(key)?<textarea rows={key==="introduction"?3:2} value={studentDetails[key]||""} onChange={e=>setStudentDetails(old=>({...old,[key]:e.target.value}))}/>:<input type={key==="age"?"number":"text"} value={studentDetails[key]||""} onChange={e=>setStudentDetails(old=>({...old,[key]:e.target.value}))}/>}</label>)}</div>
+              </details>)}
+              <div className="student-profile-submit-row"><span>Your preferences help us recommend suitable English teachers.</span><button className="signup-btn" type="submit">Save Learning Profile <span aria-hidden="true">→</span></button></div>
+            </form>
           </div>
         </div>
 
