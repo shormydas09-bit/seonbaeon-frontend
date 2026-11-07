@@ -6600,3 +6600,46 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app.theme-dark-premium .student-dashboard-redesign .student-progress-list{grid-template-columns:1fr!important;max-height:320px!important}
  #root .app.theme-dark-premium .student-feedback-modal{padding:25px 20px!important}
 }
+
+
+/* Student consultation details — clear timeline and request metadata */
+#root .app.theme-dark-premium .student-dashboard-redesign .student-consultation-detail-card{
+ display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:18px!important;
+ align-items:start!important;padding:20px 22px!important;margin:0 0 13px!important;
+ border:1px solid rgba(133,174,208,.2)!important;border-radius:17px!important;
+ background:linear-gradient(145deg,#1a334d,#10243a)!important;
+ box-shadow:0 10px 28px rgba(0,0,0,.14)!important;
+}
+#root .app.theme-dark-premium .student-consultation-card-top{
+ display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:16px!important;
+}
+#root .app.theme-dark-premium .student-consultation-card-top>div{display:grid!important;gap:5px!important}
+#root .app.theme-dark-premium .student-consultation-card-top small,
+#root .app.theme-dark-premium .student-consultation-facts small,
+#root .app.theme-dark-premium .student-consultation-message small{
+ color:#7ed8ce!important;font-size:9px!important;font-weight:850!important;letter-spacing:.13em!important;
+}
+#root .app.theme-dark-premium .student-consultation-card-top strong{color:#f0f6ff!important;font-size:17px!important}
+#root .app.theme-dark-premium .student-consultation-card-top span{color:#a9bfd7!important;font-size:12px!important}
+#root .app.theme-dark-premium .student-consultation-facts{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;margin-top:17px!important;
+}
+#root .app.theme-dark-premium .student-consultation-facts>div{
+ display:grid!important;gap:5px!important;min-width:0!important;padding:11px 13px!important;
+ border:1px solid rgba(137,177,209,.13)!important;border-radius:12px!important;background:rgba(5,17,30,.28)!important;
+}
+#root .app.theme-dark-premium .student-consultation-facts b{
+ color:#dce8f6!important;font-size:12px!important;font-weight:650!important;overflow-wrap:anywhere!important;
+}
+#root .app.theme-dark-premium .student-consultation-message{
+ margin-top:12px!important;padding:13px 15px!important;border-radius:12px!important;
+ background:rgba(6,18,31,.35)!important;border:1px solid rgba(137,177,209,.12)!important;
+}
+#root .app.theme-dark-premium .student-consultation-message p{
+ margin:6px 0 0!important;color:#c7d6e7!important;font-size:13px!important;line-height:1.65!important;white-space:pre-wrap!important;
+}
+#root .app.theme-dark-premium .student-consultation-state{margin:12px 0 0!important;color:#a9bfd7!important;font-size:12px!important}
+@media(max-width:650px){
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-consultation-detail-card{grid-template-columns:minmax(0,1fr)!important;padding:16px!important}
+ #root .app.theme-dark-premium .student-consultation-facts{grid-template-columns:minmax(0,1fr)!important}
+}
