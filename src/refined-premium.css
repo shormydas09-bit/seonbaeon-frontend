@@ -4698,3 +4698,35 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
   #root .app.theme-dark-premium .student-dashboard-redesign .student-progress-heading{flex-direction:column;gap:8px}
   #root .app.theme-dark-premium .student-dashboard-redesign .student-progress-list{max-height:340px}
 }
+
+
+/* Teacher feedback history: collapsed by default, expandable on demand */
+#root .app.theme-dark-premium .teacher-progress-library-heading .teacher-note-count-toggle{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  gap:9px!important;min-height:42px!important;cursor:pointer!important;
+  font:800 11px/1 "DM Sans",sans-serif!important;
+  transition:background .18s ease,border-color .18s ease,transform .18s ease!important;
+}
+#root .app.theme-dark-premium .teacher-progress-library-heading .teacher-note-count-toggle:hover{
+  background:rgba(91,190,180,.2)!important;border-color:rgba(113,213,202,.42)!important;
+  transform:translateY(-1px)!important;
+}
+#root .app.theme-dark-premium .teacher-note-count-toggle span{
+  font-size:17px!important;line-height:10px!important;
+}
+#root .app.theme-dark-premium .teacher-progress-history-panel{
+  margin-top:18px!important;padding:16px!important;border:1px solid rgba(135,172,208,.16)!important;
+  border-radius:16px!important;background:rgba(5,15,27,.34)!important;
+}
+#root .app.theme-dark-premium .teacher-progress-history-toolbar{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  gap:12px!important;margin-bottom:13px!important;color:#9eb1c9!important;
+  font-size:12px!important;font-weight:700!important;
+}
+#root .app.theme-dark-premium .teacher-progress-history-panel .teacher-progress-list{
+  max-height:440px!important;overflow-y:auto!important;overscroll-behavior:contain!important;
+}
+@media(max-width:560px){
+  #root .app.theme-dark-premium .teacher-progress-history-panel{padding:10px!important}
+  #root .app.theme-dark-premium .teacher-progress-history-panel .teacher-progress-list{grid-template-columns:minmax(0,1fr)!important}
+}
