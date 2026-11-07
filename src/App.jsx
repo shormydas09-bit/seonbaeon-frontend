@@ -3033,16 +3033,18 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
   }
   async function scheduleLesson(consultation) {
     const draft = lessonDrafts[consultation.id] || {};
-    if (!draft.scheduledAt) { setError("Choose a lesson date and time first."); return; }
+    if (!draft.scheduledAt) { setError("Please choose both a lesson date and time."); return; }
+    const selectedDate = new Date(draft.scheduledAt);
+    if (Number.isNaN(selectedDate.getTime()) || selectedDate <= new Date()) { setError("Choose a lesson date and time in the future."); return; }
+    const durationMinutes = Number(draft.durationMinutes || 30);
+    if (!Number.isFinite(durationMinutes) || durationMinutes < 15 || durationMinutes > 180) { setError("Lesson duration must be between 15 and 180 minutes."); return; }
     setBusy(true); setError(""); setLessonNotice("");
     try {
-      await readResponse(await fetch(`${API_URL}/lessons/from-consultation/${consultation.id}`, {
-        method:"POST", headers,
-        body:JSON.stringify({ scheduledAt:draft.scheduledAt, durationMinutes:Number(draft.durationMinutes || 30), meetingLink:draft.meetingLink || "", notes:draft.notes || "" })
-      }));
-      setLessonNotice("Lesson scheduled and student notified.");
+      const response = await fetch(`${API_URL}/lessons/from-consultation/${consultation.id}`, { method:"POST", headers, body:JSON.stringify({ scheduledAt:draft.scheduledAt, durationMinutes, meetingLink:draft.meetingLink || "", notes:draft.notes || "" }) });
+      await readResponse(response);
+      setLessonNotice("Lesson scheduled successfully. The student has been notified.");
       await load();
-    } catch(e) { setError(e.message || "Could not schedule lesson."); }
+    } catch(e) { setError(e.message || "Could not schedule this lesson. Please check the date and try again."); }
     finally { setBusy(false); }
   }
   async function updateLesson(id, status) {
@@ -3194,12 +3196,14 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         <div className="card" style={{ padding:24 }}>
           <h2>Demo Class Requests</h2>
           {consultations.length===0 ? <p style={{color:"#667085"}}>No requests yet.</p> : consultations.map(c=><div key={c.id} style={{borderTop:"1px solid #eee",padding:"12px 0"}}><b>{c.studentName}</b><p>{c.preferredDate} · {c.preferredTime} · <strong>{c.status}</strong></p><p>{c.message}</p><button type="button" className="login-btn" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide":"View"} Student Profile</button>{selectedStudent===c.id && <div style={{background:"#f8fafc",padding:12,borderRadius:10,marginTop:8}}><p><b>Email:</b> {c.studentProfile?.email || c.email}</p><p><b>Age / Group:</b> {c.studentProfile?.age || "—"} / {c.studentProfile?.ageGroup || "—"}</p><p><b>English Level:</b> {c.studentProfile?.englishLevel || "—"}</p><p><b>Learning Goals:</b> {c.studentProfile?.learningGoals || "—"}</p><p><b>Preferred Category:</b> {c.studentProfile?.preferredCategory || "—"}</p><p><b>Interests:</b> {c.studentProfile?.interests || "—"}</p><p><b>Schedule:</b> {c.studentProfile?.preferredSchedule || "—"}</p><p><b>About:</b> {c.studentProfile?.introduction || "—"}</p>{c.studentProfile?.guardianName && <p><b>Guardian:</b> {c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}</div>}{c.rejectionReason && <p style={{color:"#b42318"}}><b>Teacher rejection reason:</b> {c.rejectionReason}</p>}{c.adminPreviousStatus && <p><b>Admin changed status:</b> {c.adminPreviousStatus} → {c.status} {c.adminNote || ""}</p>}{c.decisionHistory && <p style={{whiteSpace:"pre-line"}}><b>Decision History:</b>{"\\n"}{c.decisionHistory}</p>}<div style={{marginTop:8}}><button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this consultation from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${c.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setConsultations(old=>old.filter(x=>x.id!==c.id));}catch(e){setError(e.message);}}}>Remove from my dashboard</button></div>{c.status==="PENDING" && <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button type="button" className="signup-btn" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"APPROVED")}>Approve</button><button type="button" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"REJECTED")} style={{background:"#fff",color:"#b42318",border:"1px solid #fda29b",borderRadius:10,padding:"10px 16px",fontWeight:600,cursor:"pointer"}}>Reject</button></div>}
-            {c.status==="APPROVED" && !lessons.some(l=>l.consultationId===c.id) && <div style={{background:"#f8fafc",padding:12,borderRadius:10,marginTop:10}}>
-              <b>Schedule first lesson</b>
-              <label style={{display:"block",marginTop:8}}>Date & time <input type="datetime-local" min={new Date().toISOString().slice(0,16)} value={lessonDrafts[c.id]?.scheduledAt||""} onChange={e=>setLessonDrafts(old=>({...old,[c.id]:{...old[c.id],scheduledAt:e.target.value}}))}/></label>
-              <label style={{display:"block",marginTop:8}}>Duration <select value={lessonDrafts[c.id]?.durationMinutes||30} onChange={e=>setLessonDrafts(old=>({...old,[c.id]:{...old[c.id],durationMinutes:e.target.value}}))}><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option><option value="90">90 minutes</option></select></label>
-              <label style={{display:"block",marginTop:8}}>Meeting link (optional) <input type="url" value={lessonDrafts[c.id]?.meetingLink||""} onChange={e=>setLessonDrafts(old=>({...old,[c.id]:{...old[c.id],meetingLink:e.target.value}}))}/></label>
-              <button type="button" className="signup-btn" disabled={busy} style={{marginTop:10}} onClick={()=>scheduleLesson(c)}>Schedule lesson</button>
+            {c.status==="APPROVED" && !lessons.some(l=>l.consultationId===c.id) && <div className="lesson-scheduler" style={{marginTop:12}}>
+              <h4>Schedule first lesson</h4>
+              <label>Date & time <input className="lesson-schedule-datetime" type="datetime-local" required step="900" min={new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16)} value={lessonDrafts[c.id]?.scheduledAt||""} onChange={e=>{setError("");setLessonDrafts(old=>({...old,[c.id]:{...old[c.id],scheduledAt:e.target.value}}));}} /></label>
+              <label>Duration <select value={lessonDrafts[c.id]?.durationMinutes||30} onChange={e=>setLessonDrafts(old=>({...old,[c.id]:{...old[c.id],durationMinutes:e.target.value}}))}><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option><option value="90">90 minutes</option></select></label>
+              <label>Meeting link (optional) <input type="url" placeholder="https://..." value={lessonDrafts[c.id]?.meetingLink||""} onChange={e=>setLessonDrafts(old=>({...old,[c.id]:{...old[c.id],meetingLink:e.target.value}}))}/></label>
+              {error && <p className="lesson-scheduler-message error" role="alert">{error}</p>}
+              {lessonNotice && <p className="lesson-scheduler-message success" role="status">{lessonNotice}</p>}
+              <button type="button" className="signup-btn" disabled={busy} style={{marginTop:10}} onClick={()=>scheduleLesson(c)}>{busy?"Scheduling...":"Schedule lesson"}</button>
             </div>}</div>)}
         </div>
       </div>}
