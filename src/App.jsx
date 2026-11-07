@@ -2613,6 +2613,7 @@ function StudentDashboard({
             </div></section>
         </div>
 
+        {/* Keep profile and discovery panels grouped in the dashboard grid. */}
         <div className="student-dashboard-grid">
           <div className="card student-account-card">
             <div className="dashboard-card-label">ACCOUNT</div>
