@@ -3815,3 +3815,111 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app .teacher-dashboard-redesign form.teacher-availability-form>button{width:100%!important;min-width:0!important}
  #root .app .teacher-dashboard-redesign .teacher-availability-item{align-items:flex-start!important;flex-wrap:wrap!important}
 }
+
+
+/* Teacher tools — unified premium hierarchy for progress notes + scheduler */
+#root .app .teacher-dashboard-redesign .teacher-tools-section:not(.teacher-availability-section){
+  position:relative!important;isolation:isolate!important;
+  margin-top:20px!important;padding:25px!important;border-radius:22px!important;
+  background:linear-gradient(145deg,#172b43 0%,#14253b 58%,#122238 100%)!important;
+  border:1px solid rgba(132,176,207,.19)!important;
+  box-shadow:0 18px 44px rgba(0,0,0,.19),inset 0 1px 0 rgba(255,255,255,.045)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-tools-section:not(.teacher-availability-section)>h3{
+  margin:0!important;color:#f4f8ff!important;font-size:21px!important;
+  font-weight:820!important;letter-spacing:-.045em!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-tools-section:not(.teacher-availability-section)>h3:before{
+  content:"";display:inline-block;width:4px;height:21px;margin:0 11px 0 0;
+  vertical-align:-3px;border-radius:5px;background:linear-gradient(180deg,#7de0d5,#719fd6)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-tools-section:not(.teacher-availability-section)>.section-hint{
+  margin:7px 0 18px!important;color:#a9bfd5!important;font-size:12px!important;line-height:1.65!important;
+}
+#root .app .teacher-dashboard-redesign form.teacher-progress-form{
+  display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:13px!important;margin:0!important;padding:18px!important;
+  border-radius:17px!important;background:linear-gradient(145deg,#0d1c2e,#102238)!important;
+  border:1px solid rgba(130,171,205,.18)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 10px 25px rgba(0,0,0,.13)!important;
+}
+#root .app .teacher-dashboard-redesign form.teacher-progress-form :is(select,input,textarea){
+  box-sizing:border-box!important;width:100%!important;min-width:0!important;
+  min-height:48px!important;padding:12px 14px!important;border-radius:12px!important;
+  background:#091829!important;border:1px solid rgba(132,172,206,.24)!important;
+  color:#eef5ff!important;font-size:12px!important;font-weight:550!important;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.16)!important;
+  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease!important;
+}
+#root .app .teacher-dashboard-redesign form.teacher-progress-form select option{
+  background:#102238!important;color:#eef5ff!important;
+}
+#root .app .teacher-dashboard-redesign form.teacher-progress-form :is(select,input,textarea):focus{
+  outline:none!important;border-color:#75d6cb!important;background:#0d2033!important;
+  box-shadow:0 0 0 4px rgba(105,213,202,.1)!important;
+}
+#root .app .teacher-dashboard-redesign form.teacher-progress-form textarea{
+  grid-column:1/-1!important;min-height:112px!important;resize:vertical!important;line-height:1.65!important;
+}
+#root .app .teacher-dashboard-redesign form.teacher-progress-form button{
+  justify-self:start!important;min-height:45px!important;padding:0 19px!important;
+  border-radius:11px!important;background:linear-gradient(120deg,#85cdb9,#61a99e)!important;
+  border:1px solid rgba(196,247,228,.24)!important;color:#09251f!important;
+  font-size:12px!important;font-weight:850!important;
+  box-shadow:0 8px 18px rgba(63,151,133,.2),inset 0 1px rgba(255,255,255,.28)!important;
+}
+#root .app .teacher-dashboard-redesign form.teacher-progress-form button:disabled{
+  background:#344b50!important;color:#9eafb0!important;box-shadow:none!important;border-color:#40585a!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-progress-list{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:13px!important;margin-top:16px!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-progress-item{
+  position:relative!important;display:flex!important;flex-direction:column!important;
+  min-width:0!important;margin:0!important;padding:18px!important;border-radius:16px!important;
+  background:linear-gradient(145deg,#1a3048,#14273d)!important;
+  border:1px solid rgba(132,176,207,.2)!important;
+  box-shadow:0 9px 24px rgba(0,0,0,.13),inset 0 1px rgba(255,255,255,.035)!important;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-progress-item:hover{
+  transform:translateY(-2px)!important;border-color:rgba(113,216,205,.36)!important;
+  box-shadow:0 14px 28px rgba(0,0,0,.18)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-progress-item>b{
+  display:inline-flex!important;align-self:flex-start!important;align-items:center!important;
+  min-height:27px!important;padding:0 10px!important;border-radius:8px!important;
+  background:rgba(105,210,198,.1)!important;border:1px solid rgba(105,210,198,.17)!important;
+  color:#83e0d5!important;font-size:11px!important;font-weight:850!important;letter-spacing:.025em!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-progress-item p{
+  margin:12px 0!important;color:#e0eaf5!important;font-size:12px!important;line-height:1.75!important;
+  overflow-wrap:anywhere!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-progress-item small{
+  display:block!important;margin-top:auto!important;padding-top:11px!important;
+  border-top:1px solid rgba(137,177,207,.13)!important;color:#8ea9c4!important;font-size:10px!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-progress-item>div:last-child{
+  display:flex!important;gap:8px!important;margin-top:12px!important;padding-top:11px!important;
+  border-top:1px solid rgba(137,177,207,.13)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-progress-item button{
+  min-height:36px!important;padding:0 13px!important;border-radius:10px!important;
+  background:rgba(37,59,84,.85)!important;border:1px solid rgba(142,177,207,.2)!important;
+  color:#dce8f5!important;font-size:10px!important;font-weight:800!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-progress-item button:hover{
+  border-color:rgba(116,216,205,.4)!important;color:#8de2d7!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-availability-section{
+  margin-top:20px!important;
+}
+@media(max-width:760px){
+ #root .app .teacher-dashboard-redesign .teacher-tools-section:not(.teacher-availability-section){padding:19px!important}
+ #root .app .teacher-dashboard-redesign form.teacher-progress-form{grid-template-columns:1fr!important;padding:13px!important}
+ #root .app .teacher-dashboard-redesign form.teacher-progress-form textarea{grid-column:1!important}
+ #root .app .teacher-dashboard-redesign form.teacher-progress-form button{width:100%!important}
+ #root .app .teacher-dashboard-redesign .teacher-progress-list{grid-template-columns:1fr!important}
+}
