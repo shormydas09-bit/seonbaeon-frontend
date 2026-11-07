@@ -314,3 +314,44 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
 #root .app.theme-dark-premium .student-dashboard-redesign>section>.card{margin-top:18px!important}
 #root .app.theme-dark-premium .student-dashboard-redesign .card .status-pill{color:#bfe8d2!important}
 @media(max-width:760px){#root .app.theme-dark-premium .student-dashboard-redesign>section{padding:24px 14px 48px!important}#root .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child{padding:22px 18px!important}#root .app.theme-dark-premium .student-dashboard-redesign .card{padding:18px!important}}
+
+/* STUDENT DASHBOARD — final layout refinement */
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2){
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ align-items:start!important;column-gap:20px!important;row-gap:20px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2)>.card{min-width:0!important;height:fit-content!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-profile-form{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ column-gap:16px!important;row-gap:11px!important;align-items:start!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-profile-form>label{
+ display:flex!important;flex-direction:column!important;min-width:0!important;
+ margin-top:0!important;gap:6px!important;color:#c4d1e3!important;font-weight:600!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-profile-form>label:has(textarea){grid-column:span 2!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-profile-form>button,
+#root .app.theme-dark-premium .student-dashboard-redesign .student-profile-form>.form-error{grid-column:1/-1!important;justify-self:start!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-profile-form textarea{min-height:92px!important;resize:vertical!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-category-chip{
+ background:#203650!important;color:#dce8f7!important;border:1px solid #3a5270!important;
+ padding:9px 14px!important;border-radius:999px!important;display:inline-flex!important;
+ align-items:center!important;font-size:13px!important;font-weight:650!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-lesson-actions{
+ display:flex!important;flex-wrap:wrap!important;gap:10px!important;margin-top:10px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-lesson-actions button{margin:0!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .card [style*="borderTop"]{
+ border-top:1px solid #2d4360!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .card article{
+ background:#101e31!important;border:1px solid #293f5b!important;border-radius:14px!important;
+ padding:15px!important;margin-top:10px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .card :where(input,textarea,select){color-scheme:dark!important}
+@media(max-width:760px){
+ #root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2){grid-template-columns:minmax(0,1fr)!important}
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-profile-form{grid-template-columns:minmax(0,1fr)!important}
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-profile-form>label:has(textarea){grid-column:auto!important}
+}
