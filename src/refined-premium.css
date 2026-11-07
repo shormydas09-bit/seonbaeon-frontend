@@ -1066,3 +1066,32 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
     transform: none !important;
   }
 }
+
+
+/* Layering fix: keep the notification popover and overview detail panels
+   above the dashboard cards that follow them in document order. */
+#root .app .student-dashboard-redesign > section > div:first-child {
+  position: relative !important;
+  z-index: 500 !important;
+  isolation: auto !important;
+}
+#root .app .student-dashboard-redesign .student-overview-accordion {
+  position: relative !important;
+  z-index: 2 !important;
+  isolation: auto !important;
+  overflow: visible !important;
+}
+#root .app .student-dashboard-redesign .student-overview-accordion:has(> details[open]) {
+  z-index: 400 !important;
+}
+#root .app .student-dashboard-redesign details.student-overview-accordion-item[open] {
+  position: relative !important;
+  z-index: 410 !important;
+}
+#root .app .student-dashboard-redesign details.student-overview-accordion-item[open] > .student-overview-expanded-content {
+  z-index: 420 !important;
+}
+#root .app .student-dashboard-redesign .student-dashboard-grid {
+  position: relative !important;
+  z-index: 1 !important;
+}
