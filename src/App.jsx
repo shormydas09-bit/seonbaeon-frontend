@@ -3052,7 +3052,6 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         form.append("api_key", signed.apiKey);
         form.append("timestamp", String(signed.timestamp));
         form.append("public_id", signed.publicId);
-        form.append("folder", signed.folder);
         form.append("signature", signed.signature);
         const uploaded = await new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();
