@@ -5171,3 +5171,88 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app.theme-dark-premium .teacher-search-redesign .search-input-wrapper{min-height:48px!important}
  #root .app.theme-dark-premium .teacher-profile-redesign .profile-container{width:calc(100% - 28px)!important;padding:22px 0 48px!important}
 }
+
+
+/* FINAL DISCOVERY PAGE CONTRAST + RESPONSIVE GRID OVERRIDES */
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teachers-header h1,
+#root .teachers-page.teacher-search-redesign .teachers-header h1{
+  color:#f4f7ff!important;
+  text-shadow:0 2px 24px rgba(75,125,190,.12)!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teachers-header>div>p:last-child,
+#root .teachers-page.teacher-search-redesign .teachers-header>div>p:last-child{
+  color:#b7c6dc!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teachers-header .small-title,
+#root .teachers-page.teacher-search-redesign .teachers-header .small-title{
+  color:#86e0d6!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header,
+#root .teachers-page.teacher-search-redesign .results-header{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  gap:16px!important;min-height:54px!important;margin:22px 2px 8px!important;
+  color:#c4d2e6!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header strong,
+#root .teachers-page.teacher-search-redesign .results-header strong{
+  color:#eaf2ff!important;font-size:15px!important;font-weight:750!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header span,
+#root .teachers-page.teacher-search-redesign .results-header span{
+  color:#9fb3ce!important;font-size:13px!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top,
+#root .teachers-page.teacher-search-redesign .search-top{
+  display:grid!important;grid-template-columns:minmax(0,1.7fr) minmax(190px,1fr) minmax(170px,1fr)!important;
+  gap:12px!important;align-items:center!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top>select:last-child,
+#root .teachers-page.teacher-search-redesign .search-top>select:last-child{
+  grid-column:1 / 2!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-input-wrapper,
+#root .teachers-page.teacher-search-redesign .search-input-wrapper{
+  min-height:50px!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-grid,
+#root .teachers-page.teacher-search-redesign .teacher-grid{
+  align-items:stretch!important;gap:20px!important;margin-top:14px!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card,
+#root .teachers-page.teacher-search-redesign .teacher-card{
+  min-height:370px!important;padding:24px!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-specialty,
+#root .teachers-page.teacher-search-redesign .teacher-card .teacher-specialty{
+  color:#b7c8df!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-stats strong,
+#root .teachers-page.teacher-search-redesign .teacher-card .teacher-stats strong{
+  color:#f3f6ff!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-stats small,
+#root .teachers-page.teacher-search-redesign .teacher-card .teacher-stats small{
+  color:#9fb4d0!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-actions .profile-btn,
+#root .teachers-page.teacher-search-redesign .teacher-card .teacher-actions .profile-btn{
+  background:#eaf1fa!important;color:#18304b!important;border:1px solid #d8e3f1!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .teacher-card .teacher-actions .compare-btn,
+#root .teachers-page.teacher-search-redesign .teacher-card .teacher-actions .compare-btn{
+  background:linear-gradient(135deg,#70d3c8,#50b4aa)!important;color:#092522!important;border:1px solid #65c7bd!important;
+}
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign .compare-bar,
+#root .teachers-page.teacher-search-redesign .compare-bar{
+  margin:18px 0!important;
+}
+@media(max-width:900px){
+ #root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top,
+ #root .teachers-page.teacher-search-redesign .search-top{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #root .app.theme-dark-premium .teachers-page.teacher-search-redesign .search-top>select:last-child,
+ #root .teachers-page.teacher-search-redesign .search-top>select:last-child{grid-column:auto!important}
+}
+@media(max-width:620px){
+ #root .app.theme-dark-premium .teachers-page.teacher-search-redesign .results-header,
+ #root .teachers-page.teacher-search-redesign .results-header{align-items:flex-start!important;flex-direction:column!important;gap:4px!important}
+}
