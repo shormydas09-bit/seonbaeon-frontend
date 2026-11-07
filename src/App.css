@@ -5853,3 +5853,193 @@ html:has(.app.theme-dark-premium),body:has(.app.theme-dark-premium),#root:has(.a
 #root .app.theme-dark-premium .admin-dashboard-redesign .admin-detail-grid p{color:#b9c7dd!important}
 #root .app.theme-dark-premium .admin-dashboard-redesign .admin-detail-grid b{display:block!important;color:#8fa4c8!important;margin-bottom:5px!important}
 @media(max-width:700px){#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card{padding:17px!important}#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card .admin-consultation-meta{grid-template-columns:1fr 1fr!important}#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card .admin-consultation-actions{align-items:flex-start!important;flex-direction:column!important}#root .app.theme-dark-premium .admin-dashboard-redesign article.premium-surface-card .admin-status-actions{display:flex!important;flex-wrap:wrap!important;gap:7px!important}}
+
+
+
+/* Student dashboard: polished expandable overview cards */
+.student-dashboard-redesign .student-overview-accordion{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:start;
+  gap:18px!important;
+  width:100%;
+  margin:0 0 28px!important;
+}
+.student-dashboard-redesign details.student-overview-accordion-item{
+  display:block;
+  min-width:0;
+  overflow:hidden;
+  border:1px solid rgba(117,151,190,.22);
+  border-radius:18px;
+  background:linear-gradient(145deg,#172b45 0%,#112238 100%);
+  box-shadow:0 10px 28px rgba(0,0,0,.16);
+  transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+.student-dashboard-redesign details.student-overview-accordion-item:hover{
+  border-color:rgba(105,207,194,.48);
+  box-shadow:0 14px 32px rgba(0,0,0,.22);
+  transform:translateY(-2px);
+}
+.student-dashboard-redesign details.student-overview-accordion-item[open]{
+  border-color:rgba(105,207,194,.48);
+}
+.student-dashboard-redesign .student-overview-summary{
+  display:flex!important;
+  align-items:center;
+  gap:14px;
+  min-height:112px;
+  padding:20px 21px;
+  margin:0;
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+}
+.student-dashboard-redesign .student-overview-summary::-webkit-details-marker{display:none}
+.student-dashboard-redesign .student-overview-summary::marker{content:""}
+.student-dashboard-redesign .student-overview-summary .overview-icon{
+  display:flex;
+  flex:0 0 48px;
+  width:48px;
+  height:48px;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(105,207,194,.13);
+  border-radius:14px;
+  background:rgba(105,207,194,.12);
+  color:#75d8cb;
+  font-size:24px;
+}
+.student-dashboard-redesign .student-overview-summary-copy{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  align-items:baseline;
+  gap:3px 9px;
+  min-width:0;
+  flex:1;
+}
+.student-dashboard-redesign .student-overview-summary-copy small{
+  grid-column:1/-1;
+  color:#80cfc8;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.35px;
+  line-height:1.4;
+}
+.student-dashboard-redesign .student-overview-summary-copy strong{
+  color:#f3f7ff;
+  font-size:27px;
+  font-weight:750;
+  line-height:1.1;
+}
+.student-dashboard-redesign .student-overview-summary-copy>span{
+  color:#91acd0;
+  font-size:12px;
+  line-height:1.4;
+}
+.student-dashboard-redesign .student-overview-expand{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex:0 0 auto;
+  color:#9db5d5;
+  font-size:11px;
+  font-weight:650;
+  white-space:nowrap;
+}
+.student-dashboard-redesign .student-overview-expand b{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:25px;
+  height:25px;
+  border-radius:8px;
+  background:rgba(105,207,194,.1);
+  color:#75d8cb;
+  font-size:16px;
+  transition:transform .2s ease;
+}
+.student-dashboard-redesign details[open]>.student-overview-summary .student-overview-expand b{
+  transform:rotate(180deg);
+}
+.student-dashboard-redesign .student-overview-expanded-content{
+  display:grid;
+  gap:0;
+  padding:0 18px 14px;
+  border-top:1px solid rgba(132,164,203,.16);
+}
+.student-dashboard-redesign .student-overview-table-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  min-width:0;
+  padding:15px 5px;
+  border-bottom:1px solid rgba(132,164,203,.14);
+}
+.student-dashboard-redesign .student-overview-table-row:last-child{border-bottom:0}
+.student-dashboard-redesign .student-overview-row-main{
+  display:grid;
+  gap:5px;
+  min-width:0;
+}
+.student-dashboard-redesign .student-overview-row-main>strong{
+  color:#f2f6ff;
+  font-size:14px;
+  font-weight:750;
+}
+.student-dashboard-redesign .student-overview-row-main>span{
+  color:#9ab2d2;
+  font-size:12px;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+.student-dashboard-redesign .student-overview-row-meta{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:9px;
+  flex:0 0 auto;
+}
+.student-dashboard-redesign .student-overview-row-actions{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:7px;
+}
+.student-dashboard-redesign .student-overview-row-actions button,
+.student-dashboard-redesign .student-overview-table-row>.login-btn{
+  min-height:34px;
+  padding:7px 11px;
+  font-size:11px;
+}
+.student-dashboard-redesign .student-overview-empty{
+  margin:0;
+  padding:20px 5px 8px;
+  color:#91acd0;
+  font-size:13px;
+}
+.student-dashboard-redesign .student-overview-expanded-content .student-request-history{
+  margin-top:5px;
+  color:#a9bfdc;
+}
+.student-dashboard-redesign .student-overview-expanded-content .student-request-history summary{
+  cursor:pointer;
+  font-size:12px;
+}
+.student-dashboard-redesign .student-overview-expanded-content .student-request-history pre{
+  max-width:100%;
+  overflow:auto;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  color:#a9bfdc;
+}
+@media(max-width:1050px){
+  .student-dashboard-redesign .student-overview-accordion{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:680px){
+  .student-dashboard-redesign .student-overview-accordion{grid-template-columns:minmax(0,1fr);gap:12px!important}
+  .student-dashboard-redesign .student-overview-summary{min-height:94px;padding:16px}
+  .student-dashboard-redesign .student-overview-expanded-content{padding:0 14px 10px}
+  .student-dashboard-redesign .student-overview-table-row{align-items:flex-start;gap:9px}
+  .student-dashboard-redesign .student-overview-row-meta{align-items:flex-end}
+}
