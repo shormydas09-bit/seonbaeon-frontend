@@ -3241,8 +3241,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
               <button type="button" className="signup-btn" disabled={busy} style={{marginTop:10}} onClick={()=>scheduleLesson(c)}>{busy?"Scheduling...":"Schedule lesson"}</button>
             </div>}</div>)}</div>}
           </div>
-        </>
-      </div>}
+        </>}
     </div>
     {profile.verified && <TeacherToolsPanel user={currentUser} consultations={consultations} lessons={lessons} />}
   </WorkspaceShell></div>;
