@@ -2893,6 +2893,7 @@ function getYouTubeVideoId(value) {
 function TeacherWorkspace({ currentUser, handleLogout }) {
   const [profile, setProfile] = useState({ category: "Kids English", location: "Online", specialty: "", experience: "", teachingStyle: "Supportive & Interactive", qualification: "", bio: "", hourlyRate: "", lessonDuration: "30", languages: "English", ageRange: "Children", teachingMode: "Online", availability: "" });
   const [profileImage, setProfileImage] = useState(null);
+  const [qualificationFile, setQualificationFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [videos, setVideos] = useState([]);
   const [consultations, setConsultations] = useState([]);
@@ -2928,6 +2929,16 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
     e.preventDefault(); setBusy(true); setError(""); setNotice("");
     try {
       let nextProfile = { ...profile };
+      if (qualificationFile) {
+        const allowed = ["application/pdf", "image/jpeg", "image/png"];
+        if (!allowed.includes(qualificationFile.type) || qualificationFile.size > 10 * 1024 * 1024) throw new Error("Upload a PDF, JPG or PNG document under 10 MB.");
+        const signed = await readResponse(await fetch(`${API_URL}/workspace/teacher/qualification-document/sign`, { method: "POST", headers }));
+        const form = new FormData();
+        form.append("file", qualificationFile); form.append("api_key", signed.apiKey); form.append("timestamp", String(signed.timestamp));
+        form.append("public_id", signed.publicId); form.append("overwrite", "true"); form.append("signature", signed.signature);
+        const uploaded = await fetch(`https://api.cloudinary.com/v1_1/${signed.cloudName}/raw/upload`, { method: "POST", body: form });
+        const documentData = await readResponse(uploaded); nextProfile.qualificationDocumentUrl = documentData.secure_url;
+      }
       if (profileImage) {
         if (!profileImage.type.startsWith("image/") || profileImage.size > 5 * 1024 * 1024) throw new Error("Choose an image under 5 MB.");
         const signed = await readResponse(await fetch(`${API_URL}/workspace/teacher/profile-image/sign`, { method: "POST", headers }));
@@ -3057,6 +3068,14 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         {[
           ["location","Location / Online"],["specialty","Specialty"],["experience","Teaching experience"],["teachingStyle","Teaching style"],["qualification","Qualifications"],["bio","About your teaching"],["hourlyRate","Hourly rate"],["lessonDuration","Lesson duration (minutes)"],["languages","Languages"],["ageRange","Student age range"],["teachingMode","Teaching mode"],["availability","Availability"]
         ].map(([key,label])=><label key={key} style={{ display:"block", marginTop:12 }}>{label}{key==="bio" || key==="qualification" || key==="availability" ? <textarea name={key} value={profile[key] || ""} onChange={change} rows={key==="bio"?4:2} style={{ width:"100%", marginTop:6 }} /> : <input name={key} type={key==="hourlyRate"||key==="lessonDuration"?"number":"text"} value={profile[key] ?? ""} onChange={change} style={{ width:"100%", marginTop:6 }} />}</label>)}
+        <label style={{display:"block",marginTop:14}}>Issuing institution / certificate provider
+          <input name="qualificationInstitution" value={profile.qualificationInstitution || ""} onChange={change} placeholder="e.g. University or certification body" style={{width:"100%",marginTop:6}} />
+        </label>
+        <label style={{display:"block",marginTop:14}}>Qualification evidence (PDF, JPG or PNG · max 10 MB)
+          <input type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" onChange={e=>setQualificationFile(e.target.files?.[0] || null)} style={{display:"block",marginTop:8}} />
+        </label>
+        {profile.qualificationDocumentUrl && <p style={{fontSize:13}}>Current document: <a href={profile.qualificationDocumentUrl} target="_blank" rel="noreferrer">View uploaded evidence</a></p>}
+        <p style={{fontSize:12,color:"#667085"}}>Upload a teaching certificate or relevant degree. Do not upload passports or unrelated identity documents.</p>
         <button className="signup-btn" disabled={busy} style={{ marginTop:18 }}>{busy ? "Saving..." : "Save profile"}</button>
       </form>
       {profile.verified && <div style={{ display:"grid", gap:20, alignContent:"start" }}>
@@ -3181,7 +3200,7 @@ function AdminWorkspace({ currentUser, handleLogout }) {
     <div className="card" style={{padding:24,marginBottom:20}}>
       <h2>Teacher Verification ({teachers.length})</h2>
       {teachers.length===0?<p style={{color:"#667085"}}>No pending teacher applications.</p>:teachers.map(t=><div key={t.id} style={{borderTop:"1px solid #eee",padding:"16px 0",display:"flex",justifyContent:"space-between",gap:16,flexWrap:"wrap"}}>
-        <div><b>{t.name}</b><p>{t.category} · {t.location} · {t.experience}</p><p>{t.qualification}</p><p>{t.bio}</p></div>
+        <div style={{flex:"1 1 420px"}}><b>{t.name}</b><p>{t.category} · {t.location} · {t.experience}</p><p><b>Qualification:</b> {t.qualification}</p><p><b>Institution:</b> {t.qualificationInstitution || "Not provided"}</p><p>{t.bio}</p><p><b>Evidence:</b> {t.qualificationDocumentUrl ? <a href={t.qualificationDocumentUrl} target="_blank" rel="noreferrer">Open certificate / degree</a> : "Not uploaded — request evidence before approval."}</p><div style={{display:"flex",gap:8,flexWrap:"wrap"}}>{(t.videos || []).map(v=><a key={v.id} href={v.videoUrl} target="_blank" rel="noreferrer">Demo: {v.title}</a>)}</div><p style={{fontSize:12,color:"#667085"}}>Review the document name and issuing institution, and assess the demo lesson before approval. Uploaded files are evidence, not automatic proof of authenticity.</p></div>
         <div style={{display:"flex",gap:8,alignItems:"center"}}>
           <button className="signup-btn" onClick={()=>approve(t.id)}>Approve teacher</button>
           <button className="login-btn" onClick={()=>reject(t.id)} style={{color:"#b42318"}}>Reject</button>
