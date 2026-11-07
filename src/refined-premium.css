@@ -4854,3 +4854,66 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
     grid-template-columns:minmax(0,1fr)!important;
   }
 }
+
+
+/* Definitive teacher workspace layout: unwrap the tools stack into the
+   dashboard grid so no nested column can strand cards on the right. */
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-auto-flow:row!important;
+  align-items:start!important;
+  gap:20px!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.teacher-tools-stack{
+  display:contents!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.teacher-profile-form,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.teacher-tools-stack>.teacher-demo-card{
+  grid-column:1/-1!important;
+  grid-row:auto!important;
+  width:100%!important;min-width:0!important;
+  align-self:stretch!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.teacher-tools-stack>.teacher-lessons-card{
+  grid-column:1!important;grid-row:auto!important;
+  width:100%!important;min-width:0!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.teacher-tools-stack>.teacher-requests-card{
+  grid-column:2!important;grid-row:auto!important;
+  width:100%!important;min-width:0!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-profile-fields{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:13px 16px!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-profile-fields>.teacher-field-wide,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-profile-fields>label:first-child{
+  grid-column:1/-1!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-demo-list{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:14px!important;max-height:460px!important;overflow:auto!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-panel{
+  width:100%!important;max-width:none!important;margin:22px 0 0!important;
+}
+@media(max-width:850px){
+  #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.teacher-profile-form,
+  #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.teacher-tools-stack>.teacher-demo-card,
+  #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.teacher-tools-stack>.teacher-lessons-card,
+  #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.teacher-tools-stack>.teacher-requests-card{
+    grid-column:1!important;grid-row:auto!important;
+  }
+  #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-demo-list{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+}
+@media(max-width:560px){
+  #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-profile-fields{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+}
