@@ -2364,3 +2364,168 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
   #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-progress-list{grid-template-columns:1fr!important}
   #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-analytics-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 }
+
+
+/* Teacher dashboard — align the full workspace with the Student Dashboard design system.
+   Deliberately does not depend on the theme class: the workspace shell must never fall back to white. */
+#root .app .teacher-dashboard-redesign .workspace-premium-shell{
+  background:transparent!important;color:#eaf1fa!important;
+  padding:34px clamp(16px,4vw,54px) 72px!important;
+}
+#root .app .teacher-dashboard-redesign .workspace-premium-content{
+  width:100%!important;max-width:1320px!important;margin:0 auto!important;
+}
+#root .app .teacher-dashboard-redesign .workspace-premium-heading,
+#root .app .teacher-dashboard-redesign .workspace-premium-heading[style]{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:22px!important;
+  flex-wrap:wrap!important;margin:0 0 24px!important;padding:27px 30px!important;
+  color:#f2f6fc!important;
+  background:radial-gradient(ellipse at 92% 0,rgba(117,199,190,.13),transparent 42%),linear-gradient(145deg,#172b43 0%,#122238 100%)!important;
+  border:1px solid rgba(132,165,203,.2)!important;border-radius:20px!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.025)!important;
+}
+#root .app .teacher-dashboard-redesign .workspace-heading-copy{min-width:240px!important}
+#root .app .teacher-dashboard-redesign .workspace-heading-copy .workspace-eyebrow{
+  margin:0 0 9px!important;color:#83d8ce!important;font-size:10px!important;font-weight:850!important;letter-spacing:.15em!important;
+}
+#root .app .teacher-dashboard-redesign .workspace-heading-copy h1{
+  margin:0!important;color:#f2f6fc!important;font-size:clamp(27px,3vw,36px)!important;
+  font-weight:850!important;letter-spacing:-.045em!important;line-height:1.16!important;
+}
+#root .app .teacher-dashboard-redesign .workspace-heading-copy .workspace-subtitle{
+  margin:9px 0 0!important;color:#9aafc8!important;font-size:12px!important;line-height:1.65!important;
+}
+#root .app .teacher-dashboard-redesign .workspace-heading-actions{display:flex!important;align-items:center!important;gap:9px!important;flex-wrap:wrap!important}
+#root .app .teacher-dashboard-redesign .workspace-heading-actions button{
+  min-height:41px!important;padding:0 15px!important;border-radius:11px!important;
+  color:#eaf2fa!important;background:#1b3049!important;border:1px solid rgba(139,172,205,.2)!important;
+  font-size:11px!important;font-weight:800!important;
+}
+#root .app .teacher-dashboard-redesign .workspace-heading-actions button:hover{
+  background:#23415b!important;border-color:rgba(131,207,196,.45)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-dashboard-main-grid>.card,
+#root .app .teacher-dashboard-redesign .teacher-tools-stack>.card{
+  box-sizing:border-box!important;min-width:0!important;position:relative!important;overflow:hidden!important;
+  padding:24px!important;border-radius:19px!important;
+  background:radial-gradient(ellipse at 100% 0,rgba(117,199,190,.055),transparent 42%),linear-gradient(150deg,#172b43,#122238)!important;
+  border:1px solid rgba(132,165,203,.18)!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.15),inset 0 1px rgba(255,255,255,.025)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-dashboard-main-grid>.card:before,
+#root .app .teacher-dashboard-redesign .teacher-tools-stack>.card:before{
+  content:""!important;position:absolute!important;inset:0 0 auto!important;height:2px!important;
+  background:linear-gradient(90deg,rgba(121,210,198,.8),rgba(121,210,198,.12),transparent)!important;pointer-events:none!important;
+}
+#root .app .teacher-dashboard-redesign :is(.teacher-profile-form,.teacher-demo-card,.teacher-lessons-card,.teacher-requests-card) h2{
+  color:#f0f5fb!important;font-size:20px!important;font-weight:820!important;letter-spacing:-.035em!important;
+}
+#root .app .teacher-dashboard-redesign :is(.teacher-profile-form,.teacher-demo-card,.teacher-lessons-card,.teacher-requests-card) p{
+  color:#96abc4!important;font-size:12px!important;line-height:1.7!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-form-heading{
+  display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:12px!important;
+  margin-bottom:17px!important;padding-bottom:15px!important;border-bottom:1px solid rgba(139,166,198,.16)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-form-kicker,
+#root .app .teacher-dashboard-redesign .teacher-tools-heading .eyebrow{
+  color:#83d8ce!important;font-size:9px!important;font-weight:850!important;letter-spacing:.14em!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-form-step{
+  padding:6px 9px!important;border-radius:8px!important;color:#8bd4c9!important;
+  background:rgba(117,199,190,.1)!important;border:1px solid rgba(117,199,190,.17)!important;
+  font-size:9px!important;font-weight:850!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-profile-photo-field{
+  padding:13px!important;margin-bottom:16px!important;border-radius:13px!important;
+  background:rgba(7,20,35,.35)!important;border:1px solid rgba(139,166,198,.15)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-profile-fields{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px 14px!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-profile-fields>label{
+  display:flex!important;flex-direction:column!important;gap:5px!important;min-width:0!important;
+  color:#b7c7da!important;font-size:10px!important;font-weight:750!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-profile-fields>label:first-child,
+#root .app .teacher-dashboard-redesign .teacher-profile-fields>.teacher-field-wide{grid-column:1/-1!important}
+#root .app .teacher-dashboard-redesign .teacher-profile-fields :is(input:not([type=file]),select,textarea),
+#root .app .teacher-dashboard-redesign :is(.teacher-demo-card,.teacher-tools-section) :is(input:not([type=file]),select,textarea){
+  box-sizing:border-box!important;width:100%!important;min-width:0!important;min-height:42px!important;
+  margin:0!important;padding:10px 12px!important;border-radius:10px!important;
+  color:#edf4fc!important;background:#0c1b2c!important;border:1px solid rgba(139,172,205,.19)!important;
+  font-size:11px!important;line-height:1.55!important;
+}
+#root .app .teacher-dashboard-redesign :is(input,textarea,select)::placeholder{color:#788fa9!important}
+#root .app .teacher-dashboard-redesign .teacher-profile-fields textarea{min-height:66px!important;resize:vertical!important}
+#root .app .teacher-dashboard-redesign :is(.teacher-demo-item,.teacher-lesson-item,.teacher-request-item,.teacher-progress-item,.teacher-availability-item){
+  min-width:0!important;margin:11px 0 0!important;padding:15px!important;border-radius:13px!important;
+  background:rgba(7,20,35,.38)!important;border:1px solid rgba(139,166,198,.16)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-tools-panel{
+  position:relative!important;overflow:hidden!important;margin:22px 0 0!important;padding:25px!important;
+  border:1px solid rgba(132,165,203,.18)!important;border-radius:21px!important;
+  background:radial-gradient(ellipse at 100% 0,rgba(117,199,190,.075),transparent 42%),linear-gradient(145deg,#172b43,#122238)!important;
+  box-shadow:0 14px 32px rgba(0,0,0,.17)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-tools-heading{
+  padding:21px 23px!important;border-radius:16px!important;
+  background:linear-gradient(145deg,#1a3049,#14263d)!important;border:1px solid rgba(132,165,203,.16)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-tools-heading h2{
+  margin:11px 0 5px!important;color:#f2f6fc!important;font-size:23px!important;font-weight:820!important;letter-spacing:-.04em!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-tools-heading p,
+#root .app .teacher-dashboard-redesign .section-hint{color:#96abc4!important;font-size:11px!important;line-height:1.65!important}
+#root .app .teacher-dashboard-redesign .teacher-analytics-grid{
+  display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:11px!important;margin:17px 0 20px!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-analytics-tile{
+  min-width:0!important;min-height:90px!important;padding:15px!important;border-radius:13px!important;
+  background:linear-gradient(145deg,#102238,#0d1c2e)!important;border:1px solid rgba(139,166,198,.16)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-analytics-tile small{color:#8fa6c0!important;font-size:9px!important;font-weight:800!important;letter-spacing:.07em!important}
+#root .app .teacher-dashboard-redesign .teacher-analytics-tile strong{display:block!important;margin-top:8px!important;color:#f1f6fc!important;font-size:24px!important;font-weight:850!important}
+#root .app .teacher-dashboard-redesign .teacher-tools-section{
+  margin:15px 0 0!important;padding:20px!important;border-radius:15px!important;
+  background:rgba(7,20,35,.28)!important;border:1px solid rgba(139,166,198,.15)!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-tools-section h3{color:#edf4fb!important;font-size:16px!important;font-weight:800!important}
+#root .app .teacher-dashboard-redesign .teacher-progress-form,
+#root .app .teacher-dashboard-redesign .teacher-availability-form{
+  padding:14px!important;border-radius:13px!important;background:rgba(7,19,33,.42)!important;
+  border:1px solid rgba(139,166,198,.14)!important;gap:11px!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-progress-form textarea{min-height:84px!important}
+#root .app .teacher-dashboard-redesign .teacher-progress-item b{color:#8bd4c9!important}
+#root .app .teacher-dashboard-redesign .teacher-progress-item p{color:#c4d1e0!important}
+#root .app .teacher-dashboard-redesign .teacher-availability-item{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important}
+#root .app .teacher-dashboard-redesign .teacher-availability-item span{color:#b7c7da!important;font-size:11px!important;line-height:1.6!important}
+#root .app .teacher-dashboard-redesign .teacher-application-status{
+  background:linear-gradient(145deg,#172b43,#122238)!important;color:#eaf2fa!important;
+  border:1px solid rgba(132,165,203,.2)!important;border-radius:16px!important;
+}
+#root .app .teacher-dashboard-redesign .teacher-application-status h2{color:#f2f6fc!important}
+#root .app .teacher-dashboard-redesign .teacher-application-status p{color:#a9bad0!important}
+#root .app .teacher-dashboard-redesign>main>section>p[style*="background"],
+#root .app .teacher-dashboard-redesign>main>section>p[style*="background-color"]{
+  background:rgba(15,35,54,.95)!important;color:#b9d6d2!important;border:1px solid rgba(117,199,190,.2)!important;
+}
+@media(max-width:900px){
+  #root .app .teacher-dashboard-redesign .teacher-dashboard-main-grid{grid-template-columns:1fr!important}
+  #root .app .teacher-dashboard-redesign .teacher-analytics-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+@media(max-width:620px){
+  #root .app .teacher-dashboard-redesign .workspace-premium-shell{padding:22px 14px 55px!important}
+  #root .app .teacher-dashboard-redesign .workspace-premium-heading{padding:20px!important}
+  #root .app .teacher-dashboard-redesign .teacher-dashboard-main-grid>.card,
+  #root .app .teacher-dashboard-redesign .teacher-tools-stack>.card,
+  #root .app .teacher-dashboard-redesign .teacher-tools-panel{padding:17px!important;border-radius:16px!important}
+  #root .app .teacher-dashboard-redesign .teacher-profile-fields,
+  #root .app .teacher-dashboard-redesign .teacher-progress-form,
+  #root .app .teacher-dashboard-redesign .teacher-availability-form{grid-template-columns:1fr!important}
+  #root .app .teacher-dashboard-redesign .teacher-profile-fields>label:first-child,
+  #root .app .teacher-dashboard-redesign .teacher-profile-fields>.teacher-field-wide,
+  #root .app .teacher-dashboard-redesign .teacher-progress-form textarea{grid-column:auto!important}
+  #root .app .teacher-dashboard-redesign .teacher-analytics-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
