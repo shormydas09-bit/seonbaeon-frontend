@@ -6527,3 +6527,76 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app.theme-dark-premium .teacher-profile-redesign *:before,
  #root .app.theme-dark-premium .teacher-profile-redesign *:after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
 }
+
+
+/* Student progress: compact preview cards + focused full-feedback dialog */
+#root .app.theme-dark-premium .student-dashboard-redesign .student-progress-panel{
+  position:relative!important;overflow:hidden!important;
+  background:radial-gradient(ellipse at 100% 0,rgba(95,202,190,.10),transparent 38%),linear-gradient(145deg,#172c43 0%,#11243a 58%,#102137 100%)!important;
+  border:1px solid rgba(112,190,199,.27)!important;border-radius:22px!important;
+  box-shadow:0 18px 46px rgba(0,0,0,.18)!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-progress-list{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:12px!important;max-height:340px!important;overflow-y:auto!important;
+  padding:2px 5px 2px 2px!important;align-items:stretch!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-progress-item{
+  display:flex!important;flex-direction:column!important;min-height:154px!important;
+  padding:17px 18px!important;border-radius:17px!important;
+  border:1px solid rgba(133,174,208,.19)!important;
+  background:linear-gradient(145deg,rgba(28,53,78,.96),rgba(15,33,53,.98))!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.12)!important;
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-progress-item:hover{
+  transform:translateY(-2px)!important;border-color:rgba(108,211,198,.42)!important;
+  box-shadow:0 13px 28px rgba(0,0,0,.2)!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-progress-copy{
+  display:-webkit-box!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:2!important;
+  overflow:hidden!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important;
+  margin:9px 0 12px!important;line-height:1.55!important;flex:1!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-progress-toggle{
+  align-self:flex-start!important;display:inline-flex!important;align-items:center!important;gap:8px!important;
+  margin-top:auto!important;padding:7px 0!important;color:#83d8ce!important;
+  font-size:12px!important;font-weight:800!important;letter-spacing:.01em!important;
+}
+#root .app.theme-dark-premium .student-feedback-overlay{
+  position:fixed!important;inset:0!important;z-index:10050!important;
+  display:grid!important;place-items:center!important;padding:22px!important;
+  background:rgba(3,10,19,.76)!important;backdrop-filter:blur(12px)!important;
+}
+#root .app.theme-dark-premium .student-feedback-modal{
+  position:relative!important;width:min(620px,100%)!important;max-height:min(78vh,760px)!important;
+  overflow:auto!important;padding:34px!important;border-radius:24px!important;
+  border:1px solid rgba(125,202,197,.32)!important;
+  background:radial-gradient(ellipse at 100% 0,rgba(94,205,191,.13),transparent 42%),linear-gradient(145deg,#1b344e,#102238)!important;
+  box-shadow:0 30px 90px rgba(0,0,0,.48)!important;color:#edf5ff!important;
+}
+#root .app.theme-dark-premium .student-feedback-eyebrow{
+  display:block!important;margin-bottom:12px!important;color:#7dd8cd!important;
+  font-size:10px!important;font-weight:850!important;letter-spacing:.16em!important;
+}
+#root .app.theme-dark-premium .student-feedback-modal h2{margin:0 48px 7px 0!important;font-size:26px!important;color:#f1f6ff!important}
+#root .app.theme-dark-premium .student-feedback-modal time{color:#91a9c2!important;font-size:12px!important}
+#root .app.theme-dark-premium .student-feedback-full{
+  margin:22px 0!important;padding:20px!important;border-radius:15px!important;
+  border:1px solid rgba(135,177,209,.17)!important;background:rgba(5,17,30,.42)!important;
+  color:#d5e1ef!important;line-height:1.8!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important;
+}
+#root .app.theme-dark-premium .student-feedback-close{
+  position:absolute!important;top:20px!important;right:20px!important;width:40px!important;height:40px!important;
+  border:1px solid rgba(148,181,211,.25)!important;border-radius:12px!important;
+  background:#294664!important;color:#f1f6ff!important;font-size:25px!important;cursor:pointer!important;
+}
+#root .app.theme-dark-premium .student-feedback-done{
+  width:100%!important;min-height:46px!important;border:0!important;border-radius:13px!important;
+  background:linear-gradient(110deg,#75d7ca,#4fb7ad)!important;color:#082a31!important;
+  font-weight:850!important;cursor:pointer!important;
+}
+@media(max-width:760px){
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-progress-list{grid-template-columns:1fr!important;max-height:320px!important}
+ #root .app.theme-dark-premium .student-feedback-modal{padding:25px 20px!important}
+}
