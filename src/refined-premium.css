@@ -4730,3 +4730,19 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
   #root .app.theme-dark-premium .teacher-progress-history-panel{padding:10px!important}
   #root .app.theme-dark-premium .teacher-progress-history-panel .teacher-progress-list{grid-template-columns:minmax(0,1fr)!important}
 }
+
+
+/* Match the shared dashboard overlay system for teacher feedback history */
+#root .app.theme-dark-premium .dashboard-overlay-dialog .teacher-progress-history-modal-list{
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:12px!important;
+  min-width:0!important;
+}
+#root .app.theme-dark-premium .dashboard-overlay-dialog .teacher-progress-history-modal-list .teacher-progress-item{
+  max-height:none!important;overflow:visible!important;min-height:0!important;
+}
+#root .app.theme-dark-premium .dashboard-overlay-dialog .teacher-progress-history-modal-list .teacher-note-content{
+  overflow-wrap:anywhere!important;
+}
+#root .app.theme-dark-premium .dashboard-overlay-dialog .teacher-progress-history-modal-list .teacher-note-content.is-expanded{
+  display:block!important;-webkit-line-clamp:unset!important;overflow:visible!important;
+}
