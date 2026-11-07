@@ -2911,6 +2911,9 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [videoTitle, setVideoTitle] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
+  const [videoMode, setVideoMode] = useState("youtube");
+  const [videoFile, setVideoFile] = useState(null);
+  const [videoUploadProgress, setVideoUploadProgress] = useState(0);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -3034,11 +3037,52 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
     finally { setBusy(false); }
   }
   async function addVideo(e) {
-    e.preventDefault(); setBusy(true); setError(""); setNotice("");
+    e.preventDefault(); setBusy(true); setError(""); setNotice(""); setVideoUploadProgress(0);
     try {
-      const res = await fetch(`${API_URL}/workspace/teacher/videos`, { method: "POST", headers, body: JSON.stringify({ title: videoTitle, videoUrl, videoType: "youtube" }) });
-      await readResponse(res); setVideoTitle(""); setVideoUrl(""); setNotice("Demo video added."); await load();
-    } catch (e) { setError(e.message); } finally { setBusy(false); }
+      let finalUrl = videoUrl.trim();
+      let finalType = "youtube";
+      if (videoMode === "upload") {
+        if (!videoFile) throw new Error("Choose a video file from your device.");
+        const allowed = ["video/mp4", "video/webm", "video/quicktime"];
+        if (!allowed.includes(videoFile.type)) throw new Error("Choose an MP4, WebM or MOV video.");
+        if (videoFile.size > 100 * 1024 * 1024) throw new Error("Video must be 100 MB or smaller.");
+        const signed = await readResponse(await fetch(`${API_URL}/workspace/teacher/demo-video/sign`, { method: "POST", headers }));
+        const form = new FormData();
+        form.append("file", videoFile);
+        form.append("api_key", signed.apiKey);
+        form.append("timestamp", String(signed.timestamp));
+        form.append("public_id", signed.publicId);
+        form.append("folder", signed.folder);
+        form.append("signature", signed.signature);
+        const uploaded = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", `https://api.cloudinary.com/v1_1/${signed.cloudName}/video/upload`);
+          xhr.upload.onprogress = event => {
+            if (event.lengthComputable) setVideoUploadProgress(Math.round((event.loaded / event.total) * 100));
+          };
+          xhr.onload = () => {
+            let data = {};
+            try { data = JSON.parse(xhr.responseText || "{}"); } catch {}
+            if (xhr.status >= 200 && xhr.status < 300) resolve(data);
+            else reject(new Error(data.error?.message || "Video upload failed. Check your Cloudinary video upload limits."));
+          };
+          xhr.onerror = () => reject(new Error("Network error while uploading the video."));
+          xhr.send(form);
+        });
+        if (!uploaded.secure_url) throw new Error("Cloudinary did not return a playable video URL.");
+        finalUrl = uploaded.secure_url;
+        finalType = "uploaded";
+      } else if (!finalUrl) {
+        throw new Error("Enter a YouTube video link.");
+      }
+      const res = await fetch(`${API_URL}/workspace/teacher/videos`, {
+        method: "POST", headers,
+        body: JSON.stringify({ title: videoTitle, videoUrl: finalUrl, videoType: finalType })
+      });
+      await readResponse(res);
+      setVideoTitle(""); setVideoUrl(""); setVideoFile(null); setVideoUploadProgress(0);
+      setNotice("Demo video added."); await load();
+    } catch (e) { setError(e.message); } finally { setBusy(false); setVideoUploadProgress(0); }
   }
 
   async function deleteVideo(id) {
@@ -3089,11 +3133,24 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       {profile.verified && <div style={{ display:"grid", gap:20, alignContent:"start" }}>
         <form className="card" onSubmit={addVideo} style={{ padding:24 }}>
           <h2>Demo Videos ({videos.length}/2)</h2>
-          <p style={{ color:"#667085" }}>Add up to two YouTube or public video links. Use your own teaching videos.</p>
+          <p style={{ color:"#9aa6bd", lineHeight:1.6 }}>Share up to two teaching demos. Paste a YouTube link or upload a video directly from your device.</p>
+          <div style={{display:"flex",gap:8,flexWrap:"wrap",margin:"14px 0"}}>
+            <button type="button" className={videoMode==="youtube"?"signup-btn":"login-btn"} onClick={()=>setVideoMode("youtube")}>YouTube link</button>
+            <button type="button" className={videoMode==="upload"?"signup-btn":"login-btn"} onClick={()=>setVideoMode("upload")}>Upload from device</button>
+          </div>
           <label>Video title</label><input value={videoTitle} onChange={e=>setVideoTitle(e.target.value)} required style={{ width:"100%", margin:"6px 0 12px" }} />
-          <label>Video URL</label><input type="url" value={videoUrl} onChange={e=>setVideoUrl(e.target.value)} required style={{ width:"100%", margin:"6px 0 12px" }} />
-          <button className="signup-btn" disabled={busy || videos.length>=2}>{videos.length>=2?"Two videos added":busy?"Saving...":"Add demo video"}</button>
-          {videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);return <div key={v.id} style={{padding:"12px 0",borderTop:"1px solid #eee"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}><p style={{margin:"0 0 10px"}}><a href={v.videoUrl} target="_blank" rel="noreferrer">{v.title}</a></p><button type="button" disabled={busy} onClick={()=>deleteVideo(v.id)} style={{background:"#fff",color:"#b42318",border:"1px solid #fda29b",borderRadius:8,padding:"7px 12px",fontWeight:600,cursor:"pointer"}}>Delete</button></div>{videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} style={{width:"100%",aspectRatio:"16 / 9",border:0,borderRadius:12}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p style={{color:"#667085"}}>Preview is unavailable for this link. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</div>})}
+          {videoMode==="youtube" ? <>
+            <label>YouTube URL</label><input type="url" value={videoUrl} onChange={e=>setVideoUrl(e.target.value)} placeholder="https://www.youtube.com/watch?v=..." required style={{ width:"100%", margin:"6px 0 12px" }} />
+          </> : <>
+            <label>Choose video file (MP4, WebM or MOV · max 100 MB)</label>
+            <input type="file" accept="video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov" onChange={e=>setVideoFile(e.target.files?.[0] || null)} required style={{display:"block",width:"100%",margin:"8px 0 10px"}} />
+            {videoFile && <p style={{fontSize:13,color:"#9aa6bd"}}>{videoFile.name} · {(videoFile.size/1024/1024).toFixed(1)} MB</p>}
+            {busy && <div style={{height:7,background:"#26334a",borderRadius:99,overflow:"hidden",margin:"10px 0"}}><div style={{height:"100%",width:videoUploadProgress+"%",background:"#8b9cff",transition:"width .2s"}} /></div>}
+            {busy && <p style={{fontSize:12,color:"#9aa6bd"}}>Uploading video… {videoUploadProgress}%</p>}
+          </>}
+          <p style={{fontSize:12,color:"#9aa6bd",lineHeight:1.6}}>Upload only your own teaching demonstration. Video upload availability and maximum file size are subject to your Cloudinary account limits.</p>
+          <button className="signup-btn" disabled={busy || videos.length>=2}>{videos.length>=2?"Two videos added":busy?(videoMode==="upload"?"Uploading...":"Saving..."):"Add demo video"}</button>
+          {videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);const isUploaded=v.videoType==="uploaded";return <div key={v.id} style={{padding:"12px 0",borderTop:"1px solid #334155"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}><p style={{margin:"0 0 10px"}}><a href={v.videoUrl} target="_blank" rel="noreferrer">{v.title}</a> <small style={{color:"#9aa6bd"}}>{isUploaded?"· Uploaded video":"· YouTube"}</small></p><button type="button" disabled={busy} onClick={()=>deleteVideo(v.id)} style={{background:"transparent",color:"#fda29b",border:"1px solid #b54745",borderRadius:8,padding:"7px 12px",fontWeight:600,cursor:"pointer"}}>Delete</button></div>{isUploaded ? <video controls playsInline preload="metadata" src={v.videoUrl} style={{width:"100%",aspectRatio:"16 / 9",borderRadius:12,background:"#080d18"}} /> : videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} style={{width:"100%",aspectRatio:"16 / 9",border:0,borderRadius:12}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p style={{color:"#9aa6bd"}}>Preview is unavailable for this link. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</div>})}
         </form>
         <div className="card" style={{ padding:24 }}>
           <h2>Lesson Calendar & Management</h2>
