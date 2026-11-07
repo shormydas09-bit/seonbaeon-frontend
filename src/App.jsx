@@ -2607,7 +2607,7 @@ function StudentDashboard({
             marginBottom: "32px",
           }}
         >
-          <div className="card">
+          <div className="card student-account-card">
             <div className="dashboard-card-label">ACCOUNT</div>
             <h3>My Profile</h3>
             {profileNotice && <p style={{ color: "#067647" }}>{profileNotice}</p>}
@@ -2651,7 +2651,7 @@ function StudentDashboard({
             </form>
           </div>
 
-          <div className="card">
+          <div className="card student-lessons-card">
             <div className="dashboard-card-label">MY LEARNING</div>
             <h3>My Lessons ({myLessons.length})</h3>
             {lessonError && <p style={{color:"#b42318"}}>{lessonError}</p>}
@@ -2663,7 +2663,7 @@ function StudentDashboard({
               <div className="student-lesson-actions">{lesson.status === "SCHEDULED" && <button type="button" className="compare-btn" onClick={async()=>{if(!window.confirm("Cancel this lesson?"))return;const reason=window.prompt("Optional cancellation reason:")||"";try{await readResponse(await fetch(`${API_URL}/lessons/${lesson.id}/status`,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:`Bearer ${currentUser.token}`},body:JSON.stringify({status:"CANCELLED",reason})}));setMyLessons(old=>old.map(x=>x.id===lesson.id?{...x,status:"CANCELLED",cancellationReason:reason}:x));}catch(e){setLessonError(e.message);}}}>Cancel lesson</button>}<button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this lesson from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/LESSON/${lesson.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyLessons(old=>old.filter(x=>x.id!==lesson.id));}catch(e){setLessonError(e.message);}}}>Remove from dashboard</button></div>
             </div>)}
           </div>
-          <div className="card">
+          <div className="card student-learning-card">
             <div className="dashboard-card-label">LEARNING PROFILE</div>
             <h3>My Learning Profile</h3>
             {studentDetailsNotice && <p style={{color:"#067647"}}>{studentDetailsNotice}</p>}
@@ -2675,7 +2675,7 @@ function StudentDashboard({
               <button className="signup-btn" type="submit" style={{marginTop:14}}>Save Learning Profile</button>
             </form>
           </div>
-          <div className="card">
+          <div className="card student-discover-card">
             <div className="dashboard-card-label">DISCOVER</div>
 
             <h3>Find English Teachers</h3>
@@ -2694,7 +2694,7 @@ function StudentDashboard({
             </button>
           </div>
 
-          <div className="card">
+          <div className="card student-requests-card">
             <div className="dashboard-card-label">REQUESTS</div>
 
             <h3>Consultations</h3>
@@ -2722,7 +2722,7 @@ function StudentDashboard({
             ))}
           </div>
 
-          <div className="card">
+          <div className="card student-favorites-card">
             <div className="dashboard-card-label">SAVED</div>
 
             <h3>Favorite Teachers</h3>
