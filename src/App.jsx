@@ -2666,10 +2666,24 @@ function StudentDashboard({
           </>}
           {activeOverview==="consultations" && <>
             {requestError&&<p className="student-inline-error">{requestError}</p>}
-            {myRequests.length===0?<p className="student-overview-empty">No consultation requests yet.</p>:myRequests.map(r=><div className="student-overview-table-row" key={r.id}>
-              <div className="student-overview-row-main"><strong>{r.teacherName||"English teacher"}</strong><span>{r.teacherCategory||"English"} · {r.preferredDate} at {r.preferredTime}</span>{r.message&&<span>{r.message}</span>}{r.status==="PENDING"&&<span>Waiting for teacher review.</span>}{r.status==="APPROVED"&&<span className="request-positive">Approved · Your teacher will arrange lesson details.</span>}{r.status==="REJECTED"&&<span className="request-negative">Not approved. {r.rejectionReason||"Please try another time."}</span>}{r.adminPreviousStatus&&<span>Admin update: {r.adminPreviousStatus} → {r.status}. {r.adminNote||""}</span>}{r.decisionHistory&&<details className="student-request-history"><summary>View request history</summary><pre>{r.decisionHistory}</pre></details>}</div>
-              <div className="student-overview-row-meta"><em className={`student-status-pill ${r.status==="APPROVED"?"is-approved":r.status==="REJECTED"?"is-rejected":"is-pending"}`}>{r.status||"PENDING"}</em><button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this request from your dashboard only? The teacher and admin records will remain unchanged."))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${r.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyRequests(old=>old.filter(x=>x.id!==r.id));}catch(e){setRequestError(e.message);}}}>Hide</button></div>
-            </div>)}
+            {myRequests.length===0?<p className="student-overview-empty">No consultation requests yet.</p>:myRequests.map(r=><article className="student-overview-table-row student-consultation-detail-card" key={r.id}>
+              <div className="student-overview-row-main">
+                <div className="student-consultation-card-top"><div><small>TEACHER REQUEST</small><strong>{r.teacherName||"English teacher"}</strong><span>{r.teacherCategory||"English"} consultation</span></div><em className={`student-status-pill ${r.status==="APPROVED"?"is-approved":r.status==="REJECTED"?"is-rejected":"is-pending"}`}>{r.status||"PENDING"}</em></div>
+                <div className="student-consultation-facts">
+                  {(r.createdAt||r.requestedAt)&&<div><small>REQUEST SENT</small><b>{new Date(r.createdAt||r.requestedAt).toLocaleString()}</b></div>}
+                  {(r.preferredDate||r.preferredTime)&&<div><small>PREFERRED TIME</small><b>{[r.preferredDate,r.preferredTime].filter(Boolean).join(" · ")}</b></div>}
+                  {r.phone&&<div><small>PHONE</small><b>{r.phone}</b></div>}
+                  {r.email&&<div><small>EMAIL</small><b>{r.email}</b></div>}
+                </div>
+                {r.message&&<div className="student-consultation-message"><small>YOUR MESSAGE</small><p>{r.message}</p></div>}
+                {r.status==="PENDING"&&<p className="student-consultation-state">Your request is waiting for the teacher's review.</p>}
+                {r.status==="APPROVED"&&<p className="request-positive">Approved · Your teacher will arrange lesson details.</p>}
+                {r.status==="REJECTED"&&<p className="request-negative">Not approved. {r.rejectionReason||"Please try another time."}</p>}
+                {r.adminPreviousStatus&&<p className="student-consultation-state">Admin update: {r.adminPreviousStatus} → {r.status}. {r.adminNote||""}</p>}
+                {r.decisionHistory&&<details className="student-request-history"><summary>View request history</summary><pre>{r.decisionHistory}</pre></details>}
+              </div>
+              <div className="student-overview-row-meta"><button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this request from your dashboard only? The teacher and admin records will remain unchanged."))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${r.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyRequests(old=>old.filter(x=>x.id!==r.id));}catch(e){setRequestError(e.message);}}}>Hide</button></div>
+            </article>)}
           </>}
           {activeOverview==="favorites" && <>
             {favoriteError&&<p className="student-inline-error">{favoriteError}</p>}
