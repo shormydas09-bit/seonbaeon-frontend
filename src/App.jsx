@@ -2393,13 +2393,13 @@ function StudentProgressPanel({ user }) {
   return <div className="card student-progress-panel" style={{padding:24,marginTop:20}}><div className="dashboard-card-label">YOUR GROWTH</div><h2>My Learning Progress</h2><p style={{color:"#667085"}}>Progress feedback shared by your English teacher.</p>{error&&<p style={{color:"#b42318"}}>{error}</p>}{items.length===0?<p>No progress notes yet. Your teacher's feedback will appear here.</p>:items.map(n=><article key={n.id} className="student-progress-item" style={{borderTop:"1px solid #eee",padding:"14px 0"}}><b>{n.subject}</b><p style={{whiteSpace:"pre-wrap",margin:"8px 0"}}>{n.note}</p><small style={{color:"#667085"}}>Updated {new Date(n.updatedAt).toLocaleString()}</small></article>)}</div>;
 }
 
-function TeacherToolsPanel({ user, consultations }) {
+function TeacherToolsPanel({ user, consultations, lessons = [] }) {
   const headers={ "Content-Type":"application/json",Authorization:`Bearer ${user?.token||""}` };
   const [notes,setNotes]=useState([]); const [slots,setSlots]=useState([]); const [analytics,setAnalytics]=useState(null); const [students,setStudents]=useState([]);
   const [studentUserId,setStudentUserId]=useState(""); const [subject,setSubject]=useState(""); const [note,setNote]=useState("");
   const [editingNoteId,setEditingNoteId]=useState(null); const [editingSubject,setEditingSubject]=useState(""); const [editingText,setEditingText]=useState("");
   const [startsAt,setStartsAt]=useState(""); const [endsAt,setEndsAt]=useState(""); const [slotNote,setSlotNote]=useState("");
-  const [notice,setNotice]=useState(""); const [error,setError]=useState("");
+  const [notice,setNotice]=useState(""); const [error,setError]=useState(""); const [activeMetric,setActiveMetric]=useState("");
   
   async function load(){try{const [n,a,k,st]=await Promise.all([fetch(`${API_URL}/workspace/teacher/progress`,{headers}),fetch(`${API_URL}/workspace/teacher/availability`,{headers}),fetch(`${API_URL}/workspace/teacher/analytics`,{headers}),fetch(`${API_URL}/workspace/teacher/students`,{headers})]);setNotes(await readResponse(n));setSlots(await readResponse(a));setAnalytics(await readResponse(k));setStudents(await readResponse(st));}catch(e){setError(e.message);}}
   useEffect(()=>{load();},[]);
@@ -2410,7 +2410,14 @@ function TeacherToolsPanel({ user, consultations }) {
   async function removeSlot(id){try{await readResponse(await fetch(`${API_URL}/workspace/teacher/availability/${id}`,{method:"DELETE",headers}));await load();}catch(e){setError(e.message);}}
   return <section className="teacher-tools-panel"><header className="teacher-tools-heading"><span className="eyebrow">TEACHER WORKSPACE</span><h2>Teaching Tools & Analytics</h2><p>Track learner progress and manage your teaching availability.</p></header>
     {notice&&<p style={{color:"#067647"}}>{notice}</p>}{error&&<p style={{color:"#b42318"}}>{error}</p>}
-    {analytics&&<div className="teacher-analytics-grid">{[["Students",analytics.students],["Consultations",analytics.consultations],["Pending",analytics.pendingConsultations],["Lessons",analytics.lessons],["Completed",analytics.completedLessons],["Reviews",analytics.reviews],["Rating",Number(analytics.averageRating||0).toFixed(1)]].map(([k,v])=><div className="teacher-analytics-tile" key={k}><small>{k}</small><strong>{v??0}</strong></div>)}</div>}
+    {analytics&&<div className="teacher-analytics-grid">{[["Students",analytics.students],["Consultations",analytics.consultations],["Pending",analytics.pendingConsultations],["Lessons",analytics.lessons],["Completed",analytics.completedLessons],["Reviews",analytics.reviews],["Rating",Number(analytics.averageRating||0).toFixed(1)]].map(([k,v])=><button type="button" className={`teacher-analytics-tile ${activeMetric===k?"is-selected":""}`} key={k} aria-expanded={activeMetric===k} onClick={()=>setActiveMetric(activeMetric===k?"":k)}><small>{k}</small><strong>{v??0}</strong><span className="teacher-metric-open-hint">View details ↗</span></button>)}</div>}
+    {activeMetric&&<section className="teacher-metric-detail" aria-live="polite">
+      <div className="teacher-metric-detail-heading"><div><span className="teacher-library-kicker">WORKSPACE OVERVIEW</span><h3>{activeMetric} details</h3><p>Quick access to the records behind this dashboard summary.</p></div><button type="button" className="login-btn" onClick={()=>setActiveMetric("")}>Close</button></div>
+      {activeMetric==="Students"&&<div className="teacher-metric-records">{students.length?students.map(st=><article key={st.id}><b>{st.name||"Student"}</b><span>{st.email||"Linked student"}</span></article>):<p className="teacher-metric-empty">No linked students yet.</p>}</div>}
+      {(activeMetric==="Consultations"||activeMetric==="Pending")&&<div className="teacher-metric-records">{(activeMetric==="Pending"?consultations.filter(c=>c.status==="PENDING"):consultations).length?(activeMetric==="Pending"?consultations.filter(c=>c.status==="PENDING"):consultations).map(c=><article key={c.id}><div><b>{c.studentName||"Student"}</b><span>{c.preferredDate||"Date not specified"} · {c.preferredTime||"Time not specified"}</span></div><em className={`teacher-metric-status status-${String(c.status||"").toLowerCase()}`}>{c.status||"UNKNOWN"}</em></article>):<p className="teacher-metric-empty">{activeMetric==="Pending"?"No pending consultation requests.":"No consultation requests yet."}</p>}</div>}
+      {(activeMetric==="Lessons"||activeMetric==="Completed")&&<div className="teacher-metric-records">{(activeMetric==="Completed"?lessons.filter(l=>l.status==="COMPLETED"):lessons).length?(activeMetric==="Completed"?lessons.filter(l=>l.status==="COMPLETED"):lessons).map(l=><article key={l.id}><div><b>{l.studentName||"Student"}</b><span>{l.scheduledAt?new Date(l.scheduledAt).toLocaleString():"Schedule not set"} · {l.durationMinutes||30} min</span></div><em className={`teacher-metric-status status-${String(l.status||"").toLowerCase()}`}>{l.status||"UNKNOWN"}</em></article>):<p className="teacher-metric-empty">No {activeMetric.toLowerCase()} records to show.</p>}</div>}
+      {(activeMetric==="Reviews"||activeMetric==="Rating")&&<div className="teacher-metric-summary"><strong>{activeMetric==="Rating"?(`${Number(analytics?.averageRating||0).toFixed(1)} / 5`):(`${analytics?.reviews??0} reviews`)}</strong><p>{activeMetric==="Rating"?"Your current average rating based on student reviews.":"The total number of reviews currently associated with your teacher profile."}</p></div>}
+    </section>}
     <div className="teacher-tools-section"><h3>Add Student Progress Note</h3><p className="section-hint">Share clear, helpful feedback after each lesson.</p>
     <form className="teacher-progress-form" onSubmit={saveNote}>
       <select required value={studentUserId} onChange={e=>setStudentUserId(e.target.value)}><option value="">Select linked student</option>{students.map(st=><option key={st.id} value={st.id}>{st.name} · {st.email}</option>)}</select>
@@ -3220,7 +3227,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         </div>
       </div>}
     </div>
-  {profile.verified && <TeacherToolsPanel user={currentUser} consultations={consultations} />}
+  {profile.verified && <TeacherToolsPanel user={currentUser} consultations={consultations} lessons={lessons} />}
   </WorkspaceShell></div>;
 }
 
