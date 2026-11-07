@@ -2388,9 +2388,21 @@ function TeacherProfile({
 
 
 function StudentProgressPanel({ user }) {
-  const [items,setItems]=useState([]); const [error,setError]=useState("");
-  useEffect(()=>{fetch(`${API_URL}/workspace/student/progress`,{headers:{Authorization:`Bearer ${user?.token||""}`}}).then(readResponse).then(setItems).catch(e=>setError(e.message));},[]);
-  return <div className="card student-progress-panel" style={{padding:24,marginTop:20}}><div className="dashboard-card-label">YOUR GROWTH</div><h2>My Learning Progress</h2><p style={{color:"#667085"}}>Progress feedback shared by your English teacher.</p>{error&&<p style={{color:"#b42318"}}>{error}</p>}{items.length===0?<p>No progress notes yet. Your teacher's feedback will appear here.</p>:items.map(n=><article key={n.id} className="student-progress-item" style={{borderTop:"1px solid #eee",padding:"14px 0"}}><b>{n.subject}</b><p style={{whiteSpace:"pre-wrap",margin:"8px 0"}}>{n.note}</p><small style={{color:"#667085"}}>Updated {new Date(n.updatedAt).toLocaleString()}</small></article>)}</div>;
+  const [items,setItems]=useState([]);
+  const [error,setError]=useState("");
+  const [expandedItemId,setExpandedItemId]=useState(null);
+  useEffect(()=>{fetch(\`\${API_URL}/workspace/student/progress\`,{headers:{Authorization:\`Bearer \${user?.token||""}\`}}).then(readResponse).then(setItems).catch(e=>setError(e.message));},[]);
+  return <div className="card student-progress-panel" style={{padding:24,marginTop:20}}>
+    <div className="dashboard-card-label">YOUR GROWTH</div>
+    <div className="student-progress-heading"><div><h2>My Learning Progress</h2><p>Feedback and next steps from your English teacher.</p></div><span className="teacher-note-count">{items.length} {items.length===1?"UPDATE":"UPDATES"}</span></div>
+    {error&&<p role="alert" className="student-progress-error">{error}</p>}
+    {items.length===0?<p className="student-progress-empty">Your teacher's feedback will appear here after your first progress update.</p>:
+      <div className="student-progress-list">{items.map(n=><article key={n.id} className="student-progress-item">
+        <div className="student-progress-item-heading"><b>{n.subject||"Learning update"}</b><small>{new Date(n.updatedAt).toLocaleDateString()}</small></div>
+        <p className={\`student-progress-copy \${expandedItemId===n.id?"is-expanded":""}\`}>{n.note}</p>
+        <button type="button" className="student-progress-toggle" aria-expanded={expandedItemId===n.id} onClick={()=>setExpandedItemId(expandedItemId===n.id?null:n.id)}>{expandedItemId===n.id?"Show less":"Read full feedback"}</button>
+      </article>)}</div>}
+  </div>;
 }
 
 function TeacherToolsPanel({ user, consultations, lessons = [] }) {
@@ -2399,7 +2411,7 @@ function TeacherToolsPanel({ user, consultations, lessons = [] }) {
   const [studentUserId,setStudentUserId]=useState(""); const [subject,setSubject]=useState(""); const [note,setNote]=useState("");
   const [editingNoteId,setEditingNoteId]=useState(null); const [editingSubject,setEditingSubject]=useState(""); const [editingText,setEditingText]=useState("");
   const [startsAt,setStartsAt]=useState(""); const [endsAt,setEndsAt]=useState(""); const [slotNote,setSlotNote]=useState("");
-  const [notice,setNotice]=useState(""); const [error,setError]=useState(""); const [activeMetric,setActiveMetric]=useState("");
+  const [notice,setNotice]=useState(""); const [error,setError]=useState(""); const [activeMetric,setActiveMetric]=useState(""); const [expandedNoteId,setExpandedNoteId]=useState(null);
   
   async function load(){try{const [n,a,k,st]=await Promise.all([fetch(`${API_URL}/workspace/teacher/progress`,{headers}),fetch(`${API_URL}/workspace/teacher/availability`,{headers}),fetch(`${API_URL}/workspace/teacher/analytics`,{headers}),fetch(`${API_URL}/workspace/teacher/students`,{headers})]);setNotes(await readResponse(n));setSlots(await readResponse(a));setAnalytics(await readResponse(k));setStudents(await readResponse(st));}catch(e){setError(e.message);}}
   useEffect(()=>{load();},[]);
@@ -2418,7 +2430,7 @@ function TeacherToolsPanel({ user, consultations, lessons = [] }) {
       {(activeMetric==="Lessons"||activeMetric==="Completed")&&<div className="teacher-metric-records">{(activeMetric==="Completed"?lessons.filter(l=>l.status==="COMPLETED"):lessons).length?(activeMetric==="Completed"?lessons.filter(l=>l.status==="COMPLETED"):lessons).map(l=><article key={l.id}><div><b>{l.studentName||"Student"}</b><span>{l.scheduledAt?new Date(l.scheduledAt).toLocaleString():"Schedule not set"} · {l.durationMinutes||30} min</span></div><em className={`teacher-metric-status status-${String(l.status||"").toLowerCase()}`}>{l.status||"UNKNOWN"}</em></article>):<p className="teacher-metric-empty">No {activeMetric.toLowerCase()} records to show.</p>}</div>}
       {(activeMetric==="Reviews"||activeMetric==="Rating")&&<div className="teacher-metric-summary"><strong>{activeMetric==="Rating"?(`${Number(analytics?.averageRating||0).toFixed(1)} / 5`):(`${analytics?.reviews??0} reviews`)}</strong><p>{activeMetric==="Rating"?"Your current average rating based on student reviews.":"The total number of reviews currently associated with your teacher profile."}</p></div>}
     </section>}
-    <div className="teacher-tools-section"><h3>Add Student Progress Note</h3><p className="section-hint">Share clear, helpful feedback after each lesson.</p>
+    <div className="teacher-tools-section"><h3>Create a Student Progress Update</h3><p className="section-hint">Record strengths, areas to develop and practical next steps.</p>
     <form className="teacher-progress-form" onSubmit={saveNote}>
       <select required value={studentUserId} onChange={e=>setStudentUserId(e.target.value)}><option value="">Select linked student</option>{students.map(st=><option key={st.id} value={st.id}>{st.name} · {st.email}</option>)}</select>
       
@@ -2427,7 +2439,7 @@ function TeacherToolsPanel({ user, consultations, lessons = [] }) {
       <button className="signup-btn" disabled={!studentUserId}>Save progress note</button>
     </form>
     <div className="teacher-progress-library">
-      <div className="teacher-progress-library-heading"><div><span className="teacher-library-kicker">FEEDBACK LIBRARY</span><h4>Saved progress notes</h4><p>Every note stays here with its student and date. Scroll this list to browse older feedback.</p></div><span className="teacher-note-count">{notes.length} {notes.length===1?"NOTE":"NOTES"}</span></div>
+      <div className="teacher-progress-library-heading"><div><span className="teacher-library-kicker">FEEDBACK LIBRARY</span><h4>Progress update history</h4><p>Your updates stay organised by student and date. Open any item to read the full feedback.</p></div><span className="teacher-note-count">{notes.length} {notes.length===1?"NOTE":"NOTES"}</span></div>
       <div className="teacher-progress-list">{notes.length===0?<div className="teacher-notes-empty">No progress notes have been added yet.</div>:notes.map(n=>{
         const linkedStudent=students.find(st=>String(st.id)===String(n.studentUserId||n.studentId||n.student?.id));
         const studentLabel=n.studentName||n.student?.name||linkedStudent?.name||"Linked student";
@@ -3216,7 +3228,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
           </div>)}</div>}
         </div>
         <div className="card teacher-requests-card" style={{ padding:24 }}>
-          <div className="teacher-list-heading"><div><span className="teacher-library-kicker">STUDENT ENQUIRIES</span><h2>Demo Class Requests</h2><p>Review requests and manage student follow-ups.</p></div><span className="teacher-note-count">{consultations.length} {consultations.length===1?"REQUEST":"REQUESTS"}</span></div>
+          <div className="teacher-list-heading"><div><span className="teacher-library-kicker">STUDENT ENQUIRIES</span><h2>Demo Lesson Requests</h2><p>Review requests and manage student follow-ups.</p></div><span className="teacher-note-count">{consultations.length} {consultations.length===1?"REQUEST":"REQUESTS"}</span></div>
           {consultations.length===0 ? <p className="teacher-list-empty">No demo class requests yet.</p> : <div className="teacher-record-list">{consultations.map(c=><div className="teacher-request-item" key={c.id}><b>{c.studentName}</b><p>{c.preferredDate} · {c.preferredTime} · <strong>{c.status}</strong></p><p>{c.message}</p><button type="button" className="login-btn" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide":"View"} Student Profile</button>{selectedStudent===c.id && <div className="teacher-student-profile" style={{background:"#f8fafc",padding:12,borderRadius:10,marginTop:8}}><p><b>Email:</b> {c.studentProfile?.email || c.email}</p><p><b>Age / Group:</b> {c.studentProfile?.age || "—"} / {c.studentProfile?.ageGroup || "—"}</p><p><b>English Level:</b> {c.studentProfile?.englishLevel || "—"}</p><p><b>Learning Goals:</b> {c.studentProfile?.learningGoals || "—"}</p><p><b>Preferred Category:</b> {c.studentProfile?.preferredCategory || "—"}</p><p><b>Interests:</b> {c.studentProfile?.interests || "—"}</p><p><b>Schedule:</b> {c.studentProfile?.preferredSchedule || "—"}</p><p><b>About:</b> {c.studentProfile?.introduction || "—"}</p>{c.studentProfile?.guardianName && <p><b>Guardian:</b> {c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}</div>}{c.rejectionReason && <p style={{color:"#b42318"}}><b>Teacher rejection reason:</b> {c.rejectionReason}</p>}{c.adminPreviousStatus && <p><b>Admin changed status:</b> {c.adminPreviousStatus} → {c.status} {c.adminNote || ""}</p>}{c.decisionHistory && <div className="teacher-decision-history"><b>Decision history</b><p>{String(c.decisionHistory).replace(/\\\\n/g,"\n")}</p></div>}<div style={{marginTop:8}}><button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this consultation from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${c.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setConsultations(old=>old.filter(x=>x.id!==c.id));}catch(e){setError(e.message);}}}>Remove from my dashboard</button></div>{c.status==="PENDING" && <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button type="button" className="signup-btn" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"APPROVED")}>Approve</button><button type="button" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"REJECTED")} style={{background:"#fff",color:"#b42318",border:"1px solid #fda29b",borderRadius:10,padding:"10px 16px",fontWeight:600,cursor:"pointer"}}>Reject</button></div>}
             {c.status==="APPROVED" && !lessons.some(l=>l.consultationId===c.id) && <div className="lesson-scheduler" style={{marginTop:12}}>
               <h4>Schedule first lesson</h4>
