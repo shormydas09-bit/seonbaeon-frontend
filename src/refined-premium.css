@@ -4917,3 +4917,257 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
     grid-template-columns:minmax(0,1fr)!important;
   }
 }
+
+
+/* ==========================================================
+   PUBLIC TEACHER DISCOVERY — premium dark surface correction
+   Scoped to search, comparison, teacher profile and consultation.
+   ========================================================== */
+#root .app.theme-dark-premium .teachers-page.teacher-search-redesign{
+  width:min(1240px,calc(100% - 48px))!important;
+  margin:0 auto!important;padding:42px 0 76px!important;
+  color:#edf3ff!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teachers-header{
+  display:grid!important;gap:26px!important;margin:0 0 30px!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teachers-header>div{
+  max-width:850px!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teachers-header h1{
+  max-width:850px!important;color:#f2f6ff!important;
+  font-size:clamp(38px,5vw,58px)!important;line-height:1.08!important;
+  letter-spacing:-.045em!important;font-weight:800!important;margin:12px 0!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teachers-header>div>p:last-child{
+  color:#a8b8d0!important;font-size:17px!important;line-height:1.7!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .small-title{
+  color:#78d8cf!important;font-weight:800!important;letter-spacing:.16em!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .back-home{
+  width:max-content!important;background:#172941!important;color:#eaf1ff!important;
+  border:1px solid #304866!important;border-radius:12px!important;
+  padding:12px 18px!important;box-shadow:none!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teacher-search-area{
+  padding:18px!important;margin:0 0 26px!important;border-radius:20px!important;
+  background:linear-gradient(135deg,#14253b,#101d30)!important;
+  border:1px solid #2a405e!important;box-shadow:0 18px 45px rgba(0,0,0,.2)!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .search-top{
+  display:grid!important;grid-template-columns:minmax(280px,1.6fr) repeat(3,minmax(150px,1fr))!important;
+  gap:12px!important;align-items:center!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .search-input-wrapper{
+  display:flex!important;align-items:center!important;gap:12px!important;
+  min-width:0!important;padding:0 0 0 14px!important;border:1px solid #304762!important;
+  border-radius:12px!important;background:#0c192a!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .search-input-wrapper>span{
+  color:#83d8d0!important;font-size:11px!important;font-weight:800!important;
+  text-transform:uppercase!important;letter-spacing:.12em!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .search-input-wrapper input,
+#root .app.theme-dark-premium .teacher-search-redesign .search-top>select{
+  width:100%!important;min-width:0!important;height:48px!important;
+  color:#edf4ff!important;background:#0c192a!important;
+  border:1px solid #304762!important;border-radius:12px!important;
+  padding:0 14px!important;box-shadow:none!important;outline:none!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .search-input-wrapper input{
+  border:0!important;background:transparent!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .search-top input::placeholder{
+  color:#7f93ad!important;opacity:1!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .search-top select option{
+  background:#122239!important;color:#edf4ff!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .search-top input:focus,
+#root .app.theme-dark-premium .teacher-search-redesign .search-top select:focus{
+  border-color:#72cfc6!important;box-shadow:0 0 0 3px rgba(114,207,198,.13)!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teacher-results-heading,
+#root .app.theme-dark-premium .teacher-search-redesign .results-heading{
+  color:#eaf1ff!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teacher-grid{
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:20px!important;margin-top:22px!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teacher-card{
+  position:relative!important;min-width:0!important;padding:24px!important;
+  display:flex!important;flex-direction:column!important;
+  background:linear-gradient(155deg,#182a43 0%,#111e31 100%)!important;
+  border:1px solid #2a405e!important;border-radius:20px!important;
+  box-shadow:0 16px 36px rgba(0,0,0,.2)!important;
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teacher-card:hover{
+  transform:translateY(-4px)!important;border-color:#5b9f9d!important;
+  box-shadow:0 22px 44px rgba(0,0,0,.28)!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teacher-card h2{
+  color:#f3f6ff!important;font-size:22px!important;letter-spacing:-.025em!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teacher-card p,
+#root .app.theme-dark-premium .teacher-search-redesign .teacher-card small{
+  color:#9fb2cc!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teacher-avatar{
+  background:#263d5c!important;border:2px solid #496487!important;color:#eaf1ff!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teacher-tags span{
+  background:#203650!important;border:1px solid #365271!important;color:#c4d6ef!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .rating{
+  background:#243b59!important;border:1px solid #3b5577!important;color:#d4e2f7!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .favorite-btn{
+  background:#eaf1fa!important;color:#36516f!important;border:0!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teacher-card .teacher-actions{
+  margin-top:auto!important;padding-top:18px!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .teacher-card .teacher-actions button,
+#root .app.theme-dark-premium .teacher-search-redesign .teacher-card button.view-profile-btn{
+  min-height:44px!important;border-radius:11px!important;font-weight:750!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .compare-bar{
+  background:#152840!important;border:1px solid #34506f!important;
+  color:#eaf1ff!important;border-radius:18px!important;box-shadow:0 14px 32px rgba(0,0,0,.2)!important;
+}
+#root .app.theme-dark-premium .teacher-search-redesign .compare-bar :where(h3,p,span,strong){
+  color:#dce8fa!important;
+}
+
+/* Comparison modal */
+#root .app.theme-dark-premium .compare-overlay{
+  background:rgba(3,8,17,.82)!important;backdrop-filter:blur(12px)!important;
+}
+#root .app.theme-dark-premium .compare-modal{
+  background:#101e31!important;color:#eaf1ff!important;
+  border:1px solid #344b68!important;border-radius:24px!important;
+  box-shadow:0 28px 90px rgba(0,0,0,.55)!important;
+}
+#root .app.theme-dark-premium .compare-modal :where(h2,strong,.comparison-feature-heading){
+  color:#f1f5ff!important;
+}
+#root .app.theme-dark-premium .compare-modal :where(p,.compare-subtitle,.comparison-rating){
+  color:#a8bad3!important;
+}
+#root .app.theme-dark-premium .compare-modal .comparison-table{
+  border:1px solid #304762!important;border-radius:16px!important;overflow:hidden!important;
+}
+#root .app.theme-dark-premium .compare-modal .comparison-row{
+  background:#122239!important;border-color:#2b405c!important;
+}
+#root .app.theme-dark-premium .compare-modal .comparison-row:nth-child(even){
+  background:#172941!important;
+}
+#root .app.theme-dark-premium .compare-modal .comparison-row>*{
+  border-color:#2b405c!important;color:#c5d5eb!important;
+}
+#root .app.theme-dark-premium .compare-modal .comparison-header{
+  background:#1a304a!important;
+}
+#root .app.theme-dark-premium .compare-modal .compare-close{
+  background:#e9f0fa!important;color:#203852!important;border:0!important;
+}
+
+/* Teacher public profile: remove washed-out white panels and restore contrast */
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-container{
+  width:min(1210px,calc(100% - 44px))!important;margin:0 auto!important;
+  padding:34px 0 76px!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign :where(.profile-header,.profile-section,.profile-sidebar,.profile-layout,.demo-video-section,.reviews-section,.qualification-item,.teaching-detail-item,.quick-info){
+  color:#eaf1ff!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-section,
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-header,
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar,
+#root .app.theme-dark-premium .teacher-profile-redesign .demo-video-section,
+#root .app.theme-dark-premium .teacher-profile-redesign .reviews-section{
+  background:linear-gradient(150deg,#172941,#111e31)!important;
+  border:1px solid #2b405c!important;border-radius:20px!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.18)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign :where(h1,h2,h3,h4,strong,b,label){
+  color:#f1f5ff!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign :where(p,span,small,li){
+  color:#a8bad3!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .qualification-item,
+#root .app.theme-dark-premium .teacher-profile-redesign .teaching-detail-item,
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-info-card,
+#root .app.theme-dark-premium .teacher-profile-redesign .review-card{
+  background:#0e1c2e!important;border:1px solid #2d4562!important;
+  color:#eaf1ff!important;border-radius:14px!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .qualification-item :where(strong,p),
+#root .app.theme-dark-premium .teacher-profile-redesign .teaching-detail-item :where(strong,p,span){
+  color:#dce8f8!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar{
+  position:sticky!important;top:118px!important;align-self:start!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar button,
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-section button{
+  border-radius:12px!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .demo-video-player{
+  background:#091321!important;border:1px solid #334a67!important;border-radius:16px!important;overflow:hidden!important;
+}
+
+/* Consultation form — match the dark application rather than the old white theme */
+#root .app.theme-dark-premium .consultation-overlay{
+  background:rgba(2,7,16,.84)!important;backdrop-filter:blur(12px)!important;
+}
+#root .app.theme-dark-premium .consultation-modal{
+  background:linear-gradient(155deg,#172941,#101d30)!important;
+  color:#edf3ff!important;border:1px solid #3a5270!important;
+  border-radius:24px!important;box-shadow:0 28px 90px rgba(0,0,0,.55)!important;
+}
+#root .app.theme-dark-premium .consultation-modal :where(h2,label){
+  color:#f2f6ff!important;
+}
+#root .app.theme-dark-premium .consultation-modal p{
+  color:#aabbd2!important;
+}
+#root .app.theme-dark-premium .consultation-modal input,
+#root .app.theme-dark-premium .consultation-modal select,
+#root .app.theme-dark-premium .consultation-modal textarea{
+  width:100%!important;min-height:48px!important;padding:12px 15px!important;
+  background:#0b192a!important;color:#f0f5ff!important;
+  border:1px solid #354d6b!important;border-radius:12px!important;
+  box-shadow:none!important;
+}
+#root .app.theme-dark-premium .consultation-modal :where(input,textarea)::placeholder{
+  color:#8195b0!important;opacity:1!important;
+}
+#root .app.theme-dark-premium .consultation-modal input:focus,
+#root .app.theme-dark-premium .consultation-modal textarea:focus{
+  border-color:#77d1c8!important;box-shadow:0 0 0 3px rgba(119,209,200,.14)!important;outline:none!important;
+}
+#root .app.theme-dark-premium .consultation-modal .close-consultation{
+  background:#233b58!important;color:#f1f5ff!important;border:1px solid #3c5675!important;
+}
+#root .app.theme-dark-premium .consultation-modal button[type="submit"]{
+  background:linear-gradient(135deg,#67c9bf,#4ba99f)!important;
+  color:#08221f!important;border:0!important;border-radius:12px!important;
+  min-height:52px!important;font-weight:800!important;
+}
+@media(max-width:900px){
+ #root .app.theme-dark-premium .teacher-search-redesign .search-top{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #root .app.theme-dark-premium .teacher-search-redesign .teacher-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar{position:static!important}
+}
+@media(max-width:620px){
+ #root .app.theme-dark-premium .teachers-page.teacher-search-redesign{width:calc(100% - 28px)!important;padding:24px 0 48px!important}
+ #root .app.theme-dark-premium .teacher-search-redesign .search-top,
+ #root .app.theme-dark-premium .teacher-search-redesign .teacher-grid{grid-template-columns:minmax(0,1fr)!important}
+ #root .app.theme-dark-premium .teacher-search-redesign .search-input-wrapper{min-height:48px!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-container{width:calc(100% - 28px)!important;padding:22px 0 48px!important}
+}
