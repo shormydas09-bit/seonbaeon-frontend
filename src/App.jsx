@@ -2660,7 +2660,7 @@ function StudentDashboard({
               <p style={{margin:"5px 0"}}>{new Date(lesson.scheduledAt).toLocaleString()} · {lesson.durationMinutes} minutes</p>
               <span style={{fontSize:13,fontWeight:600}}>{lesson.status}</span>
               {lesson.meetingLink && <p><a href={lesson.meetingLink} target="_blank" rel="noreferrer">Join lesson</a></p>}
-              {lesson.status === "SCHEDULED" && <button type="button" className="compare-btn" onClick={async()=>{if(!window.confirm("Cancel this lesson?"))return;const reason=window.prompt("Optional cancellation reason:")||"";try{await readResponse(await fetch(`${API_URL}/lessons/${lesson.id}/status`,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:`Bearer ${currentUser.token}`},body:JSON.stringify({status:"CANCELLED",reason})}));setMyLessons(old=>old.map(x=>x.id===lesson.id?{...x,status:"CANCELLED",cancellationReason:reason}:x));}catch(e){setLessonError(e.message);}}}>Cancel lesson</button>}<button type="button" className="login-btn" style={{marginLeft:8}} onClick={async()=>{if(!window.confirm("Remove this lesson from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/LESSON/${lesson.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyLessons(old=>old.filter(x=>x.id!==lesson.id));}catch(e){setLessonError(e.message);}}}>Remove from dashboard</button>
+              <div className="student-lesson-actions">{lesson.status === "SCHEDULED" && <button type="button" className="compare-btn" onClick={async()=>{if(!window.confirm("Cancel this lesson?"))return;const reason=window.prompt("Optional cancellation reason:")||"";try{await readResponse(await fetch(`${API_URL}/lessons/${lesson.id}/status`,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:`Bearer ${currentUser.token}`},body:JSON.stringify({status:"CANCELLED",reason})}));setMyLessons(old=>old.map(x=>x.id===lesson.id?{...x,status:"CANCELLED",cancellationReason:reason}:x));}catch(e){setLessonError(e.message);}}}>Cancel lesson</button>}<button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this lesson from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/LESSON/${lesson.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyLessons(old=>old.filter(x=>x.id!==lesson.id));}catch(e){setLessonError(e.message);}}}>Remove from dashboard</button></div>
             </div>)}
           </div>
           <div className="card">
@@ -2700,8 +2700,7 @@ function StudentDashboard({
             <h3>Consultations</h3>
 
             <p>
-              Your consultation and lesson requests
-              will appear here.
+              Track teacher decisions, preferred times and updates to your requests.
             </p>
 
             {requestError && <p style={{color:"#b42318"}}>{requestError}</p>}
@@ -2770,6 +2769,7 @@ function StudentDashboard({
             ].map((category) => (
               <span
                 key={category}
+                className="student-category-chip"
                 style={{
                   padding: "9px 14px",
                   borderRadius: "999px",
