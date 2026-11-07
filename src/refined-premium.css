@@ -3288,3 +3288,43 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
    grid-column:1!important;grid-row:auto!important;
  }
 }
+
+
+/* FINAL GRID OVERRIDE: keep all teacher tools in one right-hand stack */
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-auto-flow:row!important;align-items:start!important;
+  column-gap:18px!important;row-gap:18px!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.teacher-profile-form{
+  grid-column:1!important;grid-row:1!important;align-self:start!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.teacher-tools-stack{
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+  grid-column:2!important;grid-row:1!important;
+  align-content:start!important;align-self:start!important;
+  gap:16px!important;min-width:0!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.teacher-tools-stack>.card{
+  grid-column:1!important;grid-row:auto!important;
+  width:100%!important;min-width:0!important;margin:0!important;
+  align-self:start!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-stack>.teacher-demo-card,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-stack>.teacher-lessons-card,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-stack>.teacher-requests-card{
+  grid-column:1!important;grid-row:auto!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-panel{
+  clear:both!important;width:100%!important;margin:18px 0 0!important;
+}
+@media(max-width:900px){
+ #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid{
+   grid-template-columns:minmax(0,1fr)!important;
+ }
+ #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.teacher-profile-form,
+ #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-dashboard-main-grid>.teacher-tools-stack{
+   grid-column:1!important;grid-row:auto!important;
+ }
+}
