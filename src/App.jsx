@@ -2676,9 +2676,16 @@ function StudentDashboard({
             {studentDetailsError && <p style={{color:"#b42318"}}>{studentDetailsError}</p>}
             <form className="student-profile-form" onSubmit={saveStudentDetails}>
               {[
-                ["age","Age"],["ageGroup","Age group (Child / Teen / Adult)"],["englishLevel","Current English level"],["learningGoals","Learning goals"],["preferredCategory","Preferred English category"],["interests","Interests / hobbies"],["preferredSchedule","Preferred learning schedule"],["introduction","About me"],["guardianName","Parent / guardian name (if applicable)"],["guardianPhone","Parent / guardian phone (if applicable)"]
-              ].map(([key,label])=><label key={key} style={{display:"block",marginTop:10}}>{label}{key==="learningGoals"||key==="interests"||key==="introduction"?<textarea rows={key==="introduction"?3:2} value={studentDetails[key]||""} onChange={e=>setStudentDetails(old=>({...old,[key]:e.target.value}))} style={{width:"100%",marginTop:5}}/>:<input type={key==="age"?"number":"text"} value={studentDetails[key]||""} onChange={e=>setStudentDetails(old=>({...old,[key]:e.target.value}))} style={{width:"100%",marginTop:5}}/>}</label>)}
-              <button className="signup-btn" type="submit" style={{marginTop:14}}>Save Learning Profile</button>
+                { title:"Personal details", hint:"A few basics to help us understand your learning needs.", fields:[["age","Age"],["ageGroup","Age group"],["guardianName","Parent / guardian name"],["guardianPhone","Parent / guardian phone"]] },
+                { title:"Learning preferences", hint:"Tell us what you want to improve and how you like to learn.", fields:[["englishLevel","Current English level"],["preferredCategory","Preferred English category"],["preferredSchedule","Preferred learning schedule"],["learningGoals","Learning goals"],["interests","Interests / hobbies"]] },
+                { title:"A little about you", hint:"Help your teacher get to know you before the first lesson.", fields:[["introduction","About me"]] }
+              ].map((group,index)=><details className="student-profile-group" key={group.title} open={index===0}>
+                <summary><span className="student-profile-step">{String(index+1).padStart(2,"0")}</span><span className="student-profile-group-copy"><strong>{group.title}</strong><small>{group.hint}</small></span><span className="student-profile-chevron">⌄</span></summary>
+                <div className="student-profile-fields">
+                  {group.fields.map(([key,label])=><label key={key}>{label}{key==="learningGoals"||key==="interests"||key==="introduction"?<textarea rows={key==="introduction"?3:2} value={studentDetails[key]||""} onChange={e=>setStudentDetails(old=>({...old,[key]:e.target.value}))}/>:<input type={key==="age"?"number":"text"} value={studentDetails[key]||""} onChange={e=>setStudentDetails(old=>({...old,[key]:e.target.value}))}/>}</label>)}
+                </div>
+              </details>)}
+              <div className="student-profile-submit-row"><span>Your preferences help us recommend suitable English teachers.</span><button className="signup-btn" type="submit">Save Learning Profile <span aria-hidden="true">→</span></button></div>
             </form>
           </div>
           <div className="card student-discover-card">
