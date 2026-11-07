@@ -91,7 +91,7 @@ function AuthPage({ mode, setMode, onLogin }) {
             };
 
       const controller = new AbortController();
-      const timeoutId = window.setTimeout(() => controller.abort(), 90000);
+      const timeoutId = window.setTimeout(() => controller.abort(), 180000);
       let response;
       try {
         response = await fetch(`${API_URL}${endpoint}`, {
@@ -104,7 +104,7 @@ function AuthPage({ mode, setMode, onLogin }) {
         });
       } catch (requestError) {
         if (requestError.name === "AbortError") {
-          throw new Error("The server is taking too long to respond. Please wait a minute and try logging in again.");
+          throw new Error("The server is taking longer than expected to wake up. Please try again in a moment.");
         }
         throw new Error("Could not reach the login server. Please check your connection and try again.");
       } finally {
@@ -358,7 +358,7 @@ function AuthPage({ mode, setMode, onLogin }) {
             disabled={loading}
           >
             {loading
-              ? "Please wait..."
+              ? "Connecting to server..."
               : mode === "login"
               ? "Login →"
               : "Create Account →"}
