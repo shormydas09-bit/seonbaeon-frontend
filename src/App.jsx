@@ -2613,6 +2613,51 @@ function StudentDashboard({
             </div></section>
         </div>
 
+        <div className="student-dashboard-grid">
+          <div className="card student-account-card">
+            <div className="dashboard-card-label">ACCOUNT</div>
+            <h3>My Profile</h3>
+            {profileNotice && <p style={{ color: "#067647" }}>{profileNotice}</p>}
+            {profileError && <p style={{ color: "#b42318" }}>{profileError}</p>}
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              setProfileNotice("");
+              setProfileError("");
+              if (!profileName.trim()) {
+                setProfileError("Please enter your name.");
+                return;
+              }
+              setProfileBusy(true);
+              try {
+                const response = await fetch(`${API_URL}/users/me`, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${currentUser?.token || ""}`,
+                  },
+                  body: JSON.stringify({ name: profileName.trim() }),
+                });
+                const updated = await readResponse(response);
+                onProfileUpdated?.(updated);
+                setProfileName(updated.name || profileName.trim());
+                setProfileNotice("Profile updated successfully.");
+              } catch (err) {
+                setProfileError(err.message || "Could not update your profile.");
+              } finally {
+                setProfileBusy(false);
+              }
+            }}>
+              <label style={{ display: "block", marginBottom: 6 }}>Name</label>
+              <input value={profileName} onChange={(e) => setProfileName(e.target.value)}
+                maxLength={100} required style={{ width: "100%", marginBottom: 12 }} />
+              <p><strong>Email:</strong> {currentUser?.email || "Not available"}</p>
+              <p><strong>Account:</strong> Student</p>
+              <button className="signup-btn" type="submit" disabled={profileBusy}>
+                {profileBusy ? "Saving..." : "Save Profile"}
+              </button>
+            </form>
+          </div>
+
           <div className="card student-discover-card"><div className="dashboard-card-label">DISCOVER</div><h3>Find English Teachers</h3><p>Explore English teachers for speaking, phonics, grammar, reading, storytelling and school English.</p><button className="signup-btn" onClick={goToTeachers}>Find Teachers <span aria-hidden="true">→</span></button></div>
 
           <div className="card student-learning-card">
