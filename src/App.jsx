@@ -2701,7 +2701,7 @@ function StudentDashboard({
                 {title:"Personal details",hint:"Basic information for your learning profile.",fields:[["age","Age"],["ageGroup","Age group"],["guardianName","Parent / guardian name"],["guardianPhone","Parent / guardian phone"]]},
                 {title:"Learning preferences",hint:"Your current level, goals and preferred way to learn.",fields:[["englishLevel","Current English level"],["preferredCategory","Preferred English category"],["preferredSchedule","Preferred learning schedule"],["learningGoals","Learning goals"],["interests","Interests / hobbies"]]},
                 {title:"A little about you",hint:"Share anything that helps your teacher understand you.",fields:[["introduction","About me"]]}
-              ].map((group,index)=><details className="student-profile-group" key={group.title} open={index===0}>
+              ].map((group,index)=><details className="student-profile-group" key={group.title}>
                 <summary><span className="student-profile-step">{String(index+1).padStart(2,"0")}</span><span className="student-profile-group-copy"><strong>{group.title}</strong><small>{group.hint}</small></span><span className="student-profile-chevron">⌄</span></summary>
                 <div className="student-profile-fields">{group.fields.map(([key,label])=><label key={key}>{label}{["learningGoals","interests","introduction"].includes(key)?<textarea rows={key==="introduction"?3:2} value={studentDetails[key]||""} onChange={e=>setStudentDetails(old=>({...old,[key]:e.target.value}))}/>:<input type={key==="age"?"number":"text"} value={studentDetails[key]||""} onChange={e=>setStudentDetails(old=>({...old,[key]:e.target.value}))}/>}</label>)}</div>
               </details>)}
