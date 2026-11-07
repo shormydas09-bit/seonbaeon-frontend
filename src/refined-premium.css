@@ -316,11 +316,11 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
 @media(max-width:760px){#root .app.theme-dark-premium .student-dashboard-redesign>section{padding:24px 14px 48px!important}#root .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child{padding:22px 18px!important}#root .app.theme-dark-premium .student-dashboard-redesign .card{padding:18px!important}}
 
 /* STUDENT DASHBOARD — final layout refinement */
-#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2){
+#root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid{
  display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
  align-items:start!important;column-gap:20px!important;row-gap:20px!important;
 }
-#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2)>.card{min-width:0!important;height:fit-content!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid>.card{min-width:0!important;height:fit-content!important}
 #root .app.theme-dark-premium .student-dashboard-redesign .student-profile-form{
  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
  column-gap:16px!important;row-gap:11px!important;align-items:start!important;
@@ -351,14 +351,14 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
 }
 #root .app.theme-dark-premium .student-dashboard-redesign .card :where(input,textarea,select){color-scheme:dark!important}
 @media(max-width:760px){
- #root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2){grid-template-columns:minmax(0,1fr)!important}
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid{grid-template-columns:minmax(0,1fr)!important}
  #root .app.theme-dark-premium .student-dashboard-redesign .student-profile-form{grid-template-columns:minmax(0,1fr)!important}
  #root .app.theme-dark-premium .student-dashboard-redesign .student-profile-form>label:has(textarea){grid-column:auto!important}
 }
 
 
 /* STUDENT DASHBOARD — editorial layout pass */
-#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2){
+#root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid{
   grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)!important;
   grid-template-areas:
     "account lessons"
@@ -415,7 +415,7 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
 #root .app.theme-dark-premium .student-dashboard-redesign .student-lesson-actions button:hover,
 #root .app.theme-dark-premium .student-dashboard-redesign .card button:hover{transform:translateY(-1px)!important;filter:brightness(1.07)!important}
 @media(max-width:760px){
- #root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2){
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid{
   grid-template-columns:minmax(0,1fr)!important;
   grid-template-areas:"account" "lessons" "discover" "favorites" "learning" "requests"!important;
   gap:14px!important;
@@ -449,7 +449,7 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
 #root .app.theme-dark-premium .student-overview-item small{grid-column:1/-1!important;color:#91a6bf!important;font-size:9px!important;font-weight:800!important;letter-spacing:.13em!important}
 #root .app.theme-dark-premium .student-overview-item strong{font-size:25px!important;line-height:1.1!important;color:#f3f7fc!important}
 #root .app.theme-dark-premium .student-overview-item>div>span{font-size:11px!important;color:#8297b0!important;white-space:nowrap!important}
-#root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2){
+#root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid{
  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
  grid-template-areas:"account lessons" "discover favorites" "learning learning" "requests requests"!important;
  gap:16px!important;
@@ -484,7 +484,7 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
 @media(max-width:800px){
  #root .app.theme-dark-premium .student-overview-strip{grid-template-columns:1fr!important;gap:9px!important}
  #root .app.theme-dark-premium .student-overview-item{padding:13px 15px!important}
- #root .app.theme-dark-premium .student-dashboard-redesign>section>div:nth-child(2){
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid{
   grid-template-columns:minmax(0,1fr)!important;
   grid-template-areas:"account" "lessons" "discover" "favorites" "learning" "requests"!important;
  }
@@ -498,4 +498,25 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app.theme-dark-premium .student-dashboard-redesign .student-learning-card .student-profile-form{grid-template-columns:1fr!important}
  #root .app.theme-dark-premium .student-dashboard-redesign .student-learning-card .student-profile-form>label{grid-column:1/-1!important}
  #root .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child{padding:22px 18px!important}
+}
+
+
+/* Correct dashboard grid target after adding the overview strip */
+#root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ grid-template-areas:"account lessons" "discover favorites" "learning learning" "requests requests"!important;
+ align-items:start!important;gap:18px!important;margin:0 0 24px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-overview-strip{
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ grid-template-areas:none!important;gap:14px!important;margin:0 0 20px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-overview-item{grid-area:auto!important}
+@media(max-width:800px){
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid{
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-areas:"account" "lessons" "discover" "favorites" "learning" "requests"!important;
+ }
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-overview-strip{grid-template-columns:1fr!important}
 }
