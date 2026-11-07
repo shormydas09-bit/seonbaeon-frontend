@@ -2677,13 +2677,21 @@ function StudentDashboard({
             </p>
 
             {requestError && <p style={{color:"#b42318"}}>{requestError}</p>}
-            {myRequests.length === 0 ? <p style={{color:"#667085"}}>No demo class requests yet.</p> : myRequests.map((r) => (
-              <p key={r.id} style={{padding:"8px 0",borderTop:"1px solid #eee"}}>
-                <strong>{r.preferredDate} · {r.preferredTime}</strong><br />
-                Status: {r.status}
-                {r.rejectionReason && <><br/><b>Teacher's reason:</b> {r.rejectionReason}</>}
-                {r.adminPreviousStatus && <><br/><b>Admin status change:</b> {r.adminPreviousStatus} → {r.status} {r.adminNote || ""}</>}{r.decisionHistory && <><br/><b>Decision History:</b><br/>{r.decisionHistory}</>}<br/><button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this consultation from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${r.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyRequests(old=>old.filter(x=>x.id!==r.id));}catch(e){setRequestError(e.message);}}}>Remove from my dashboard</button>
-              </p>
+            {myRequests.length === 0 ? <p style={{color:"#667085"}}>No lesson requests yet. Open a teacher profile and request a lesson to get started.</p> : myRequests.map((r) => (
+              <div key={r.id} style={{padding:"16px 0",borderTop:"1px solid rgba(148,163,184,.18)"}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12,flexWrap:"wrap"}}>
+                  <strong>{r.teacherName || "English teacher"}</strong>
+                  <span style={{fontSize:12,fontWeight:700,letterSpacing:".04em",padding:"5px 10px",borderRadius:999,background:r.status==="APPROVED"?"rgba(34,197,94,.13)":r.status==="REJECTED"?"rgba(239,68,68,.13)":"rgba(148,163,184,.14)",color:r.status==="APPROVED"?"#4ade80":r.status==="REJECTED"?"#f87171":"#cbd5e1"}}>{r.status || "PENDING"}</span>
+                </div>
+                <p style={{margin:"7px 0",color:"#94a3b8",fontSize:13}}>{r.teacherCategory || "English"} · Preferred: {r.preferredDate} at {r.preferredTime}</p>
+                {r.message && <p style={{margin:"6px 0"}}>{r.message}</p>}
+                {r.status==="PENDING" && <p style={{fontSize:13,color:"#94a3b8"}}>Waiting for the teacher to review your request.</p>}
+                {r.status==="APPROVED" && <p style={{fontSize:13,color:"#4ade80"}}>Approved. Your teacher will arrange the lesson time and meeting details.</p>}
+                {r.status==="REJECTED" && <p style={{fontSize:13,color:"#fca5a5"}}>Not approved. {r.rejectionReason || "Please choose another teacher or request a different time."}</p>}
+                {r.adminPreviousStatus && <p style={{fontSize:12,color:"#94a3b8"}}>Admin update: {r.adminPreviousStatus} → {r.status}. {r.adminNote || ""}</p>}
+                {r.decisionHistory && <details style={{fontSize:12,color:"#94a3b8",marginTop:8}}><summary style={{cursor:"pointer"}}>View request history</summary><pre style={{whiteSpace:"pre-wrap",fontFamily:"inherit"}}>{r.decisionHistory}</pre></details>}
+                <button type="button" className="login-btn" style={{marginTop:8}} onClick={async()=>{if(!window.confirm("Remove this request from your dashboard only? The teacher and admin records will remain unchanged."))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${r.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyRequests(old=>old.filter(x=>x.id!==r.id));}catch(e){setRequestError(e.message);}}}>Hide request</button>
+              </div>
             ))}
           </div>
 
