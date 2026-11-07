@@ -2389,7 +2389,7 @@ function TeacherProfile({
 function StudentProgressPanel({ user }) {
   const [items,setItems]=useState([]); const [error,setError]=useState("");
   useEffect(()=>{fetch(`${API_URL}/workspace/student/progress`,{headers:{Authorization:`Bearer ${user?.token||""}`}}).then(readResponse).then(setItems).catch(e=>setError(e.message));},[]);
-  return <div className="card" style={{padding:24,marginTop:20}}><h2>My Learning Progress</h2><p style={{color:"#667085"}}>Progress feedback shared by your English teacher.</p>{error&&<p style={{color:"#b42318"}}>{error}</p>}{items.length===0?<p>No progress notes yet. Your teacher's feedback will appear here.</p>:items.map(n=><article key={n.id} style={{borderTop:"1px solid #eee",padding:"14px 0"}}><b>{n.subject}</b><p style={{whiteSpace:"pre-wrap",margin:"8px 0"}}>{n.note}</p><small style={{color:"#667085"}}>Updated {new Date(n.updatedAt).toLocaleString()}</small></article>)}</div>;
+  return <div className="card student-progress-panel" style={{padding:24,marginTop:20}}><div className="dashboard-card-label">YOUR GROWTH</div><h2>My Learning Progress</h2><p style={{color:"#667085"}}>Progress feedback shared by your English teacher.</p>{error&&<p style={{color:"#b42318"}}>{error}</p>}{items.length===0?<p>No progress notes yet. Your teacher's feedback will appear here.</p>:items.map(n=><article key={n.id} className="student-progress-item" style={{borderTop:"1px solid #eee",padding:"14px 0"}}><b>{n.subject}</b><p style={{whiteSpace:"pre-wrap",margin:"8px 0"}}>{n.note}</p><small style={{color:"#667085"}}>Updated {new Date(n.updatedAt).toLocaleString()}</small></article>)}</div>;
 }
 
 function TeacherToolsPanel({ user, consultations }) {
@@ -2711,7 +2711,7 @@ function StudentDashboard({
 
             {requestError && <p style={{color:"#b42318"}}>{requestError}</p>}
             {myRequests.length === 0 ? <p style={{color:"#667085"}}>No lesson requests yet. Open a teacher profile and request a lesson to get started.</p> : myRequests.map((r) => (
-              <div key={r.id} style={{padding:"16px 0",borderTop:"1px solid rgba(148,163,184,.18)"}}>
+              <div key={r.id} className="student-request-item" style={{padding:"16px 0",borderTop:"1px solid rgba(148,163,184,.18)"}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12,flexWrap:"wrap"}}>
                   <strong>{r.teacherName || "English teacher"}</strong>
                   <span style={{fontSize:12,fontWeight:700,letterSpacing:".04em",padding:"5px 10px",borderRadius:999,background:r.status==="APPROVED"?"rgba(34,197,94,.13)":r.status==="REJECTED"?"rgba(239,68,68,.13)":"rgba(148,163,184,.14)",color:r.status==="APPROVED"?"#4ade80":r.status==="REJECTED"?"#f87171":"#cbd5e1"}}>{r.status || "PENDING"}</span>
@@ -2737,7 +2737,7 @@ function StudentDashboard({
             {favoriteTeachers.length === 0 ? (
               <p style={{ color: "#667085" }}>No favorite teachers saved yet. Browse teachers and tap the heart to save one.</p>
             ) : favoriteTeachers.map((teacher) => (
-              <div key={teacher.id} style={{ padding: "10px 0", borderTop: "1px solid #eee" }}>
+              <div key={teacher.id} className="student-favorite-item" style={{ padding: "10px 0", borderTop: "1px solid #eee" }}>
                 <strong>{teacher.name}</strong>
                 <p style={{ margin: "4px 0", color: "#667085" }}>{teacher.category} · {teacher.location}</p>
                 <button className="login-btn" onClick={() => {
@@ -2753,8 +2753,10 @@ function StudentDashboard({
 
         <StudentProgressPanel user={currentUser} />
 
-        <div className="card">
+        <div className="card student-categories-card">
+          <div className="dashboard-card-label">EXPLORE</div>
           <h2>English Learning Categories</h2>
+          <p>Build confidence step by step with focused English skills.</p>
 
           <div
             style={{
