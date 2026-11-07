@@ -3028,6 +3028,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
     try {
       const res = await fetch(`${API_URL}/workspace/teacher/videos/${id}`, { method: "DELETE", headers });
       await readResponse(res);
+      setVideos(current => current.filter(video => String(video.id) !== String(id)));
       setNotice("Demo video deleted.");
       await load();
     } catch (e) {
