@@ -288,3 +288,29 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
 #root .app.theme-dark-premium .consultation-modal .close-consultation{z-index:2!important;color:#cbd7e6!important;background:#20344b!important;pointer-events:auto!important}
 #root .app.theme-dark-premium .consultation-modal .submit-consultation{min-height:48px!important;margin-top:20px!important;border:0!important;border-radius:11px!important;background:linear-gradient(110deg,#8bd7cd,#72c5ba)!important;color:#09201e!important;font-weight:800!important;cursor:pointer!important}
 @media(max-width:650px){#root .app.theme-dark-premium .consultation-overlay{align-items:flex-end!important;padding:10px!important}#root .app.theme-dark-premium .consultation-modal{max-height:92dvh!important;padding:24px 19px!important;border-radius:18px 18px 12px 12px!important}}
+
+
+/* STUDENT DASHBOARD — unified dark premium surface and readable type */
+#root .app.theme-dark-premium .student-dashboard-redesign{color:#e7edf7!important;font-family:'DM Sans',Inter,system-ui,sans-serif!important}
+#root .app.theme-dark-premium .student-dashboard-redesign>section{max-width:1240px!important;padding:42px 28px 76px!important}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child{background:linear-gradient(135deg,#172a43 0%,#122238 100%)!important;border:1px solid #2a405d!important;border-radius:22px!important;padding:30px 32px!important;box-shadow:0 18px 45px rgba(0,0,0,.2)!important}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child p{color:#aebed3!important}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child h1{color:#f4f7fc!important;font-size:clamp(30px,3vw,40px)!important;line-height:1.15!important;letter-spacing:-.04em!important;font-weight:750!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .card{background:linear-gradient(145deg,#172941,#122137)!important;border:1px solid #2a405d!important;border-radius:18px!important;padding:24px!important;box-shadow:0 12px 30px rgba(0,0,0,.16)!important;color:#dce6f4!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .card h2,#root .app.theme-dark-premium .student-dashboard-redesign .card h3{color:#f0f4fb!important;font-size:20px!important;font-weight:700!important;line-height:1.35!important;letter-spacing:-.025em!important;margin:8px 0 15px!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .dashboard-card-label{color:#86bdb7!important;font-size:10px!important;font-weight:800!important;letter-spacing:.16em!important}
+#root .app.theme-dark-premium .student-dashboard-redesign p,#root .app.theme-dark-premium .student-dashboard-redesign label{color:#b8c7dc!important;font-size:14px!important;line-height:1.7!important}
+#root .app.theme-dark-premium .student-dashboard-redesign strong{color:#f0f5fc!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .card input,#root .app.theme-dark-premium .student-dashboard-redesign .card select,#root .app.theme-dark-premium .student-dashboard-redesign .card textarea{background:#0b1728!important;color:#edf3fb!important;-webkit-text-fill-color:#edf3fb!important;border:1px solid #334966!important;border-radius:11px!important;min-height:46px!important;padding:11px 13px!important;font:500 14px/1.5 'DM Sans',Inter,system-ui,sans-serif!important;box-shadow:inset 0 1px 2px rgba(0,0,0,.16)!important;outline:none!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .card textarea{min-height:84px!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .card input:focus,#root .app.theme-dark-premium .student-dashboard-redesign .card select:focus,#root .app.theme-dark-premium .student-dashboard-redesign .card textarea:focus{border-color:#79cfc3!important;box-shadow:0 0 0 3px rgba(121,207,195,.13)!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .card input::placeholder,#root .app.theme-dark-premium .student-dashboard-redesign .card textarea::placeholder{color:#71839d!important;-webkit-text-fill-color:#71839d!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .signup-btn{background:linear-gradient(110deg,#82d2c7,#68bdb2)!important;color:#08221f!important;border:0!important;font-weight:750!important;box-shadow:0 7px 18px rgba(104,189,178,.14)!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .login-btn,#root .app.theme-dark-premium .student-dashboard-redesign .compare-btn{background:#203650!important;color:#dce8f7!important;border:1px solid #3a5270!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .card a{color:#83d4ca!important;font-weight:700!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .card hr,#root .app.theme-dark-premium .student-dashboard-redesign .card [style*='borderTop']{border-color:#2b405c!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .notification-panel{background:#0d1b2d!important;border:1px solid #2a405d!important;color:#dce6f4!important;border-radius:14px!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .notification-panel button{background:#203650!important;color:#e6edf7!important;border:1px solid #3a5270!important}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>.card{margin-top:18px!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .card .status-pill{color:#bfe8d2!important}
+@media(max-width:760px){#root .app.theme-dark-premium .student-dashboard-redesign>section{padding:24px 14px 48px!important}#root .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child{padding:22px 18px!important}#root .app.theme-dark-premium .student-dashboard-redesign .card{padding:18px!important}}
