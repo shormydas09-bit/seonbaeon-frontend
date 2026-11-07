@@ -257,3 +257,13 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
 #root .app.theme-dark-premium .auth-page .auth-card form select{color:#edf3fa!important;background-color:#0b1625!important;opacity:1!important;-webkit-text-fill-color:#edf3fa!important}
 #root .app.theme-dark-premium .auth-page .auth-card select option{background:#101d2d!important;color:#edf3fa!important}
 #root .app.theme-dark-premium .auth-page .auth-card select:focus{color:#ffffff!important;border-color:#83cfc4!important}
+
+
+/* Chrome autofill and typed credentials: preserve readable text on dark fields */
+#root .app.theme-dark-premium .auth-page .auth-card input,
+#root .app.theme-dark-premium .auth-page .auth-card input:focus{color:#edf3fa!important;-webkit-text-fill-color:#edf3fa!important;caret-color:#83cfc4!important}
+#root .app.theme-dark-premium .auth-page .auth-card input:-webkit-autofill,
+#root .app.theme-dark-premium .auth-page .auth-card input:-webkit-autofill:hover,
+#root .app.theme-dark-premium .auth-page .auth-card input:-webkit-autofill:focus,
+#root .app.theme-dark-premium .auth-page .auth-card input:-webkit-autofill:active{-webkit-text-fill-color:#edf3fa!important;box-shadow:0 0 0 1000px #0b1625 inset!important;caret-color:#83cfc4!important;transition:background-color 99999s ease-out 0s!important}
+#root .app.theme-dark-premium .auth-page .auth-card input::placeholder{-webkit-text-fill-color:#71839b!important;color:#71839b!important;opacity:1!important}
