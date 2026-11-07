@@ -250,3 +250,10 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
 #root .app.theme-dark-premium .auth-page .form-error{background:rgba(240,125,143,.09)!important;border:1px solid rgba(240,125,143,.2)!important;color:#ffb5bf!important}
 #root .app.theme-dark-premium .auth-page .form-success{background:rgba(110,205,160,.09)!important;border:1px solid rgba(110,205,160,.2)!important;color:#a8e5c5!important}
 @media(max-width:600px){#root .app.theme-dark-premium .auth-page{min-height:calc(100vh - 66px)!important;padding:30px 14px 46px!important}#root .app.theme-dark-premium .auth-page .auth-card{padding:27px 21px!important;border-radius:18px!important}#root .app.theme-dark-premium .auth-page .auth-heading h1{margin-top:24px!important}}
+
+
+/* Native select readability: keep selected value and dropdown options high-contrast */
+#root .app.theme-dark-premium .auth-page .auth-card select,
+#root .app.theme-dark-premium .auth-page .auth-card form select{color:#edf3fa!important;background-color:#0b1625!important;opacity:1!important;-webkit-text-fill-color:#edf3fa!important}
+#root .app.theme-dark-premium .auth-page .auth-card select option{background:#101d2d!important;color:#edf3fa!important}
+#root .app.theme-dark-premium .auth-page .auth-card select:focus{color:#ffffff!important;border-color:#83cfc4!important}
