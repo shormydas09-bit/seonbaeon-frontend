@@ -946,3 +946,33 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
    grid-template-columns:repeat(2,minmax(0,1fr))!important;
  }
 }
+
+
+/* Keep all three student overview cards in one row even when one expands. */
+#root .app .student-dashboard-redesign .student-overview-accordion{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  grid-auto-flow:row!important;
+  align-items:start!important;
+}
+#root .app .student-dashboard-redesign details.student-overview-accordion-item{
+  align-self:start!important;
+  height:max-content!important;
+  grid-row:auto!important;
+  grid-column:auto!important;
+}
+#root .app .student-dashboard-redesign details.student-overview-accordion-item[open]{
+  grid-row:auto!important;
+  grid-column:auto!important;
+  align-self:start!important;
+}
+@media(max-width:1050px){
+  #root .app .student-dashboard-redesign .student-overview-accordion{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+@media(max-width:680px){
+  #root .app .student-dashboard-redesign .student-overview-accordion{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+}
