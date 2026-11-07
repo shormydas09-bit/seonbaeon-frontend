@@ -2106,3 +2106,120 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-profile-footer{align-items:stretch!important}
  #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-profile-footer button{width:100%!important}
 }
+
+/* Final teacher dashboard pass: eliminate legacy white header and give every tool its own surface */
+#root .app.theme-dark-premium .workspace-premium-shell{background:transparent!important}
+#root .app.theme-dark-premium .workspace-premium-content{max-width:1320px!important;width:100%!important}
+#root .app.theme-dark-premium .workspace-premium-heading{
+ background:radial-gradient(ellipse at 94% 0,rgba(131,207,196,.13),transparent 42%),linear-gradient(125deg,#1a3049,#12243a)!important;
+ color:#f2f6fc!important;border:1px solid rgba(139,172,205,.2)!important;min-height:132px!important;
+ padding:25px 30px!important;margin-bottom:22px!important;
+}
+#root .app.theme-dark-premium .workspace-premium-heading .workspace-eyebrow{color:#83d8ce!important}
+#root .app.theme-dark-premium .workspace-premium-heading h1{color:#f4f7fc!important}
+#root .app.theme-dark-premium .workspace-premium-heading .workspace-subtitle{color:#a9bad0!important}
+#root .app.theme-dark-premium .workspace-premium-heading .workspace-heading-actions button{
+ background:#203650!important;color:#eaf1f8!important;border:1px solid rgba(139,172,205,.25)!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-panel{
+ display:grid!important;gap:16px!important;margin:22px 0 0!important;padding:0!important;
+ overflow:visible!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-heading{
+ padding:23px 26px!important;border-radius:18px!important;border:1px solid rgba(139,172,205,.18)!important;
+ background:radial-gradient(ellipse at 100% 0,rgba(131,207,196,.1),transparent 44%),linear-gradient(145deg,#172d46,#11243a)!important;
+ box-shadow:0 12px 30px rgba(0,0,0,.14)!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-heading .eyebrow{
+ display:inline-flex!important;padding:6px 9px!important;border-radius:8px!important;
+ background:rgba(131,207,196,.1)!important;border:1px solid rgba(131,207,196,.15)!important;
+ color:#83d8ce!important;font-size:9px!important;font-weight:850!important;letter-spacing:.13em!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-heading h2{
+ margin:12px 0 5px!important;color:#f2f6fc!important;font-size:23px!important;letter-spacing:-.035em!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-heading p{margin:0!important;color:#9fb4cc!important;font-size:12px!important}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-analytics-grid{margin:0!important;padding:0!important;gap:12px!important}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-analytics-tile{
+ min-height:100px!important;padding:17px 18px!important;border-radius:15px!important;
+ background:linear-gradient(145deg,#172b42,#102238)!important;border:1px solid rgba(139,172,205,.17)!important;
+ box-shadow:0 8px 20px rgba(0,0,0,.1)!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-section{
+ margin:0!important;padding:23px!important;border-radius:18px!important;
+ background:linear-gradient(150deg,#172b42,#12243a)!important;border:1px solid rgba(139,172,205,.18)!important;
+ box-shadow:0 12px 30px rgba(0,0,0,.13)!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-section h3{margin:0 0 5px!important;font-size:18px!important;color:#f0f5fb!important}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-section .section-hint{margin:0!important;color:#9fb4cc!important;font-size:11px!important;line-height:1.6!important}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-progress-form{
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:11px!important;margin:17px 0 15px!important;
+ padding:15px!important;border-radius:14px!important;background:rgba(7,19,33,.38)!important;border:1px solid rgba(139,172,205,.13)!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-progress-form textarea{min-height:86px!important;max-height:150px!important}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-progress-list{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;margin-top:13px!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-progress-item{
+ min-width:0!important;margin:0!important;padding:17px!important;border-radius:14px!important;
+ border:1px solid rgba(139,172,205,.17)!important;background:linear-gradient(145deg,#102238,#0d1c2e)!important;
+ box-shadow:0 8px 20px rgba(0,0,0,.1)!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-progress-item b{display:block!important;margin-bottom:7px!important;color:#8bd9cf!important;font-size:12px!important}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-progress-item p{
+ margin:0 0 9px!important;color:#d0dbea!important;font-size:12px!important;line-height:1.65!important;overflow-wrap:anywhere!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-progress-item small{display:block!important;color:#8199b4!important;font-size:10px!important}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-progress-item>div:last-child{
+ margin-top:12px!important;padding-top:11px!important;border-top:1px solid rgba(139,172,205,.12)!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-availability-form{
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;padding:15px!important;
+ margin:17px 0 13px!important;border-radius:14px!important;background:rgba(7,19,33,.38)!important;
+ border:1px solid rgba(139,172,205,.13)!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-availability-list{display:grid!important;gap:10px!important;margin-top:13px!important}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-availability-item{
+ margin:0!important;padding:14px 16px!important;border-radius:13px!important;
+ background:linear-gradient(145deg,#102238,#0d1c2e)!important;border:1px solid rgba(139,172,205,.16)!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-lesson-item,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-request-item{
+ margin-top:13px!important;padding:16px!important;border-radius:14px!important;
+ border:1px solid rgba(139,172,205,.16)!important;background:linear-gradient(145deg,#102238,#0d1c2e)!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-lesson-item>p,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-request-item>p{color:#a9bdd3!important;font-size:11px!important;line-height:1.65!important}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-lesson-item>b,
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-request-item>b{
+ display:block!important;color:#eef4fb!important;font-size:13px!important;margin-bottom:5px!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-demo-item{
+ margin-top:13px!important;padding:13px!important;border-radius:13px!important;
+ background:rgba(7,19,33,.42)!important;border:1px solid rgba(139,172,205,.15)!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-demo-item>div:first-child p{color:#d4e0ee!important}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-decision-history{
+ margin:12px 0!important;padding:13px 14px!important;border-radius:12px!important;
+ background:rgba(131,207,196,.07)!important;border:1px solid rgba(131,207,196,.16)!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-decision-history>b{
+ display:block!important;color:#8bd9cf!important;font-size:10px!important;letter-spacing:.08em!important;
+ text-transform:uppercase!important;margin-bottom:6px!important;
+}
+#root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-decision-history p{
+ margin:0!important;color:#a9bdd3!important;font-size:10px!important;line-height:1.7!important;
+ white-space:pre-wrap!important;overflow-wrap:anywhere!important;
+}
+@media(max-width:760px){
+ #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-progress-list{grid-template-columns:1fr!important}
+ #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-analytics-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-progress-form,
+ #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-availability-form{grid-template-columns:1fr!important}
+ #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-progress-form textarea{grid-column:auto!important}
+}
+@media(max-width:560px){
+ #root .app.theme-dark-premium .workspace-premium-heading{padding:20px!important}
+ #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-section{padding:17px!important}
+ #root .app.theme-dark-premium .teacher-dashboard-redesign .teacher-tools-heading{padding:19px!important}
+}
