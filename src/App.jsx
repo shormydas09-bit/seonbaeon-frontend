@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import "./App.css";
 import "./premium.css";
 import "./dark-premium.css";
@@ -2498,6 +2499,7 @@ function StudentDashboard({
   const [favoriteError, setFavoriteError] = useState("");
   const [myLessons, setMyLessons] = useState([]);
   const [lessonError, setLessonError] = useState("");
+  const [activeOverview, setActiveOverview] = useState("");
   useEffect(() => {
     if (!currentUser?.token) return;
     fetch(`${API_URL}/lessons`, { headers: { Authorization: `Bearer ${currentUser.token}` } })
@@ -2598,52 +2600,45 @@ function StudentDashboard({
           </div>
         </div>
 
-        <div className="student-overview-accordion" aria-label="Learning overview" style={{display:"grid",gap:12,margin:"0 0 28px"}}>
-          <details className="student-overview-accordion-item">
-            <summary className="student-overview-summary">
-              <span className="overview-icon">▣</span>
-              <span className="student-overview-summary-copy"><small>UPCOMING LESSONS</small><strong>{myLessons.filter(lesson=>lesson.status==="SCHEDULED").length}</strong><span>Scheduled sessions</span></span>
-              <span className="student-overview-expand">View details <b>⌄</b></span>
-            </summary>
-            <div className="student-overview-expanded-content">
-              {lessonError&&<p className="student-inline-error">{lessonError}</p>}
-              {myLessons.length===0?<p className="student-overview-empty">No lessons scheduled yet.</p>:myLessons.map(lesson=><div className="student-overview-table-row" key={lesson.id}>
-                <div className="student-overview-row-main"><strong>{lesson.teacherName||"Your English teacher"}</strong><span>{new Date(lesson.scheduledAt).toLocaleString()} · {lesson.durationMinutes} min</span>{lesson.meetingLink&&<a className="student-join-link" href={lesson.meetingLink} target="_blank" rel="noreferrer">Join lesson ↗</a>}</div>
-                <div className="student-overview-row-meta"><em className={`student-status-pill ${lesson.status==="SCHEDULED"?"is-scheduled":""}`}>{lesson.status}</em><div className="student-overview-row-actions">{lesson.status==="SCHEDULED"&&<button type="button" className="compare-btn" onClick={async()=>{if(!window.confirm("Cancel this lesson?"))return;const reason=window.prompt("Optional cancellation reason:")||"";try{await readResponse(await fetch(`${API_URL}/lessons/${lesson.id}/status`,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:`Bearer ${currentUser.token}`},body:JSON.stringify({status:"CANCELLED",reason})}));setMyLessons(old=>old.map(x=>x.id===lesson.id?{...x,status:"CANCELLED",cancellationReason:reason}:x));}catch(e){setLessonError(e.message);}}}>Cancel lesson</button>}<button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this lesson from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/LESSON/${lesson.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyLessons(old=>old.filter(x=>x.id!==lesson.id));}catch(e){setLessonError(e.message);}}}>Hide</button></div></div>
-              </div>)}
-            </div>
-          </details>
-
-          <details className="student-overview-accordion-item">
-            <summary className="student-overview-summary">
-              <span className="overview-icon">◷</span>
-              <span className="student-overview-summary-copy"><small>CONSULTATIONS</small><strong>{myRequests.length}</strong><span>Teacher requests</span></span>
-              <span className="student-overview-expand">View details <b>⌄</b></span>
-            </summary>
-            <div className="student-overview-expanded-content">
-              {requestError&&<p className="student-inline-error">{requestError}</p>}
-              {myRequests.length===0?<p className="student-overview-empty">No consultation requests yet.</p>:myRequests.map(r=><div className="student-overview-table-row" key={r.id}>
-                <div className="student-overview-row-main"><strong>{r.teacherName||"English teacher"}</strong><span>{r.teacherCategory||"English"} · {r.preferredDate} at {r.preferredTime}</span>{r.message&&<span>{r.message}</span>}{r.status==="PENDING"&&<span>Waiting for teacher review.</span>}{r.status==="APPROVED"&&<span className="request-positive">Approved · Your teacher will arrange lesson details.</span>}{r.status==="REJECTED"&&<span className="request-negative">Not approved. {r.rejectionReason||"Please try another time."}</span>}{r.adminPreviousStatus&&<span>Admin update: {r.adminPreviousStatus} → {r.status}. {r.adminNote||""}</span>}{r.decisionHistory&&<details className="student-request-history"><summary>View request history</summary><pre>{r.decisionHistory}</pre></details>}</div>
-                <div className="student-overview-row-meta"><em className={`student-status-pill ${r.status==="APPROVED"?"is-approved":r.status==="REJECTED"?"is-rejected":"is-pending"}`}>{r.status||"PENDING"}</em><button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this request from your dashboard only? The teacher and admin records will remain unchanged."))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${r.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyRequests(old=>old.filter(x=>x.id!==r.id));}catch(e){setRequestError(e.message);}}}>Hide</button></div>
-              </div>)}
-            </div>
-          </details>
-
-          <details className="student-overview-accordion-item">
-            <summary className="student-overview-summary">
-              <span className="overview-icon">♡</span>
-              <span className="student-overview-summary-copy"><small>FAVORITE TEACHERS</small><strong>{favoriteTeachers.length}</strong><span>Saved profiles</span></span>
-              <span className="student-overview-expand">View details <b>⌄</b></span>
-            </summary>
-            <div className="student-overview-expanded-content">
-              {favoriteError&&<p className="student-inline-error">{favoriteError}</p>}
-              {favoriteTeachers.length===0?<p className="student-overview-empty">No saved teachers yet.</p>:favoriteTeachers.map(teacher=><div className="student-overview-table-row" key={teacher.id}>
-                <div className="student-overview-row-main"><strong>{teacher.name}</strong><span>{teacher.category} · {teacher.location}</span></div>
-                <button className="login-btn" onClick={()=>{const next=favoriteTeachers.filter(item=>item.id!==teacher.id);setFavoriteTeachers(next);localStorage.setItem(FAVORITES_KEY,JSON.stringify(next.map(item=>item.id)));}}>Remove</button>
-              </div>)}
-            </div>
-          </details>
+        <div className="student-overview-accordion" aria-label="Learning overview">
+          <button type="button" className="student-overview-accordion-item student-overview-trigger" onClick={()=>setActiveOverview("lessons")}>
+            <span className="overview-icon">▣</span><span className="student-overview-summary-copy"><small>UPCOMING LESSONS</small><strong>{myLessons.filter(lesson=>lesson.status==="SCHEDULED").length}</strong><span>Scheduled sessions</span></span><span className="student-overview-expand">View details <b>↗</b></span>
+          </button>
+          <button type="button" className="student-overview-accordion-item student-overview-trigger" onClick={()=>setActiveOverview("consultations")}>
+            <span className="overview-icon">◷</span><span className="student-overview-summary-copy"><small>CONSULTATIONS</small><strong>{myRequests.length}</strong><span>Teacher requests</span></span><span className="student-overview-expand">View details <b>↗</b></span>
+          </button>
+          <button type="button" className="student-overview-accordion-item student-overview-trigger" onClick={()=>setActiveOverview("favorites")}>
+            <span className="overview-icon">♡</span><span className="student-overview-summary-copy"><small>FAVORITE TEACHERS</small><strong>{favoriteTeachers.length}</strong><span>Saved profiles</span></span><span className="student-overview-expand">View details <b>↗</b></span>
+          </button>
         </div>
+
+        {activeOverview && <DashboardOverlay
+          title={activeOverview==="lessons"?"Upcoming lessons":activeOverview==="consultations"?"Consultation requests":"Favorite teachers"}
+          subtitle={activeOverview==="lessons"?"Your scheduled English learning sessions":activeOverview==="consultations"?"Track the status of your teacher requests":"Teachers you have saved for later"}
+          onClose={()=>setActiveOverview("")}
+        >
+          {activeOverview==="lessons" && <>
+            {lessonError&&<p className="student-inline-error">{lessonError}</p>}
+            {myLessons.length===0?<p className="student-overview-empty">No lessons scheduled yet.</p>:myLessons.map(lesson=><div className="student-overview-table-row" key={lesson.id}>
+              <div className="student-overview-row-main"><strong>{lesson.teacherName||"Your English teacher"}</strong><span>{new Date(lesson.scheduledAt).toLocaleString()} · {lesson.durationMinutes} min</span>{lesson.meetingLink&&<a className="student-join-link" href={lesson.meetingLink} target="_blank" rel="noreferrer">Join lesson ↗</a>}</div>
+              <div className="student-overview-row-meta"><em className={`student-status-pill ${lesson.status==="SCHEDULED"?"is-scheduled":""}`}>{lesson.status}</em><div className="student-overview-row-actions">{lesson.status==="SCHEDULED"&&<button type="button" className="compare-btn" onClick={async()=>{if(!window.confirm("Cancel this lesson?"))return;const reason=window.prompt("Optional cancellation reason:")||"";try{await readResponse(await fetch(`${API_URL}/lessons/${lesson.id}/status`,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:`Bearer ${currentUser.token}`},body:JSON.stringify({status:"CANCELLED",reason})}));setMyLessons(old=>old.map(x=>x.id===lesson.id?{...x,status:"CANCELLED",cancellationReason:reason}:x));}catch(e){setLessonError(e.message);}}}>Cancel lesson</button>}<button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this lesson from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/LESSON/${lesson.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyLessons(old=>old.filter(x=>x.id!==lesson.id));}catch(e){setLessonError(e.message);}}}>Hide</button></div></div>
+            </div>)}
+          </>}
+          {activeOverview==="consultations" && <>
+            {requestError&&<p className="student-inline-error">{requestError}</p>}
+            {myRequests.length===0?<p className="student-overview-empty">No consultation requests yet.</p>:myRequests.map(r=><div className="student-overview-table-row" key={r.id}>
+              <div className="student-overview-row-main"><strong>{r.teacherName||"English teacher"}</strong><span>{r.teacherCategory||"English"} · {r.preferredDate} at {r.preferredTime}</span>{r.message&&<span>{r.message}</span>}{r.status==="PENDING"&&<span>Waiting for teacher review.</span>}{r.status==="APPROVED"&&<span className="request-positive">Approved · Your teacher will arrange lesson details.</span>}{r.status==="REJECTED"&&<span className="request-negative">Not approved. {r.rejectionReason||"Please try another time."}</span>}{r.adminPreviousStatus&&<span>Admin update: {r.adminPreviousStatus} → {r.status}. {r.adminNote||""}</span>}{r.decisionHistory&&<details className="student-request-history"><summary>View request history</summary><pre>{r.decisionHistory}</pre></details>}</div>
+              <div className="student-overview-row-meta"><em className={`student-status-pill ${r.status==="APPROVED"?"is-approved":r.status==="REJECTED"?"is-rejected":"is-pending"}`}>{r.status||"PENDING"}</em><button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this request from your dashboard only? The teacher and admin records will remain unchanged."))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${r.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyRequests(old=>old.filter(x=>x.id!==r.id));}catch(e){setRequestError(e.message);}}}>Hide</button></div>
+            </div>)}
+          </>}
+          {activeOverview==="favorites" && <>
+            {favoriteError&&<p className="student-inline-error">{favoriteError}</p>}
+            {favoriteTeachers.length===0?<p className="student-overview-empty">No saved teachers yet.</p>:favoriteTeachers.map(teacher=><div className="student-overview-table-row" key={teacher.id}>
+              <div className="student-overview-row-main"><strong>{teacher.name}</strong><span>{teacher.category} · {teacher.location}</span></div>
+              <button className="login-btn" onClick={()=>{const next=favoriteTeachers.filter(item=>item.id!==teacher.id);setFavoriteTeachers(next);localStorage.setItem(FAVORITES_KEY,JSON.stringify(next.map(item=>item.id)));}}>Remove</button>
+            </div>)}
+          </>}
+        </DashboardOverlay>}
 
         {/* Keep profile and discovery panels grouped in the dashboard grid. */}
         <div className="student-dashboard-grid">
@@ -2779,6 +2774,31 @@ function StudentDashboard({
 }
 
 
+function DashboardOverlay({ title, subtitle, onClose, children }) {
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const handleKeyDown = (event) => { if (event.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
+  return createPortal(
+    <div className="dashboard-overlay-backdrop" onMouseDown={(event)=>{if(event.target===event.currentTarget)onClose();}}>
+      <section className="dashboard-overlay-dialog" role="dialog" aria-modal="true" aria-label={title}>
+        <header className="dashboard-overlay-header">
+          <div><span className="dashboard-overlay-eyebrow">PICK MY TEACHER</span><h2>{title}</h2><p>{subtitle}</p></div>
+          <button type="button" className="dashboard-overlay-close" onClick={onClose} aria-label="Close panel">×</button>
+        </header>
+        <div className="dashboard-overlay-content">{children}</div>
+      </section>
+    </div>,
+    document.body
+  );
+}
+
 function NotificationCenter({ user }) {
   const [items, setItems] = useState([]);
   const [unread, setUnread] = useState(0);
@@ -2831,30 +2851,31 @@ function NotificationCenter({ user }) {
       await load();
     } catch (e) { setError(e.message); }
   }
-  return <div className="notification-center" style={{ position: "relative" }}>
+  return <div className="notification-center">
     <button type="button" className="login-btn" onClick={() => { setOpen(v => !v); if (!open) load(); }}
       aria-expanded={open} aria-label={`Notifications, ${unread} unread`}>
       Notifications {unread > 0 ? `(${unread})` : ""}
     </button>
-    {open && <div className="notification-panel" style={{ position: "absolute", zIndex: 1000, right: 0, top: "calc(100% + 10px)", width: "min(390px, calc(100vw - 32px))", maxHeight: 480, overflowY: "auto", background: "#fff", border: "1px solid #dce7f4", borderRadius: 18, boxShadow: "0 22px 60px rgba(25,55,95,.18)", padding: 16 }}>
-      <div className="notification-panel-heading">
-        <div><strong>Notifications</strong><small>{unread} unread</small></div>
-        <div className="notification-actions">
-          <button type="button" onClick={markAllRead} disabled={!unread}>Read all</button>
-          <button type="button" onClick={deleteAll} disabled={!items.length}>Delete all</button>
+    {open && <DashboardOverlay title="Notifications" subtitle={`${unread} unread · Your latest account updates`} onClose={()=>setOpen(false)}>
+      <div className="notification-panel">
+        <div className="notification-panel-heading">
+          <div><strong>Recent activity</strong><small>{unread} unread</small></div>
+          <div className="notification-actions">
+            <button type="button" onClick={markAllRead} disabled={!unread}>Read all</button>
+            <button type="button" onClick={deleteAll} disabled={!items.length}>Delete all</button>
+          </div>
         </div>
+        {error && <p className="form-error">{error}</p>}
+        {!items.length && !error && <div className="notification-empty">You’re all caught up. No notifications yet.</div>}
+        {items.map(item => <div key={item.id} className={`notification-item ${item.read ? "is-read" : "is-unread"}`}>
+          <button type="button" className="notification-content" onClick={() => !item.read && markRead(item.id)}>
+            <strong>{item.title}</strong><span>{item.message}</span>
+            <small>{item.createdAt ? new Date(item.createdAt).toLocaleString() : ""} · {item.read ? "Read" : "Unread"}</small>
+          </button>
+          <button type="button" className="notification-delete" onClick={() => deleteOne(item.id)} aria-label={`Delete notification: ${item.title}`}>Delete</button>
+        </div>)}
       </div>
-      {error && <p className="form-error">{error}</p>}
-      {!items.length && !error && <div className="notification-empty">You’re all caught up. No notifications yet.</div>}
-      {items.map(item => <div key={item.id} className={`notification-item ${item.read ? "is-read" : "is-unread"}`}>
-        <button type="button" className="notification-content" onClick={() => !item.read && markRead(item.id)}>
-          <strong>{item.title}</strong>
-          <span>{item.message}</span>
-          <small>{item.createdAt ? new Date(item.createdAt).toLocaleString() : ""} · {item.read ? "Read" : "Unread"}</small>
-        </button>
-        <button type="button" className="notification-delete" onClick={() => deleteOne(item.id)} aria-label={`Delete notification: ${item.title}`}>Delete</button>
-      </div>)}
-    </div>}
+    </DashboardOverlay>}
   </div>;
 }
 
