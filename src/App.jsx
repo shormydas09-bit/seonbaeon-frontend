@@ -2668,7 +2668,7 @@ function StudentDashboard({
             <h3>My Learning Profile</h3>
             {studentDetailsNotice && <p style={{color:"#067647"}}>{studentDetailsNotice}</p>}
             {studentDetailsError && <p style={{color:"#b42318"}}>{studentDetailsError}</p>}
-            <form onSubmit={saveStudentDetails}>
+            <form className="student-profile-form" onSubmit={saveStudentDetails}>
               {[
                 ["age","Age"],["ageGroup","Age group (Child / Teen / Adult)"],["englishLevel","Current English level"],["learningGoals","Learning goals"],["preferredCategory","Preferred English category"],["interests","Interests / hobbies"],["preferredSchedule","Preferred learning schedule"],["introduction","About me"],["guardianName","Parent / guardian name (if applicable)"],["guardianPhone","Parent / guardian phone (if applicable)"]
               ].map(([key,label])=><label key={key} style={{display:"block",marginTop:10}}>{label}{key==="learningGoals"||key==="interests"||key==="introduction"?<textarea rows={key==="introduction"?3:2} value={studentDetails[key]||""} onChange={e=>setStudentDetails(old=>({...old,[key]:e.target.value}))} style={{width:"100%",marginTop:5}}/>:<input type={key==="age"?"number":"text"} value={studentDetails[key]||""} onChange={e=>setStudentDetails(old=>({...old,[key]:e.target.value}))} style={{width:"100%",marginTop:5}}/>}</label>)}
