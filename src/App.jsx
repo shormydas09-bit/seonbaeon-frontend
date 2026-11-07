@@ -1427,6 +1427,11 @@ function TeacherProfile({
   async function submitConsultation(e) {
     e.preventDefault();
 
+    if (!currentUser?.token || currentUser?.role !== "STUDENT") {
+      setConsultMessage("Please log in with your Student / Parent account before requesting a consultation.");
+      return;
+    }
+
     setConsultSubmitting(true);
     setConsultMessage("");
 
@@ -1462,6 +1467,7 @@ function TeacherProfile({
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${currentUser.token}`,
           },
           body: JSON.stringify(body),
         }
@@ -1669,6 +1675,7 @@ function TeacherProfile({
                   defaultValue={
                     currentUser?.email || ""
                   }
+                  readOnly={currentUser?.role === "STUDENT"}
                   required
                 />
 
