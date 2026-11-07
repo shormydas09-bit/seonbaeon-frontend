@@ -1002,3 +1002,67 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
+
+
+/* Student overview: expand details as a floating panel.
+   The overview card keeps its original size and never pushes dashboard
+   content or neighboring cards when opened. */
+#root .app .student-dashboard-redesign .student-overview-accordion {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: visible !important;
+}
+#root .app .student-dashboard-redesign details.student-overview-accordion-item {
+  position: relative !important;
+  overflow: visible !important;
+  z-index: 1 !important;
+}
+#root .app .student-dashboard-redesign details.student-overview-accordion-item[open] {
+  z-index: 60 !important;
+}
+#root .app .student-dashboard-redesign details.student-overview-accordion-item[open] > .student-overview-summary {
+  border-radius: 17px !important;
+}
+#root .app .student-dashboard-redesign .student-overview-expanded-content {
+  position: absolute !important;
+  top: calc(100% - 1px) !important;
+  left: 0 !important;
+  right: auto !important;
+  width: min(560px, calc(100vw - 48px)) !important;
+  max-width: calc(100vw - 32px) !important;
+  max-height: min(430px, 62vh) !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+  z-index: 100 !important;
+  margin: 0 !important;
+  padding: 8px 18px 14px !important;
+  border: 1px solid rgba(117, 211, 199, .38) !important;
+  border-top: 1px solid rgba(132, 164, 203, .17) !important;
+  border-radius: 0 0 18px 18px !important;
+  background: linear-gradient(150deg, #192f49 0%, #101f33 100%) !important;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, .48) !important;
+}
+#root .app .student-dashboard-redesign details.student-overview-accordion-item:nth-child(2) > .student-overview-expanded-content {
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+}
+#root .app .student-dashboard-redesign details.student-overview-accordion-item:nth-child(3) > .student-overview-expanded-content {
+  left: auto !important;
+  right: 0 !important;
+  transform: none !important;
+}
+#root .app .student-dashboard-redesign .student-overview-expanded-content .student-overview-table-row {
+  min-width: 0 !important;
+}
+@media (max-width: 760px) {
+  #root .app .student-dashboard-redesign .student-overview-expanded-content,
+  #root .app .student-dashboard-redesign details.student-overview-accordion-item:nth-child(2) > .student-overview-expanded-content,
+  #root .app .student-dashboard-redesign details.student-overview-accordion-item:nth-child(3) > .student-overview-expanded-content {
+    left: 0 !important;
+    right: auto !important;
+    width: calc(100vw - 32px) !important;
+    max-width: calc(100vw - 32px) !important;
+    transform: none !important;
+  }
+}
