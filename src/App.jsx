@@ -2627,18 +2627,17 @@ function StudentDashboard({
               fontSize: "16px",
             }}
           >
-            Manage your Pick My Teacher learning experience
-            from one place.
+            Discover teachers, watch demos and keep your enquiries in one place.
           </p>
           <div className="student-hero-actions"><NotificationCenter user={currentUser} /></div>
         </div>
 
         <div className="student-overview-accordion" aria-label="Learning overview">
           <button type="button" className="student-overview-accordion-item student-overview-trigger" onClick={()=>setActiveOverview("lessons")}>
-            <span className="overview-icon">▣</span><span className="student-overview-summary-copy"><small>UPCOMING LESSONS</small><strong>{myLessons.filter(lesson=>lesson.status==="SCHEDULED").length}</strong><span>Scheduled sessions</span></span><span className="student-overview-expand">View details <b>↗</b></span>
+            <span className="overview-icon">▣</span><span className="student-overview-summary-copy"><small>SCHEDULED SESSIONS</small><strong>{myLessons.filter(lesson=>lesson.status==="SCHEDULED").length}</strong><span>Scheduled sessions</span></span><span className="student-overview-expand">View details <b>↗</b></span>
           </button>
           <button type="button" className="student-overview-accordion-item student-overview-trigger" onClick={()=>setActiveOverview("consultations")}>
-            <span className="overview-icon">◷</span><span className="student-overview-summary-copy"><small>CONSULTATIONS</small><strong>{myRequests.length}</strong><span>Teacher requests</span></span><span className="student-overview-expand">View details <b>↗</b></span>
+            <span className="overview-icon">◷</span><span className="student-overview-summary-copy"><small>MY ENQUIRIES</small><strong>{myRequests.length}</strong><span>Teacher requests</span></span><span className="student-overview-expand">View details <b>↗</b></span>
           </button>
           <button type="button" className="student-overview-accordion-item student-overview-trigger" onClick={()=>setActiveOverview("favorites")}>
             <span className="overview-icon">♡</span><span className="student-overview-summary-copy"><small>FAVORITE TEACHERS</small><strong>{favoriteTeachers.length}</strong><span>Saved profiles</span></span><span className="student-overview-expand">View details <b>↗</b></span>
@@ -2647,8 +2646,8 @@ function StudentDashboard({
         </div>
 
         {activeOverview && <DashboardOverlay
-          title={activeOverview==="lessons"?"Upcoming lessons":activeOverview==="consultations"?"Consultation requests":"Favorite teachers"}
-          subtitle={activeOverview==="lessons"?"Your scheduled English learning sessions":activeOverview==="consultations"?"Track the status of your teacher requests":"Teachers you have saved for later"}
+          title={activeOverview==="lessons"?"Scheduled sessions":activeOverview==="consultations"?"My enquiries":"Favorite teachers"}
+          subtitle={activeOverview==="lessons"?"Your confirmed learning sessions and optional trials":activeOverview==="consultations"?"Messages and requests sent to teachers":"Teachers you have saved for later"}
           onClose={()=>setActiveOverview("")}
         >
           {activeOverview==="lessons" && <>
@@ -2734,10 +2733,10 @@ function StudentDashboard({
             </form>
           </div>
 
-          <div className="card student-discover-card"><div className="dashboard-card-label">DISCOVER</div><h3>Find English Teachers</h3><p>Explore English teachers for speaking, phonics, grammar, reading, storytelling and school English.</p><button className="signup-btn" onClick={goToTeachers}>Find Teachers <span aria-hidden="true">→</span></button></div>
+          <div className="card student-discover-card"><div className="dashboard-card-label">DISCOVER</div><h3>Find your teacher</h3><p>Explore English teachers, compare teaching styles and watch free demo lessons before you decide.</p><button className="signup-btn" onClick={goToTeachers}>Find Teachers <span aria-hidden="true">→</span></button></div>
 
           <div className="card student-learning-card">
-            <div className="dashboard-card-label">LEARNING PROFILE</div><h3>My Learning Profile</h3><p className="student-profile-intro">A few details help us recommend teachers and prepare more useful lessons.</p>
+            <div className="dashboard-card-label">PREFERENCES</div><h3>Learning preferences</h3><p className="student-profile-intro">Optional details to help you find a suitable English teacher.</p>
             {studentDetailsNotice&&<p className="student-inline-success">{studentDetailsNotice}</p>}{studentDetailsError&&<p className="student-inline-error">{studentDetailsError}</p>}
             <form className="student-profile-form" onSubmit={saveStudentDetails}>
               {[
@@ -2754,44 +2753,7 @@ function StudentDashboard({
         </div>
 
 
-        <div className="card student-categories-card">
-          <div className="dashboard-card-label">EXPLORE</div>
-          <h2>English Learning Categories</h2>
-          <p>Build confidence step by step with focused English skills.</p>
 
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "10px",
-              marginTop: "18px",
-            }}
-          >
-            {[
-              "Kids English",
-              "Phonics",
-              "Speaking",
-              "Reading & Writing",
-              "Grammar",
-              "Storytelling",
-              "School English",
-            ].map((category) => (
-              <span
-                key={category}
-                className="student-category-chip"
-                style={{
-                  padding: "9px 14px",
-                  borderRadius: "999px",
-                  background: "#f3f4f6",
-                  fontSize: "14px",
-                  fontWeight: "600",
-                }}
-              >
-                {category}
-              </span>
-            ))}
-          </div>
-        </div>
 
         <div
           style={{
