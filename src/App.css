@@ -7450,3 +7450,37 @@ body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordion
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
+
+
+/* Final override: three overview actions per row on desktop/tablet */
+@media screen and (min-width: 760px) {
+  .page.student-dashboard-redesign .student-overview-accordion {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-flow: row !important;
+    gap: 14px !important;
+    width: 100% !important;
+  }
+  .page.student-dashboard-redesign .student-overview-accordion > .student-overview-trigger {
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    min-height: 116px !important;
+    padding: 16px 13px !important;
+    gap: 9px !important;
+  }
+  .page.student-dashboard-redesign .student-overview-accordion > .student-overview-trigger .overview-icon {
+    flex: 0 0 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 20px !important;
+  }
+  .page.student-dashboard-redesign .student-overview-accordion > .student-overview-trigger .student-overview-expand {
+    gap: 5px !important;
+    font-size: 10px !important;
+  }
+  .page.student-dashboard-redesign .student-overview-accordion > .student-overview-trigger .student-overview-expand b {
+    width: 28px !important;
+    height: 28px !important;
+  }
+}
