@@ -78,6 +78,7 @@ function AuthPage({ mode, setMode, onLogin }) {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [forgotMode, setForgotMode] = useState(false);
+  const [acceptedPolicies, setAcceptedPolicies] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -86,6 +87,10 @@ function AuthPage({ mode, setMode, onLogin }) {
 
     if (!email || !password || (mode === "signup" && !name)) {
       setError("Please fill in all required fields.");
+      return;
+    }
+    if (mode === "signup" && !acceptedPolicies) {
+      setError("Please accept the Terms of Service and Privacy Policy to create an account.");
       return;
     }
 
@@ -335,6 +340,13 @@ function AuthPage({ mode, setMode, onLogin }) {
             }
           />
 
+          {mode === "signup" && (
+            <label className="policy-consent">
+              <input type="checkbox" checked={acceptedPolicies} onChange={(e) => setAcceptedPolicies(e.target.checked)} required />
+              <span>I agree to the <a href="/?policy=terms" onClick={(e) => { e.preventDefault(); window.history.pushState({}, "", "/?policy=terms"); window.dispatchEvent(new PopStateEvent("popstate")); }}>Terms of Service</a> and <a href="/?policy=privacy" onClick={(e) => { e.preventDefault(); window.history.pushState({}, "", "/?policy=privacy"); window.dispatchEvent(new PopStateEvent("popstate")); }}>Privacy Policy</a>.</span>
+            </label>
+          )}
+
           <label>Password</label>
 
           <input
@@ -493,7 +505,7 @@ function HomePage({ goToTeachers }) {
    TEACHER SEARCH
 ========================= */
 
-function TeacherSearch({ goHome, openProfile }) {
+function TeacherSearch({ goHome, openProfile, currentUser }) {
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -531,7 +543,7 @@ function TeacherSearch({ goHome, openProfile }) {
       const request = (async () => {
         const response = await fetch(`${API_URL}/teachers`, {
           signal: controller.signal,
-          headers: { Accept: "application/json" },
+          headers: { Accept: "application/json", Authorization: `Bearer ${currentUser?.token || ""}` },
           cache: "no-store",
         });
         const data = await readResponse(response);
@@ -555,7 +567,7 @@ function TeacherSearch({ goHome, openProfile }) {
 
   useEffect(() => {
     loadTeachers();
-  }, []);
+  }, [currentUser?.token]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -3805,6 +3817,7 @@ function App() {
 
   const [authMode, setAuthMode] =
     useState("login");
+  const [afterLoginPage, setAfterLoginPage] = useState("dashboard");
 
   const [currentUser, setCurrentUser] =
     useState(() => {
@@ -3826,12 +3839,14 @@ function App() {
     return <ResetPasswordPage />;
   }
 
-  function openLogin() {
+  function openLogin(nextPage = "dashboard") {
+    setAfterLoginPage(nextPage);
     setAuthMode("login");
     setPage("auth");
   }
 
-  function openSignup() {
+  function openSignup(nextPage = "dashboard") {
+    setAfterLoginPage(nextPage);
     setAuthMode("signup");
     setPage("auth");
   }
@@ -3843,7 +3858,7 @@ function App() {
     );
 
     setCurrentUser(user);
-    setPage(user.role === "TEACHER" ? "teacher-dashboard" : user.role === "ADMIN" ? "admin-dashboard" : "dashboard");
+    setPage(afterLoginPage === "teachers" ? "teachers" : user.role === "TEACHER" ? "teacher-dashboard" : user.role === "ADMIN" ? "admin-dashboard" : "dashboard");
   }
 
   function handleProfileUpdated(updated) {
@@ -4046,11 +4061,16 @@ function App() {
         />
       )}
 
-      {page === "teachers" && (
+      {page === "teachers" && !currentUser && (
+        <AuthGate onLogin={() => openLogin("teachers")} onSignup={() => openSignup("teachers")} />
+      )}
+
+      {page === "teachers" && currentUser && (
         <TeacherSearch
           goHome={() =>
             setPage("home")
           }
+          currentUser={currentUser}
           openProfile={(teacher) => {
             setSelectedTeacher(teacher);
             setPage("profile");
@@ -4058,7 +4078,9 @@ function App() {
         />
       )}
 
-      {page === "profile" && (
+      {page === "profile" && !currentUser && <AuthGate onLogin={() => openLogin("teachers")} onSignup={() => openSignup("teachers")} />}
+
+      {page === "profile" && currentUser && (
         <TeacherProfile
           teacher={selectedTeacher}
           currentUser={currentUser}
