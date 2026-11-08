@@ -3931,7 +3931,7 @@ function DownloadPage() {
         </div>
 
         <div style={{ flex: "1 1 260px", textAlign: "center", background: "#fff", padding: 30, borderRadius: 24, border: "1px solid #eee" }}>
-          <img src="/pwa-512x512.png" alt="Pick My Teacher logo" style={{ width: 200, maxWidth: "80%", borderRadius: 24 }} />
+          <img src="/pick-my-teacher-icon.svg" alt="Pick My Teacher logo" style={{ width: 200, maxWidth: "80%", borderRadius: 24 }} />
           <h2 style={{ marginTop: 20 }}>Pick My Teacher</h2>
           <p style={{ color: "#777", marginTop: 8 }}>Know Your Teacher Before You Join</p>
         </div>
