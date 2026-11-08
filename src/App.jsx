@@ -3905,49 +3905,64 @@ function PolicyPage({ type, onBack }) {
 
 function DownloadPage() {
   return (
-    <main style={{ minHeight: "100vh", background: "#f8f7f4", color: "#222", fontFamily: "Arial, sans-serif" }}>
-      <header style={{ padding: "24px 7%", background: "#fff", borderBottom: "1px solid #eee" }}>
-        <a href="/" style={{ color: "#222", textDecoration: "none", fontSize: 22, fontWeight: 800 }}>
-          Pick My Teacher<span style={{ color: "#d88935" }}>.</span>
+    <main style={{ minHeight: "100vh", background: "radial-gradient(ellipse at 75% 10%, #263b59 0%, #111b2b 42%, #0b1220 100%)", color: "#f7f4ec", fontFamily: "Inter, Arial, sans-serif", overflow: "hidden" }}>
+      <header style={{ maxWidth: 1120, margin: "0 auto", padding: "25px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+        <a href="/" style={{ display: "flex", alignItems: "center", gap: 12, color: "#fff", textDecoration: "none", fontSize: 20, fontWeight: 800, letterSpacing: "-.5px" }}>
+          <img src="/pick-my-teacher-icon.svg" alt="" style={{ width: 42, height: 42, borderRadius: 12 }} />
+          Pick My Teacher<span style={{ color: "#e9b96f" }}>.</span>
         </a>
+        <a href="/" style={{ color: "#d9e1ed", textDecoration: "none", fontSize: 14, fontWeight: 600 }}>Visit website ↗</a>
       </header>
 
-      <section style={{ maxWidth: 1000, margin: "0 auto", padding: "70px 24px", display: "flex", flexWrap: "wrap", gap: 40, alignItems: "center" }}>
-        <div style={{ flex: "1 1 320px" }}>
-          <p style={{ color: "#b87325", fontWeight: 700 }}>ANDROID APP · VERSION 1.1</p>
-          <h1 style={{ fontSize: "clamp(38px, 6vw, 58px)", lineHeight: 1.1, margin: "20px 0" }}>
-            Your learning journey, one tap away.
+      <section style={{ maxWidth: 1120, margin: "0 auto", padding: "58px 24px 76px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))", gap: 48, alignItems: "center" }}>
+        <div>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 9, border: "1px solid #52627a", background: "#ffffff0d", borderRadius: 999, padding: "9px 14px", color: "#e9c58e", fontSize: 12, fontWeight: 800, letterSpacing: "1.3px" }}>
+            <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#7dd6a5" }} /> ANDROID APP · VERSION 1.1
+          </div>
+          <h1 style={{ fontSize: "clamp(42px, 7vw, 68px)", lineHeight: 1.04, letterSpacing: "-2.5px", margin: "25px 0 20px", maxWidth: 620 }}>
+            Meet the right teacher. <span style={{ color: "#e9b96f" }}>Start learning.</span>
           </h1>
-          <p style={{ color: "#666", fontSize: 17, lineHeight: 1.8, marginBottom: 26 }}>
-            Find the right English teacher for your learning goals with Pick My Teacher.
+          <p style={{ color: "#bac5d5", fontSize: 17, lineHeight: 1.8, maxWidth: 530, margin: "0 0 30px" }}>
+            Find the right English teacher for your goals with Pick My Teacher. Download the Android app and keep your learning journey close.
           </p>
-          <a
-            href="/app"
-            style={{ display: "inline-block", background: "#222", color: "#fff", padding: "16px 24px", borderRadius: 10, textDecoration: "none", fontWeight: 700 }}
-          >
-            ↓ Download for Android
+          <a href="/app" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 12, background: "#e9b96f", color: "#182334", padding: "17px 25px", borderRadius: 14, textDecoration: "none", fontWeight: 800, fontSize: 16, boxShadow: "0 12px 32px #0005" }}>
+            <span style={{ fontSize: 21 }}>↓</span> Download Android App
           </a>
-          <p style={{ color: "#777", fontSize: 13, marginTop: 12 }}>APK · Android · Version 1.1</p>
+          <p style={{ color: "#8f9db1", fontSize: 13, marginTop: 15 }}>APK file · 5.16 MB · Android</p>
+          <div style={{ marginTop: 28, padding: "16px 18px", borderRadius: 14, background: "#ffffff0a", border: "1px solid #ffffff18", color: "#bac5d5", fontSize: 13, lineHeight: 1.7 }}>
+            <strong style={{ color: "#f4dfbd" }}>Installation note</strong><br />
+            Your phone may show its standard Android security confirmation before downloading or installing an APK. This is a system message, not an error with the website.
+          </div>
         </div>
 
-        <div style={{ flex: "1 1 260px", textAlign: "center", background: "#fff", padding: 30, borderRadius: 24, border: "1px solid #eee" }}>
-          <img src="/pick-my-teacher-icon.svg" alt="Pick My Teacher logo" style={{ width: 200, maxWidth: "80%", borderRadius: 24 }} />
-          <h2 style={{ marginTop: 20 }}>Pick My Teacher</h2>
-          <p style={{ color: "#777", marginTop: 8 }}>Know Your Teacher Before You Join</p>
+        <div style={{ justifySelf: "center", width: "100%", maxWidth: 390, textAlign: "center", padding: "38px 28px", borderRadius: 30, background: "linear-gradient(145deg, #ffffff18, #ffffff08)", border: "1px solid #ffffff26", boxShadow: "0 28px 80px #0005", backdropFilter: "blur(12px)" }}>
+          <div style={{ display: "inline-flex", padding: 12, borderRadius: 28, background: "#ffffff" }}>
+            <img src="/pick-my-teacher-icon.svg" alt="Pick My Teacher logo" style={{ width: 190, maxWidth: "100%", display: "block", borderRadius: 20 }} />
+          </div>
+          <h2 style={{ margin: "24px 0 8px", fontSize: 25, letterSpacing: "-.6px" }}>Pick My Teacher</h2>
+          <p style={{ color: "#bac5d5", margin: 0, fontSize: 14 }}>Know Your Teacher Before You Join</p>
+          <div style={{ height: 1, background: "#ffffff20", margin: "25px 0 20px" }} />
+          <div style={{ display: "flex", justifyContent: "center", gap: 22, color: "#d9e1ed", fontSize: 12 }}>
+            <span>✓ Easy access</span><span>✓ English teachers</span>
+          </div>
         </div>
       </section>
 
-      <section style={{ background: "#fff", padding: "45px 24px", textAlign: "center" }}>
-        <h2>How to install</h2>
-        <p style={{ color: "#666", marginTop: 12 }}>1. Download the APK file.</p>
-        <p style={{ color: "#666", marginTop: 8 }}>2. Open it from your Downloads folder.</p>
-        <p style={{ color: "#666", marginTop: 8 }}>3. Allow installation if your phone asks.</p>
-        <p style={{ color: "#666", marginTop: 8 }}>4. Install and open Pick My Teacher.</p>
+      <section style={{ borderTop: "1px solid #ffffff18", background: "#070d18a8", padding: "35px 24px 42px" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
+          <h2 style={{ fontSize: 22, margin: "0 0 22px" }}>How to install</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: 14, textAlign: "left" }}>
+            {["Download the APK file.", "Open it from your Downloads folder.", "Allow installation if Android asks.", "Install and open Pick My Teacher."].map((step, i) => (
+              <div key={step} style={{ padding: 17, borderRadius: 14, background: "#ffffff0b", border: "1px solid #ffffff16", color: "#c2ccda", fontSize: 13, lineHeight: 1.6 }}>
+                <div style={{ color: "#e9b96f", fontWeight: 800, fontSize: 12, marginBottom: 7 }}>STEP 0{i + 1}</div>{step}
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
-      <footer style={{ padding: 28, textAlign: "center", color: "#777", fontSize: 13, background: "#fff", borderTop: "1px solid #eee" }}>
-        <p style={{ marginBottom: 10 }}>© {new Date().getFullYear()} Pick My Teacher</p>
-        <a href="/" style={{ color: "#222", fontWeight: 700, textDecoration: "none" }}>Visit Pick My Teacher Website →</a>
+      <footer style={{ padding: "23px 24px", textAlign: "center", color: "#8290a4", fontSize: 13, borderTop: "1px solid #ffffff14" }}>
+        © {new Date().getFullYear()} Pick My Teacher · <a href="/" style={{ color: "#e9c58e", textDecoration: "none", fontWeight: 700 }}>Open main website ↗</a>
       </footer>
     </main>
   );
