@@ -3173,7 +3173,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         </div>
         <div className="teacher-profile-accordions">
           <details className="teacher-profile-group">
-            <summary><span className="teacher-profile-group-icon">01</span><span><strong>Basic profile</strong><small>Category, location and teaching specialty</small></span><i>⌄</i></summary>
+            <summary><span className="teacher-profile-group-icon">01</span><span><strong style={{color:"#F5F8FF",fontSize:13,fontWeight:750}}>Basic profile</strong><small style={{color:"#C2D2E8",fontSize:11,fontWeight:500}}>Category, location and teaching specialty</small></span><i>⌄</i></summary>
             <div className="teacher-profile-fields teacher-profile-fields-basic">
               <label>Teaching category<select name="category" value={profile.category} onChange={change}>{["Kids English","Phonics","Speaking","Reading & Writing","Grammar","Storytelling","School English"].map(x=><option key={x}>{x}</option>)}</select></label>
               <label>Learning centre location / address<input name="location" value={profile.location ?? ""} onChange={change} /></label>
@@ -3183,7 +3183,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
             </div>
           </details>
           <details className="teacher-profile-group">
-            <summary><span className="teacher-profile-group-icon">02</span><span><strong>Teaching background</strong><small>Qualifications and your teaching introduction</small></span><i>⌄</i></summary>
+            <summary><span className="teacher-profile-group-icon">02</span><span><strong style={{color:"#F5F8FF",fontSize:13,fontWeight:750}}>Teaching background</strong><small style={{color:"#C2D2E8",fontSize:11,fontWeight:500}}>Qualifications and your teaching introduction</small></span><i>⌄</i></summary>
             <div className="teacher-profile-fields teacher-profile-fields-background">
               <label>Qualifications<textarea name="qualification" value={profile.qualification || ""} onChange={change} rows={2} /></label>
               <label>About your teaching<textarea name="bio" value={profile.bio || ""} onChange={change} rows={2} /></label>
@@ -3192,7 +3192,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
             </div>
           </details>
           <details className="teacher-profile-group">
-            <summary><span className="teacher-profile-group-icon">03</span><span><strong>Class information</strong><small>Fees, duration, learner age and availability</small></span><i>⌄</i></summary>
+            <summary><span className="teacher-profile-group-icon">03</span><span><strong style={{color:"#F5F8FF",fontSize:13,fontWeight:750}}>Class information</strong><small style={{color:"#C2D2E8",fontSize:11,fontWeight:500}}>Fees, duration, learner age and availability</small></span><i>⌄</i></summary>
             <div className="teacher-profile-fields teacher-profile-fields-class">
               <label>Teacher fee (optional)<input name="hourlyRate" type="number" value={profile.hourlyRate ?? ""} onChange={change} /></label>
               <label>Lesson duration (minutes)<input name="lessonDuration" type="number" value={profile.lessonDuration ?? ""} onChange={change} /></label>
