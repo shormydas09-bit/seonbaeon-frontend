@@ -3153,7 +3153,26 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         onClose={()=>setSelectedMetric("")}
       >
         <div className="teacher-metric-notification-content">
-          {selectedMetric==="enquiries" && (consultations.length ? <div className="teacher-enquiry-modal-list">{consultations.map(c=><article className="teacher-enquiry-modal-item" key={c.id}><div className="teacher-enquiry-modal-top"><div><strong>{c.studentName || "Student"}</strong><small>{c.email || c.studentProfile?.email || "Email not provided"}</small></div><span>{c.status || "NEW"}</span></div><p>{c.message || "The student is interested in your teaching profile."}</p><div className="teacher-enquiry-modal-meta"><span>Age: {c.studentProfile?.age || "—"}</span><span>Level: {c.studentProfile?.englishLevel || "—"}</span></div><div className="teacher-enquiry-modal-actions"><a className="teacher-contact-link" href={"mailto:"+encodeURIComponent(c.email || c.studentProfile?.email || "")+"?subject="+encodeURIComponent("Your English class enquiry")}>✉ Contact student</a><button type="button" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide learning profile":"View learning profile"}</button></div>{selectedStudent===c.id && <div className="teacher-enquiry-modal-profile"><p><b>Age / Group</b>{c.studentProfile?.age || "—"} / {c.studentProfile?.ageGroup || "—"}</p><p><b>English level</b>{c.studentProfile?.englishLevel || "—"}</p><p><b>Learning goals</b>{c.studentProfile?.learningGoals || "—"}</p><p><b>Preferred category</b>{c.studentProfile?.preferredCategory || "—"}</p><p><b>Interests</b>{c.studentProfile?.interests || "—"}</p><p><b>About</b>{c.studentProfile?.introduction || "—"}</p>{c.studentProfile?.guardianName && <p><b>Guardian</b>{c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}</div>}</article>)}</div> : <p className="teacher-stat-empty">No student enquiries yet.</p>)}
+          {selectedMetric==="enquiries" && (consultations.length ? <div className="teacher-enquiry-modal-list">{consultations.map(c=><article className="teacher-enquiry-modal-item" key={c.id}>
+            <div className="teacher-enquiry-modal-top">
+              <div className="teacher-enquiry-person"><span className="teacher-enquiry-avatar">{(c.studentName || "S").slice(0,1).toUpperCase()}</span><div><strong>{c.studentName || "Student"}</strong><small>{c.email || c.studentProfile?.email || "Email not provided"}</small></div></div>
+              <span className="teacher-enquiry-status-pill">{c.status || "NEW"}</span>
+            </div>
+            <div className="teacher-enquiry-message-card"><span>MESSAGE</span><p>{c.message || "The student is interested in your teaching profile."}</p></div>
+            <div className="teacher-enquiry-modal-meta"><span><b>AGE</b>{c.studentProfile?.age || "—"}</span><span><b>ENGLISH LEVEL</b>{c.studentProfile?.englishLevel || "—"}</span></div>
+            <div className="teacher-enquiry-modal-actions"><a className="teacher-contact-link" href={"mailto:"+encodeURIComponent(c.email || c.studentProfile?.email || "")+"?subject="+encodeURIComponent("Your English class enquiry")}>✉ <span>Contact student</span></a><button type="button" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide details":"View learning profile"} <span>{selectedStudent===c.id?"⌃":"⌄"}</span></button></div>
+            {selectedStudent===c.id && <div className="teacher-enquiry-modal-profile"><div className="teacher-enquiry-profile-heading"><strong>Learning profile</strong><small>Student preferences and background</small></div>
+              <div className="teacher-enquiry-profile-grid">
+                <div><b>Age / Group</b><span>{c.studentProfile?.age || "—"} / {c.studentProfile?.ageGroup || "—"}</span></div>
+                <div><b>English level</b><span>{c.studentProfile?.englishLevel || "—"}</span></div>
+                <div><b>Learning goals</b><span>{c.studentProfile?.learningGoals || "—"}</span></div>
+                <div><b>Preferred category</b><span>{c.studentProfile?.preferredCategory || "—"}</span></div>
+                <div><b>Interests</b><span>{c.studentProfile?.interests || "—"}</span></div>
+                <div><b>About</b><span>{c.studentProfile?.introduction || "—"}</span></div>
+                {c.studentProfile?.guardianName && <div><b>Guardian</b><span>{c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</span></div>}
+              </div>
+            </div>}
+          </article>)}</div> : <p className="teacher-stat-empty">No student enquiries yet.</p>)}
           {selectedMetric==="students" && (consultations.length ? <div className="teacher-stat-records">{consultations.map(c=><div className="teacher-stat-record" key={c.id}><div><strong>{c.studentName || "Student"}</strong><small>{c.studentProfile?.englishLevel || "English learner"}</small></div><span>Connected</span></div>)}</div> : <p className="teacher-stat-empty">No connected students yet.</p>)}
           {selectedMetric==="rating" && <div className="teacher-rating-summary"><strong>{Number(analytics?.averageRating ?? 0).toFixed(1)} <small>/ 5</small></strong><p>{analytics?.reviews ? `Based on ${analytics.reviews} student reviews.` : "You have no student reviews yet. Your rating will appear here after students leave feedback."}</p></div>}
         </div>
