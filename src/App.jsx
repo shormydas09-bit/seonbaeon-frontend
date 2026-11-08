@@ -2660,8 +2660,8 @@ function StudentDashboard({
           <div className="student-hero-actions"><NotificationCenter user={currentUser} /><AccountDeletionButton user={currentUser} onDeleted={handleLogout} /></div>
         </div>
 
-        <div className="student-overview-accordion" aria-label="Learning overview" style={{display:"grid",gridTemplateColumns:"repeat(3,minmax(0,1fr))",gridAutoFlow:"row",gap:"14px",width:"100%",alignItems:"stretch"}}>
-          <button type="button" className="student-overview-accordion-item student-overview-trigger" style={{width:"100%",minWidth:0,maxWidth:"none",boxSizing:"border-box"}} onClick={()=>setActiveOverview("lessons")}>
+        <div className="student-overview-accordion" aria-label="Learning overview" style={{display:"flex",flexDirection:"row",flexWrap:"nowrap",gap:"14px",width:"100%",alignItems:"stretch"}}>
+          <button type="button" className="student-overview-accordion-item student-overview-trigger" style={{flex:"1 1 0",width:"0",minWidth:0,maxWidth:"none",boxSizing:"border-box"}} onClick={()=>setActiveOverview("lessons")}>
             <span className="overview-icon">▣</span><span className="student-overview-summary-copy"><small>SCHEDULED SESSIONS</small><strong>{myLessons.filter(lesson=>lesson.status==="SCHEDULED").length}</strong><span>Scheduled sessions</span></span><span className="student-overview-expand">View details <b>↗</b></span>
           </button>
           <button type="button" className="student-overview-accordion-item student-overview-trigger" style={{width:"100%",minWidth:0,maxWidth:"none",boxSizing:"border-box"}} onClick={()=>setActiveOverview("consultations")}>
