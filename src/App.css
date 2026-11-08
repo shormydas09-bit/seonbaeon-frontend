@@ -7440,3 +7440,122 @@ body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordion
     gap: 12px !important;
   }
 }
+
+
+/* Responsive QA pass — navigation, discovery and booking surfaces */
+@media (max-width: 760px) {
+  .app.theme-dark-premium .navbar {
+    position: sticky !important;
+    min-height: 64px !important;
+    height: 64px !important;
+    padding: 0 14px !important;
+    gap: 10px !important;
+  }
+  .app.theme-dark-premium .mobile-menu-button {
+    display: grid !important;
+    flex: 0 0 42px !important;
+    width: 42px !important;
+    height: 42px !important;
+    border: 1px solid rgba(157,180,230,.22) !important;
+    border-radius: 11px !important;
+    background: #14223c !important;
+    color: #edf3ff !important;
+  }
+  .app.theme-dark-premium .mobile-menu-button span {
+    background: #e8efff !important;
+  }
+  .app.theme-dark-premium .mobile-nav-panel {
+    z-index: 1200 !important;
+    max-height: calc(100dvh - 82px) !important;
+    overflow-y: auto !important;
+    padding: 10px !important;
+    border: 1px solid rgba(157,180,230,.2) !important;
+    border-radius: 15px !important;
+    background: #111e34 !important;
+    box-shadow: 0 20px 48px rgba(0,0,0,.42) !important;
+  }
+  .app.theme-dark-premium .mobile-nav-panel button {
+    min-height: 46px !important;
+    color: #e7efff !important;
+    border-radius: 10px !important;
+    background: transparent !important;
+  }
+  .app.theme-dark-premium .mobile-nav-panel button:hover,
+  .app.theme-dark-premium .mobile-nav-panel button:focus-visible {
+    background: rgba(126,153,255,.13) !important;
+  }
+  .app.theme-dark-premium .mobile-nav-panel .mobile-nav-primary {
+    background: linear-gradient(110deg,#7895ff,#526fe0) !important;
+    color: #fff !important;
+  }
+  .app.theme-dark-premium .teachers-header,
+  .app.theme-dark-premium .teacher-search-area,
+  .app.theme-dark-premium .teacher-profile-redesign .profile-container {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  .app.theme-dark-premium .teacher-search-area .search-top {
+    grid-template-columns: minmax(0,1fr) !important;
+  }
+  .app.theme-dark-premium .teacher-search-area .search-top > *,
+  .app.theme-dark-premium .teacher-grid > *,
+  .app.theme-dark-premium .teacher-card {
+    min-width: 0 !important;
+  }
+  .app.theme-dark-premium .consultation-overlay,
+  .app.theme-dark-premium .compare-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    padding: max(10px,env(safe-area-inset-top)) 10px max(10px,env(safe-area-inset-bottom)) !important;
+    overflow-y: auto !important;
+    z-index: 1500 !important;
+  }
+  .app.theme-dark-premium .consultation-modal,
+  .app.theme-dark-premium .compare-modal {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 620px !important;
+    max-height: calc(100dvh - 20px) !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    padding: 22px 18px max(22px,env(safe-area-inset-bottom)) !important;
+  }
+  .app.theme-dark-premium .consultation-modal input,
+  .app.theme-dark-premium .consultation-modal select,
+  .app.theme-dark-premium .consultation-modal textarea {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    font-size: 16px !important;
+  }
+  .app.theme-dark-premium .comparison-table {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+@media (max-width: 430px) {
+  .app.theme-dark-premium .logo { font-size: 17px !important; }
+  .app.theme-dark-premium .workspace-premium-shell { padding-left: 10px !important; padding-right: 10px !important; }
+  .app.theme-dark-premium .teacher-grid { grid-template-columns: minmax(0,1fr) !important; }
+  .app.theme-dark-premium .teacher-card .teacher-actions { grid-template-columns: minmax(0,1fr) !important; }
+  .app.theme-dark-premium .teacher-profile-redesign .profile-stat { min-width: 0 !important; }
+}
+@media (min-width: 761px) and (max-width: 1024px) {
+  .app.theme-dark-premium .teacher-grid { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+  .app.theme-dark-premium .teacher-search-area .search-top {
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+  }
+  .app.theme-dark-premium .consultation-modal,
+  .app.theme-dark-premium .compare-modal {
+    width: min(100% - 32px,720px) !important;
+    max-height: 90dvh !important;
+    overflow-y: auto !important;
+  }
+}
