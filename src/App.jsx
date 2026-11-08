@@ -3147,12 +3147,17 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         <button type="button" className={"teacher-stat-card "+(selectedMetric==="enquiries"?"active":"")} aria-expanded={selectedMetric==="enquiries"} onClick={()=>setSelectedMetric(selectedMetric==="enquiries"?"":"enquiries")}><span className="teacher-stat-icon">✉</span><span className="teacher-stat-copy"><small>STUDENT ENQUIRIES</small><strong>{consultations.length}</strong><em>View enquiries</em></span><span className="teacher-stat-arrow">›</span></button>
         <button type="button" className={"teacher-stat-card "+(selectedMetric==="students"?"active":"")} aria-expanded={selectedMetric==="students"} onClick={()=>setSelectedMetric(selectedMetric==="students"?"":"students")}><span className="teacher-stat-icon">♙</span><span className="teacher-stat-copy"><small>CONNECTED STUDENTS</small><strong>{analytics?.students ?? consultations.length}</strong><em>View students</em></span><span className="teacher-stat-arrow">›</span></button>
         <button type="button" className={"teacher-stat-card "+(selectedMetric==="rating"?"active":"")} aria-expanded={selectedMetric==="rating"} onClick={()=>setSelectedMetric(selectedMetric==="rating"?"":"rating")}><span className="teacher-stat-icon">☆</span><span className="teacher-stat-copy"><small>YOUR RATING</small><strong>{Number(analytics?.averageRating ?? 0).toFixed(1)} <i>/ 5</i></strong><em>{analytics?.reviews ?? 0} reviews</em></span><span className="teacher-stat-arrow">›</span></button>
-        {selectedMetric && <div className={"teacher-stat-popover metric-"+selectedMetric} role="dialog" aria-label="Dashboard notification">
-          <div className="teacher-stat-details-heading"><div><span className="teacher-dashboard-eyebrow">NOTIFICATIONS</span><h3>{selectedMetric==="enquiries"?"Student enquiries":selectedMetric==="students"?"Connected students":"Your rating"}</h3></div><button type="button" onClick={()=>setSelectedMetric("")} aria-label="Close notifications">×</button></div>
+        {selectedMetric && <DashboardOverlay
+        title={selectedMetric==="enquiries"?"Student Enquiries":selectedMetric==="students"?"Connected Students":"Your Rating"}
+        subtitle={selectedMetric==="enquiries"?`${consultations.length} student enquiries · Recent activity`:selectedMetric==="students"?`${analytics?.students ?? consultations.length} connected students · Your learners`:`${analytics?.reviews ?? 0} student reviews · Rating overview`}
+        onClose={()=>setSelectedMetric("")}
+      >
+        <div className="teacher-metric-notification-content">
           {selectedMetric==="enquiries" && (consultations.length ? <div className="teacher-stat-records">{consultations.map(c=><div className="teacher-stat-record" key={c.id}><div><strong>{c.studentName || "Student"}</strong><small>{c.email || c.studentProfile?.email || "Email not provided"}</small></div><span>{c.status || "NEW"}</span></div>)}</div> : <p className="teacher-stat-empty">No student enquiries yet.</p>)}
           {selectedMetric==="students" && (consultations.length ? <div className="teacher-stat-records">{consultations.map(c=><div className="teacher-stat-record" key={c.id}><div><strong>{c.studentName || "Student"}</strong><small>{c.studentProfile?.englishLevel || "English learner"}</small></div><span>Connected</span></div>)}</div> : <p className="teacher-stat-empty">No connected students yet.</p>)}
-          {selectedMetric==="rating" && <p className="teacher-stat-empty">{analytics?.reviews ? "Your average rating is "+Number(analytics.averageRating ?? 0).toFixed(1)+" out of 5, based on "+analytics.reviews+" student reviews." : "You have no student reviews yet."}</p>}
-        </div>}
+          {selectedMetric==="rating" && <div className="teacher-rating-summary"><strong>{Number(analytics?.averageRating ?? 0).toFixed(1)} <small>/ 5</small></strong><p>{analytics?.reviews ? `Based on ${analytics.reviews} student reviews.` : "You have no student reviews yet. Your rating will appear here after students leave feedback."}</p></div>}
+        </div>
+      </DashboardOverlay>}
       </section>
     </>}
     <div className="teacher-dashboard-content">
