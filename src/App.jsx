@@ -2932,7 +2932,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
   const [imagePreview, setImagePreview] = useState("");
   const [videos, setVideos] = useState([]);
   const [consultations, setConsultations] = useState([]);
-  const [students, setStudents] = useState([]);
+  const [connectedStudents, setConnectedStudents] = useState([]);
   const [lessons, setLessons] = useState([]);
   const [analytics, setAnalytics] = useState(null);
   const [lessonDrafts, setLessonDrafts] = useState({});
@@ -2968,7 +2968,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       setVideos(await readResponse(v));
       setConsultations(await readResponse(c));
       setAnalytics(await readResponse(a));
-      setStudents(await readResponse(st));
+      setConnectedStudents(await readResponse(st));
     } catch (e) { setError(e.message); }
   }
   useEffect(() => { load(); }, []);
@@ -3176,7 +3176,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
               </div>
             </div>}
           </article>)}</div> : <p className="teacher-stat-empty">No student enquiries yet.</p>)}
-          {selectedMetric==="students" && (students.length ? <><div className="teacher-student-count-summary"><div><strong>{analytics?.students ?? students.length}</strong><span>Total connected</span></div><div><strong>{analytics?.activeStudents ?? students.filter(s=>s.status==="ACTIVE").length}</strong><span>Active</span></div><div><strong>{analytics?.completedStudents ?? students.filter(s=>s.status==="COMPLETED").length}</strong><span>Completed</span></div></div><div className="teacher-stat-records">{students.map(student=><div className="teacher-stat-record" key={student.id}><div><strong>{student.name || "Student"}</strong><small>{student.email || "English learner"}</small></div><span className={student.status==="ACTIVE"?"is-active":"is-completed"}>{student.statusLabel || (student.status==="ACTIVE"?"Active student":"Completed student")}</span></div>)}</div></> : <p className="teacher-stat-empty">No connected students yet. A student appears here after you approve their enquiry.</p>)}
+          {selectedMetric==="students" && (connectedStudents.length ? <><div className="teacher-student-count-summary"><div><strong>{analytics?.students ?? connectedStudents.length}</strong><span>Total connected</span></div><div><strong>{analytics?.activeStudents ?? connectedStudents.filter(s=>s.status==="ACTIVE").length}</strong><span>Active</span></div><div><strong>{analytics?.completedStudents ?? connectedStudents.filter(s=>s.status==="COMPLETED").length}</strong><span>Completed</span></div></div><div className="teacher-stat-records">{connectedStudents.map(student=><div className="teacher-stat-record" key={student.id}><div><strong>{student.name || "Student"}</strong><small>{student.email || "English learner"}</small></div><span className={student.status==="ACTIVE"?"is-active":"is-completed"}>{student.statusLabel || (student.status==="ACTIVE"?"Active student":"Completed student")}</span></div>)}</div></> : <p className="teacher-stat-empty">No connected students yet. A student appears here after you approve their enquiry.</p>)}
           {selectedMetric==="rating" && <div className="teacher-rating-summary"><strong>{Number(analytics?.averageRating ?? 0).toFixed(1)} <small>/ 5</small></strong><p>{analytics?.reviews ? `Based on ${analytics.reviews} student reviews.` : "You have no student reviews yet. Your rating will appear here after students leave feedback."}</p></div>}
         </div>
       </DashboardOverlay>}
