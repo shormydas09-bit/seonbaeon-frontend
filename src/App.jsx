@@ -10,6 +10,28 @@ const API_URL = `${(import.meta.env.VITE_API_URL || "https://seonbaeon-backend.o
 const FAVORITES_KEY = "pick-my-teacher-favorites";
 const USER_KEY = "pick-my-teacher-logged-user";
 
+// Treat API-provided URLs as untrusted, including legacy database records.
+// Never let user-controlled javascript:, data:, or other schemes reach URL sinks.
+function safeExternalUrl(value) {
+  if (typeof value !== "string" || !value.trim()) return "";
+  try {
+    const url = new URL(value.trim());
+    return url.protocol === "https:" || url.protocol === "http:" ? url.href : "";
+  } catch {
+    return "";
+  }
+}
+
+function safeImageUrl(value) {
+  if (typeof value !== "string" || !value.trim()) return "";
+  try {
+    const url = new URL(value.trim());
+    return url.protocol === "https:" ? url.href : "";
+  } catch {
+    return "";
+  }
+}
+
 const ENGLISH_CATEGORIES = [
   "All",
   "Kids English",
@@ -774,7 +796,7 @@ function TeacherSearch({ goHome, openProfile }) {
                     className="compare-mini-card"
                     key={teacher.id}
                   >
-                    <span>{teacher.profileImageUrl ? (<img src={teacher.profileImageUrl} alt={teacher.name} onError={(event) => { event.currentTarget.style.display = "none"; event.currentTarget.parentElement.textContent = (teacher.name || "Teacher").split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase(); }} />) : ((teacher.name || "Teacher").split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase())}</span>
+                    <span>{teacher.profileImageUrl ? (<img src={safeImageUrl(teacher.profileImageUrl) || undefined} alt={teacher.name} onError={(event) => { event.currentTarget.style.display = "none"; event.currentTarget.parentElement.textContent = (teacher.name || "Teacher").split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase(); }} />) : ((teacher.name || "Teacher").split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase())}</span>
 
                     <strong>{teacher.name}</strong>
 
@@ -831,7 +853,7 @@ function TeacherSearch({ goHome, openProfile }) {
                     <div className="teacher-avatar">
                       {teacher.profileImageUrl ? (
                         <img
-                          src={teacher.profileImageUrl}
+                          src={safeImageUrl(teacher.profileImageUrl) || undefined}
                           alt={teacher.name}
                         />
                       ) : (
@@ -1059,7 +1081,7 @@ function CompareModal({ teachers, onClose }) {
                 <div className="comparison-avatar">
                   {teacher.profileImageUrl ? (
                     <img
-                      src={teacher.profileImageUrl}
+                      src={safeImageUrl(teacher.profileImageUrl) || undefined}
                       alt={teacher.name}
                       onError={(event) => {
                         event.currentTarget.style.display =
@@ -1774,7 +1796,7 @@ function TeacherProfile({
           }`}>
             {teacher.profileImageUrl && !profileImageFailed ? (
               <img
-                src={teacher.profileImageUrl}
+                src={safeImageUrl(teacher.profileImageUrl) || undefined}
                 alt={`${teacher.name} profile`}
                 loading="eager"
                 onError={() => setProfileImageFailed(true)}
@@ -1951,7 +1973,7 @@ function TeacherProfile({
                             onError={() => setVideoPlaybackError(true)}
                           >
                             <source
-                              src={selectedVideo.videoUrl}
+                              src={safeExternalUrl(selectedVideo.videoUrl) || undefined}
                               type="video/mp4"
                             />
                             Your browser does not support the video tag.
@@ -2706,7 +2728,7 @@ function StudentDashboard({
           {activeOverview==="lessons" && <>
             {lessonError&&<p className="student-inline-error">{lessonError}</p>}
             {myLessons.length===0?<p className="student-overview-empty">No lessons scheduled yet.</p>:myLessons.map(lesson=><div className="student-overview-table-row" key={lesson.id}>
-              <div className="student-overview-row-main"><strong>{lesson.teacherName||"Your English teacher"}</strong><span>{new Date(lesson.scheduledAt).toLocaleString()} · {lesson.durationMinutes} min</span>{lesson.meetingLink&&<a className="student-join-link" href={lesson.meetingLink} target="_blank" rel="noreferrer">Join lesson ↗</a>}</div>
+              <div className="student-overview-row-main"><strong>{lesson.teacherName||"Your English teacher"}</strong><span>{new Date(lesson.scheduledAt).toLocaleString()} · {lesson.durationMinutes} min</span>{lesson.meetingLink&&<a className="student-join-link" href={safeExternalUrl(lesson.meetingLink) || undefined} target="_blank" rel="noreferrer">Join lesson ↗</a>}</div>
               <div className="student-overview-row-meta"><em className={`student-status-pill ${lesson.status==="SCHEDULED"?"is-scheduled":""}`}>{lesson.status}</em><div className="student-overview-row-actions">{lesson.status==="SCHEDULED"&&<button type="button" className="compare-btn" onClick={async()=>{if(!window.confirm("Cancel this lesson?"))return;const reason=window.prompt("Optional cancellation reason:")||"";try{await readResponse(await fetch(`${API_URL}/lessons/${lesson.id}/status`,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:`Bearer ${currentUser.token}`},body:JSON.stringify({status:"CANCELLED",reason})}));setMyLessons(old=>old.map(x=>x.id===lesson.id?{...x,status:"CANCELLED",cancellationReason:reason}:x));}catch(e){setLessonError(e.message);}}}>Cancel lesson</button>}<button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this lesson from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/LESSON/${lesson.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setMyLessons(old=>old.filter(x=>x.id!==lesson.id));}catch(e){setLessonError(e.message);}}}>Hide</button></div></div>
             </div>)}
           </>}
@@ -3263,7 +3285,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
           <span className="teacher-form-step">EDIT PROFILE</span>
         </div>
         <div className="teacher-profile-photo-field teacher-profile-photo-compact">
-          <div className="teacher-photo-preview">{(imagePreview || profile.profileImageUrl) ? <img src={imagePreview || profile.profileImageUrl} alt="Teacher profile preview" /> : <span>✦</span>}</div>
+          <div className="teacher-photo-preview">{(imagePreview || profile.profileImageUrl) ? <img src={imagePreview || safeImageUrl(profile.profileImageUrl) || undefined} alt="Teacher profile preview" /> : <span>✦</span>}</div>
           <div className="teacher-photo-copy"><label>Profile picture</label><small>Use a clear photo · JPG, PNG or WebP · max 5 MB</small><label className="teacher-photo-upload">Choose photo<input type="file" accept="image/*" onChange={e=>{const f=e.target.files?.[0];if(f){setProfileImage(f);setImagePreview(URL.createObjectURL(f));}}} /></label></div>
         </div>
         <div className="teacher-profile-accordions">
@@ -3298,7 +3320,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
             </div>
           </details>
         </div>
-        {profile.qualificationDocumentUrl && <p className="teacher-current-document">Current document: <a href={profile.qualificationDocumentUrl} target="_blank" rel="noreferrer">View uploaded evidence</a></p>}
+        {profile.qualificationDocumentUrl && <p className="teacher-current-document">Current document: <a href={safeExternalUrl(profile.qualificationDocumentUrl) || undefined} target="_blank" rel="noreferrer">View uploaded evidence</a></p>}
         <p className="teacher-privacy-note">Upload a teaching certificate or relevant degree. Do not upload passports or unrelated identity documents.</p>
         <div className="teacher-profile-footer"><span>Your profile information is saved securely.</span><button className="signup-btn" disabled={busy}>{busy ? "Saving..." : "Save profile"}</button></div>
       </form>      </section>
@@ -3326,7 +3348,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
           <button className="signup-btn teacher-demo-submit" disabled={busy || videos.length>=2}>{busy?(videoMode==="upload"?"Uploading...":"Saving..."):"Save demo video"}</button>
             </form>
           </details>
-          <div className="teacher-demo-list">{videos.length===0 ? <div className="teacher-demo-empty">No demo videos yet. Add one to help students see your teaching style.</div> : videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);const isUploaded=v.videoType==="uploaded";return <article className="teacher-demo-item" key={v.id}><div className="teacher-demo-item-heading"><span className="teacher-demo-play">▶</span><div className="teacher-demo-item-copy"><strong>{v.title}</strong><small>{isUploaded?"Uploaded video":"YouTube demo"}</small></div><button type="button" disabled={busy} onClick={()=>deleteVideo(v.id)} className="teacher-demo-delete">Remove</button></div><details className="teacher-demo-preview"><summary>Watch preview</summary>{isUploaded ? <video controls playsInline preload="metadata" src={v.videoUrl} /> : videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p>Preview unavailable. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</details></article>})}</div>
+          <div className="teacher-demo-list">{videos.length===0 ? <div className="teacher-demo-empty">No demo videos yet. Add one to help students see your teaching style.</div> : videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);const isUploaded=v.videoType==="uploaded";return <article className="teacher-demo-item" key={v.id}><div className="teacher-demo-item-heading"><span className="teacher-demo-play">▶</span><div className="teacher-demo-item-copy"><strong>{v.title}</strong><small>{isUploaded?"Uploaded video":"YouTube demo"}</small></div><button type="button" disabled={busy} onClick={()=>deleteVideo(v.id)} className="teacher-demo-delete">Remove</button></div><details className="teacher-demo-preview"><summary>Watch preview</summary>{isUploaded ? <video controls playsInline preload="metadata" src={v.videoUrl} /> : videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p>Preview unavailable. <a href={safeExternalUrl(v.videoUrl) || undefined} target="_blank" rel="noreferrer">Watch video</a></p>}</details></article>})}</div>
         </div>
       </section>}
       <section className="teacher-dashboard-section teacher-dashboard-help"><div><span className="teacher-dashboard-eyebrow">GROW YOUR REACH</span><h2>More students start with a strong profile.</h2><p>Keep your centre information, course details and demo lessons accurate so families can make a confident choice.</p></div><button type="button" className="signup-btn" onClick={()=>document.querySelector(".teacher-profile-form")?.scrollIntoView({behavior:"smooth",block:"start"})}>Update my profile</button></section>
@@ -3465,7 +3487,7 @@ function AdminWorkspace({ currentUser, handleLogout }) {
             <div className="admin-application-details"><div><small>Qualification</small><strong>{t.qualification||"Not provided"}</strong></div><div><small>Institution</small><strong>{t.qualificationInstitution||"Not provided"}</strong></div></div>
             <div className="admin-application-meta"><span>{t.ownerEmail||"No linked email"}</span><span>{t.experience||"Experience not provided"}</span></div>
             {t.bio&&<p className="admin-application-bio">{t.bio}</p>}
-            <div className="admin-evidence-row">{t.qualificationDocumentUrl?<a href={t.qualificationDocumentUrl} target="_blank" rel="noreferrer">↗ View qualification document</a>:<span className="admin-evidence-missing">Qualification document not uploaded</span>}{(t.videos||[]).map(v=><a key={v.id} href={v.videoUrl} target="_blank" rel="noreferrer">▶ {v.title||"Demo video"}</a>)}</div>
+            <div className="admin-evidence-row">{t.qualificationDocumentUrl?<a href={safeExternalUrl(t.qualificationDocumentUrl) || undefined} target="_blank" rel="noreferrer">↗ View qualification document</a>:<span className="admin-evidence-missing">Qualification document not uploaded</span>}{(t.videos||[]).map(v=><a key={v.id} href={safeExternalUrl(v.videoUrl) || undefined} target="_blank" rel="noreferrer">▶ {v.title||"Demo video"}</a>)}</div>
           </div>
           <div className="admin-application-modal-actions"><button type="button" className="admin-approve-btn" onClick={()=>{setSelectedApplication(null);approve(t.id);}}>Approve teacher</button><button type="button" className="admin-reject-btn" onClick={()=>{setSelectedApplication(null);reject(t.id);}}>Reject</button></div>
         </section>
