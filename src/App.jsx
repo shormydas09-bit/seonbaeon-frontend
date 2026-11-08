@@ -2396,13 +2396,6 @@ function StudentProgressPanel({ user }) {
     <button type="button" className="student-overview-accordion-item student-overview-trigger student-progress-overview-trigger" onClick={()=>setActiveItem("__overview__")}>
       <span className="overview-icon">↗</span><span className="student-overview-summary-copy"><small>MY LEARNING PROGRESS</small><strong>{items.length}</strong><span>Feedback updates</span></span><span className="student-overview-expand">View details <b>↗</b></span>
     </button>
-    {error&&<p role="alert" className="student-progress-error">{error}</p>}
-    {items.length===0?<p className="student-progress-empty">Your teacher's feedback will appear here after your first progress update.</p>:
-      <div className="student-progress-list">{items.map(n=><article key={n.id} className="student-progress-item">
-        <div className="student-progress-item-heading"><b>{n.subject||"Learning update"}</b><small>{new Date(n.updatedAt).toLocaleDateString()}</small></div>
-        <p className="student-progress-copy">{n.note}</p>
-        <button type="button" className="student-progress-toggle" onClick={()=>setActiveItem(n)}>View feedback <span aria-hidden="true">→</span></button>
-      </article>)}</div>}
     {activeItem&&<div className="student-feedback-overlay" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setActiveItem(null);}}>
       <section className="student-feedback-modal" role="dialog" aria-modal="true" aria-labelledby="student-feedback-title">
         <button type="button" className="student-feedback-close" aria-label="Close feedback" onClick={()=>setActiveItem(null)}>×</button>
