@@ -653,7 +653,8 @@ function TeacherSearch({ goHome, openProfile }) {
       <div className="teacher-search-area">
         <div className="search-top">
           <div className="search-input-wrapper">
-            <span>Search</span><input type="text"
+            <label htmlFor="teacher-search-query">Search</label><input id="teacher-search-query" type="search"
+              aria-label="Search English teachers by name, category or specialty"
               placeholder="Search teacher, category or specialty..."
               value={search}
               onChange={(e) =>
@@ -663,6 +664,7 @@ function TeacherSearch({ goHome, openProfile }) {
           </div>
 
           <select
+            aria-label="Filter by English teaching category"
             value={category}
             onChange={(e) =>
               setCategory(e.target.value)
@@ -698,6 +700,7 @@ function TeacherSearch({ goHome, openProfile }) {
               <option value="3.5">3.5+ Rating</option>
             </select>
 <select
+            aria-label="Filter by location"
             value={location}
             onChange={(e) =>
               setLocation(e.target.value)
@@ -712,7 +715,7 @@ function TeacherSearch({ goHome, openProfile }) {
           </select>
         </div>
 
-        <div className="results-header">
+        <div className="results-header" aria-live="polite" aria-atomic="true">
           <strong>
             {!loading && !error ? `${filteredTeachers.length} English teachers found` : loading ? "Finding English teachers..." : ""}
           </strong>
@@ -723,7 +726,7 @@ function TeacherSearch({ goHome, openProfile }) {
         </div>
 
         {loading && (
-          <div className="no-results">
+          <div className="no-results" role="status" aria-live="polite" aria-busy="true">
             <div>Loading</div><h2>Loading teachers...</h2>
 
             <p>
@@ -734,7 +737,7 @@ function TeacherSearch({ goHome, openProfile }) {
         )}
 
         {error && !loading && (
-          <div className="no-results">
+          <div className="no-results" role="alert">
             <div>Warning</div><h2>Backend connection problem</h2>
 
             <p>{error}</p>
@@ -922,7 +925,7 @@ function TeacherSearch({ goHome, openProfile }) {
         {!loading &&
           !error &&
           filteredTeachers.length === 0 && (
-            <div className="no-results empty-state">
+            <div className="no-results empty-state" role="status" aria-live="polite">
               <div className="status-label">No results</div>
 
               <h2>No English teachers found</h2>
@@ -1634,8 +1637,10 @@ function TeacherProfile({
 
         {showConsultation && (
           <div className="consultation-overlay">
-            <div className="consultation-modal">
+            <div className="consultation-modal" role="dialog" aria-modal="true" aria-labelledby="consultation-title" aria-describedby="consultation-description" tabIndex={-1}>
               <button
+                type="button"
+                aria-label="Close consultation enquiry form"
                 className="close-consultation"
                 onClick={() =>
                   setShowConsultation(false)
@@ -1644,9 +1649,9 @@ function TeacherProfile({
                 ×
               </button>
 
-              <h2>Send an Enquiry</h2>
+              <h2 id="consultation-title">Send an Enquiry</h2>
 
-              <p>
+              <p id="consultation-description">
                 Send an enquiry to{" "}
                 {teacher.name}.
               </p>
