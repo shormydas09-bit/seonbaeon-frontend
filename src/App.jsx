@@ -157,33 +157,47 @@ function AuthPage({ mode, setMode, onLogin, onPolicyOpen }) {
               role: accountRole,
             };
 
-      if (mode === "login") {
-        setMessage("Connecting securely… If the server is asleep, this may take a little longer.");
-        await waitForBackend({ onRetry: (attempt) => setMessage(`Waking the server… retry ${attempt} of 4`) });
-      }
-
-      const controller = new AbortController();
-      const timeoutId = window.setTimeout(() => controller.abort(), 45000);
+      // Do not gate login behind a separate /health + database probe.
+      // The authentication endpoint itself is the source of truth; this avoids
+      // a false "server waking up" failure when health checks are slow.
       let response;
-      try {
-        response = await fetch(`${API_URL}${endpoint}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(body),
-          signal: controller.signal,
-          cache: "no-store",
-        });
-      } catch (requestError) {
-        if (requestError.name === "AbortError") {
-          throw new Error("The request timed out. Please try again; your account details have not been changed.");
+      let lastNetworkError = null;
+      const maxAttempts = mode === "login" ? 3 : 1;
+      for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+        if (attempt > 0) {
+          setMessage(`Reconnecting securely… attempt ${attempt + 1} of ${maxAttempts}`);
+          await wait(1800 * attempt);
+        } else if (mode === "login") {
+          setMessage("Connecting securely…");
         }
-        throw new Error("Could not reach the login server. Check your connection and try again.");
-      } finally {
-        window.clearTimeout(timeoutId);
+        const controller = new AbortController();
+        const timeoutId = window.setTimeout(() => controller.abort(), 45000);
+        try {
+          response = await fetch(`${API_URL}${endpoint}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(body),
+            signal: controller.signal,
+            cache: "no-store",
+          });
+          if (mode === "login" && [502, 503, 504].includes(response.status) && attempt < maxAttempts - 1) {
+            lastNetworkError = new Error(`Login service is starting (HTTP ${response.status}).`);
+            continue;
+          }
+          break;
+        } catch (requestError) {
+          lastNetworkError = requestError.name === "AbortError"
+            ? new Error("The login request timed out. Please try again.")
+            : new Error("Could not reach the login server. Check your connection and try again.");
+          if (attempt === maxAttempts - 1) throw lastNetworkError;
+        } finally {
+          window.clearTimeout(timeoutId);
+        }
       }
+      if (!response) throw lastNetworkError || new Error("Login service is temporarily unavailable. Please try again.");
 
       const data = await readResponse(response);
       setMessage("");
