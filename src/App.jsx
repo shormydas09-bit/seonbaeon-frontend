@@ -554,6 +554,7 @@ function TeacherSearch({ goHome, openProfile, currentUser }) {
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [loadMessage, setLoadMessage] = useState("Connecting to the teacher directory…");
 
   const [category, setCategory] = useState("All");
   const [location, setLocation] = useState("All");
@@ -574,24 +575,34 @@ function TeacherSearch({ goHome, openProfile, currentUser }) {
   const [showCompare, setShowCompare] = useState(false);
 
   async function loadTeachers() {
-    const controller = new AbortController();
-    let timeoutId;
-    try {
-      setLoading(true);
-      setError("");
-      await waitForBackend({ attempts: 4 });
-      const timeout = new Promise((_, reject) => {
-        timeoutId = window.setTimeout(() => {
-          controller.abort();
-          reject(new Error("Teacher loading timed out after 30 seconds. Please retry."));
-        }, 30000);
-      });
-      const request = (async () => {
+    setLoading(true);
+    setError("");
+    setLoadMessage("Connecting to the teacher directory…");
+    let lastError = null;
+
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      if (attempt > 0) {
+        setLoadMessage(`Reconnecting to the teacher directory… attempt ${attempt + 1} of 3`);
+        await wait(attempt * 1500);
+      }
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), 20000);
+      try {
         const response = await fetch(`${API_URL}/teachers`, {
-          signal: controller.signal,
-          headers: { Accept: "application/json", Authorization: `Bearer ${currentUser?.token || ""}` },
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${currentUser?.token || ""}`,
+          },
           cache: "no-store",
+          signal: controller.signal,
         });
+
+        if ([502, 503, 504].includes(response.status)) {
+          lastError = new Error("The teacher service is waking up. Reconnecting…");
+          continue;
+        }
+
         const data = await readResponse(response);
         const list = Array.isArray(data)
           ? data
@@ -599,16 +610,23 @@ function TeacherSearch({ goHome, openProfile, currentUser }) {
             ? data.teachers
             : (Array.isArray(data?.content) ? data.content : null));
         if (!list) throw new Error("The server returned an unexpected teacher list. Please try again.");
-        return list;
-      })();
-      const list = await Promise.race([request, timeout]);
-      setTeachers(list);
-    } catch (err) {
-      setError(err.message || "Could not connect to the teacher service. Please retry.");
-    } finally {
-      window.clearTimeout(timeoutId);
-      setLoading(false);
+        setTeachers(list);
+        setLoadMessage("");
+        setLoading(false);
+        return;
+      } catch (err) {
+        lastError = err.name === "AbortError"
+          ? new Error("The teacher service took too long to respond. Please try again.")
+          : err;
+        if (err.status === 401 || err.status === 403 || /401|403|log in|session/i.test(err.message || "")) break;
+      } finally {
+        window.clearTimeout(timeoutId);
+      }
     }
+
+    setError(lastError?.message || "Could not connect to the teacher service. Please try again.");
+    setLoadMessage("");
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -810,8 +828,7 @@ function TeacherSearch({ goHome, openProfile, currentUser }) {
             <div>Loading</div><h2>Loading teachers...</h2>
 
             <p>
-              Getting English teachers from the
-              Pick My Teacher database.
+              {loadMessage || "Getting English teachers from the Pick My Teacher database."}
             </p>
           </div>
         )}
