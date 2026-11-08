@@ -7109,3 +7109,32 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app.theme-dark-premium .teacher-profile-redesign .demo-play-area{aspect-ratio:16/9!important}
  #root .app.theme-dark-premium .teacher-profile-redesign .video-gallery-card{flex-basis:calc(50% - 5px)!important;width:calc(50% - 5px)!important;max-width:none!important}
 }
+
+
+/* FINAL STUDENT DASHBOARD OVERRIDE
+   Earlier responsive rules at 1050px/900px were forcing two columns
+   on scaled desktop windows. Keep all three overview cards together
+   on every tablet/desktop viewport; stack only on narrow phones. */
+@media screen and (min-width: 681px) {
+  #root .app.theme-dark-premium .student-dashboard-redesign .student-overview-accordion {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-flow: row !important;
+    gap: 16px !important;
+    width: 100% !important;
+    align-items: stretch !important;
+  }
+  #root .app.theme-dark-premium .student-dashboard-redesign .student-overview-accordion > button.student-overview-trigger {
+    display: flex !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    grid-column: auto !important;
+    box-sizing: border-box !important;
+  }
+}
+@media screen and (max-width: 680px) {
+  #root .app.theme-dark-premium .student-dashboard-redesign .student-overview-accordion {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
