@@ -2493,7 +2493,7 @@ function AdminToolsPanel({ user }) {
   async function setReviewHidden(id,hidden){try{await readResponse(await fetch(`${API_URL}/workspace/admin/reviews/${id}/visibility`,{method:"PATCH",headers,body:JSON.stringify({hidden})}));setNotice(hidden?"Review hidden from public profiles.":"Review restored to public profiles.");await load();}catch(e){setError(e.message);}}
   async function removeReview(id){if(!window.confirm("Permanently remove this review? This cannot be undone."))return;try{await readResponse(await fetch(`${API_URL}/workspace/admin/reviews/${id}`,{method:"DELETE",headers}));setNotice("Review permanently removed and teacher rating recalculated.");await load();}catch(e){setError(e.message);}}
   const visibleReviews=reviews.filter(r=>(reviewFilter==="ALL"||(reviewFilter==="REPORTED"&&r.reported)||(reviewFilter==="HIDDEN"&&r.hidden)||(reviewFilter==="PUBLIC"&&!r.hidden))&&(!search.trim()||[r.teacherName,r.studentName,r.text,r.reportReason].filter(Boolean).some(v=>String(v).toLowerCase().includes(search.trim().toLowerCase()))));
-  const metricLabels={users:"Total users",students:"Students",teachers:"Teachers",teacherProfiles:"Teacher profiles",consultations:"Consultations",pendingConsultations:"Pending requests",lessons:"Lessons",completedLessons:"Completed lessons",reviews:"Reviews"};
+  const metricLabels={users:"Total users",students:"Students",teachers:"Teacher accounts",teacherProfiles:"Teacher profiles",reviews:"Student reviews"};
   return <div className="card" style={{padding:24,marginTop:20}}>
     <div style={{display:"flex",justifyContent:"space-between",gap:12,alignItems:"center",flexWrap:"wrap"}}><div><p className="eyebrow">PLATFORM CONTROL CENTER</p><h2 style={{margin:"4px 0"}}>Platform Overview & Moderation</h2><p style={{margin:0,color:"var(--muted,#98a2b3)"}}>Monitor platform activity and keep teacher reviews trustworthy.</p></div><button type="button" className="login-btn" onClick={load}>Refresh data</button></div>
     {notice&&<p role="status" style={{color:"#12b886",marginTop:14}}>{notice}</p>}{error&&<p role="alert" style={{color:"#f97066",marginTop:14}}>{error}</p>}
@@ -2506,8 +2506,8 @@ function AdminToolsPanel({ user }) {
         <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button type="button" className="login-btn" onClick={()=>setReviewHidden(r.id,!r.hidden)}>{r.hidden?"Restore review":"Hide review"}</button><button type="button" className="admin-suspend-btn" onClick={()=>removeReview(r.id)}>Permanently remove</button></div>
       </article>)}
     </section>
-    <section style={{marginTop:30}}><h3 style={{marginBottom:4}}>Admin Activity Overview</h3><p style={{marginTop:0,color:"var(--muted,#98a2b3)"}}>Latest consultation requests, lessons and student reviews (up to 50 records).</p>
-      {activity.length===0?<p style={{color:"var(--muted,#98a2b3)"}}>No platform activity yet.</p>:<div style={{display:"grid",gap:10}}>{activity.map((item,index)=><div key={item.type+"-"+item.occurredAt+"-"+index} style={{display:"flex",gap:12,alignItems:"flex-start",padding:"12px 0",borderTop:"1px solid var(--border,#29364b)"}}><span style={{width:34,height:34,flex:"0 0 34px",display:"grid",placeItems:"center",borderRadius:10,background:"var(--surface-2,#182235)"}}>{item.type==="REVIEW"?"★":item.type==="LESSON"?"▣":"↗"}</span><div style={{flex:1,minWidth:0}}><b>{item.title}</b><div style={{fontSize:13,color:"var(--muted,#98a2b3)"}}>{item.detail}</div><small style={{color:"var(--muted,#98a2b3)"}}>{item.status} · {new Date(item.occurredAt).toLocaleString()}</small></div></div>)}</div>}
+    <section style={{marginTop:30}}><h3 style={{marginBottom:4}}>Admin Activity Overview</h3><p style={{marginTop:0,color:"var(--muted,#98a2b3)"}}>Recent platform activity and student reviews (up to 50 records).</p>
+      {activity.filter(item=>item.type==="REVIEW").length===0?<p style={{color:"var(--muted,#98a2b3)"}}>No recent review activity yet.</p>:<div style={{display:"grid",gap:10}}>{activity.filter(item=>item.type==="REVIEW").map((item,index)=><div key={item.type+"-"+item.occurredAt+"-"+index} style={{display:"flex",gap:12,alignItems:"flex-start",padding:"12px 0",borderTop:"1px solid var(--border,#29364b)"}}><span style={{width:34,height:34,flex:"0 0 34px",display:"grid",placeItems:"center",borderRadius:10,background:"var(--surface-2,#182235)"}}>{item.type==="REVIEW"?"★":item.type==="LESSON"?"▣":"↗"}</span><div style={{flex:1,minWidth:0}}><b>{item.title}</b><div style={{fontSize:13,color:"var(--muted,#98a2b3)"}}>{item.detail}</div><small style={{color:"var(--muted,#98a2b3)"}}>{item.status} · {new Date(item.occurredAt).toLocaleString()}</small></div></div>)}</div>}
     </section>
     <section style={{marginTop:30}}><h3>User Management ({users.length})</h3>{users.map(x=><div key={x.id} style={{display:"flex",justifyContent:"space-between",gap:10,alignItems:"center",borderTop:"1px solid var(--border,#29364b)",padding:"12px 0",flexWrap:"wrap"}}><span><b>{x.name}</b><br/><small>{x.email}</small><br/><small className={x.active===false?"admin-account-suspended":"admin-account-active"}>{x.active===false?"Suspended":"Active"}</small></span><div className="admin-user-actions"><select aria-label={`Role for ${x.name}`} value={x.role} onChange={e=>changeRole(x.id,e.target.value)}><option>STUDENT</option><option>TEACHER</option><option>ADMIN</option></select><button type="button" className={x.active===false?"admin-reactivate-btn":"admin-suspend-btn"} disabled={x.role==="ADMIN"&&x.id===user?.id} onClick={()=>changeStatus(x.id,x.active===false)}>{x.active===false?"Reactivate":"Suspend"}</button></div></div>)}</section>
   </div>;
@@ -3263,137 +3263,83 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
 }
 
 function AdminWorkspace({ currentUser, handleLogout }) {
-  const [teachers, setTeachers] = useState([]);
-  const [allTeachers, setAllTeachers] = useState([]);
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [consultations, setConsultations] = useState([]);
-  const [error, setError] = useState("");
-  const [notice, setNotice] = useState("");
-  const [consultationSearch, setConsultationSearch] = useState("");
-  const [consultationFilter, setConsultationFilter] = useState("ALL");
-  const headers = { "Content-Type": "application/json", Authorization: `Bearer ${currentUser?.token || ""}` };
-  async function load() {
-    try {
-      const [t,c,all] = await Promise.all([
-        fetch(`${API_URL}/workspace/admin/pending-teachers`, { headers }),
-        fetch(`${API_URL}/workspace/admin/consultations`, { headers }),
-        fetch(`${API_URL}/workspace/admin/teachers`, { headers })
+  const [pendingTeachers,setPendingTeachers]=useState([]);
+  const [allTeachers,setAllTeachers]=useState([]);
+  const [error,setError]=useState("");
+  const [notice,setNotice]=useState("");
+  const [query,setQuery]=useState("");
+  const [filter,setFilter]=useState("ALL");
+  const headers={"Content-Type":"application/json",Authorization:`Bearer ${currentUser?.token||""}`};
+  async function load(){
+    setError("");
+    try{
+      const [pending,all]=await Promise.all([
+        fetch(`${API_URL}/workspace/admin/pending-teachers`,{headers}),
+        fetch(`${API_URL}/workspace/admin/teachers`,{headers})
       ]);
-      setTeachers(await readResponse(t)); setConsultations(await readResponse(c)); setAllTeachers(await readResponse(all));
-    } catch(e) { setError(e.message); }
+      setPendingTeachers(await readResponse(pending));
+      setAllTeachers(await readResponse(all));
+    }catch(e){setError(e.message||"Could not load teacher management data.");}
   }
   useEffect(()=>{load();},[]);
-  const filteredConsultations = consultations.filter((item) => {
-    const matchesStatus = consultationFilter === "ALL" || item.status === consultationFilter;
-    const term = consultationSearch.trim().toLowerCase();
-    const matchesSearch = !term || [item.studentName, item.email, item.teacherName, item.status]
-      .filter(Boolean).some((value) => String(value).toLowerCase().includes(term));
-    return matchesStatus && matchesSearch;
-  });
-  const consultationCounts = consultations.reduce((counts, item) => {
-    const key = item.status || "UNKNOWN";
-    counts[key] = (counts[key] || 0) + 1;
-    return counts;
-  }, {});
-
-  async function approve(id) {
-    setError(""); setNotice("");
-    try { await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/approve`,{method:"POST",headers})); setNotice("Teacher approved."); await load(); }
+  async function approve(id){
+    try{await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/approve`,{method:"POST",headers}));setNotice("Teacher approved and published.");await load();}
     catch(e){setError(e.message);}
   }
-  async function reject(id) {
-    setError(""); setNotice("");
-    if (!window.confirm("Reject this teacher application? The profile will be hidden, not deleted.")) return;
-    try {
-      await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/reject`,{method:"POST",headers}));
-      setNotice("Teacher application rejected and hidden.");
-      await load();
-    } catch(e) { setError(e.message); }
+  async function reject(id){
+    if(!window.confirm("Reject this teacher application?"))return;
+    try{await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/reject`,{method:"POST",headers}));setNotice("Teacher application rejected.");await load();}
+    catch(e){setError(e.message);}
   }
-  async function removeTeacherProfile(teacher) {
-    const confirmation = window.prompt(`This removes ${teacher.name}'s public teacher profile while preserving the account and history. Type REMOVE to confirm:`);
-    if (confirmation !== "REMOVE") return;
-    setError(""); setNotice("");
-    try {
-      await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${teacher.id}`, { method:"DELETE", headers }));
-      setNotice(`${teacher.name}'s public teacher profile was removed. Account and history were preserved.`);
-      await load();
-    } catch(e) { setError(e.message || "Could not remove teacher profile."); }
+  async function removeProfile(t){
+    if(!window.confirm(`Hide ${t.name}'s public teacher profile? The account will remain.`))return;
+    try{await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${t.id}`,{method:"DELETE",headers}));setNotice("Teacher profile hidden; account history preserved.");await load();}
+    catch(e){setError(e.message);}
   }
-
-  async function restoreTeacherProfile(teacher) {
-    if (!window.confirm(`Restore ${teacher.name}'s public profile and make it visible to students again?`)) return;
-    setError(""); setNotice("");
-    try {
-      await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${teacher.id}/restore`, { method:"POST", headers }));
-      setNotice(`${teacher.name}'s public teacher profile was restored and published.`);
-      await load();
-    } catch(e) { setError(e.message || "Could not restore teacher profile."); }
+  async function restoreProfile(t){
+    try{await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${t.id}/restore`,{method:"POST",headers}));setNotice("Teacher profile restored.");await load();}
+    catch(e){setError(e.message);}
   }
-  async function setStatus(id,status) {
-    const adminNote = window.prompt("Optional admin note explaining this status update:") || "";
-    try {
-      await readResponse(await fetch(`${API_URL}/workspace/admin/consultations/${id}/status`,{method:"PATCH",headers,body:JSON.stringify({status,adminNote})}));
-      setNotice("Consultation status updated. Previous decision is retained in history.");
-      await load();
-    } catch(e){setError(e.message);}
-  }
-  return <div className="admin-dashboard-redesign"><WorkspaceShell title="Admin Dashboard" subtitle="Review teacher applications and manage requests" user={currentUser} onLogout={handleLogout}>
-    {notice&&<p style={{background:"#ecfdf3",color:"#067647",padding:12,borderRadius:10}}>{notice}</p>}
-    {error&&<p style={{background:"#fef3f2",color:"#b42318",padding:12,borderRadius:10}}>{error}</p>}
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",gap:12,marginBottom:20}}>
-      {[["Pending teachers",teachers.length],["Total consultations",consultations.length],["Pending",consultationCounts.PENDING||0],["Approved",consultationCounts.APPROVED||0],["Completed",consultationCounts.COMPLETED||0]].map(([label,value])=><div className="card" key={label} style={{padding:18}}><p style={{color:"#667085",fontSize:13,margin:0}}>{label}</p><strong style={{fontSize:28}}>{value}</strong></div>)}
-    </div>
-    <div className="card" style={{padding:24,marginBottom:20}}>
-      <h2>Teacher Verification ({teachers.length})</h2>
-      {teachers.length===0?<p style={{color:"#667085"}}>No pending teacher applications.</p>:teachers.map(t=><div key={t.id} style={{borderTop:"1px solid #eee",padding:"16px 0",display:"flex",justifyContent:"space-between",gap:16,flexWrap:"wrap"}}>
-        <div style={{flex:"1 1 420px"}}><b>{t.name}</b><p>{t.category} · {t.location} · {t.experience}</p><p><b>Qualification:</b> {t.qualification}</p><p><b>Institution:</b> {t.qualificationInstitution || "Not provided"}</p><p>{t.bio}</p><p><b>Evidence:</b> {t.qualificationDocumentUrl ? <a href={t.qualificationDocumentUrl} target="_blank" rel="noreferrer">Open certificate / degree</a> : "Not uploaded — request evidence before approval."}</p><div style={{display:"flex",gap:8,flexWrap:"wrap"}}>{(t.videos || []).map(v=><a key={v.id} href={v.videoUrl} target="_blank" rel="noreferrer">Demo: {v.title}</a>)}</div><p style={{fontSize:12,color:"#667085"}}>Review the document name and issuing institution, and assess the demo lesson before approval. Uploaded files are evidence, not automatic proof of authenticity.</p></div>
-        <div style={{display:"flex",gap:8,alignItems:"center"}}>
-          <button className="signup-btn" onClick={()=>approve(t.id)}>Approve teacher</button>
-          <button className="login-btn" onClick={()=>reject(t.id)} style={{color:"#b42318"}}>Reject</button>
-        </div>
-      </div>)}
-    </div>
-    <div className="card admin-teacher-management" style={{padding:24,marginBottom:20}}>
-      <div className="admin-section-heading"><div><p className="eyebrow">ACCOUNT OVERSIGHT</p><h2>Teacher Profile Management</h2><p>Manage public teacher listings without deleting account or lesson history.</p></div><span>{allTeachers.length} profiles</span></div>
-      {allTeachers.length===0?<p className="empty-state">No teacher profiles found.</p>:allTeachers.map(t=><div className="admin-teacher-row" key={t.id}>
-        <div><strong>{t.name}</strong><p>{t.category} · {t.location} · {t.experience}</p><small>{t.ownerEmail || "No linked email"}</small></div>
-        <div className="admin-teacher-meta"><span className={t.verified && t.available ? "status-pill status-active" : "status-pill"}>{t.verified && t.available ? "Published" : t.available ? "Pending" : "Hidden"}</span>
-        {t.available
-          ? <button type="button" className="danger-outline-btn" onClick={()=>removeTeacherProfile(t)}>Remove profile</button>
-          : <button type="button" className="signup-btn" onClick={()=>restoreTeacherProfile(t)}>Restore profile</button>}
-        </div>
-      </div>)}
-    </div>
-    <section className="admin-consultations-panel">
-      <div className="admin-consultations-heading">
-        <div><p className="eyebrow">STUDENT & TEACHER ACTIVITY</p><h2>Consultation Requests</h2><p>Review requests, inspect student profiles and manage each decision.</p></div>
-        <span className="admin-total-count">{filteredConsultations.length} of {consultations.length} requests</span>
+  const published=allTeachers.filter(t=>t.verified&&t.available).length;
+  const hidden=allTeachers.filter(t=>!t.available).length;
+  const filtered=allTeachers.filter(t=>{
+    const term=query.trim().toLowerCase();
+    const matches=!term||[t.name,t.category,t.location,t.ownerEmail].filter(Boolean).some(v=>String(v).toLowerCase().includes(term));
+    const status=filter==="ALL"||(filter==="PUBLISHED"&&t.verified&&t.available)||(filter==="HIDDEN"&&!t.available)||(filter==="PENDING"&&!t.verified&&t.available);
+    return matches&&status;
+  });
+  return <div className="admin-dashboard-redesign admin-command-center">
+    <WorkspaceShell title="Admin Dashboard" subtitle="Manage the English teacher discovery platform" user={currentUser} onLogout={handleLogout}>
+      <div className="admin-welcome-row">
+        <div><p className="admin-eyebrow">SEONBAEON · PLATFORM CONTROL</p><h1>Good to see you, Admin.</h1><p>Keep teacher profiles trusted, demo content appropriate and the discovery experience running smoothly.</p></div>
+        <button type="button" className="admin-refresh-btn" onClick={load}>↻ <span>Refresh</span></button>
       </div>
-      <div className="admin-consultation-filters">
-        <input aria-label="Search consultations" placeholder="Search student, email or teacher..." value={consultationSearch} onChange={e=>setConsultationSearch(e.target.value)} />
-        <select aria-label="Filter consultation status" value={consultationFilter} onChange={e=>setConsultationFilter(e.target.value)}>
-          {["ALL","PENDING","APPROVED","REJECTED","COMPLETED"].map(status=><option key={status} value={status}>{status==="ALL"?"All statuses":status}</option>)}
-        </select>
+      {notice&&<div className="admin-feedback success" role="status">{notice}</div>}
+      {error&&<div className="admin-feedback error" role="alert">{error}</div>}
+      <div className="admin-metric-grid">
+        <article className="admin-metric-card"><span className="admin-metric-icon">♙</span><small>Teacher profiles</small><strong>{allTeachers.length}</strong><span className="admin-metric-note">Total submitted profiles</span></article>
+        <article className="admin-metric-card"><span className="admin-metric-icon">✓</span><small>Published teachers</small><strong>{published}</strong><span className="admin-metric-note">Visible to students</span></article>
+        <article className="admin-metric-card"><span className="admin-metric-icon">◷</span><small>Awaiting review</small><strong>{pendingTeachers.length}</strong><span className="admin-metric-note">Verification queue</span></article>
+        <article className="admin-metric-card"><span className="admin-metric-icon">⌁</span><small>Hidden profiles</small><strong>{hidden}</strong><span className="admin-metric-note">Not shown in discovery</span></article>
       </div>
-      <div className="admin-consultation-list">
-        {filteredConsultations.length===0?<div className="admin-empty-state"><span>✦</span><strong>No matching requests</strong><p>Try changing your search or status filter.</p></div>:filteredConsultations.map(c=><article className="admin-consultation-card premium-surface-card" key={c.id}>
-          <div className="admin-consultation-top">
-            <div className="admin-student-identity"><div className="admin-avatar">{(c.studentName||"S").trim().charAt(0).toUpperCase()}</div><div><strong>{c.studentName||"Student"}</strong><span>{c.email||"No email"}{c.teacherName? " · with "+c.teacherName:""}</span></div></div>
-            <span className={"admin-status-badge status-"+String(c.status||"unknown").toLowerCase()}>{c.status||"UNKNOWN"}</span>
-          </div>
-          <div className="admin-consultation-meta"><span><b>Requested date</b>{c.preferredDate||"Not specified"}</span><span><b>Preferred time</b>{c.preferredTime||"Not specified"}</span><span><b>Request ID</b>#{c.id}</span></div>
-          <div className="admin-consultation-actions">
-            <button type="button" className="admin-secondary-action" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide student details":"View student profile"}</button>
-            <div className="admin-status-actions">{["PENDING","APPROVED","REJECTED","COMPLETED"].map(status=><button type="button" key={status} className={c.status===status?"admin-status-action selected":"admin-status-action"} onClick={()=>setStatus(c.id,status)}>{status.charAt(0)+status.slice(1).toLowerCase()}</button>)}</div>
-          </div>
-          {selectedStudent===c.id && <div className="admin-student-details"><h3>Student learning profile</h3><div className="admin-detail-grid"><p><b>Age / Group</b>{c.studentProfile?.age||"—"} / {c.studentProfile?.ageGroup||"—"}</p><p><b>English level</b>{c.studentProfile?.englishLevel||"—"}</p><p><b>Learning goals</b>{c.studentProfile?.learningGoals||"—"}</p><p><b>Preferred category</b>{c.studentProfile?.preferredCategory||"—"}</p><p><b>Interests</b>{c.studentProfile?.interests||"—"}</p><p><b>Preferred schedule</b>{c.studentProfile?.preferredSchedule||"—"}</p><p><b>Introduction</b>{c.studentProfile?.introduction||"—"}</p>{c.studentProfile?.guardianName&&<p><b>Guardian</b>{c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}</div></div>}
-          {(c.teacherDecision||c.rejectionReason||c.adminPreviousStatus||c.decisionHistory)&&<details className="admin-decision-history"><summary>Decision history & notes</summary>{c.teacherDecision&&<p><b>Teacher decision:</b> {c.teacherDecision} · {c.teacherDecisionAt||""}</p>}{c.rejectionReason&&<p className="admin-rejection-note"><b>Rejection reason:</b> {c.rejectionReason}</p>}{c.adminPreviousStatus&&<p><b>Admin changed:</b> {c.adminPreviousStatus} → {c.status} · {c.adminNote||""} · {c.adminDecisionAt||""}</p>}{c.decisionHistory&&<p className="admin-history-text">{c.decisionHistory.replace(/\\n/g,"\n")}</p>}</details>}
-          <div className="admin-consultation-footer"><span>Admin view only</span><button type="button" className="admin-remove-action" onClick={async()=>{if(!window.confirm("Remove this consultation from your admin dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${c.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setConsultations(old=>old.filter(x=>x.id!==c.id));setNotice("Consultation hidden from your dashboard.");}catch(e){setError(e.message);}}}>Remove from my dashboard</button></div>
-        </article>)}
-      </div>
-    </section>
-    <AdminToolsPanel user={currentUser} />\n  </WorkspaceShell></div>;
+      <section className="admin-panel-section">
+        <div className="admin-panel-heading"><div><p className="admin-eyebrow">QUALITY & TRUST</p><h2>Teacher verification</h2><p>Review credentials and sample lessons before publishing a teacher.</p></div><span className="admin-count-pill">{pendingTeachers.length} pending</span></div>
+        {pendingTeachers.length===0?<div className="admin-empty-panel"><span>✓</span><strong>You're all caught up</strong><p>There are no teacher applications waiting for review.</p></div>:<div className="admin-application-list">{pendingTeachers.map(t=><article className="admin-application-card" key={t.id}>
+          <div className="admin-application-main"><div className="admin-teacher-avatar">{(t.name||"T").trim().charAt(0).toUpperCase()}</div><div className="admin-application-info"><h3>{t.name}</h3><p>{t.category||"English"} · {t.location||"Location not provided"} · {t.experience||"Experience not provided"}</p><span>{t.ownerEmail||"No linked email"}</span></div></div>
+          <div className="admin-application-details"><div><small>Qualification</small><strong>{t.qualification||"Not provided"}</strong></div><div><small>Institution</small><strong>{t.qualificationInstitution||"Not provided"}</strong></div></div>
+          {t.bio&&<p className="admin-application-bio">{t.bio}</p>}
+          <div className="admin-evidence-row">{t.qualificationDocumentUrl?<a href={t.qualificationDocumentUrl} target="_blank" rel="noreferrer">↗ View qualification document</a>:<span className="admin-evidence-missing">Qualification document not uploaded</span>}{(t.videos||[]).map(v=><a key={v.id} href={v.videoUrl} target="_blank" rel="noreferrer">▶ {v.title||"Demo video"}</a>)}</div>
+          <div className="admin-application-actions"><button type="button" className="admin-approve-btn" onClick={()=>approve(t.id)}>Approve teacher</button><button type="button" className="admin-reject-btn" onClick={()=>reject(t.id)}>Reject</button></div>
+        </article>)}</div>}
+      </section>
+      <section className="admin-panel-section">
+        <div className="admin-panel-heading"><div><p className="admin-eyebrow">DIRECTORY MANAGEMENT</p><h2>Teacher profiles</h2><p>Control which verified English teachers appear in student discovery.</p></div><span className="admin-count-pill">{allTeachers.length} profiles</span></div>
+        <div className="admin-directory-toolbar"><input aria-label="Search teachers" placeholder="Search name, category, location or email..." value={query} onChange={e=>setQuery(e.target.value)}/><select aria-label="Filter teacher profiles" value={filter} onChange={e=>setFilter(e.target.value)}><option value="ALL">All profiles</option><option value="PUBLISHED">Published</option><option value="PENDING">Pending</option><option value="HIDDEN">Hidden</option></select></div>
+        <div className="admin-directory-list">{filtered.length===0?<div className="admin-empty-panel"><strong>No matching teacher profiles</strong><p>Try another search or filter.</p></div>:filtered.map(t=><article className="admin-directory-row" key={t.id}><div className="admin-directory-identity"><div className="admin-teacher-avatar small">{(t.name||"T").trim().charAt(0).toUpperCase()}</div><div><strong>{t.name}</strong><span>{t.category||"English"} · {t.location||"Location not provided"}</span><small>{t.ownerEmail||"No linked email"}</small></div></div><div className="admin-directory-actions"><span className={t.verified&&t.available?"admin-state published":t.available?"admin-state pending":"admin-state hidden"}>{t.verified&&t.available?"Published":t.available?"Pending":"Hidden"}</span>{t.available?<button type="button" className="admin-row-action danger" onClick={()=>removeProfile(t)}>Hide profile</button>:<button type="button" className="admin-row-action" onClick={()=>restoreProfile(t)}>Restore</button>}</div></article>)}</div>
+      </section>
+      <AdminToolsPanel user={currentUser}/>
+    </WorkspaceShell>
+  </div>;
 }
 
 function ResetPasswordPage() {
