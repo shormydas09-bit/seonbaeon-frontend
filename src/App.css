@@ -6348,3 +6348,11 @@ html:has(.app.theme-dark-premium),body:has(.app.theme-dark-premium),#root:has(.a
 .teacher-dashboard-v2 .teacher-profile-compact .teacher-form-heading h2{color:#f7f9ff!important}
 .teacher-dashboard-v2 .teacher-profile-compact .teacher-form-heading p{color:#c0cfe4!important}
 .teacher-dashboard-v2 .teacher-profile-compact .teacher-profile-footer span,.teacher-dashboard-v2 .teacher-profile-compact .teacher-privacy-note{color:#b7c8df!important}
+
+
+/* Final explicit contrast override for accordion text */
+body .teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary>span>strong{color:#F5F8FF!important;font-size:13px!important;font-weight:750!important;opacity:1!important;text-shadow:0 1px 1px rgba(0,0,0,.2)}
+body .teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary>span>small{color:#C2D2E8!important;font-size:11px!important;font-weight:500!important;opacity:1!important}
+body .teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary>.teacher-profile-group-icon{color:#F0F6FF!important;background:#31577F!important;border-color:#6488B4!important}
+body .teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary>i{color:#DCEAFF!important}
+body .teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group{background:#12243B!important;border-color:#456487!important}
