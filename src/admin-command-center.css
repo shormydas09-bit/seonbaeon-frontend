@@ -594,3 +594,75 @@
  }
  #root .app.theme-dark-premium .admin-dashboard-redesign.admin-command-center .admin-workspace-heading .workspace-heading-actions{width:100%!important;justify-content:flex-start!important}
 }
+
+
+/* Collapsible teacher verification queue and focused application review dialog */
+#root .app.theme-dark-premium .admin-command-center .admin-verification-section{padding:22px 24px!important}
+#root .app.theme-dark-premium .admin-command-center .admin-verification-toggle{
+ width:100%!important;display:flex!important;align-items:center!important;justify-content:space-between!important;
+ gap:20px!important;padding:0!important;margin:0!important;border:0!important;background:transparent!important;
+ color:#edf5ff!important;text-align:left!important;cursor:pointer!important;
+}
+#root .app.theme-dark-premium .admin-command-center .admin-verification-heading-copy{display:grid!important;gap:7px!important}
+#root .app.theme-dark-premium .admin-command-center .admin-verification-heading-copy .admin-eyebrow{margin:0!important}
+#root .app.theme-dark-premium .admin-command-center .admin-verification-heading-copy>strong{font-size:23px!important;letter-spacing:-.035em!important;color:#f3f7ff!important}
+#root .app.theme-dark-premium .admin-command-center .admin-verification-heading-copy>small{font-size:13px!important;color:#9eb6ce!important;font-weight:450!important}
+#root .app.theme-dark-premium .admin-command-center .admin-verification-toggle-action{
+ display:inline-flex!important;align-items:center!important;gap:10px!important;white-space:nowrap!important;
+ padding:13px 17px!important;border-radius:13px!important;background:rgba(27,67,78,.58)!important;
+ border:1px solid rgba(105,213,198,.27)!important;color:#9fe5dc!important;font-weight:800!important;
+}
+#root .app.theme-dark-premium .admin-command-center .admin-verification-toggle-action b{
+ display:grid!important;place-items:center!important;width:24px!important;height:24px!important;
+ border-radius:8px!important;background:rgba(112,211,199,.1)!important;font-size:19px!important;
+}
+#root .app.theme-dark-premium .admin-command-center .admin-verification-section.is-open .admin-application-list{margin-top:20px!important}
+#root .app.theme-dark-premium .admin-command-center .admin-application-launch{
+ width:100%!important;min-height:112px!important;padding:22px!important;text-align:left!important;
+ border:1px solid rgba(130,169,201,.19)!important;border-radius:18px!important;
+ background:linear-gradient(145deg,#1a334c,#14283e)!important;
+}
+#root .admin-command-center .admin-application-modal-backdrop{
+ position:fixed!important;inset:0!important;z-index:10000!important;display:flex!important;
+ align-items:center!important;justify-content:center!important;padding:24px!important;
+ background:rgba(3,9,17,.78)!important;backdrop-filter:blur(10px)!important;
+}
+#root .admin-command-center .admin-application-modal{
+ width:min(760px,100%)!important;max-height:min(86vh,900px)!important;overflow:auto!important;
+ border:1px solid rgba(132,173,205,.24)!important;border-radius:22px!important;
+ background:linear-gradient(150deg,#172e46,#101f32)!important;color:#edf5ff!important;
+ box-shadow:0 30px 100px rgba(0,0,0,.55)!important;
+}
+#root .admin-command-center .admin-application-modal-heading{
+ display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:20px!important;
+ padding:26px 30px 22px!important;border-bottom:1px solid rgba(132,173,205,.16)!important;
+}
+#root .admin-command-center .admin-application-modal-heading .admin-eyebrow{margin:0 0 9px!important;color:#79d8cd!important;font-size:10px!important;letter-spacing:.16em!important;font-weight:850!important}
+#root .admin-command-center .admin-application-modal-heading h2{margin:0 0 7px!important;color:#f4f7ff!important;font-size:27px!important;letter-spacing:-.04em!important}
+#root .admin-command-center .admin-application-modal-heading p:last-child{margin:0!important;color:#a8bad0!important;font-size:13px!important}
+#root .admin-command-center .admin-application-modal-heading>button{
+ width:38px!important;height:38px!important;flex:0 0 auto!important;border-radius:11px!important;
+ background:#203b56!important;color:#dce9f7!important;border:1px solid rgba(132,173,205,.2)!important;font-size:23px!important;
+}
+#root .admin-command-center .admin-application-modal-body{display:grid!important;gap:18px!important;padding:24px 30px!important}
+#root .admin-command-center .admin-application-modal .admin-application-details{display:grid!important;grid-template-columns:1fr 1fr!important;gap:14px!important}
+#root .admin-command-center .admin-application-modal .admin-application-details>div{
+ display:grid!important;gap:9px!important;padding:18px!important;border-radius:14px!important;
+ background:#10243a!important;border:1px solid rgba(132,173,205,.15)!important;
+}
+#root .admin-command-center .admin-application-modal .admin-application-details small{color:#8daecc!important;font-size:12px!important}
+#root .admin-command-center .admin-application-modal .admin-application-details strong{color:#f0f5fc!important;font-size:15px!important}
+#root .admin-command-center .admin-application-meta{display:flex!important;flex-wrap:wrap!important;gap:10px 22px!important;color:#a8bad0!important;font-size:13px!important}
+#root .admin-command-center .admin-application-modal .admin-application-bio{margin:0!important;color:#c2d0df!important;line-height:1.7!important}
+#root .admin-command-center .admin-application-modal .admin-evidence-row{display:flex!important;flex-wrap:wrap!important;gap:10px!important;padding-top:16px!important;border-top:1px solid rgba(132,173,205,.15)!important}
+#root .admin-command-center .admin-application-modal .admin-evidence-row a{padding:10px 13px!important;border-radius:10px!important;background:rgba(37,82,104,.5)!important;border:1px solid rgba(105,213,198,.22)!important;color:#9fe5dc!important;text-decoration:none!important}
+#root .admin-command-center .admin-application-modal-actions{display:flex!important;gap:11px!important;padding:18px 30px 26px!important;border-top:1px solid rgba(132,173,205,.15)!important}
+@media(max-width:600px){
+ #root .app.theme-dark-premium .admin-command-center .admin-verification-section{padding:18px!important}
+ #root .app.theme-dark-premium .admin-command-center .admin-verification-toggle{align-items:flex-start!important;flex-direction:column!important}
+ #root .app.theme-dark-premium .admin-command-center .admin-verification-toggle-action{align-self:stretch!important;justify-content:space-between!important}
+ #root .admin-command-center .admin-application-modal-backdrop{padding:12px!important}
+ #root .admin-command-center .admin-application-modal-heading,#root .admin-command-center .admin-application-modal-body{padding-left:19px!important;padding-right:19px!important}
+ #root .admin-command-center .admin-application-modal .admin-application-details{grid-template-columns:1fr!important}
+ #root .admin-command-center .admin-application-modal-actions{padding:16px 19px 20px!important;flex-wrap:wrap!important}
+}
