@@ -6687,3 +6687,239 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid{grid-template-columns:minmax(0,1fr)!important}
  #root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid>.student-learning-card{grid-column:auto!important}
 }
+
+
+/* Public teacher profile — cohesive dark premium layout */
+#root .app.theme-dark-premium .teacher-profile-redesign{
+  min-height:100vh!important;padding:30px 22px 76px!important;
+  background:radial-gradient(ellipse at 12% 0%,rgba(69,120,157,.12),transparent 34%),transparent!important;
+  color:#edf4ff!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-container{
+  width:min(100%,1280px)!important;max-width:1280px!important;margin:0 auto!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .back-home{
+  display:inline-flex!important;align-items:center!important;gap:8px!important;
+  min-height:42px!important;margin:0 0 14px!important;padding:0 16px!important;
+  border:1px solid rgba(139,174,207,.2)!important;border-radius:12px!important;
+  background:#172b43!important;color:#dce9f8!important;font-weight:750!important;
+  transition:background .2s ease,border-color .2s ease,transform .2s ease!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .back-home:hover{
+  background:#203a57!important;border-color:rgba(113,213,202,.45)!important;transform:translateY(-1px)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-header{
+  display:grid!important;grid-template-columns:112px minmax(0,1fr)!important;align-items:center!important;
+  gap:24px!important;padding:28px 32px!important;margin:0 0 20px!important;min-width:0!important;
+  border:1px solid rgba(125,176,207,.23)!important;border-radius:23px!important;
+  background:radial-gradient(ellipse at 100% 0,rgba(81,190,181,.13),transparent 42%),linear-gradient(135deg,#1b344e 0%,#12243a 100%)!important;
+  box-shadow:0 18px 48px rgba(0,0,0,.2)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-avatar{
+  width:104px!important;height:104px!important;min-width:104px!important;border-radius:22px!important;
+  border:1px solid rgba(115,214,204,.48)!important;box-shadow:0 0 0 6px rgba(104,203,195,.08)!important;
+  overflow:hidden!important;background:#294663!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-avatar img{width:100%!important;height:100%!important;object-fit:cover!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-main-info{min-width:0!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-name-row{align-items:flex-start!important;gap:18px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-name-line{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:11px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-name-line h1{
+  margin:0!important;color:#f3f7ff!important;font-size:clamp(30px,4vw,44px)!important;
+  line-height:1.12!important;letter-spacing:-1.4px!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-name-line .verified-badge{
+  padding:7px 10px!important;border:1px solid rgba(94,211,180,.3)!important;border-radius:999px!important;
+  background:rgba(54,172,139,.12)!important;color:#83e2c1!important;font-size:11px!important;font-weight:800!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-main-info>div>p,
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-main-info p{color:#a9bdd5!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-tags{display:flex!important;flex-wrap:wrap!important;gap:8px!important;margin-top:14px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-tags>span{
+  display:inline-flex!important;align-items:center!important;gap:7px!important;padding:8px 12px!important;
+  border:1px solid rgba(135,173,207,.2)!important;border-radius:999px!important;
+  background:rgba(65,94,129,.28)!important;color:#d5e4f5!important;font-size:11px!important;font-weight:750!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-tags .availability-tag.is-available{
+  border-color:rgba(92,207,164,.3)!important;background:rgba(44,155,119,.13)!important;color:#83e2bd!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-stat-row{
+  display:flex!important;flex-wrap:wrap!important;gap:0!important;margin-top:20px!important;padding-top:16px!important;
+  border-top:1px solid rgba(143,177,207,.16)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-stat{
+  display:grid!important;gap:3px!important;min-width:112px!important;padding:0 22px!important;
+  border-right:1px solid rgba(143,177,207,.15)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-stat:first-child{padding-left:0!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-stat:last-child{border:0!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-stat strong{color:#f1f6ff!important;font-size:20px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-stat span{color:#8fa9c6!important;font-size:10px!important;text-transform:uppercase!important;letter-spacing:.1em!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-layout{
+  display:grid!important;grid-template-columns:minmax(0,1fr) 300px!important;gap:20px!important;
+  align-items:start!important;margin-top:0!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-left{display:grid!important;gap:16px!important;min-width:0!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-section,
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar .booking-card,
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar .quick-info{
+  min-width:0!important;margin:0!important;padding:22px!important;border-radius:19px!important;
+  border:1px solid rgba(126,169,204,.2)!important;
+  background:linear-gradient(145deg,rgba(25,47,71,.98),rgba(16,31,49,.98))!important;
+  box-shadow:0 12px 32px rgba(0,0,0,.14)!important;color:#eaf2ff!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-section h2,
+#root .app.theme-dark-premium .teacher-profile-redesign .booking-card h2,
+#root .app.theme-dark-premium .teacher-profile-redesign .quick-info h3{
+  margin:0 0 9px!important;color:#f0f5ff!important;font-size:19px!important;letter-spacing:-.35px!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-section>p,
+#root .app.theme-dark-premium .teacher-profile-redesign .section-title-row p,
+#root .app.theme-dark-premium .teacher-profile-redesign .booking-card>p{
+  color:#9eb3cc!important;font-size:13px!important;line-height:1.7!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .section-eyebrow{
+  display:block!important;margin-bottom:7px!important;color:#73d4c9!important;
+  font-size:9px!important;font-weight:850!important;letter-spacing:.17em!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .section-title-row{
+  display:flex!important;justify-content:space-between!important;align-items:center!important;gap:12px!important;margin-bottom:15px!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .video-count{
+  flex:0 0 auto!important;padding:7px 10px!important;border:1px solid rgba(105,210,195,.24)!important;
+  border-radius:999px!important;background:rgba(65,183,169,.1)!important;color:#80dace!important;font-size:10px!important;font-weight:800!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .demo-video{
+  display:block!important;min-height:0!important;overflow:hidden!important;text-align:left!important;
+  border:1px solid rgba(128,170,204,.22)!important;border-radius:16px!important;background:#091522!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .demo-play-area{
+  width:100%!important;aspect-ratio:16/9!important;min-height:0!important;background:#07111e!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .demo-video-player{
+  display:block!important;width:100%!important;height:100%!important;min-height:0!important;aspect-ratio:16/9!important;object-fit:contain!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .selected-video-info{padding:15px 17px 17px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .selected-video-info h3{margin:0 0 5px!important;color:#f0f5ff!important;font-size:15px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .selected-video-info p{margin:0 0 12px!important;color:#9eb3cc!important;font-size:12px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .watch-demo-btn,
+#root .app.theme-dark-premium .teacher-profile-redesign .consultation-btn{
+  min-height:42px!important;padding:0 17px!important;border:1px solid rgba(116,216,204,.25)!important;border-radius:11px!important;
+  background:linear-gradient(110deg,#6bcfc3,#4db3ae)!important;color:#092a32!important;font-weight:850!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .demo-library{
+  margin-top:13px!important;padding:14px!important;border:1px solid rgba(128,170,204,.14)!important;
+  border-radius:14px!important;background:rgba(7,20,34,.42)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .demo-library-heading{display:flex!important;justify-content:space-between!important;gap:12px!important;margin-bottom:11px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .demo-library-heading strong{color:#e8f1ff!important;font-size:12px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .demo-library-heading span{color:#8fa9c6!important;font-size:10px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .video-gallery{
+  display:flex!important;gap:10px!important;overflow-x:auto!important;padding:2px 2px 8px!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .video-gallery-card{
+  flex:0 0 160px!important;max-width:160px!important;overflow:hidden!important;padding:0!important;
+  border:1px solid rgba(132,174,207,.2)!important;border-radius:12px!important;background:#102238!important;text-align:left!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .video-gallery-active{border-color:#6fd1c5!important;box-shadow:0 0 0 2px rgba(111,209,197,.12)!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .video-thumbnail{height:88px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .video-thumbnail img{width:100%!important;height:100%!important;object-fit:cover!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .video-gallery-info{display:grid!important;gap:5px!important;padding:9px 10px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .video-gallery-info strong{color:#eaf2ff!important;font-size:11px!important;overflow-wrap:anywhere!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .video-gallery-info span{color:#75d4c9!important;font-size:10px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .demo-disclaimer{
+  margin:12px 0 0!important;padding:11px 13px!important;border:1px solid rgba(128,170,204,.13)!important;
+  border-radius:11px!important;background:rgba(7,20,34,.32)!important;color:#8fa9c6!important;font-size:11px!important;line-height:1.6!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .qualification-list{display:grid!important;gap:9px!important;margin-top:13px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .qualification-item{
+  display:flex!important;align-items:flex-start!important;gap:12px!important;padding:13px!important;
+  border:1px solid rgba(128,170,204,.15)!important;border-radius:13px!important;background:rgba(7,20,34,.34)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .qualification-marker,
+#root .app.theme-dark-premium .teacher-profile-redesign .style-icon{
+  display:grid!important;place-items:center!important;flex:0 0 38px!important;height:38px!important;
+  border-radius:11px!important;background:rgba(88,190,181,.13)!important;color:#79d9ce!important;font-size:10px!important;font-weight:850!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .qualification-item strong,
+#root .app.theme-dark-premium .teacher-profile-redesign .style-card h3{color:#edf4ff!important;font-size:13px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .qualification-item p,
+#root .app.theme-dark-premium .teacher-profile-redesign .style-card p{margin:5px 0 0!important;color:#9eb3cc!important;font-size:12px!important;line-height:1.6!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .style-card{
+  display:flex!important;align-items:center!important;gap:13px!important;margin-top:12px!important;padding:15px!important;
+  border:1px solid rgba(98,190,184,.2)!important;border-radius:14px!important;background:rgba(42,119,120,.1)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;margin-top:13px!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid>div{
+  display:grid!important;gap:6px!important;min-width:0!important;padding:13px 14px!important;
+  border:1px solid rgba(128,170,204,.15)!important;border-radius:12px!important;background:rgba(7,20,34,.35)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid>div>span{
+  color:#86a3c1!important;font-size:9px!important;font-weight:800!important;letter-spacing:.1em!important;text-transform:uppercase!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid>div>strong{color:#e8f1ff!important;font-size:13px!important;overflow-wrap:anywhere!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar{
+  display:grid!important;gap:14px!important;position:sticky!important;top:92px!important;min-width:0!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .booking-card{padding:20px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .booking-card .consultation-btn,
+#root .app.theme-dark-premium .teacher-profile-redesign .booking-card .compare-profile-btn{display:flex!important;justify-content:center!important;width:100%!important;margin-top:10px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .compare-profile-btn{
+  min-height:42px!important;border:1px solid rgba(135,174,207,.23)!important;border-radius:11px!important;
+  background:#203752!important;color:#e5efff!important;font-weight:750!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .quick-info{padding:20px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .quick-info>div{
+  display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:12px!important;
+  padding:11px 0!important;border-bottom:1px solid rgba(135,174,207,.14)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .quick-info>div:last-child{border:0!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .quick-info>div span{color:#8fa9c6!important;font-size:11px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .quick-info>div strong{color:#e7f0ff!important;font-size:11px!important;text-align:right!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .review-summary{color:#86d8cf!important;font-size:12px!important;font-weight:800!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .review-card,
+#root .app.theme-dark-premium .teacher-profile-redesign .review-form-card{
+  margin-top:10px!important;padding:15px!important;border:1px solid rgba(128,170,204,.15)!important;
+  border-radius:13px!important;background:rgba(7,20,34,.36)!important;color:#dce8f7!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .review-card p,
+#root .app.theme-dark-premium .teacher-profile-redesign .review-form-card p{color:#9eb3cc!important;font-size:12px!important;line-height:1.65!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .review-form-card input,
+#root .app.theme-dark-premium .teacher-profile-redesign .review-form-card select,
+#root .app.theme-dark-premium .teacher-profile-redesign .review-form-card textarea,
+#root .app.theme-dark-premium .teacher-profile-redesign .consultation-modal input,
+#root .app.theme-dark-premium .teacher-profile-redesign .consultation-modal textarea{
+  width:100%!important;box-sizing:border-box!important;border:1px solid rgba(132,174,207,.24)!important;border-radius:11px!important;
+  background:#0c1b2c!important;color:#edf4ff!important;padding:12px 13px!important;outline:none!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .consultation-overlay{
+  position:fixed!important;inset:0!important;z-index:10050!important;display:grid!important;place-items:center!important;
+  padding:20px!important;background:rgba(3,9,17,.78)!important;backdrop-filter:blur(10px)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .consultation-modal{
+  width:min(560px,100%)!important;max-height:min(86vh,820px)!important;overflow:auto!important;
+  padding:28px!important;border:1px solid rgba(128,184,207,.3)!important;border-radius:22px!important;
+  background:linear-gradient(145deg,#1a334d,#102238)!important;color:#edf4ff!important;box-shadow:0 30px 90px rgba(0,0,0,.5)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .consultation-modal h2{color:#f0f6ff!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .consultation-modal label{display:block!important;margin:13px 0 6px!important;color:#c9d9eb!important;font-size:12px!important;font-weight:750!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .submit-consultation{
+  min-height:44px!important;border:0!important;border-radius:11px!important;background:linear-gradient(110deg,#70d2c6,#4db5ad)!important;
+  color:#092a32!important;font-weight:850!important;
+}
+@media(max-width:900px){
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-layout{grid-template-columns:minmax(0,1fr)!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar{position:static!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:620px){
+ #root .app.theme-dark-premium .teacher-profile-redesign{padding:18px 12px 48px!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-header{grid-template-columns:1fr!important;padding:20px!important;gap:16px!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-avatar{width:82px!important;height:82px!important;min-width:82px!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-stat{min-width:88px!important;padding:0 12px!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-section{padding:17px!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar{grid-template-columns:1fr!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid{grid-template-columns:1fr!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .consultation-modal{padding:22px 17px!important}
+}
