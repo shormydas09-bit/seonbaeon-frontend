@@ -1,5 +1,9 @@
 {
   "appId": "com.pick-my-teacher.app",
   "appName": "Pick My Teacher",
-  "webDir": "dist"
+  "webDir": "dist",
+  "server": {
+    "url": "https://seonbaeon-frontend.onrender.com",
+    "cleartext": false
+  }
 }
