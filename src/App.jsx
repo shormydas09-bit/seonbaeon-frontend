@@ -3289,30 +3289,42 @@ function AdminWorkspace({ currentUser, handleLogout }) {
     catch(e){setError(e.message);}
   }
   async function reject(id){
-    if(!window.confirm("Reject this teacher application?"))return;
-    try{await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/reject`,{method:"POST",headers}));setNotice("Teacher application rejected.");await load();}
+    const reason=window.prompt("Please enter the reason for rejecting this teacher application:");
+    if(reason===null)return;
+    if(!reason.trim()){setError("A rejection reason is required.");return;}
+    try{
+      await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/reject`,{method:"POST",headers,body:JSON.stringify({reason:reason.trim()})}));
+      setNotice("Teacher application rejected. The reason has been saved.");await load();
+    }catch(e){setError(e.message);}
+  }
+  async function hideProfile(t){
+    if(!window.confirm(`Hide ${t.name}'s public teacher profile? The account and profile data will remain.`))return;
+    try{await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${t.id}/hide`,{method:"PATCH",headers}));setNotice("Teacher profile hidden; it can be restored later.");await load();}
     catch(e){setError(e.message);}
   }
-  async function removeProfile(t){
-    if(!window.confirm(`Hide ${t.name}'s public teacher profile? The account will remain.`))return;
-    try{await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${t.id}`,{method:"DELETE",headers}));setNotice("Teacher profile hidden; account history preserved.");await load();}
+  async function deleteProfile(t){
+    if(!window.confirm(`Permanently delete ${t.name}'s teacher profile? This cannot be undone. The login account and historical lesson records will remain.`))return;
+    try{await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${t.id}`,{method:"DELETE",headers}));setNotice("Teacher profile permanently deleted.");await load();}
     catch(e){setError(e.message);}
   }
   async function restoreProfile(t){
     try{await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${t.id}/restore`,{method:"POST",headers}));setNotice("Teacher profile restored.");await load();}
     catch(e){setError(e.message);}
   }
-  const published=allTeachers.filter(t=>t.verified&&t.available).length;
-  const hidden=allTeachers.filter(t=>!t.available).length;
-  const pendingCount=allTeachers.filter(t=>!t.verified&&t.available).length;
-  const filtered=allTeachers.filter(t=>{
-    const term=query.trim().toLowerCase();
-    const matches=!term||[t.name,t.category,t.location,t.ownerEmail].filter(Boolean).some(v=>String(v).toLowerCase().includes(term));
-    const status=filter==="ALL"||(filter==="PUBLISHED"&&t.verified&&t.available)||(filter==="HIDDEN"&&!t.available)||(filter==="PENDING"&&!t.verified&&t.available);
-    return matches&&status;
+  const published=allTeachers.filter(t=>t.verified&&t.available&&!t.rejectionReason).length;
+  const rejected=allTeachers.filter(t=>Boolean(t.rejectionReason)).length;
+  const hidden=allTeachers.filter(t=>!t.available&&!t.rejectionReason).length;
+  const pendingCount=allTeachers.filter(t=>!t.verified&&t.available&&!t.rejectionReason).length;
+  const metricProfiles=activeMetric==="PUBLISHED"?allTeachers.filter(t=>t.verified&&t.available&&!t.rejectionReason)
+    :activeMetric==="HIDDEN"?allTeachers.filter(t=>!t.available&&!t.rejectionReason)
+    :activeMetric==="PENDING"?allTeachers.filter(t=>!t.verified&&t.available&&!t.rejectionReason)
+    :activeMetric==="REJECTED"?allTeachers.filter(t=>Boolean(t.rejectionReason)):allTeachers;
+  const metricTitle=activeMetric==="PUBLISHED"?"Published teachers":activeMetric==="HIDDEN"?"Hidden profiles":activeMetric==="PENDING"?"Awaiting review":activeMetric==="REJECTED"?"Rejected applications":"All teacher profiles";
+  const matchesFilter=t=>filter==="ALL"||(filter==="PUBLISHED"&&t.verified&&t.available&&!t.rejectionReason)||(filter==="PENDING"&&!t.verified&&t.available&&!t.rejectionReason)||(filter==="HIDDEN"&&!t.available&&!t.rejectionReason)||(filter==="REJECTED"&&Boolean(t.rejectionReason));
+  const visibleProfiles=metricProfiles.filter(t=>{
+    const q=query.trim().toLowerCase();
+    return (!q||[t.name,t.category,t.location,t.ownerEmail,t.rejectionReason].filter(Boolean).some(v=>String(v).toLowerCase().includes(q)))&&matchesFilter(t);
   });
-  const metricProfiles=activeMetric==="PUBLISHED"?allTeachers.filter(t=>t.verified&&t.available):activeMetric==="HIDDEN"?allTeachers.filter(t=>!t.available):activeMetric==="PENDING"?allTeachers.filter(t=>!t.verified&&t.available):allTeachers;
-  const metricTitle=activeMetric==="PUBLISHED"?"Published teachers":activeMetric==="HIDDEN"?"Hidden profiles":activeMetric==="PENDING"?"Awaiting review":"All teacher profiles";
   return <div className="admin-dashboard-redesign admin-command-center">
     <WorkspaceShell title="Admin Dashboard" subtitle="Manage the English teacher discovery platform" user={currentUser} onLogout={handleLogout}>
       <div className="admin-welcome-row">
@@ -3326,13 +3338,24 @@ function AdminWorkspace({ currentUser, handleLogout }) {
         <button type="button" className="admin-metric-card" onClick={()=>{setFilter("PUBLISHED");setQuery("");setActiveMetric("PUBLISHED");}}><span className="admin-metric-icon">✓</span><small>Published teachers</small><strong>{published}</strong><span className="admin-metric-note">Visible to students <b>↗</b></span></button>
         <button type="button" className="admin-metric-card" onClick={()=>{setFilter("PENDING");setQuery("");setActiveMetric("PENDING");}}><span className="admin-metric-icon">◷</span><small>Awaiting review</small><strong>{pendingTeachers.length||pendingCount}</strong><span className="admin-metric-note">Open verification queue <b>↗</b></span></button>
         <button type="button" className="admin-metric-card" onClick={()=>{setFilter("HIDDEN");setQuery("");setActiveMetric("HIDDEN");}}><span className="admin-metric-icon">⌁</span><small>Hidden profiles</small><strong>{hidden}</strong><span className="admin-metric-note">Review and restore profiles <b>↗</b></span></button>
+        <button type="button" className="admin-metric-card rejected" onClick={()=>{setFilter("REJECTED");setQuery("");setActiveMetric("REJECTED");}}><span className="admin-metric-icon">×</span><small>Rejected</small><strong>{rejected}</strong><span className="admin-metric-note">View rejection reasons <b>↗</b></span></button>
       </div>
       {activeMetric&&<div className="admin-profile-modal-backdrop" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setActiveMetric("");}}>
         <section className="admin-profile-modal" role="dialog" aria-modal="true" aria-labelledby="admin-profile-modal-title">
-          <div className="admin-profile-modal-heading"><div><p className="admin-eyebrow">PROFILE MANAGEMENT</p><h2 id="admin-profile-modal-title">{metricTitle}</h2><p>{metricProfiles.length} {metricProfiles.length===1?"profile":"profiles"} · Manage visibility and restore hidden teachers.</p></div><button type="button" aria-label="Close profile details" onClick={()=>setActiveMetric("")}>×</button></div>
-          <div className="admin-profile-modal-filters"><input aria-label="Search profiles" placeholder="Search teacher name, category or email..." value={query} onChange={e=>setQuery(e.target.value)}/><select aria-label="Filter profile status" value={filter} onChange={e=>setFilter(e.target.value)}><option value="ALL">All statuses</option><option value="PUBLISHED">Published</option><option value="PENDING">Pending</option><option value="HIDDEN">Hidden</option></select></div>
-          <div className="admin-profile-modal-list">{metricProfiles.filter(t=>{const q=query.trim().toLowerCase();return (!q||[t.name,t.category,t.location,t.ownerEmail].filter(Boolean).some(v=>String(v).toLowerCase().includes(q)))&&(filter==="ALL"||(filter==="PUBLISHED"&&t.verified&&t.available)||(filter==="PENDING"&&!t.verified&&t.available)||(filter==="HIDDEN"&&!t.available));}).length===0?<div className="admin-empty-panel"><strong>No profiles in this view</strong><p>Try another status or search term.</p></div>:metricProfiles.filter(t=>{const q=query.trim().toLowerCase();return (!q||[t.name,t.category,t.location,t.ownerEmail].filter(Boolean).some(v=>String(v).toLowerCase().includes(q)))&&(filter==="ALL"||(filter==="PUBLISHED"&&t.verified&&t.available)||(filter==="PENDING"&&!t.verified&&t.available)||(filter==="HIDDEN"&&!t.available));}).map(t=><article className="admin-profile-modal-row" key={t.id}><div className="admin-teacher-avatar small">{(t.name||"T").trim().charAt(0).toUpperCase()}</div><div className="admin-profile-modal-identity"><strong>{t.name||"English teacher"}</strong><span>{t.category||"English"} · {t.location||"Location not provided"}</span><small>{t.ownerEmail||"No linked email"}</small></div><span className={t.verified&&t.available?"admin-state published":t.available?"admin-state pending":"admin-state hidden"}>{t.verified&&t.available?"Published":t.available?"Pending":"Hidden"}</span><div className="admin-profile-modal-actions">{!t.available?<button type="button" className="admin-row-action" onClick={()=>restoreProfile(t)}>Restore profile</button>:t.verified?<button type="button" className="admin-row-action danger" onClick={()=>removeProfile(t)}>Hide profile</button>:<><button type="button" className="admin-approve-btn" onClick={()=>approve(t.id)}>Approve</button><button type="button" className="admin-reject-btn" onClick={()=>reject(t.id)}>Reject</button></>}</div></article>)}</div>
-          <div className="admin-profile-modal-footer"><span>Changes update the teacher directory after refresh.</span><button type="button" onClick={()=>setActiveMetric("")}>Done</button></div>
+          <div className="admin-profile-modal-heading"><div><p className="admin-eyebrow">PROFILE MANAGEMENT</p><h2 id="admin-profile-modal-title">{metricTitle}</h2><p>{visibleProfiles.length} {visibleProfiles.length===1?"profile":"profiles"} · Manage teacher applications and profile visibility.</p></div><button type="button" aria-label="Close profile details" onClick={()=>setActiveMetric("")}>×</button></div>
+          <div className="admin-profile-modal-filters"><input aria-label="Search profiles" placeholder="Search teacher name, category, email or rejection reason..." value={query} onChange={e=>setQuery(e.target.value)}/><select aria-label="Filter profile status" value={filter} onChange={e=>setFilter(e.target.value)}><option value="ALL">All statuses</option><option value="PUBLISHED">Published</option><option value="PENDING">Pending</option><option value="HIDDEN">Hidden</option><option value="REJECTED">Rejected</option></select></div>
+          <div className="admin-profile-modal-list">{visibleProfiles.length===0?<div className="admin-empty-panel"><strong>No profiles in this view</strong><p>Try another status or search term.</p></div>:visibleProfiles.map(t=>{
+            const isRejected=Boolean(t.rejectionReason);
+            const statusLabel=isRejected?"Rejected":t.verified&&t.available?"Published":t.available?"Pending":"Hidden";
+            const statusClass=isRejected?"rejected":t.verified&&t.available?"published":t.available?"pending":"hidden";
+            return <article className="admin-profile-modal-row" key={t.id}>
+              <div className="admin-teacher-avatar small">{(t.name||"T").trim().charAt(0).toUpperCase()}</div>
+              <div className="admin-profile-modal-identity"><strong>{t.name||"English teacher"}</strong><span>{t.category||"English"} · {t.location||"Location not provided"}</span><small>{t.ownerEmail||"No linked email"}</small>{isRejected&&<p className="admin-rejection-reason"><b>Rejection reason:</b> {t.rejectionReason}<small>{t.rejectedAt?`Rejected ${new Date(t.rejectedAt).toLocaleString()}`:"Rejection date unavailable"}</small></p>}</div>
+              <span className={`admin-state ${statusClass}`}>{statusLabel}</span>
+              <div className="admin-profile-modal-actions">{!t.available?<button type="button" className="admin-row-action" onClick={()=>restoreProfile(t)}>Restore profile</button>:t.verified?<button type="button" className="admin-row-action danger" onClick={()=>hideProfile(t)}>Hide profile</button>:!isRejected?<><button type="button" className="admin-approve-btn" onClick={()=>approve(t.id)}>Approve</button><button type="button" className="admin-reject-btn" onClick={()=>reject(t.id)}>Reject</button></>:null}<button type="button" className="admin-row-action danger" onClick={()=>deleteProfile(t)}>Delete permanently</button></div>
+            </article>;
+          })}</div>
+          <div className="admin-profile-modal-footer"><span>Hide preserves the profile. Permanent delete removes the teacher profile and related reviews/applications.</span><button type="button" onClick={()=>setActiveMetric("")}>Done</button></div>
         </section>
       </div>}
       <section className="admin-panel-section">
