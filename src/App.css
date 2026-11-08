@@ -7183,3 +7183,16 @@ body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordion
  .teacher-profile-redesign .teaching-details-grid{grid-template-columns:1fr!important}
  .teacher-profile-redesign .section-title-row{align-items:flex-start!important}
 }
+
+/* Connected students: keep identity details on separate, readable lines */
+.teacher-dashboard-v2 .teacher-stat-records{display:grid;gap:10px}
+.teacher-dashboard-v2 .teacher-stat-record>div{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:0}
+.teacher-dashboard-v2 .teacher-stat-record strong{display:block;line-height:1.35;overflow-wrap:anywhere}
+.teacher-dashboard-v2 .teacher-stat-record small{display:block;line-height:1.4;margin:0;overflow-wrap:anywhere}
+.teacher-dashboard-v2 .teacher-stat-record>span.is-active{background:rgba(76,196,151,.13);color:#78dfb7}
+.teacher-dashboard-v2 .teacher-stat-record>span.is-completed{background:rgba(145,167,201,.13);color:#b5c4dc}
+.teacher-dashboard-v2 .teacher-student-count-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.teacher-dashboard-v2 .teacher-student-count-summary>div{display:flex;flex-direction:column;gap:4px;padding:10px 12px;border:1px solid #293e5c;border-radius:10px;background:#0d192b}
+.teacher-dashboard-v2 .teacher-student-count-summary strong{color:#edf3ff;font-size:20px;line-height:1.2}
+.teacher-dashboard-v2 .teacher-student-count-summary span{color:#91a7c9;font-size:10px}
+@media(max-width:520px){.teacher-dashboard-v2 .teacher-student-count-summary{grid-template-columns:1fr 1fr}.teacher-dashboard-v2 .teacher-stat-record{align-items:flex-start}}
