@@ -6588,3 +6588,31 @@ body .teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group{ba
 .teacher-dashboard-v2 .teacher-demo-preview summary{color:#a9c8f4!important;font-size:11px!important}
 .teacher-dashboard-v2 .teacher-demo-empty{padding:16px 18px!important;border:1px dashed #3b5676!important;border-radius:13px!important;background:#102139!important;color:#a9bfdc!important;font-size:11px!important}
 @media(max-width:760px){.teacher-dashboard-v2 .teacher-profile-form{padding:15px!important}.teacher-dashboard-v2 .teacher-profile-fields{grid-template-columns:1fr!important}.teacher-dashboard-v2 .teacher-profile-fields .teacher-field-wide{grid-column:auto!important}.teacher-dashboard-v2 .teacher-form-heading{align-items:flex-start!important}.teacher-dashboard-v2 .teacher-profile-photo-field{align-items:flex-start!important}.teacher-dashboard-v2 .teacher-photo-copy{align-items:flex-start!important;flex-direction:column!important}}
+
+
+/* High-contrast accordion labels: override legacy dashboard typography */
+body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary>span>strong{
+  color:#F4F7FF!important;
+  font-size:13px!important;
+  font-weight:750!important;
+  line-height:1.35!important;
+  letter-spacing:0!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary>span>small{
+  color:#B8CBE4!important;
+  font-size:11px!important;
+  font-weight:500!important;
+  line-height:1.5!important;
+  opacity:1!important;
+}
+body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary>.teacher-profile-group-icon{
+  color:#D9E8FF!important;
+  background:#294B70!important;
+  border-color:#52769E!important;
+  opacity:1!important;
+}
+body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary>i{
+  color:#C6D9F2!important;
+}
