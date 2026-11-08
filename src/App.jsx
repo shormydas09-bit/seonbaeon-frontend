@@ -3171,26 +3171,26 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       </form>
       </section>
       {profile.verified && <section className="teacher-dashboard-section"><div className="teacher-dashboard-section-heading"><div><span className="teacher-dashboard-eyebrow">02 · SHOW HOW YOU TEACH</span><h2>Demo Video Library</h2><p>Your free demo videos let students experience your teaching style before contacting you.</p></div></div>
-                <form className="card teacher-demo-card" onSubmit={addVideo} style={{ padding:24 }}>
+                <form className="card teacher-demo-card teacher-demo-card-compact" onSubmit={addVideo}>
           <h2>Demo Videos ({videos.length}/2)</h2>
-          <p style={{ color:"#9aa6bd", lineHeight:1.6 }}>Add up to two short teaching demonstrations so prospective students can understand your teaching style.</p>
-          <div style={{display:"flex",gap:8,flexWrap:"wrap",margin:"14px 0"}}>
+          <p className="teacher-demo-intro">Add up to two short demonstrations of your teaching style.</p>
+          <div className="teacher-demo-mode">
             <button type="button" className={videoMode==="youtube"?"signup-btn":"login-btn"} onClick={()=>setVideoMode("youtube")}>YouTube link</button>
             <button type="button" className={videoMode==="upload"?"signup-btn":"login-btn"} onClick={()=>setVideoMode("upload")}>Upload from device</button>
           </div>
-          <label>Video title</label><input value={videoTitle} onChange={e=>setVideoTitle(e.target.value)} required style={{ width:"100%", margin:"6px 0 12px" }} />
+          <label>Video title</label><input value={videoTitle} onChange={e=>setVideoTitle(e.target.value)} required className="teacher-demo-input" />
           {videoMode==="youtube" ? <>
             <label>YouTube URL</label><input type="url" value={videoUrl} onChange={e=>setVideoUrl(e.target.value)} placeholder="https://www.youtube.com/watch?v=..." required style={{ width:"100%", margin:"6px 0 12px" }} />
           </> : <>
             <label>Choose video file (MP4, WebM or MOV · max 100 MB)</label>
-            <input type="file" accept="video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov" onChange={e=>setVideoFile(e.target.files?.[0] || null)} required style={{display:"block",width:"100%",margin:"8px 0 10px"}} />
-            {videoFile && <p style={{fontSize:13,color:"#9aa6bd"}}>{videoFile.name} · {(videoFile.size/1024/1024).toFixed(1)} MB</p>}
+            <input type="file" accept="video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov" onChange={e=>setVideoFile(e.target.files?.[0] || null)} required className="teacher-demo-input teacher-demo-file" />
+            {videoFile && <p className="teacher-demo-file-meta">{videoFile.name} · {(videoFile.size/1024/1024).toFixed(1)} MB</p>}
             {busy && <div style={{height:7,background:"#26334a",borderRadius:99,overflow:"hidden",margin:"10px 0"}}><div style={{height:"100%",width:videoUploadProgress+"%",background:"#8b9cff",transition:"width .2s"}} /></div>}
-            {busy && <p style={{fontSize:12,color:"#9aa6bd"}}>Uploading video… {videoUploadProgress}%</p>}
+            {busy && <p className="teacher-demo-upload-meta">Uploading video… {videoUploadProgress}%</p>}
           </>}
-          <p style={{fontSize:12,color:"#9aa6bd",lineHeight:1.6}}>Upload videos you own or are authorized to share. File size limits depend on the platform's upload service.</p>
+          <p className="teacher-demo-upload-meta">Upload videos you own or are authorized to share. File size limits depend on the platform's upload service.</p>
           <button className="signup-btn" disabled={busy || videos.length>=2}>{videos.length>=2?"Video limit reached":busy?(videoMode==="upload"?"Uploading...":"Saving..."):"Add demo video"}</button>
-          <div className="teacher-demo-list">{videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);const isUploaded=v.videoType==="uploaded";return <div className="teacher-demo-item" key={v.id}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}><p style={{margin:"0 0 10px"}}><a href={v.videoUrl} target="_blank" rel="noreferrer">{v.title}</a> <small style={{color:"#9aa6bd"}}>{isUploaded?"· Uploaded video":"· YouTube"}</small></p><button type="button" disabled={busy} onClick={()=>deleteVideo(v.id)} style={{background:"transparent",color:"#fda29b",border:"1px solid #b54745",borderRadius:8,padding:"7px 12px",fontWeight:600,cursor:"pointer"}}>Delete</button></div>{isUploaded ? <video controls playsInline preload="metadata" src={v.videoUrl} style={{width:"100%",aspectRatio:"16 / 9",borderRadius:12,background:"#080d18"}} /> : videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} style={{width:"100%",aspectRatio:"16 / 9",border:0,borderRadius:12}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p style={{color:"#9aa6bd"}}>Preview is unavailable for this link. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</div>})}</div>
+          <div className="teacher-demo-list">{videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);const isUploaded=v.videoType==="uploaded";return <div className="teacher-demo-item" key={v.id}><div className="teacher-demo-item-heading"><div><strong>{v.title}</strong><small>{isUploaded?"Uploaded video":"YouTube demo"}</small></div><button type="button" disabled={busy} onClick={()=>deleteVideo(v.id)} className="teacher-demo-delete">Delete</button></div><details className="teacher-demo-preview"><summary>Preview demo video</summary>{isUploaded ? <video controls playsInline preload="metadata" src={v.videoUrl} /> : videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p>Preview is unavailable for this link. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</details></div>})}</div>
         </form>
       </section>}
       {profile.verified && <section className="teacher-dashboard-section"><div className="teacher-dashboard-section-heading"><div><span className="teacher-dashboard-eyebrow">03 · CONNECT WITH LEARNERS</span><h2>Student Enquiries</h2><p>Review interested students and contact them directly about your English classes or learning centre.</p></div><span className="teacher-enquiry-count">{consultations.length} {consultations.length===1?"ENQUIRY":"ENQUIRIES"}</span></div>
