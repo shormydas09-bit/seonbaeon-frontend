@@ -6033,8 +6033,8 @@ html:has(.app.theme-dark-premium),body:has(.app.theme-dark-premium),#root:has(.a
   overflow-wrap:anywhere;
   color:#a9bfdc;
 }
-@media(max-width:1050px){
-  .student-dashboard-redesign .student-overview-accordion{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:1050px) and (min-width:681px){
+  .student-dashboard-redesign .student-overview-accordion{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media(max-width:680px){
   .student-dashboard-redesign .student-overview-accordion{grid-template-columns:minmax(0,1fr);gap:12px!important}
@@ -7416,87 +7416,17 @@ body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordion
 }
 
 
-/* Student dashboard overview: three balanced cards in one desktop row */
-@media (min-width: 900px) {
+/* Student dashboard overview — single source of truth for responsive layout */
+@media (min-width: 681px) {
   .student-dashboard-redesign .student-overview-accordion {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 16px !important;
+    grid-auto-flow: row !important;
+    gap: 14px !important;
+    width: 100% !important;
     align-items: stretch !important;
-    width: 100% !important;
   }
-  .student-dashboard-redesign .student-overview-trigger {
-    min-width: 0 !important;
-    min-height: 124px !important;
-    padding: 18px 16px !important;
-    gap: 11px !important;
-  }
-  .student-dashboard-redesign .student-overview-trigger .overview-icon {
-    flex: 0 0 44px !important;
-    width: 44px !important;
-    height: 44px !important;
-  }
-  .student-dashboard-redesign .student-overview-trigger .student-overview-summary-copy {
-    min-width: 0 !important;
-  }
-  .student-dashboard-redesign .student-overview-trigger .student-overview-expand {
-    margin-left: auto !important;
-    white-space: nowrap !important;
-    font-size: 11px !important;
-  }
-}
-@media (min-width: 681px) and (max-width: 899px) {
-  .student-dashboard-redesign .student-overview-accordion {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-
-
-/* Final override: three overview actions per row on desktop/tablet */
-@media screen and (min-width: 760px) {
-  .page.student-dashboard-redesign .student-overview-accordion {
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-flow: row !important;
-    gap: 14px !important;
-    width: 100% !important;
-  }
-  .page.student-dashboard-redesign .student-overview-accordion > .student-overview-trigger {
-    width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-    min-height: 116px !important;
-    padding: 16px 13px !important;
-    gap: 9px !important;
-  }
-  .page.student-dashboard-redesign .student-overview-accordion > .student-overview-trigger .overview-icon {
-    flex: 0 0 40px !important;
-    width: 40px !important;
-    height: 40px !important;
-    font-size: 20px !important;
-  }
-  .page.student-dashboard-redesign .student-overview-accordion > .student-overview-trigger .student-overview-expand {
-    gap: 5px !important;
-    font-size: 10px !important;
-  }
-  .page.student-dashboard-redesign .student-overview-accordion > .student-overview-trigger .student-overview-expand b {
-    width: 28px !important;
-    height: 28px !important;
-  }
-}
-
-
-/* Keep the three student quick links together on every non-mobile viewport */
-@media screen and (min-width: 681px) {
-  .page.student-dashboard-redesign .student-overview-accordion {
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-columns: minmax(0, 1fr) !important;
-    grid-auto-flow: row !important;
-    gap: 14px !important;
-    width: 100% !important;
-  }
-  .page.student-dashboard-redesign .student-overview-accordion > button.student-overview-trigger {
+  .student-dashboard-redesign .student-overview-accordion > .student-overview-trigger {
     display: flex !important;
     width: 100% !important;
     min-width: 0 !important;
@@ -7504,8 +7434,9 @@ body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordion
     box-sizing: border-box !important;
   }
 }
-@media screen and (max-width: 680px) {
-  .page.student-dashboard-redesign .student-overview-accordion {
+@media (max-width: 680px) {
+  .student-dashboard-redesign .student-overview-accordion {
     grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
   }
 }
