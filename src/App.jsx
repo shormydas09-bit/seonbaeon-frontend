@@ -1649,7 +1649,7 @@ function TeacherProfile({
               </p>
 
               {consultMessage && (
-                <div className="form-error">
+                <div className="form-error" role="alert" aria-live="assertive">
                   {consultMessage}
                 </div>
               )}
@@ -1657,11 +1657,14 @@ function TeacherProfile({
               <form
                 onSubmit={submitConsultation}
               >
-                <label>Student Name</label>
+                <label htmlFor="consult-student-name">Student Name</label>
 
                 <input
+                  id="consult-student-name"
                   name="studentName"
                   type="text"
+                  autoComplete="name"
+                  maxLength={100}
                   placeholder="Enter your name"
                   defaultValue={
                     currentUser?.name || ""
@@ -1669,11 +1672,14 @@ function TeacherProfile({
                   required
                 />
 
-                <label>Email</label>
+                <label htmlFor="consult-student-email">Email</label>
 
                 <input
+                  id="consult-student-email"
                   name="email"
                   type="email"
+                  autoComplete="email"
+                  maxLength={254}
                   placeholder="Enter your email"
                   defaultValue={
                     currentUser?.email || ""
@@ -1682,36 +1688,46 @@ function TeacherProfile({
                   required
                 />
 
-                <label>Phone</label>
+                <label htmlFor="consult-student-phone">Phone (Optional)</label>
 
                 <input
+                  id="consult-student-phone"
                   name="phone"
                   type="tel"
+                  autoComplete="tel"
+                  maxLength={25}
+                  pattern="[0-9+() .-]{7,25}"
+                  title="Enter a valid phone number using digits, +, spaces, parentheses or hyphens."
                   placeholder="Enter your phone number"
                 />
 
-                <label>
+                <label htmlFor="consult-preferred-date">
                   Preferred trial date <span className="teacher-field-hint">Optional · only if you are requesting a trial</span>
                 </label>
 
                 <input
+                  id="consult-preferred-date"
                   name="preferredDate"
                   type="date"
+                  min={new Date().toISOString().slice(0, 10)}
                 />
 
-                <label>
+                <label htmlFor="consult-preferred-time">
                   Preferred trial time <span className="teacher-field-hint">Optional</span>
                 </label>
 
                 <input
+                  id="consult-preferred-time"
                   name="preferredTime"
                   type="time"
                 />
 
-                <label>Message</label>
+                <label htmlFor="consult-message">Message (Optional)</label>
 
                 <textarea
+                  id="consult-message"
                   name="message"
+                  maxLength={2000}
                   placeholder="Ask about centre location, age groups, class schedule, fees or an optional trial..."
                   rows="4"
                 />
@@ -1719,6 +1735,7 @@ function TeacherProfile({
                 <button
                   type="submit"
                   className="submit-consultation"
+                  aria-busy={consultSubmitting}
                   disabled={
                     consultSubmitting
                   }
