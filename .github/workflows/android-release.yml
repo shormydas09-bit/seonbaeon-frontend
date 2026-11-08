@@ -20,12 +20,21 @@ jobs:
               ? `android-v1.1-${context.runNumber}`
               : context.ref.replace('refs/tags/', '');
             if (context.eventName === 'workflow_dispatch') {
-              await github.rest.git.createRef({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                ref: `refs/tags/${tag}`,
-                sha: context.sha
-              });
+              try {
+                await github.rest.git.getRef({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: `tags/${tag}`
+                });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                await github.rest.git.createRef({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: `refs/tags/${tag}`,
+                  sha: context.sha
+                });
+              }
             }
             core.setOutput('tag_name', tag);
       - uses: actions/setup-node@v4
