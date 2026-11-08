@@ -66,3 +66,83 @@
 #root .app.theme-dark-premium .admin-command-center .card p,#root .app.theme-dark-premium .admin-command-center .card small{color:#9eb2c8}
 @media(max-width:850px){#root .app.theme-dark-premium .admin-command-center .admin-metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){#root .app.theme-dark-premium .admin-command-center .workspace-premium-heading{padding:20px!important}#root .app.theme-dark-premium .admin-command-center .admin-welcome-row{align-items:flex-start}#root .app.theme-dark-premium .admin-command-center .admin-metric-grid{gap:9px}#root .app.theme-dark-premium .admin-command-center .admin-metric-card{padding:14px}#root .app.theme-dark-premium .admin-command-center .admin-metric-card strong{font-size:24px}#root .app.theme-dark-premium .admin-command-center .admin-panel-section{padding:16px}#root .app.theme-dark-premium .admin-command-center .admin-panel-heading{align-items:flex-start}#root .app.theme-dark-premium .admin-command-center .admin-directory-toolbar{flex-direction:column}#root .app.theme-dark-premium .admin-command-center .admin-directory-row{align-items:flex-start;flex-direction:column}#root .app.theme-dark-premium .admin-command-center .admin-directory-actions{justify-content:flex-start}#root .app.theme-dark-premium .admin-command-center .admin-application-details{grid-template-columns:1fr}}
+
+
+/* Admin workspace surfaces: keep every panel within the navy / teal system */
+#root .app.theme-dark-premium .admin-command-center .workspace-premium-heading{
+  background:linear-gradient(135deg,#172d43 0%,#102236 100%)!important;
+  border:1px solid rgba(135,180,205,.16)!important;
+  color:#edf5ff!important;
+}
+#root .app.theme-dark-premium .admin-command-center .workspace-premium-heading h1,
+#root .app.theme-dark-premium .admin-command-center .workspace-premium-heading h2,
+#root .app.theme-dark-premium .admin-command-center .workspace-premium-heading strong{color:#f3f7ff!important}
+#root .app.theme-dark-premium .admin-command-center .workspace-premium-heading p,
+#root .app.theme-dark-premium .admin-command-center .workspace-premium-heading span{color:#9eb6ce!important}
+#root .app.theme-dark-premium .admin-command-center .admin-metric-card{
+  appearance:none;text-align:left;width:100%;font:inherit;cursor:pointer;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+#root .app.theme-dark-premium .admin-command-center .admin-metric-card:hover{
+  transform:translateY(-3px);border-color:rgba(117,220,207,.42);
+  box-shadow:0 16px 34px rgba(0,0,0,.22);
+}
+#root .app.theme-dark-premium .admin-command-center .admin-metric-card:focus-visible{
+  outline:2px solid #79d9cc;outline-offset:3px;
+}
+#root .app.theme-dark-premium .admin-command-center .admin-metric-note b{float:right;color:#80dfd1}
+#root .app.theme-dark-premium .admin-profile-modal-backdrop{
+  position:fixed;inset:0;z-index:10000;display:grid;place-items:center;
+  padding:22px;background:rgba(2,9,17,.76);backdrop-filter:blur(9px);
+}
+#root .app.theme-dark-premium .admin-profile-modal{
+  width:min(850px,100%);max-height:min(82vh,760px);overflow:auto;
+  border:1px solid rgba(139,183,207,.2);border-radius:20px;
+  background:linear-gradient(145deg,#142a40,#0c1b2d);color:#eaf2fb;
+  box-shadow:0 28px 90px rgba(0,0,0,.48);padding:23px;
+}
+#root .app.theme-dark-premium .admin-profile-modal-heading{
+  display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px;
+}
+#root .app.theme-dark-premium .admin-profile-modal-heading h2{font-size:22px;color:#f3f7ff;margin:0 0 5px}
+#root .app.theme-dark-premium .admin-profile-modal-heading p:not(.admin-eyebrow){font-size:12px;color:#9eb2c8;margin:0}
+#root .app.theme-dark-premium .admin-profile-modal-heading>button{
+  width:34px;height:34px;border-radius:10px;border:1px solid rgba(145,180,205,.2);
+  background:#1b354c;color:#c8d8e8;font-size:22px;cursor:pointer;
+}
+#root .app.theme-dark-premium .admin-profile-modal-filters{display:flex;gap:9px;margin-bottom:13px}
+#root .app.theme-dark-premium .admin-profile-modal-filters input,
+#root .app.theme-dark-premium .admin-profile-modal-filters select{
+  min-width:0;background:#0a1929;color:#e2edf8;border:1px solid rgba(139,173,203,.2);
+  border-radius:10px;padding:11px 12px;font-size:12px;outline:none;
+}
+#root .app.theme-dark-premium .admin-profile-modal-filters input{flex:1}
+#root .app.theme-dark-premium .admin-profile-modal-list{display:grid;gap:9px}
+#root .app.theme-dark-premium .admin-command-center .admin-profile-modal-row{
+  display:grid;grid-template-columns:36px minmax(0,1fr) auto auto;align-items:center;gap:12px;
+  padding:12px;border:1px solid rgba(135,171,202,.13);border-radius:12px;background:rgba(5,17,30,.42);
+}
+#root .app.theme-dark-premium .admin-profile-modal-identity{min-width:0}
+#root .app.theme-dark-premium .admin-profile-modal-identity strong,
+#root .app.theme-dark-premium .admin-profile-modal-identity span,
+#root .app.theme-dark-premium .admin-profile-modal-identity small{display:block;overflow-wrap:anywhere}
+#root .app.theme-dark-premium .admin-profile-modal-identity strong{font-size:12px;color:#edf5ff}
+#root .app.theme-dark-premium .admin-profile-modal-identity span{font-size:10px;color:#a3b7cb;margin-top:3px}
+#root .app.theme-dark-premium .admin-profile-modal-identity small{font-size:9px;color:#7892ab;margin-top:3px}
+#root .app.theme-dark-premium .admin-profile-modal-actions{display:flex;gap:7px;justify-content:flex-end;flex-wrap:wrap}
+#root .app.theme-dark-premium .admin-profile-modal-footer{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:16px;margin-top:14px;
+  border-top:1px solid rgba(135,171,202,.13);color:#829bb4;font-size:10px;
+}
+#root .app.theme-dark-premium .admin-profile-modal-footer button{
+  border:1px solid rgba(115,207,194,.25);background:#17384a;color:#9de7db;
+  border-radius:9px;padding:8px 14px;font-size:11px;font-weight:700;cursor:pointer;
+}
+@media(max-width:650px){
+ #root .app.theme-dark-premium .admin-profile-modal{padding:16px;max-height:88vh}
+ #root .app.theme-dark-premium .admin-profile-modal-filters{flex-direction:column}
+ #root .app.theme-dark-premium .admin-command-center .admin-profile-modal-row{grid-template-columns:36px minmax(0,1fr);align-items:start}
+ #root .app.theme-dark-premium .admin-profile-modal-row>.admin-state{grid-column:2;justify-self:start}
+ #root .app.theme-dark-premium .admin-profile-modal-actions{grid-column:2;justify-content:flex-start}
+ #root .app.theme-dark-premium .admin-profile-modal-footer{align-items:flex-start;flex-direction:column}
+}
