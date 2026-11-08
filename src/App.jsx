@@ -3172,7 +3172,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
           <div className="teacher-photo-copy"><label>Profile picture</label><small>Use a clear photo · JPG, PNG or WebP · max 5 MB</small><label className="teacher-photo-upload">Choose photo<input type="file" accept="image/*" onChange={e=>{const f=e.target.files?.[0];if(f){setProfileImage(f);setImagePreview(URL.createObjectURL(f));}}} /></label></div>
         </div>
         <div className="teacher-profile-accordions">
-          <details className="teacher-profile-group" open>
+          <details className="teacher-profile-group">
             <summary><span className="teacher-profile-group-icon">01</span><span><strong>Basic profile</strong><small>Category, location and teaching specialty</small></span><i>⌄</i></summary>
             <div className="teacher-profile-fields teacher-profile-fields-basic">
               <label>Teaching category<select name="category" value={profile.category} onChange={change}>{["Kids English","Phonics","Speaking","Reading & Writing","Grammar","Storytelling","School English"].map(x=><option key={x}>{x}</option>)}</select></label>
