@@ -6442,3 +6442,93 @@ body .teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group{ba
 .dashboard-overlay-dialog .teacher-enquiry-profile-grid b{display:block!important;color:#91afd7!important;font-size:8px!important;letter-spacing:.09em!important;text-transform:uppercase!important}
 .dashboard-overlay-dialog .teacher-enquiry-profile-grid span{display:block!important;color:#e2ebf8!important;font-size:10px!important;line-height:1.5!important;overflow-wrap:anywhere!important}
 @media(max-width:600px){.dashboard-overlay-dialog .teacher-enquiry-modal-list{padding:5px 13px 16px!important}.dashboard-overlay-dialog .teacher-enquiry-modal-meta,.dashboard-overlay-dialog .teacher-enquiry-profile-grid{grid-template-columns:1fr!important}.dashboard-overlay-dialog .teacher-enquiry-modal-top strong{font-size:13px!important}}
+
+
+/* Student dashboard overview: premium clickable summary cards */
+.student-dashboard-redesign .student-overview-accordion{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:18px!important;
+  align-items:stretch!important;
+}
+.student-dashboard-redesign .student-overview-trigger{
+  display:flex!important;
+  align-items:center!important;
+  gap:14px!important;
+  min-width:0!important;
+  min-height:132px!important;
+  padding:23px 25px!important;
+  border:1px solid rgba(117,151,190,.25)!important;
+  border-radius:22px!important;
+  background:linear-gradient(145deg,#192f4b 0%,#12243a 100%)!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.18)!important;
+  color:#edf4ff!important;
+  text-align:left!important;
+  cursor:pointer!important;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+.student-dashboard-redesign .student-overview-trigger:hover{
+  transform:translateY(-3px)!important;
+  border-color:rgba(105,207,194,.58)!important;
+  box-shadow:0 17px 36px rgba(0,0,0,.24)!important;
+}
+.student-dashboard-redesign .student-overview-trigger:focus-visible{
+  outline:3px solid rgba(117,216,203,.55)!important;outline-offset:3px!important;
+}
+.student-dashboard-redesign .student-overview-trigger .overview-icon{
+  display:grid!important;place-items:center!important;flex:0 0 54px!important;width:54px!important;height:54px!important;
+  border:1px solid rgba(105,207,194,.2)!important;border-radius:17px!important;background:rgba(105,207,194,.12)!important;color:#75d8cb!important;font-size:25px!important;
+}
+.student-dashboard-redesign .student-overview-trigger .student-overview-summary-copy{
+  display:grid!important;grid-template-columns:auto 1fr!important;align-items:baseline!important;gap:4px 9px!important;flex:1!important;min-width:0!important;
+}
+.student-dashboard-redesign .student-overview-trigger .student-overview-summary-copy small{
+  grid-column:1/-1!important;color:#75d8cb!important;font-size:10px!important;font-weight:850!important;letter-spacing:1.45px!important;line-height:1.4!important;
+}
+.student-dashboard-redesign .student-overview-trigger .student-overview-summary-copy strong{
+  color:#f5f8ff!important;font-size:34px!important;font-weight:800!important;line-height:1.05!important;
+}
+.student-dashboard-redesign .student-overview-trigger .student-overview-summary-copy>span{
+  color:#a9bfdc!important;font-size:12px!important;line-height:1.45!important;
+}
+.student-dashboard-redesign .student-overview-trigger .student-overview-expand{
+  display:flex!important;align-items:center!important;gap:9px!important;flex:0 0 auto!important;color:#a9c6ed!important;font-size:11px!important;font-weight:750!important;white-space:nowrap!important;
+}
+.student-dashboard-redesign .student-overview-trigger .student-overview-expand b{
+  display:grid!important;place-items:center!important;width:36px!important;height:36px!important;border-radius:12px!important;background:rgba(105,207,194,.12)!important;color:#75d8cb!important;font-size:19px!important;
+}
+@media(max-width:1050px){.student-dashboard-redesign .student-overview-accordion{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:680px){.student-dashboard-redesign .student-overview-accordion{grid-template-columns:1fr!important;gap:12px!important}.student-dashboard-redesign .student-overview-trigger{min-height:108px!important;padding:17px!important}.student-dashboard-redesign .student-overview-trigger .student-overview-expand{font-size:0!important}.student-dashboard-redesign .student-overview-trigger .student-overview-expand b{width:32px!important;height:32px!important}}
+
+/* Student overview detail modal is portalled to document.body, so style it globally */
+.dashboard-overlay-dialog .student-overview-empty{margin:0!important;padding:22px!important;border:1px solid #2b4564!important;border-radius:13px!important;background:#102139!important;color:#b7c9e2!important;font-size:13px!important}
+.dashboard-overlay-dialog .student-inline-error{margin:14px 20px!important;color:#ffb8b8!important}
+.dashboard-overlay-dialog .student-overview-table-row{
+ display:flex!important;align-items:center!important;justify-content:space-between!important;gap:15px!important;
+ margin:0 20px!important;padding:17px 2px!important;border:0!important;border-bottom:1px solid rgba(145,173,211,.17)!important;
+ background:transparent!important;min-width:0!important;
+}
+.dashboard-overlay-dialog .student-overview-table-row:last-child{border-bottom:0!important}
+.dashboard-overlay-dialog .student-overview-row-main{display:grid!important;gap:7px!important;min-width:0!important;flex:1!important}
+.dashboard-overlay-dialog .student-overview-row-main>strong{color:#f3f7ff!important;font-size:14px!important;font-weight:750!important}
+.dashboard-overlay-dialog .student-overview-row-main>span{color:#b1c4df!important;font-size:11px!important;line-height:1.5!important}
+.dashboard-overlay-dialog .student-overview-row-meta{display:flex!important;flex-direction:column!important;align-items:flex-end!important;gap:9px!important;flex:0 0 auto!important}
+.dashboard-overlay-dialog .student-status-pill{display:inline-flex!important;align-items:center!important;padding:6px 10px!important;border:1px solid #385779!important;border-radius:999px!important;background:#1b3554!important;color:#c9defa!important;font-size:9px!important;font-weight:800!important;letter-spacing:.07em!important}
+.dashboard-overlay-dialog .student-overview-row-actions{display:flex!important;flex-wrap:wrap!important;justify-content:flex-end!important;gap:7px!important}
+.dashboard-overlay-dialog .student-overview-row-actions button,.dashboard-overlay-dialog .student-overview-table-row>.login-btn{min-height:34px!important;padding:7px 11px!important;border:1px solid #3a587c!important;border-radius:9px!important;background:#1b3452!important;color:#eaf2ff!important;font-size:10px!important;font-weight:700!important}
+.dashboard-overlay-dialog .student-join-link{color:#8fc8ff!important;font-size:11px!important;font-weight:750!important;text-decoration:none!important}
+.dashboard-overlay-dialog .student-consultation-detail-card{align-items:flex-start!important}
+.dashboard-overlay-dialog .student-consultation-card-top{display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:12px!important;padding:12px 14px!important;border:1px solid #2b4564!important;border-radius:12px!important;background:linear-gradient(130deg,#172e49,#102139)!important}
+.dashboard-overlay-dialog .student-consultation-card-top>div{display:grid!important;gap:5px!important}
+.dashboard-overlay-dialog .student-consultation-card-top small,.dashboard-overlay-dialog .student-consultation-facts small,.dashboard-overlay-dialog .student-consultation-message small{color:#8faed5!important;font-size:8px!important;font-weight:850!important;letter-spacing:.1em!important}
+.dashboard-overlay-dialog .student-consultation-card-top strong{color:#f3f7ff!important;font-size:14px!important}
+.dashboard-overlay-dialog .student-consultation-card-top span{color:#a9bfdc!important;font-size:10px!important}
+.dashboard-overlay-dialog .student-consultation-facts{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;margin-top:10px!important}
+.dashboard-overlay-dialog .student-consultation-facts>div{display:grid!important;gap:4px!important;padding:10px!important;border:1px solid #2b4260!important;border-radius:9px!important;background:#101f33!important;min-width:0!important}
+.dashboard-overlay-dialog .student-consultation-facts b{color:#e2ecf9!important;font-size:10px!important;overflow-wrap:anywhere!important}
+.dashboard-overlay-dialog .student-consultation-message{margin-top:10px!important;padding:11px 13px!important;border:1px solid #2b4564!important;border-radius:10px!important;background:#0e1d30!important}
+.dashboard-overlay-dialog .student-consultation-message p{margin:5px 0 0!important;color:#dce7f6!important;font-size:11px!important;line-height:1.6!important}
+.dashboard-overlay-dialog .student-consultation-state,.dashboard-overlay-dialog .request-positive,.dashboard-overlay-dialog .request-negative{font-size:11px!important;line-height:1.5!important}
+.dashboard-overlay-dialog .student-request-history{margin-top:10px!important;color:#afc2dc!important;font-size:11px!important}
+.dashboard-overlay-dialog .student-request-history summary{cursor:pointer!important}
+.dashboard-overlay-dialog .student-request-history pre{max-width:100%!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important;color:#afc2dc!important}
+@media(max-width:600px){.dashboard-overlay-dialog .student-overview-table-row{margin:0 12px!important;align-items:flex-start!important;flex-direction:column!important}.dashboard-overlay-dialog .student-overview-row-meta{align-items:flex-start!important}.dashboard-overlay-dialog .student-consultation-facts{grid-template-columns:1fr!important}}
