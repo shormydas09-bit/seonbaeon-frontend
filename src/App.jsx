@@ -1353,7 +1353,8 @@ function TeacherProfile({
         setVideoLoading(true);
 
         const response = await fetch(
-          `${API_URL}/teachers/${teacher.id}/videos`
+          `${API_URL}/teachers/${teacher.id}/videos`,
+          { headers: { Authorization: `Bearer ${currentUser?.token || ""}` } }
         );
 
         const data = await readResponse(response);
