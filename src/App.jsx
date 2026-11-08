@@ -2920,6 +2920,23 @@ function NotificationCenter({ user }) {
   </div>;
 }
 
+function AccountDeletionButton({ user, onDeleted }) {
+  const [busy,setBusy]=useState(false);
+  const [error,setError]=useState("");
+  async function deleteOwnAccount(){
+    const role=String(user?.role||"").toUpperCase();
+    if(!["TEACHER","STUDENT"].includes(role))return;
+    if(!window.confirm("Permanently delete your account? Your profile and associated account data will be removed. This cannot be undone."))return;
+    setBusy(true);setError("");
+    try{
+      const response=await fetch(`${API_URL}/workspace/account`,{method:"DELETE",headers:{Authorization:`Bearer ${user?.token||""}`}});
+      await readResponse(response);
+      onDeleted();
+    }catch(e){setError(e.message||"Account deletion failed. Please try again.");setBusy(false);}
+  }
+  return <div className="account-delete-area"><button type="button" className="account-delete-button" disabled={busy} onClick={deleteOwnAccount}>{busy?"Deleting account…":"Delete my account"}</button>{error&&<p role="alert" className="account-delete-error">{error}</p>}</div>;
+}
+
 function WorkspaceShell({ title, subtitle, user, onLogout, children }) {
   return (
     <main className="workspace-premium-shell" style={{ minHeight: "75vh" }}>
@@ -2932,7 +2949,7 @@ function WorkspaceShell({ title, subtitle, user, onLogout, children }) {
           </div>
           <div className="workspace-heading-actions">
             <NotificationCenter user={user} />
-            <button className="login-btn" onClick={onLogout}>Log out</button>
+            <button className="login-btn" onClick={onLogout}>Log out</button>{["TEACHER","STUDENT"].includes(String(user?.role||"").toUpperCase())&&<AccountDeletionButton user={user} onDeleted={onLogout}/>}
           </div>
         </div>
         {children}
