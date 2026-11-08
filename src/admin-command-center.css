@@ -898,3 +898,7 @@
 #root .app.theme-dark-premium .account-delete-button:hover{background:rgba(191,91,82,.18);border-color:rgba(231,133,121,.55)}
 #root .app.theme-dark-premium .account-delete-button:disabled{opacity:.55;cursor:wait}
 #root .app.theme-dark-premium .account-delete-error{width:100%;margin:0;color:#ffb4a9;font-size:12px}
+
+
+/* Progress tracking stays dormant until online classes launch */
+#root .app.theme-dark-premium .teacher-progress-tools-section{display:none!important}
