@@ -6643,3 +6643,47 @@ body{font-family:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif!important;co
  #root .app.theme-dark-premium .student-dashboard-redesign .student-consultation-detail-card{grid-template-columns:minmax(0,1fr)!important;padding:16px!important}
  #root .app.theme-dark-premium .student-consultation-facts{grid-template-columns:minmax(0,1fr)!important}
 }
+
+
+
+/* Student dashboard — compact discovery-first refinement */
+#root .app.theme-dark-premium .student-dashboard-redesign>section{
+  max-width:1120px!important;padding:28px 24px 48px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child{
+  padding:24px 28px!important;margin-bottom:18px!important;border-radius:18px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child h1{
+  font-size:clamp(27px,3vw,34px)!important;letter-spacing:-.8px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child p:last-of-type{
+  margin-top:7px!important;font-size:14px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-overview-accordion{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;margin-bottom:18px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-overview-accordion-item{
+  min-height:100px!important;padding:16px!important;border-radius:15px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-overview-summary-copy strong{font-size:24px!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-overview-expand{font-size:10px!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-areas:none!important;gap:14px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid>.student-account-card,
+#root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid>.student-discover-card{
+  grid-area:auto!important;min-height:0!important;padding:20px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid>.student-learning-card{
+  grid-area:auto!important;grid-column:1/-1!important;padding:20px!important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-profile-group summary{padding:12px 14px!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-profile-fields{padding:12px 14px!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-profile-submit-row{margin-top:12px!important}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid h3{margin:4px 0 10px!important}
+@media(max-width:760px){
+ #root .app.theme-dark-premium .student-dashboard-redesign>section{padding:20px 14px 36px!important}
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-overview-accordion{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid{grid-template-columns:minmax(0,1fr)!important}
+ #root .app.theme-dark-premium .student-dashboard-redesign .student-dashboard-grid>.student-learning-card{grid-column:auto!important}
+}
