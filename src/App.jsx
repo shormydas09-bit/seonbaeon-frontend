@@ -3226,7 +3226,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         <p className="teacher-privacy-note">Upload a teaching certificate or relevant degree. Do not upload passports or unrelated identity documents.</p>
         <div className="teacher-profile-footer"><span>Your profile information is saved securely.</span><button className="signup-btn" disabled={busy}>{busy ? "Saving..." : "Save profile"}</button></div>
       </form>      </section>
-      {profile.verified && <section className="teacher-dashboard-section"><div className="teacher-dashboard-section-heading"><div><span className="teacher-dashboard-eyebrow">02 · SHOW HOW YOU TEACH</span><h2>Demo Video Library</h2><p>Your free demo videos let students experience your teaching style before contacting you.</p></div></div>
+      {profile.verified && <section className="teacher-dashboard-section teacher-demo-section-v2"><div className="teacher-dashboard-section-heading"><div><span className="teacher-dashboard-eyebrow">02 · SHOW HOW YOU TEACH</span><h2>Demo Video Library</h2><p>Your free demo videos let students experience your teaching style before contacting you.</p></div></div>
                 <div className="teacher-demo-library">
           <details className="teacher-demo-add">
             <summary className={videos.length>=2?"is-full":""}><span className="teacher-demo-add-icon">＋</span><span><strong>{videos.length>=2?"Demo video limit reached":"Add a demo video"}</strong><small>{videos.length}/2 videos added · YouTube or upload</small></span><span className="teacher-demo-add-chevron">⌄</span></summary>
