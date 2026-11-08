@@ -7559,3 +7559,79 @@ body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordion
     overflow-y: auto !important;
   }
 }
+
+/* Student dashboard viewport containment + navbar stacking fix */
+body .app.theme-dark-premium .navbar{
+  position:sticky!important;
+  top:0!important;
+  z-index:1200!important;
+  isolation:isolate!important;
+}
+body .app.theme-dark-premium .student-dashboard-redesign{
+  position:relative!important;
+  z-index:1!important;
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:0 auto!important;
+  overflow-x:clip!important;
+  box-sizing:border-box!important;
+}
+body .app.theme-dark-premium .student-dashboard-redesign>section{
+  display:block!important;
+  width:min(100% - 32px, 1180px)!important;
+  max-width:1180px!important;
+  min-width:0!important;
+  margin:0 auto!important;
+  padding:42px 0 64px!important;
+  box-sizing:border-box!important;
+}
+body .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child{
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+  overflow-wrap:anywhere!important;
+}
+body .app.theme-dark-premium .student-dashboard-redesign h1,
+body .app.theme-dark-premium .student-dashboard-redesign p,
+body .app.theme-dark-premium .student-dashboard-redesign label,
+body .app.theme-dark-premium .student-dashboard-redesign span{
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+body .app.theme-dark-premium .student-dashboard-redesign .student-hero-actions{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  gap:12px!important;
+  max-width:100%!important;
+}
+body .app.theme-dark-premium .student-dashboard-redesign .student-overview-row-final{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+}
+body .app.theme-dark-premium .student-dashboard-redesign .student-overview-trigger{
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+}
+body .app.theme-dark-premium .student-dashboard-redesign .student-overview-summary-copy{
+  min-width:0!important;
+  overflow-wrap:anywhere!important;
+}
+@media(max-width:760px){
+  body .app.theme-dark-premium .student-dashboard-redesign>section{
+    width:calc(100% - 28px)!important;
+    padding:24px 0 44px!important;
+  }
+  body .app.theme-dark-premium .student-dashboard-redesign>section>div:first-child{
+    padding:22px 18px!important;
+  }
+  body .app.theme-dark-premium .student-dashboard-redesign .student-overview-row-final{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+}
