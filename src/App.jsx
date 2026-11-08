@@ -3104,26 +3104,46 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
   const headers = { "Content-Type": "application/json", Authorization: `Bearer ${currentUser?.token || ""}` };
 
   async function load() {
-    try {
-      const [p, v, c, a, st] = await Promise.all([
-        fetch(`${API_URL}/workspace/teacher/profile`, { headers }),
-        fetch(`${API_URL}/workspace/teacher/videos`, { headers }),
-        fetch(`${API_URL}/workspace/teacher/consultations`, { headers }),
-        fetch(`${API_URL}/workspace/teacher/analytics`, { headers }),
-        fetch(`${API_URL}/workspace/teacher/students`, { headers })
-      ]);
-      const pd = await readResponse(p);
-      if (pd && pd.profile !== "NOT_CREATED") {
-        setProfile(old => ({ ...old, ...pd }));
-        // Clear stale client-side validation from an earlier save attempt once
-        // the latest persisted profile has loaded successfully.
-        setError("");
+    // Load the approval-bearing teacher profile independently. A failure in
+    // analytics, videos or student lists must never hide an approved dashboard.
+    const profileResult = await fetch(`${API_URL}/workspace/teacher/profile`, { headers })
+      .then(readResponse)
+      .catch(error => ({ __loadError: error }));
+
+    if (profileResult?.__loadError) {
+      setError(profileResult.__loadError.message || "Could not load your teacher profile. Please refresh.");
+      return;
+    }
+    if (profileResult && profileResult.profile !== "NOT_CREATED") {
+      setProfile(old => ({ ...old, ...profileResult }));
+      setError("");
+    }
+
+    const endpoints = [
+      ["videos", `${API_URL}/workspace/teacher/videos`, setVideos, []],
+      ["enquiries", `${API_URL}/workspace/teacher/consultations`, setConsultations, []],
+      ["analytics", `${API_URL}/workspace/teacher/analytics`, setAnalytics, null],
+      ["students", `${API_URL}/workspace/teacher/students`, setConnectedStudents, []],
+    ];
+
+    const results = await Promise.allSettled(
+      endpoints.map(([, url]) => fetch(url, { headers }).then(readResponse))
+    );
+
+    const failed = [];
+    results.forEach((result, index) => {
+      const [label, , setter, fallback] = endpoints[index];
+      if (result.status === "fulfilled") {
+        setter(result.value ?? fallback);
+      } else {
+        setter(fallback);
+        failed.push(label);
       }
-      setVideos(await readResponse(v));
-      setConsultations(await readResponse(c));
-      setAnalytics(await readResponse(a));
-      setConnectedStudents(await readResponse(st));
-    } catch (e) { setError(e.message); }
+    });
+
+    if (failed.length) {
+      setError(`Your teacher approval and profile are loaded, but some dashboard data could not load (${failed.join(", ")}). Please refresh to retry.`);
+    }
   }
   useEffect(() => { load(); }, []);
   function change(e) { setProfile(p => ({ ...p, [e.target.name]: e.target.value })); }
