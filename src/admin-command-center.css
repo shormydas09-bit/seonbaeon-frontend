@@ -494,3 +494,62 @@
 #root .app.theme-dark-premium .admin-dashboard-redesign .admin-panel-section .admin-application-list article.admin-application-card .admin-application-actions{
   border-top:1px solid rgba(139,174,203,.18)!important;
 }
+
+
+/* Expandable teacher application rows */
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-card{
+ padding:0!important;overflow:hidden!important;
+ background:linear-gradient(145deg,#172d43 0%,#13263b 100%)!important;
+ border:1px solid rgba(133,170,202,.18)!important;border-radius:17px!important;
+ box-shadow:0 8px 22px rgba(0,0,0,.14)!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-card.is-expanded{
+ border-color:rgba(112,211,199,.32)!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-toggle{
+ appearance:none!important;width:100%!important;min-height:92px!important;
+ display:flex!important;align-items:center!important;justify-content:space-between!important;
+ gap:20px!important;padding:18px 20px!important;margin:0!important;
+ text-align:left!important;background:transparent!important;border:0!important;
+ color:#edf4ff!important;cursor:pointer!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-toggle:hover{
+ background:rgba(110,205,192,.045)!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-main{
+ display:flex!important;align-items:center!important;gap:14px!important;min-width:0!important;margin:0!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-info{
+ display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:4px!important;min-width:0!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-info strong{
+ color:#f1f6ff!important;-webkit-text-fill-color:#f1f6ff!important;font-size:16px!important;font-weight:800!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-info span{
+ color:#a8bed3!important;-webkit-text-fill-color:#a8bed3!important;font-size:12px!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-info small{
+ color:#829bb5!important;font-size:11px!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-toggle-meta{
+ display:flex!important;align-items:center!important;gap:14px!important;flex:0 0 auto!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-number{
+ color:#8fa9c2!important;font-size:10px!important;font-weight:750!important;letter-spacing:.09em!important;text-transform:uppercase!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-chevron{
+ display:grid!important;place-items:center!important;width:34px!important;height:34px!important;
+ border-radius:11px!important;background:rgba(105,211,196,.1)!important;
+ border:1px solid rgba(105,211,196,.23)!important;color:#91e2d6!important;font-size:19px!important;font-weight:600!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-expanded{
+ padding:0 20px 20px!important;border-top:1px solid rgba(139,174,203,.13)!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-expanded .admin-application-details{
+ margin:17px 0 14px!important;
+}
+@media(max-width:640px){
+ #root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-toggle{padding:15px!important;gap:10px!important}
+ #root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-number{display:none!important}
+ #root .app.theme-dark-premium .admin-dashboard-redesign .admin-application-expanded{padding:0 15px 16px!important}
+}
