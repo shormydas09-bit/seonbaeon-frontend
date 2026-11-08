@@ -3275,7 +3275,8 @@ function AdminWorkspace({ currentUser, handleLogout }) {
   const [query,setQuery]=useState("");
   const [filter,setFilter]=useState("ALL");
   const [activeMetric,setActiveMetric]=useState("");
-  const [expandedApplication,setExpandedApplication]=useState(null);
+  const [verificationOpen,setVerificationOpen]=useState(false);
+  const [selectedApplication,setSelectedApplication]=useState(null);
   const headers={"Content-Type":"application/json",Authorization:`Bearer ${currentUser?.token||""}`};
   async function load(){
     setError("");
@@ -3380,24 +3381,28 @@ function AdminWorkspace({ currentUser, handleLogout }) {
           <div className="admin-profile-modal-footer"><span>Hide preserves the profile. Permanent delete removes the teacher profile and related reviews/applications.</span><button type="button" onClick={()=>setActiveMetric("")}>Done</button></div>
         </section>
       </div>}
-      <section className="admin-panel-section">
-        <div className="admin-panel-heading"><div><p className="admin-eyebrow">QUALITY & TRUST</p><h2>Teacher verification</h2><p>Review credentials and sample lessons before publishing a teacher.</p></div><button type="button" className="admin-count-pill admin-pending-notification" onClick={()=>{setFilter("PENDING");setQuery("");setActiveMetric("PENDING");}} aria-label={`Open ${pendingTeachers.length} pending teacher applications`}> <span className="admin-pending-dot" aria-hidden="true"></span>{pendingTeachers.length} pending <span className="admin-pending-open" aria-hidden="true">↗</span></button></div>
-        {pendingTeachers.length===0?<div className="admin-empty-panel"><span>✓</span><strong>You're all caught up</strong><p>There are no teacher applications waiting for review.</p></div>:<div className="admin-application-list">{pendingTeachers.map((t,index)=>{
-          const expanded=String(expandedApplication)===String(t.id);
-          return <article className={`admin-application-card ${expanded?"is-expanded":"is-collapsed"}`} key={t.id}>
-            <button type="button" className="admin-application-toggle" aria-expanded={expanded} aria-controls={`teacher-application-details-${t.id}`} onClick={()=>setExpandedApplication(current=>String(current)===String(t.id)?null:t.id)}>
-              <span className="admin-application-main"><span className="admin-teacher-avatar">{(t.name||"T").trim().charAt(0).toUpperCase()}</span><span className="admin-application-info"><strong>{t.name||"English teacher"}</strong><span>{t.category||"English"} · {t.location||"Location not provided"} · {t.experience||"Experience not provided"}</span><small>{t.ownerEmail||"No linked email"}</small></span></span>
-              <span className="admin-application-toggle-meta"><span className="admin-application-number">Application {String(index+1).padStart(2,"0")}</span><span className="admin-application-chevron">{expanded?"−":"＋"}</span></span>
-            </button>
-            {expanded&&<div className="admin-application-expanded" id={`teacher-application-details-${t.id}`}>
-              <div className="admin-application-details"><div><small>Qualification</small><strong>{t.qualification||"Not provided"}</strong></div><div><small>Institution</small><strong>{t.qualificationInstitution||"Not provided"}</strong></div></div>
-              {t.bio&&<p className="admin-application-bio">{t.bio}</p>}
-              <div className="admin-evidence-row">{t.qualificationDocumentUrl?<a href={t.qualificationDocumentUrl} target="_blank" rel="noreferrer">↗ View qualification document</a>:<span className="admin-evidence-missing">Qualification document not uploaded</span>}{(t.videos||[]).map(v=><a key={v.id} href={v.videoUrl} target="_blank" rel="noreferrer">▶ {v.title||"Demo video"}</a>)}</div>
-              <div className="admin-application-actions"><button type="button" className="admin-approve-btn" onClick={()=>approve(t.id)}>Approve teacher</button><button type="button" className="admin-reject-btn" onClick={()=>reject(t.id)}>Reject</button></div>
-            </div>}
-          </article>;
-        })}</div>}
+      <section className={`admin-panel-section admin-verification-section ${verificationOpen?"is-open":"is-closed"}`}>
+        <button type="button" className="admin-panel-heading admin-verification-toggle" aria-expanded={verificationOpen} onClick={()=>setVerificationOpen(value=>!value)}>
+          <span className="admin-verification-heading-copy"><p className="admin-eyebrow">QUALITY & TRUST</p><strong>Teacher verification</strong><small>Review credentials and sample lessons before publishing a teacher.</small></span>
+          <span className="admin-verification-toggle-action"><span className="admin-pending-dot" aria-hidden="true"></span>{pendingTeachers.length} pending <b>{verificationOpen?"−":"↗"}</b></span>
+        </button>
+        {verificationOpen&&<div className="admin-application-list">{pendingTeachers.length===0?<div className="admin-empty-panel"><span>✓</span><strong>You're all caught up</strong><p>There are no teacher applications waiting for review.</p></div>:pendingTeachers.map((t,index)=><button type="button" className="admin-application-toggle admin-application-launch" key={t.id} onClick={()=>setSelectedApplication(t.id)}>
+          <span className="admin-application-main"><span className="admin-teacher-avatar">{(t.name||"T").trim().charAt(0).toUpperCase()}</span><span className="admin-application-info"><strong>{t.name||"English teacher"}</strong><span>{t.category||"English"} · {t.location||"Location not provided"} · {t.experience||"Experience not provided"}</span><small>{t.ownerEmail||"No linked email"}</small></span></span>
+          <span className="admin-application-toggle-meta"><span className="admin-application-number">Application {String(index+1).padStart(2,"0")}</span><span className="admin-application-chevron">↗</span></span>
+        </button>)}</div>}
       </section>
+      {selectedApplication!==null&&(()=>{const t=pendingTeachers.find(item=>String(item.id)===String(selectedApplication));return t?<div className="admin-application-modal-backdrop" role="presentation" onMouseDown={event=>{if(event.target===event.currentTarget)setSelectedApplication(null);}}>
+        <section className="admin-application-modal" role="dialog" aria-modal="true" aria-labelledby="admin-application-modal-title">
+          <div className="admin-application-modal-heading"><div><p className="admin-eyebrow">TEACHER APPLICATION · REVIEW</p><h2 id="admin-application-modal-title">{t.name||"English teacher"}</h2><p>{t.category||"English"} · {t.location||"Location not provided"} · {t.experience||"Experience not provided"}</p></div><button type="button" aria-label="Close application" onClick={()=>setSelectedApplication(null)}>×</button></div>
+          <div className="admin-application-modal-body">
+            <div className="admin-application-details"><div><small>Qualification</small><strong>{t.qualification||"Not provided"}</strong></div><div><small>Institution</small><strong>{t.qualificationInstitution||"Not provided"}</strong></div></div>
+            <div className="admin-application-meta"><span>{t.ownerEmail||"No linked email"}</span><span>{t.experience||"Experience not provided"}</span></div>
+            {t.bio&&<p className="admin-application-bio">{t.bio}</p>}
+            <div className="admin-evidence-row">{t.qualificationDocumentUrl?<a href={t.qualificationDocumentUrl} target="_blank" rel="noreferrer">↗ View qualification document</a>:<span className="admin-evidence-missing">Qualification document not uploaded</span>}{(t.videos||[]).map(v=><a key={v.id} href={v.videoUrl} target="_blank" rel="noreferrer">▶ {v.title||"Demo video"}</a>)}</div>
+          </div>
+          <div className="admin-application-modal-actions"><button type="button" className="admin-approve-btn" onClick={()=>{setSelectedApplication(null);approve(t.id);}}>Approve teacher</button><button type="button" className="admin-reject-btn" onClick={()=>{setSelectedApplication(null);reject(t.id);}}>Reject</button></div>
+        </section>
+      </div>:null;})()}
       <AdminToolsPanel user={currentUser}/>
     </WorkspaceShell>
   </div>;
