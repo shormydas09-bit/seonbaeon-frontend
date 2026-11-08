@@ -934,3 +934,35 @@
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
+
+
+/* Student overview — isolated layout class, no legacy selector collisions. */
+#root .app .student-dashboard-redesign .student-overview-row-final {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+  gap: 16px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  align-items: stretch !important;
+  box-sizing: border-box !important;
+  margin: 0 0 24px !important;
+}
+#root .app .student-dashboard-redesign .student-overview-row-final > button.student-overview-trigger {
+  display: flex !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  min-height: 108px !important;
+  padding: 15px !important;
+  box-sizing: border-box !important;
+}
+#root .app .student-dashboard-redesign .student-overview-row-final .student-overview-summary-copy strong {
+  font-size: 24px !important;
+}
+@media (max-width: 680px) {
+  #root .app .student-dashboard-redesign .student-overview-row-final {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
