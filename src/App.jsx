@@ -503,8 +503,8 @@ function TeacherSearch({ goHome, openProfile }) {
       const timeout = new Promise((_, reject) => {
         timeoutId = window.setTimeout(() => {
           controller.abort();
-          reject(new Error("Teacher loading timed out after 180 seconds. Please retry."));
-        }, 180000);
+          reject(new Error("Teacher loading timed out after 30 seconds. Please retry."));
+        }, 30000);
       });
       const request = (async () => {
         const response = await fetch(`${API_URL}/teachers`, {
@@ -930,6 +930,9 @@ function TeacherSearch({ goHome, openProfile }) {
               <p>
                 Try changing your search or filters.
               </p>
+              <button type="button" className="teacher-retry-btn" onClick={() => { setSearch(""); setCategory("All"); setLocation("All"); setRating("All"); }}>
+                Clear all filters
+              </button>
             </div>
           )}
 
