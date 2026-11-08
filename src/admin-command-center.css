@@ -666,3 +666,68 @@
  #root .admin-command-center .admin-application-modal .admin-application-details{grid-template-columns:1fr!important}
  #root .admin-command-center .admin-application-modal-actions{padding:16px 19px 20px!important;flex-wrap:wrap!important}
 }
+
+
+/* Platform overview: enforce one cohesive dark palette across metrics, fields and menus */
+#root .admin-tools-panel .admin-tools-metrics .admin-tools-metric,
+#root .app .admin-tools-panel .admin-tools-metrics .admin-tools-metric,
+#root .admin-tools-panel article.admin-tools-metric{
+ background:linear-gradient(145deg,#1b344c 0%,#152a40 100%)!important;
+ background-color:#182f46!important;color:#edf4ff!important;
+ border:1px solid rgba(139,177,207,.19)!important;border-radius:15px!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 8px 22px rgba(0,0,0,.12)!important;
+}
+#root .admin-tools-panel .admin-tools-metric span{color:#a7bbd0!important;-webkit-text-fill-color:#a7bbd0!important;font-size:12px!important}
+#root .admin-tools-panel .admin-tools-metric strong{color:#f2f7ff!important;-webkit-text-fill-color:#f2f7ff!important;font-size:30px!important;font-weight:800!important}
+#root .admin-tools-panel .admin-tools-section{
+ background:linear-gradient(150deg,rgba(18,37,57,.94),rgba(14,29,46,.96))!important;
+ background-color:#12263c!important;border:1px solid rgba(132,170,202,.17)!important;
+ border-radius:18px!important;box-shadow:0 10px 28px rgba(0,0,0,.12)!important;
+}
+#root .admin-tools-panel .admin-review-toolbar input,
+#root .admin-tools-panel .admin-review-toolbar select,
+#root .admin-tools-panel .admin-user-actions select{
+ appearance:auto!important;color-scheme:dark!important;
+ color:#eaf2fc!important;-webkit-text-fill-color:#eaf2fc!important;
+ background:#10243a!important;background-color:#10243a!important;
+ border:1px solid rgba(132,173,205,.22)!important;border-radius:11px!important;
+ box-shadow:none!important;outline-offset:2px!important;
+}
+#root .admin-tools-panel .admin-review-toolbar input{
+ min-height:48px!important;padding:0 15px!important;font-size:13px!important;
+}
+#root .admin-tools-panel .admin-review-toolbar input::placeholder{color:#829bb5!important;-webkit-text-fill-color:#829bb5!important;opacity:1!important}
+#root .admin-tools-panel .admin-review-toolbar select,
+#root .admin-tools-panel .admin-user-actions select{
+ min-height:48px!important;padding:0 38px 0 14px!important;font-size:13px!important;
+}
+#root .admin-tools-panel .admin-review-toolbar select option,
+#root .admin-tools-panel .admin-user-actions select option{
+ color:#eaf2fc!important;background:#10243a!important;
+}
+#root .admin-tools-panel .admin-tools-empty{
+ background:rgba(9,22,36,.34)!important;border:1px dashed rgba(132,173,205,.2)!important;
+ border-radius:12px!important;color:#9eb5cc!important;
+}
+#root .admin-tools-panel .admin-tools-section-heading h3{color:#f0f6ff!important;-webkit-text-fill-color:#f0f6ff!important}
+#root .admin-tools-panel .admin-tools-section-heading p{color:#9fb5cc!important;-webkit-text-fill-color:#9fb5cc!important}
+#root .admin-tools-panel .admin-report-count{
+ background:rgba(161,116,53,.12)!important;border:1px solid rgba(218,169,99,.22)!important;
+ border-radius:12px!important;
+}
+#root .admin-tools-panel .admin-report-count strong{color:#f2c77f!important;-webkit-text-fill-color:#f2c77f!important}
+#root .admin-tools-panel .admin-report-count span{color:#d2b88e!important;-webkit-text-fill-color:#d2b88e!important}
+#root .admin-tools-panel .admin-tools-refresh,
+#root .admin-tools-panel .admin-tools-secondary,
+#root .admin-tools-panel .admin-tools-danger,
+#root .admin-tools-panel .admin-tools-restore{
+ min-height:42px!important;border-radius:11px!important;font-size:12px!important;font-weight:750!important;
+}
+#root .admin-tools-panel .admin-user-row{border-top:1px solid rgba(139,169,197,.14)!important}
+#root .admin-tools-panel .admin-user-identity strong{color:#edf4ff!important;-webkit-text-fill-color:#edf4ff!important}
+#root .admin-tools-panel .admin-user-identity>span{color:#9eb4ca!important;-webkit-text-fill-color:#9eb4ca!important}
+#root .admin-tools-panel .admin-activity-row{border-top:1px solid rgba(139,169,197,.14)!important}
+@media(max-width:760px){
+ #root .admin-tools-panel .admin-tools-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #root .admin-tools-panel .admin-review-toolbar{grid-template-columns:1fr!important}
+}
