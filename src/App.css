@@ -7196,3 +7196,112 @@ body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordion
 .teacher-dashboard-v2 .teacher-student-count-summary strong{color:#edf3ff;font-size:20px;line-height:1.2}
 .teacher-dashboard-v2 .teacher-student-count-summary span{color:#91a7c9;font-size:10px}
 @media(max-width:520px){.teacher-dashboard-v2 .teacher-student-count-summary{grid-template-columns:1fr 1fr}.teacher-dashboard-v2 .teacher-stat-record{align-items:flex-start}}
+
+
+/* Teacher public profile — final visual refinement */
+#root .app.theme-dark-premium .teacher-profile-redesign{
+  background:
+    radial-gradient(ellipse at 50% -12%,rgba(64,139,158,.16),transparent 48%),
+    #09121e!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-container{max-width:1240px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-header{
+  min-height:238px!important;grid-template-columns:116px minmax(0,1fr)!important;
+  padding:34px 38px!important;border-radius:26px!important;
+  background:linear-gradient(115deg,#172b43 0%,#142b43 58%,#123b45 100%)!important;
+  border-color:rgba(111,204,196,.24)!important;
+  box-shadow:0 22px 55px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-avatar{
+  width:108px!important;height:108px!important;min-width:108px!important;
+  border-radius:26px!important;background:linear-gradient(145deg,#31516f,#1c354e)!important;
+  border:1px solid rgba(111,211,200,.48)!important;
+  box-shadow:0 0 0 7px rgba(101,197,189,.07),0 14px 28px rgba(0,0,0,.2)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-name-line h1{
+  font-size:clamp(34px,4vw,48px)!important;letter-spacing:-1.8px!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-tags>span{
+  min-height:34px!important;padding:7px 13px!important;background:rgba(111,148,184,.13)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-layout{
+  grid-template-columns:minmax(0,1fr) 292px!important;gap:22px!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-left{gap:18px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-section,
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar .booking-card,
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar .quick-info{
+  padding:25px!important;border-radius:20px!important;
+  background:linear-gradient(150deg,#172b42 0%,#112238 100%)!important;
+  border:1px solid rgba(126,168,202,.17)!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-section h2{
+  font-size:20px!important;letter-spacing:-.55px!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .demo-video{
+  border-radius:17px!important;border-color:rgba(117,174,198,.25)!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.22)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .demo-play-area{
+  aspect-ratio:16/8.2!important;max-height:470px!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .demo-library{
+  padding:17px!important;background:#0d1c2d!important;border-color:rgba(122,166,199,.16)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .video-gallery{
+  display:grid!important;grid-template-columns:repeat(auto-fill,minmax(150px,178px))!important;
+  align-items:start!important;gap:12px!important;overflow:visible!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .video-gallery-card{
+  width:100%!important;max-width:none!important;min-width:0!important;
+  border-radius:13px!important;background:#142a40!important;
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .video-gallery-card:hover{
+  transform:translateY(-3px)!important;border-color:rgba(111,211,200,.65)!important;
+  box-shadow:0 10px 24px rgba(0,0,0,.22)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .video-thumbnail{height:auto!important;aspect-ratio:16/9!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .demo-disclaimer{
+  max-width:100%!important;margin-top:14px!important;padding:13px 15px!important;
+  background:rgba(7,19,32,.48)!important;color:#9eb3c9!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .qualification-list{gap:11px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .qualification-item{
+  padding:16px!important;background:rgba(8,22,37,.42)!important;
+  border-color:rgba(126,168,202,.14)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid>div{
+  min-height:82px!important;justify-content:center!important;padding:15px 16px!important;
+  background:rgba(8,22,37,.48)!important;border-color:rgba(126,168,202,.14)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar{gap:16px!important;top:88px!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .booking-card{
+  background:linear-gradient(145deg,#1b354e,#142940)!important;border-color:rgba(111,211,200,.23)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .consultation-btn{
+  background:linear-gradient(110deg,#78d8cc,#54bdb4)!important;color:#08272d!important;
+  box-shadow:0 8px 20px rgba(62,176,165,.14)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .compare-profile-btn{
+  background:#203a55!important;border-color:rgba(143,179,207,.2)!important;
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .quick-info>div{padding:13px 0!important}
+#root .app.theme-dark-premium .teacher-profile-redesign .review-card,
+#root .app.theme-dark-premium .teacher-profile-redesign .review-form-card{
+  background:#0e2033!important;border-color:rgba(126,168,202,.15)!important;
+}
+@media(max-width:900px){
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-header{padding:26px!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-layout{grid-template-columns:1fr!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:620px){
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-header{grid-template-columns:1fr!important;padding:21px!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-section,
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar .booking-card,
+ #root .app.theme-dark-premium .teacher-profile-redesign .profile-sidebar .quick-info{padding:18px!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .video-gallery{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #root .app.theme-dark-premium .teacher-profile-redesign .demo-play-area{aspect-ratio:16/9!important}
+}
