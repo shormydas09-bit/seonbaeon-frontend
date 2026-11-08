@@ -7414,3 +7414,39 @@ body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordion
 @media(max-width:600px){
  .dashboard-overlay-dialog .teacher-student-count-summary>button{padding:13px 15px!important}
 }
+
+
+/* Student dashboard overview: three balanced cards in one desktop row */
+@media (min-width: 900px) {
+  .student-dashboard-redesign .student-overview-accordion {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+    align-items: stretch !important;
+    width: 100% !important;
+  }
+  .student-dashboard-redesign .student-overview-trigger {
+    min-width: 0 !important;
+    min-height: 124px !important;
+    padding: 18px 16px !important;
+    gap: 11px !important;
+  }
+  .student-dashboard-redesign .student-overview-trigger .overview-icon {
+    flex: 0 0 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+  }
+  .student-dashboard-redesign .student-overview-trigger .student-overview-summary-copy {
+    min-width: 0 !important;
+  }
+  .student-dashboard-redesign .student-overview-trigger .student-overview-expand {
+    margin-left: auto !important;
+    white-space: nowrap !important;
+    font-size: 11px !important;
+  }
+}
+@media (min-width: 681px) and (max-width: 899px) {
+  .student-dashboard-redesign .student-overview-accordion {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
