@@ -1640,10 +1640,10 @@ function TeacherProfile({
                 ×
               </button>
 
-              <h2>Request Consultation</h2>
+              <h2>Send an Enquiry</h2>
 
               <p>
-                Send a consultation request to{" "}
+                Send an enquiry to{" "}
                 {teacher.name}.
               </p>
 
@@ -1690,7 +1690,7 @@ function TeacherProfile({
                 />
 
                 <label>
-                  Preferred Date
+                  Preferred trial date <span className="teacher-field-hint">Optional · only if you are requesting a trial</span>
                 </label>
 
                 <input
@@ -1700,20 +1700,19 @@ function TeacherProfile({
                 />
 
                 <label>
-                  Preferred Time
+                  Preferred trial time <span className="teacher-field-hint">Optional</span>
                 </label>
 
                 <input
                   name="preferredTime"
                   type="time"
-                  required
                 />
 
                 <label>Message</label>
 
                 <textarea
                   name="message"
-                  placeholder="Tell the teacher what you would like to discuss..."
+                  placeholder="Ask about centre location, age groups, class schedule, fees or an optional trial..."
                   rows="4"
                 />
 
@@ -2320,7 +2319,7 @@ function TeacherProfile({
                   setShowConsultation(true)
                 }
               >
-                Request Consultation
+                Send Enquiry
               </button>
 
               <button
@@ -2423,7 +2422,7 @@ function TeacherToolsPanel({ user, consultations, lessons = [] }) {
   async function deleteProgressNote(id){if(!window.confirm("Delete this progress note?"))return;setError("");setNotice("");try{await readResponse(await fetch(`${API_URL}/workspace/teacher/progress/${id}`,{method:"DELETE",headers}));setNotice("Progress note deleted.");await load();}catch(e){setError(e.message);}}
   async function addSlot(e){e.preventDefault();setError("");setNotice("");try{await readResponse(await fetch(`${API_URL}/workspace/teacher/availability`,{method:"POST",headers,body:JSON.stringify({startsAt,endsAt,note:slotNote})}));setStartsAt("");setEndsAt("");setSlotNote("");setNotice("Availability slot added.");await load();}catch(e){setError(e.message);}}
   async function removeSlot(id){try{await readResponse(await fetch(`${API_URL}/workspace/teacher/availability/${id}`,{method:"DELETE",headers}));await load();}catch(e){setError(e.message);}}
-  return <section className="teacher-tools-panel"><header className="teacher-tools-heading"><span className="eyebrow">TEACHER WORKSPACE</span><h2>Teaching Overview & Tools</h2><p>Review performance, share learner feedback and manage your availability.</p></header>
+  return <section className="teacher-tools-panel"><header className="teacher-tools-heading"><span className="eyebrow">TEACHER WORKSPACE</span><h2>Teaching Tools</h2><p>Manage confirmed availability and share useful learning feedback when needed.</p></header>
     {notice&&<p style={{color:"#067647"}}>{notice}</p>}{error&&<p style={{color:"#b42318"}}>{error}</p>}
     {analytics&&<div className="teacher-analytics-grid">{[["Students",analytics.students],["Consultations",analytics.consultations],["Pending",analytics.pendingConsultations],["Lessons",analytics.lessons],["Completed",analytics.completedLessons],["Reviews",analytics.reviews],["Rating",Number(analytics.averageRating||0).toFixed(1)]].map(([k,v])=><button type="button" className={`teacher-analytics-tile ${activeMetric===k?"is-selected":""}`} key={k} aria-expanded={activeMetric===k} onClick={()=>setActiveMetric(activeMetric===k?"":k)}><small>{k}</small><strong>{v??0}</strong><span className="teacher-metric-open-hint">View records</span></button>)}</div>}
     {activeMetric&&<section className="teacher-metric-detail" aria-live="polite">
@@ -3137,7 +3136,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       setBusy(false);
     }
   }
-  return <div className="teacher-dashboard-redesign"><WorkspaceShell title="Teacher Dashboard" subtitle="Manage your teaching profile and demo lessons" user={currentUser} onLogout={handleLogout}>
+  return <div className="teacher-dashboard-redesign"><WorkspaceShell title="Teacher Dashboard" subtitle="Manage your profile, demo lessons and student enquiries" user={currentUser} onLogout={handleLogout}>
     {notice && <p style={{ background: "#ecfdf3", color: "#067647", padding: 12, borderRadius: 10 }}>{notice}</p>}
     {lessonNotice && <p style={{background:"#ecfdf3",color:"#067647",padding:12,borderRadius:10}}>{lessonNotice}</p>}
     {error && <p style={{ background: "#fef3f2", color: "#b42318", padding: 12, borderRadius: 10 }}>{error}</p>}
@@ -3196,7 +3195,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
           <div className="teacher-demo-list">{videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);const isUploaded=v.videoType==="uploaded";return <div className="teacher-demo-item" key={v.id}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}><p style={{margin:"0 0 10px"}}><a href={v.videoUrl} target="_blank" rel="noreferrer">{v.title}</a> <small style={{color:"#9aa6bd"}}>{isUploaded?"· Uploaded video":"· YouTube"}</small></p><button type="button" disabled={busy} onClick={()=>deleteVideo(v.id)} style={{background:"transparent",color:"#fda29b",border:"1px solid #b54745",borderRadius:8,padding:"7px 12px",fontWeight:600,cursor:"pointer"}}>Delete</button></div>{isUploaded ? <video controls playsInline preload="metadata" src={v.videoUrl} style={{width:"100%",aspectRatio:"16 / 9",borderRadius:12,background:"#080d18"}} /> : videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} style={{width:"100%",aspectRatio:"16 / 9",border:0,borderRadius:12}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p style={{color:"#9aa6bd"}}>Preview is unavailable for this link. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</div>})}</div>
         </form>
         <div className="card teacher-lessons-card" style={{ padding:24 }}>
-          <div className="teacher-list-heading"><div><span className="teacher-library-kicker">LESSON SCHEDULE</span><h2>Lesson Calendar</h2><p>Manage upcoming and completed lessons.</p></div><span className="teacher-note-count">{lessons.length} {lessons.length===1?"LESSON":"LESSONS"}</span></div>
+          <div className="teacher-list-heading"><div><span className="teacher-library-kicker">CONFIRMED SESSIONS</span><h2>Scheduled Activities</h2><p>Only confirmed optional trials and scheduled lessons appear here.</p></div><span className="teacher-note-count">{lessons.length} {lessons.length===1?"LESSON":"LESSONS"}</span></div>
           {lessons.length===0 ? <p className="teacher-list-empty">No lessons scheduled yet.</p> : <div className="teacher-record-list">{lessons.map(lesson=><div className="teacher-lesson-item" key={lesson.id}>
             <b>{lesson.studentName}</b><p>{new Date(lesson.scheduledAt).toLocaleString()} · {lesson.durationMinutes} min · <strong>{lesson.status}</strong></p>
             {lesson.meetingLink && <p><a href={lesson.meetingLink} target="_blank" rel="noreferrer">Meeting link</a></p>}
@@ -3208,7 +3207,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
           </div>)}</div>}
         </div>
         <div className="card teacher-requests-card" style={{ padding:24 }}>
-          <div className="teacher-list-heading"><div><span className="teacher-library-kicker">STUDENT ENQUIRIES</span><h2>Demo Lesson Requests</h2><p>Review requests and manage student follow-ups.</p></div><span className="teacher-note-count">{consultations.length} {consultations.length===1?"REQUEST":"REQUESTS"}</span></div>
+          <div className="teacher-list-heading"><div><span className="teacher-library-kicker">STUDENT ENQUIRIES</span><h2>Student Enquiries</h2><p>Respond to questions about your centre, classes, fees and optional trial availability.</p></div><span className="teacher-note-count">{consultations.length} {consultations.length===1?"REQUEST":"REQUESTS"}</span></div>
           {consultations.length===0 ? <p className="teacher-list-empty">No demo class requests yet.</p> : <div className="teacher-record-list">{consultations.map(c=><div className="teacher-request-item" key={c.id}><b>{c.studentName}</b><p>{c.preferredDate} · {c.preferredTime} · <strong>{c.status}</strong></p><p>{c.message}</p><button type="button" className="login-btn" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide":"View"} Student Profile</button>{selectedStudent===c.id && <div className="teacher-student-profile" style={{background:"#f8fafc",padding:12,borderRadius:10,marginTop:8}}><p><b>Email:</b> {c.studentProfile?.email || c.email}</p><p><b>Age / Group:</b> {c.studentProfile?.age || "—"} / {c.studentProfile?.ageGroup || "—"}</p><p><b>English Level:</b> {c.studentProfile?.englishLevel || "—"}</p><p><b>Learning Goals:</b> {c.studentProfile?.learningGoals || "—"}</p><p><b>Preferred Category:</b> {c.studentProfile?.preferredCategory || "—"}</p><p><b>Interests:</b> {c.studentProfile?.interests || "—"}</p><p><b>Schedule:</b> {c.studentProfile?.preferredSchedule || "—"}</p><p><b>About:</b> {c.studentProfile?.introduction || "—"}</p>{c.studentProfile?.guardianName && <p><b>Guardian:</b> {c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}</div>}{c.rejectionReason && <p style={{color:"#b42318"}}><b>Teacher rejection reason:</b> {c.rejectionReason}</p>}{c.adminPreviousStatus && <p><b>Admin changed status:</b> {c.adminPreviousStatus} → {c.status} {c.adminNote || ""}</p>}{c.decisionHistory && <div className="teacher-decision-history"><b>Decision history</b><p>{String(c.decisionHistory).replace(/\\\\n/g,"\n")}</p></div>}<div style={{marginTop:8}}><button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this consultation from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${c.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setConsultations(old=>old.filter(x=>x.id!==c.id));}catch(e){setError(e.message);}}}>Remove from my dashboard</button></div>{c.status==="PENDING" && <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button type="button" className="signup-btn" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"APPROVED")}>Approve</button><button type="button" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"REJECTED")} style={{background:"#fff",color:"#b42318",border:"1px solid #fda29b",borderRadius:10,padding:"10px 16px",fontWeight:600,cursor:"pointer"}}>Reject</button></div>}
             {c.status==="APPROVED" && !lessons.some(l=>l.consultationId===c.id) && <div className="lesson-scheduler" style={{marginTop:12}}>
               <h4>Schedule first lesson</h4>
