@@ -3179,6 +3179,25 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         : "Application submitted. Your profile is now waiting for admin verification.");
     } catch (e) { setError(e.message); } finally { setBusy(false); }
   }
+  async function deleteEnquiry(id) {
+    if (!window.confirm("Delete this student enquiry? This action cannot be undone.")) return;
+    setBusy(true); setError(""); setNotice("");
+    try {
+      const response = await fetch(`${API_URL}/consultations/${id}`, {
+        method: "DELETE",
+        headers: { ...headers, Accept: "application/json" },
+      });
+      if (response.status !== 204) await readResponse(response);
+      setConsultations(items => items.filter(item => String(item.id) !== String(id)));
+      setSelectedStudent(null);
+      setNotice("Student enquiry deleted.");
+    } catch (e) {
+      setError(e.message || "Could not delete this enquiry.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function updateConsultationStatus(id, status) {
     let rejectionReason = "";
     if (status === "REJECTED") {
@@ -3317,7 +3336,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
             </div>
             <div className="teacher-enquiry-message-card"><span>MESSAGE</span><p>{c.message || "The student is interested in your teaching profile."}</p></div>
             <div className="teacher-enquiry-modal-meta"><span><b>AGE</b>{c.studentProfile?.age || "—"}</span><span><b>ENGLISH LEVEL</b>{c.studentProfile?.englishLevel || "—"}</span></div>
-            <div className="teacher-enquiry-modal-actions"><a className="teacher-contact-link" href={"mailto:"+encodeURIComponent(c.email || c.studentProfile?.email || "")+"?subject="+encodeURIComponent("Your English class enquiry")}>✉ <span>Contact student</span></a><button type="button" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide details":"View learning profile"} <span>{selectedStudent===c.id?"⌃":"⌄"}</span></button></div>
+            <div className="teacher-enquiry-modal-actions"><a className="teacher-contact-link" href={"mailto:"+encodeURIComponent(c.email || c.studentProfile?.email || "")+"?subject="+encodeURIComponent("Your English class enquiry")}>✉ <span>Contact student</span></a><button type="button" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide details":"View learning profile"} <span>{selectedStudent===c.id?"⌃":"⌄"}</span></button>{["PENDING","REJECTED","NEW"].includes(String(c.status||"").toUpperCase())&&<button type="button" className="teacher-enquiry-delete" disabled={busy} onClick={()=>deleteEnquiry(c.id)}>Delete enquiry</button>}</div>
             {selectedStudent===c.id && <div className="teacher-enquiry-modal-profile"><div className="teacher-enquiry-profile-heading"><strong>Learning profile</strong><small>Student preferences and background</small></div>
               <div className="teacher-enquiry-profile-grid">
                 <div><b>Age / Group</b><span>{c.studentProfile?.age || "—"} / {c.studentProfile?.ageGroup || "—"}</span></div>
