@@ -3275,6 +3275,7 @@ function AdminWorkspace({ currentUser, handleLogout }) {
   const [query,setQuery]=useState("");
   const [filter,setFilter]=useState("ALL");
   const [activeMetric,setActiveMetric]=useState("");
+  const [expandedApplication,setExpandedApplication]=useState(null);
   const headers={"Content-Type":"application/json",Authorization:`Bearer ${currentUser?.token||""}`};
   async function load(){
     setError("");
@@ -3381,13 +3382,21 @@ function AdminWorkspace({ currentUser, handleLogout }) {
       </div>}
       <section className="admin-panel-section">
         <div className="admin-panel-heading"><div><p className="admin-eyebrow">QUALITY & TRUST</p><h2>Teacher verification</h2><p>Review credentials and sample lessons before publishing a teacher.</p></div><button type="button" className="admin-count-pill admin-pending-notification" onClick={()=>{setFilter("PENDING");setQuery("");setActiveMetric("PENDING");}} aria-label={`Open ${pendingTeachers.length} pending teacher applications`}> <span className="admin-pending-dot" aria-hidden="true"></span>{pendingTeachers.length} pending <span className="admin-pending-open" aria-hidden="true">↗</span></button></div>
-        {pendingTeachers.length===0?<div className="admin-empty-panel"><span>✓</span><strong>You're all caught up</strong><p>There are no teacher applications waiting for review.</p></div>:<div className="admin-application-list">{pendingTeachers.map(t=><article className="admin-application-card" key={t.id}>
-          <div className="admin-application-main"><div className="admin-teacher-avatar">{(t.name||"T").trim().charAt(0).toUpperCase()}</div><div className="admin-application-info"><h3>{t.name}</h3><p>{t.category||"English"} · {t.location||"Location not provided"} · {t.experience||"Experience not provided"}</p><span>{t.ownerEmail||"No linked email"}</span></div></div>
-          <div className="admin-application-details"><div><small>Qualification</small><strong>{t.qualification||"Not provided"}</strong></div><div><small>Institution</small><strong>{t.qualificationInstitution||"Not provided"}</strong></div></div>
-          {t.bio&&<p className="admin-application-bio">{t.bio}</p>}
-          <div className="admin-evidence-row">{t.qualificationDocumentUrl?<a href={t.qualificationDocumentUrl} target="_blank" rel="noreferrer">↗ View qualification document</a>:<span className="admin-evidence-missing">Qualification document not uploaded</span>}{(t.videos||[]).map(v=><a key={v.id} href={v.videoUrl} target="_blank" rel="noreferrer">▶ {v.title||"Demo video"}</a>)}</div>
-          <div className="admin-application-actions"><button type="button" className="admin-approve-btn" onClick={()=>approve(t.id)}>Approve teacher</button><button type="button" className="admin-reject-btn" onClick={()=>reject(t.id)}>Reject</button></div>
-        </article>)}</div>}
+        {pendingTeachers.length===0?<div className="admin-empty-panel"><span>✓</span><strong>You're all caught up</strong><p>There are no teacher applications waiting for review.</p></div>:<div className="admin-application-list">{pendingTeachers.map((t,index)=>{
+          const expanded=String(expandedApplication)===String(t.id);
+          return <article className={`admin-application-card ${expanded?"is-expanded":"is-collapsed"}`} key={t.id}>
+            <button type="button" className="admin-application-toggle" aria-expanded={expanded} aria-controls={`teacher-application-details-${t.id}`} onClick={()=>setExpandedApplication(current=>String(current)===String(t.id)?null:t.id)}>
+              <span className="admin-application-main"><span className="admin-teacher-avatar">{(t.name||"T").trim().charAt(0).toUpperCase()}</span><span className="admin-application-info"><strong>{t.name||"English teacher"}</strong><span>{t.category||"English"} · {t.location||"Location not provided"} · {t.experience||"Experience not provided"}</span><small>{t.ownerEmail||"No linked email"}</small></span></span>
+              <span className="admin-application-toggle-meta"><span className="admin-application-number">Application {String(index+1).padStart(2,"0")}</span><span className="admin-application-chevron">{expanded?"−":"＋"}</span></span>
+            </button>
+            {expanded&&<div className="admin-application-expanded" id={`teacher-application-details-${t.id}`}>
+              <div className="admin-application-details"><div><small>Qualification</small><strong>{t.qualification||"Not provided"}</strong></div><div><small>Institution</small><strong>{t.qualificationInstitution||"Not provided"}</strong></div></div>
+              {t.bio&&<p className="admin-application-bio">{t.bio}</p>}
+              <div className="admin-evidence-row">{t.qualificationDocumentUrl?<a href={t.qualificationDocumentUrl} target="_blank" rel="noreferrer">↗ View qualification document</a>:<span className="admin-evidence-missing">Qualification document not uploaded</span>}{(t.videos||[]).map(v=><a key={v.id} href={v.videoUrl} target="_blank" rel="noreferrer">▶ {v.title||"Demo video"}</a>)}</div>
+              <div className="admin-application-actions"><button type="button" className="admin-approve-btn" onClick={()=>approve(t.id)}>Approve teacher</button><button type="button" className="admin-reject-btn" onClick={()=>reject(t.id)}>Reject</button></div>
+            </div>}
+          </article>;
+        })}</div>}
       </section>
       <AdminToolsPanel user={currentUser}/>
     </WorkspaceShell>
