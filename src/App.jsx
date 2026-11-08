@@ -3914,7 +3914,7 @@ function DownloadPage() {
 
       <section style={{ maxWidth: 1000, margin: "0 auto", padding: "70px 24px", display: "flex", flexWrap: "wrap", gap: 40, alignItems: "center" }}>
         <div style={{ flex: "1 1 320px" }}>
-          <p style={{ color: "#b87325", fontWeight: 700 }}>ANDROID APP · VERSION 1.0</p>
+          <p style={{ color: "#b87325", fontWeight: 700 }}>ANDROID APP · VERSION 1.1</p>
           <h1 style={{ fontSize: "clamp(38px, 6vw, 58px)", lineHeight: 1.1, margin: "20px 0" }}>
             Your learning journey, one tap away.
           </h1>
@@ -3927,7 +3927,7 @@ function DownloadPage() {
           >
             ↓ Download for Android
           </a>
-          <p style={{ color: "#777", fontSize: 13, marginTop: 12 }}>APK · Android · Version 1.0</p>
+          <p style={{ color: "#777", fontSize: 13, marginTop: 12 }}>APK · Android · Version 1.1</p>
         </div>
 
         <div style={{ flex: "1 1 260px", textAlign: "center", background: "#fff", padding: 30, borderRadius: 24, border: "1px solid #eee" }}>
@@ -3979,7 +3979,7 @@ function App() {
     });
 
   if (window.location.pathname === "/app") {
-    window.location.replace("https://github.com/shormydas09-bit/seonbaeon-frontend/releases/latest/download/Pick-My-Teacher-v1.0.apk");
+    window.location.replace("https://github.com/shormydas09-bit/seonbaeon-frontend/releases/latest/download/Pick-My-Teacher.apk");
     return null;
   }
 
