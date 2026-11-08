@@ -68,7 +68,7 @@ async function readResponse(response) {
    AUTH PAGE
 ========================= */
 
-function AuthPage({ mode, setMode, onLogin }) {
+function AuthPage({ mode, setMode, onLogin, onPolicyOpen }) {
   const [name, setName] = useState("");
   const [accountRole, setAccountRole] = useState("STUDENT");
   const [email, setEmail] = useState("");
@@ -343,7 +343,7 @@ function AuthPage({ mode, setMode, onLogin }) {
           {mode === "signup" && (
             <label className="policy-consent">
               <input type="checkbox" checked={acceptedPolicies} onChange={(e) => setAcceptedPolicies(e.target.checked)} required />
-              <span>I agree to the <a href="/?policy=terms" onClick={(e) => { e.preventDefault(); window.history.pushState({}, "", "/?policy=terms"); window.dispatchEvent(new PopStateEvent("popstate")); }}>Terms of Service</a> and <a href="/?policy=privacy" onClick={(e) => { e.preventDefault(); window.history.pushState({}, "", "/?policy=privacy"); window.dispatchEvent(new PopStateEvent("popstate")); }}>Privacy Policy</a>.</span>
+              <span>I agree to the <button type="button" className="inline-policy-link" onClick={() => onPolicyOpen("terms")}>Terms of Service</button> and <button type="button" className="inline-policy-link" onClick={() => onPolicyOpen("privacy")}>Privacy Policy</button>.</span>
             </label>
           )}
 
@@ -3757,6 +3757,52 @@ function ResetPasswordPage() {
   );
 }
 
+
+function AuthGate({ onLogin, onSignup }) {
+  return <main className="auth-page"><section className="auth-card auth-gate-card">
+    <div className="auth-heading"><div className="auth-logo">Pick My Teacher<span>.</span></div>
+      <h1>Create an account to explore teachers</h1>
+      <p>Teacher profiles, teaching details and demo lessons are available to registered members. Sign in or create a free account to continue.</p>
+    </div>
+    <button className="auth-submit" onClick={onLogin}>Login to continue →</button>
+    <button className="signup-btn" onClick={onSignup}>Create free account</button>
+  </section></main>;
+}
+
+function PolicyPage({ type, onBack }) {
+  const privacy = type === "privacy";
+  return <main className="policy-page">
+    <article className="policy-document">
+      <button className="back-home" onClick={onBack}>← Back</button>
+      <p className="small-title">PICK MY TEACHER · {privacy ? "PRIVACY" : "LEGAL"}</p>
+      <h1>{privacy ? "Privacy Policy" : "Terms of Service"}</h1>
+      <p className="policy-updated">Draft for review · Last updated: November 9, 2026</p>
+      {privacy ? <>
+        <h2>1. Information we collect</h2><p>When you create or use an account, we may collect your name, email address, account role, profile information, learning preferences, teacher application details, consultation requests, lessons, reviews, messages and information you choose to upload. We also receive basic technical and usage information needed to operate, secure and troubleshoot the service.</p>
+        <h2>2. How we use information</h2><p>We use information to create and manage accounts, display teacher profiles to authenticated members, review teacher applications, facilitate student–teacher enquiries and lessons, provide notifications, support account security, prevent abuse and improve the service.</p>
+        <h2>3. Information visibility and sharing</h2><p>Information is shared with the relevant students, teachers and administrators when needed to operate the marketplace. Teacher profile information is intended for registered users. We may use infrastructure and service providers for hosting, database, file storage, email and security. We do not sell personal information.</p>
+        <h2>4. Children and parents</h2><p>The service may be used by parents or guardians arranging English lessons for children. A parent or guardian should provide information about a child and manage the child's use of the service. Do not submit unnecessary sensitive information about a child.</p>
+        <h2>5. Retention and security</h2><p>We retain information while an account is active and as reasonably needed for service delivery, security, dispute resolution and legal obligations. We use reasonable technical and organisational safeguards, but no online service can guarantee absolute security.</p>
+        <h2>6. Your choices and account deletion</h2><p>You may update available profile information and request account deletion through the account controls. Some records may need to be retained where required for legitimate operational, security or legal reasons. Deletion may remove access to the service and related account data.</p>
+        <h2>7. Cookies and local storage</h2><p>The application uses browser storage to maintain your login session and preferences. Clearing browser storage may sign you out or reset preferences.</p>
+        <h2>8. Changes and contact</h2><p>We may update this policy as the service changes. For privacy questions or requests, contact the service operator using the official support contact published by Pick My Teacher.</p>
+      </> : <>
+        <h2>1. About the service</h2><p>Pick My Teacher helps users discover English teachers and manage teacher enquiries and learning arrangements. The service is a matching and communication platform; it does not itself guarantee teaching outcomes or the conduct, availability or qualifications of any user.</p>
+        <h2>2. Accounts</h2><p>You must provide accurate information, keep your login credentials secure and use only your own account. You are responsible for activity carried out through your account. You must notify the service operator if you suspect unauthorised access.</p>
+        <h2>3. Students, parents and children</h2><p>Parents or legal guardians are responsible for creating and managing accounts and arrangements for children who are not legally able to consent independently. Do not arrange unsupervised contact with a child through the platform.</p>
+        <h2>4. Teachers and applications</h2><p>Teacher applicants must provide truthful profile, identity and qualification information and may be asked to provide supporting documents. Profiles may be reviewed, approved, rejected, hidden or removed by administrators. Approval is not a guarantee of employment, student enrolment or income.</p>
+        <h2>5. Acceptable use</h2><p>You must not impersonate another person, submit misleading credentials, harass users, misuse personal information, upload unlawful or harmful material, attempt unauthorised access, interfere with the service or use the platform for purposes unrelated to legitimate English-learning arrangements.</p>
+        <h2>6. Enquiries, lessons and payments</h2><p>Users are responsible for confirming lesson schedules, fees, cancellation terms and any payment arrangements directly and clearly before a lesson. Unless expressly stated otherwise in the service, Pick My Teacher does not process or guarantee payments between users.</p>
+        <h2>7. Content and reviews</h2><p>You remain responsible for content you submit and must have the rights and permissions needed to share it. You grant the service permission to host and display submitted content as necessary to operate the platform. Reviews must be honest, relevant and non-abusive.</p>
+        <h2>8. Suspension and termination</h2><p>We may restrict or suspend accounts or content where reasonably necessary to protect users, enforce these terms, investigate abuse or comply with law. You may request account deletion using the available account controls.</p>
+        <h2>9. Disclaimers and liability</h2><p>The service is provided on an availability basis. To the extent permitted by applicable law, we do not guarantee uninterrupted access, user conduct, teaching outcomes or the accuracy of user-submitted information. Nothing in these terms excludes rights or liabilities that cannot lawfully be excluded.</p>
+        <h2>10. Changes and contact</h2><p>We may update these terms and will publish the revised version here. Continued use after an update takes effect constitutes acceptance where permitted by applicable law. Questions should be sent using the official support contact published by Pick My Teacher.</p>
+      </>}
+      <p className="policy-notice">Important: This is a general starter draft, not jurisdiction-specific legal advice. Before opening registration publicly, the operator must add the legal business/operator name, country and governing law, a monitored privacy contact, the actual third-party processors and retention details, and obtain a local legal review—especially for services involving children.</p>
+    </article>
+  </main>;
+}
+
 function DownloadPage() {
   return (
     <main style={{ minHeight: "100vh", background: "#f8f7f4", color: "#222", fontFamily: "Arial, sans-serif" }}>
@@ -3818,6 +3864,7 @@ function App() {
   const [authMode, setAuthMode] =
     useState("login");
   const [afterLoginPage, setAfterLoginPage] = useState("dashboard");
+  const [policyType, setPolicyType] = useState("privacy");
 
   const [currentUser, setCurrentUser] =
     useState(() => {
@@ -4053,6 +4100,8 @@ function App() {
         )}
       </nav>
 
+      {page === "policy" && <PolicyPage type={policyType} onBack={() => setPage("auth")} />}
+
       {page === "home" && (
         <HomePage
           goToTeachers={() =>
@@ -4118,11 +4167,7 @@ function App() {
       )}
 
       {page === "auth" && (
-        <AuthPage
-          mode={authMode}
-          setMode={setAuthMode}
-          onLogin={handleLogin}
-        />
+        <AuthPage mode={authMode} setMode={setAuthMode} onLogin={handleLogin} onPolicyOpen={(type) => { setPolicyType(type); setPage("policy"); }} />
       )}
     </div>
   );
