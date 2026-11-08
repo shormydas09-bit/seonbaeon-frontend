@@ -2660,7 +2660,7 @@ function StudentDashboard({
           <div className="student-hero-actions"><NotificationCenter user={currentUser} /><AccountDeletionButton user={currentUser} onDeleted={handleLogout} /></div>
         </div>
 
-        <div className="student-overview-row-final" aria-label="Learning overview">
+        <div className="student-overview-row-final" aria-label="Learning overview" style={{display:"grid",gridTemplateColumns:"repeat(3,minmax(0,1fr))",gap:"16px",width:"100%",maxWidth:"100%",alignItems:"stretch",boxSizing:"border-box"}}>
           <button type="button" className="student-overview-accordion-item student-overview-trigger" onClick={()=>setActiveOverview("lessons")}>
             <span className="overview-icon">▣</span><span className="student-overview-summary-copy"><small>SCHEDULED SESSIONS</small><strong>{myLessons.filter(lesson=>lesson.status==="SCHEDULED").length}</strong><span>Scheduled sessions</span></span><span className="student-overview-expand">View details <b>↗</b></span>
           </button>
