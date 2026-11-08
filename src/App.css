@@ -7705,3 +7705,26 @@ body .app.theme-dark-premium .student-dashboard-redesign .student-overview-summa
  .teacher-dashboard-v2 .teacher-enquiry-modal-item{padding:12px!important}
  .teacher-dashboard-v2 .teacher-enquiry-modal-actions>a,.teacher-dashboard-v2 .teacher-enquiry-modal-actions>button{flex:1 1 100%;justify-content:center}
 }
+
+
+/* Fix mobile process-step number wrapping (03 / 04 must stay on one line). */
+#pmt-home-v3 .home-process-section .step-number {
+  display: flex !important;
+  flex: 0 0 42px !important;
+  width: 42px !important;
+  min-width: 42px !important;
+  max-width: 42px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  aspect-ratio: 1 / 1 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  writing-mode: horizontal-tb !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
