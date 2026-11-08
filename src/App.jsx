@@ -2932,6 +2932,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
   const [imagePreview, setImagePreview] = useState("");
   const [videos, setVideos] = useState([]);
   const [consultations, setConsultations] = useState([]);
+  const [students, setStudents] = useState([]);
   const [lessons, setLessons] = useState([]);
   const [analytics, setAnalytics] = useState(null);
   const [lessonDrafts, setLessonDrafts] = useState({});
@@ -2950,11 +2951,12 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
 
   async function load() {
     try {
-      const [p, v, c, a] = await Promise.all([
+      const [p, v, c, a, st] = await Promise.all([
         fetch(`${API_URL}/workspace/teacher/profile`, { headers }),
         fetch(`${API_URL}/workspace/teacher/videos`, { headers }),
         fetch(`${API_URL}/workspace/teacher/consultations`, { headers }),
-        fetch(`${API_URL}/workspace/teacher/analytics`, { headers })
+        fetch(`${API_URL}/workspace/teacher/analytics`, { headers }),
+        fetch(`${API_URL}/workspace/teacher/students`, { headers })
       ]);
       const pd = await readResponse(p);
       if (pd && pd.profile !== "NOT_CREATED") {
@@ -2966,6 +2968,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       setVideos(await readResponse(v));
       setConsultations(await readResponse(c));
       setAnalytics(await readResponse(a));
+      setStudents(await readResponse(st));
     } catch (e) { setError(e.message); }
   }
   useEffect(() => { load(); }, []);
