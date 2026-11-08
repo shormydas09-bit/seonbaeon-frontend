@@ -2664,10 +2664,10 @@ function StudentDashboard({
           <button type="button" className="student-overview-accordion-item student-overview-trigger" style={{flex:"1 1 0",width:"0",minWidth:0,maxWidth:"none",boxSizing:"border-box"}} onClick={()=>setActiveOverview("lessons")}>
             <span className="overview-icon">▣</span><span className="student-overview-summary-copy"><small>SCHEDULED SESSIONS</small><strong>{myLessons.filter(lesson=>lesson.status==="SCHEDULED").length}</strong><span>Scheduled sessions</span></span><span className="student-overview-expand">View details <b>↗</b></span>
           </button>
-          <button type="button" className="student-overview-accordion-item student-overview-trigger" style={{width:"100%",minWidth:0,maxWidth:"none",boxSizing:"border-box"}} onClick={()=>setActiveOverview("consultations")}>
+          <button type="button" className="student-overview-accordion-item student-overview-trigger" style={{flex:"1 1 0",width:"0",minWidth:0,maxWidth:"none",boxSizing:"border-box"}} onClick={()=>setActiveOverview("consultations")}>
             <span className="overview-icon">◷</span><span className="student-overview-summary-copy"><small>MY ENQUIRIES</small><strong>{myRequests.length}</strong><span>Teacher requests</span></span><span className="student-overview-expand">View details <b>↗</b></span>
           </button>
-          <button type="button" className="student-overview-accordion-item student-overview-trigger" style={{width:"100%",minWidth:0,maxWidth:"none",boxSizing:"border-box"}} onClick={()=>setActiveOverview("favorites")}>
+          <button type="button" className="student-overview-accordion-item student-overview-trigger" style={{flex:"1 1 0",width:"0",minWidth:0,maxWidth:"none",boxSizing:"border-box"}} onClick={()=>setActiveOverview("favorites")}>
             <span className="overview-icon">♡</span><span className="student-overview-summary-copy"><small>FAVORITE TEACHERS</small><strong>{favoriteTeachers.length}</strong><span>Saved profiles</span></span><span className="student-overview-expand">View details <b>↗</b></span>
           </button>
 
