@@ -7635,3 +7635,18 @@ body .app.theme-dark-premium .student-dashboard-redesign .student-overview-summa
     grid-template-columns:minmax(0,1fr)!important;
   }
 }
+
+
+/* Account gate and legal policy pages */
+.policy-consent{display:flex!important;align-items:flex-start!important;gap:10px!important;margin:14px 0 18px!important;color:#b9c7df!important;font-size:12px!important;line-height:1.6!important}
+.policy-consent input{width:16px!important;height:16px!important;flex:0 0 16px!important;margin:2px 0 0!important}
+.inline-policy-link{display:inline!important;padding:0!important;border:0!important;background:transparent!important;color:#a9bcff!important;text-decoration:underline!important;font:inherit!important;cursor:pointer!important}
+.auth-gate-card{max-width:480px!important;text-align:left!important}
+.auth-gate-card .signup-btn{width:100%!important;margin-top:12px!important;min-height:48px!important}
+.policy-page{min-height:calc(100vh - 78px);padding:42px 20px 72px;background:radial-gradient(ellipse at 50% 0%,rgba(78,105,190,.16),transparent 52%),#090f1e;color:#eaf0ff}
+.policy-document{width:min(100%,860px);margin:0 auto;padding:clamp(22px,5vw,48px);border:1px solid rgba(159,181,230,.18);border-radius:22px;background:linear-gradient(155deg,#172641,#101b30);box-shadow:0 22px 60px rgba(0,0,0,.25);box-sizing:border-box}
+.policy-document h1{font-size:clamp(32px,5vw,46px);letter-spacing:-.04em;margin:10px 0}
+.policy-document h2{font-size:18px;color:#eaf0ff;margin:28px 0 8px}
+.policy-document p{color:#b5c2d9;line-height:1.8;overflow-wrap:anywhere}
+.policy-document .policy-updated{font-size:12px;color:#8294b4;margin-bottom:30px}
+.policy-document .policy-notice{margin-top:32px;padding:16px;border:1px solid rgba(255,190,90,.25);border-radius:12px;background:rgba(255,190,90,.07);color:#f0d4a4;font-size:13px}
