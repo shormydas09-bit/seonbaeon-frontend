@@ -2660,14 +2660,14 @@ function StudentDashboard({
           <div className="student-hero-actions"><NotificationCenter user={currentUser} /><AccountDeletionButton user={currentUser} onDeleted={handleLogout} /></div>
         </div>
 
-        <div className="student-overview-accordion" aria-label="Learning overview">
-          <button type="button" className="student-overview-accordion-item student-overview-trigger" onClick={()=>setActiveOverview("lessons")}>
+        <div className="student-overview-accordion" aria-label="Learning overview" style={{display:"grid",gridTemplateColumns:"repeat(3,minmax(0,1fr))",gridAutoFlow:"row",gap:"14px",width:"100%",alignItems:"stretch"}}>
+          <button type="button" className="student-overview-accordion-item student-overview-trigger" style={{width:"100%",minWidth:0,maxWidth:"none",boxSizing:"border-box"}} onClick={()=>setActiveOverview("lessons")}>
             <span className="overview-icon">▣</span><span className="student-overview-summary-copy"><small>SCHEDULED SESSIONS</small><strong>{myLessons.filter(lesson=>lesson.status==="SCHEDULED").length}</strong><span>Scheduled sessions</span></span><span className="student-overview-expand">View details <b>↗</b></span>
           </button>
-          <button type="button" className="student-overview-accordion-item student-overview-trigger" onClick={()=>setActiveOverview("consultations")}>
+          <button type="button" className="student-overview-accordion-item student-overview-trigger" style={{width:"100%",minWidth:0,maxWidth:"none",boxSizing:"border-box"}} onClick={()=>setActiveOverview("consultations")}>
             <span className="overview-icon">◷</span><span className="student-overview-summary-copy"><small>MY ENQUIRIES</small><strong>{myRequests.length}</strong><span>Teacher requests</span></span><span className="student-overview-expand">View details <b>↗</b></span>
           </button>
-          <button type="button" className="student-overview-accordion-item student-overview-trigger" onClick={()=>setActiveOverview("favorites")}>
+          <button type="button" className="student-overview-accordion-item student-overview-trigger" style={{width:"100%",minWidth:0,maxWidth:"none",boxSizing:"border-box"}} onClick={()=>setActiveOverview("favorites")}>
             <span className="overview-icon">♡</span><span className="student-overview-summary-copy"><small>FAVORITE TEACHERS</small><strong>{favoriteTeachers.length}</strong><span>Saved profiles</span></span><span className="student-overview-expand">View details <b>↗</b></span>
           </button>
 
