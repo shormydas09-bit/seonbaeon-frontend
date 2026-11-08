@@ -502,8 +502,8 @@ function TeacherSearch({ goHome, openProfile }) {
       const timeout = new Promise((_, reject) => {
         timeoutId = window.setTimeout(() => {
           controller.abort();
-          reject(new Error("Teacher loading timed out after 15 seconds. Please retry."));
-        }, 15000);
+          reject(new Error("Teacher loading timed out after 60 seconds. Please retry."));
+        }, 60000);
       });
       const request = (async () => {
         const response = await fetch(`${API_URL}/teachers`, {
