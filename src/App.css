@@ -6616,3 +6616,37 @@ body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordion
 body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary>i{
   color:#C6D9F2!important;
 }
+
+
+/* Accessibility contrast fix: teacher profile accordion headings */
+.teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary strong,
+.teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary strong[style]{
+  color:#F4F7FF!important;
+  opacity:1!important;
+  text-shadow:none!important;
+  -webkit-text-fill-color:#F4F7FF!important;
+}
+.teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary small,
+.teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary small[style]{
+  color:#B8CBE4!important;
+  opacity:1!important;
+  text-shadow:none!important;
+  -webkit-text-fill-color:#B8CBE4!important;
+}
+.teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary .teacher-profile-group-icon{
+  color:#DCEBFF!important;
+  background:#294D75!important;
+  border-color:#587DA7!important;
+  opacity:1!important;
+}
+.teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary>i{
+  color:#DCEBFF!important;
+  opacity:1!important;
+}
+.teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary{
+  color:#F4F7FF!important;
+  opacity:1!important;
+}
+.teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group>summary:hover strong{
+  color:#FFFFFF!important;
+}
