@@ -3289,24 +3289,30 @@ function AdminWorkspace({ currentUser, handleLogout }) {
     catch(e){setError(e.message);}
   }
   async function reject(id){
-    const reason=window.prompt("Please enter the reason for rejecting this teacher application:");
+    const reason=window.prompt("Please enter the reason for rejecting this teacher application (maximum 1000 characters):");
     if(reason===null)return;
-    if(!reason.trim()){setError("A rejection reason is required.");return;}
+    const cleanReason=reason.trim();
+    if(!cleanReason){setError("A rejection reason is required.");return;}
+    if(cleanReason.length>1000){setError("The rejection reason must be 1000 characters or fewer.");return;}
+    setError("");setNotice("");
     try{
-      const cleanReason=reason.trim();
-      await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/reject`,{method:"POST",headers,body:JSON.stringify({reason:cleanReason})}));
-      const rejectedAt=new Date().toISOString();
-      // Move the application out of the review queue immediately, then show the rejected queue.
+      const response=await fetch(`${API_URL}/workspace/admin/teachers/${id}/reject`,{method:"POST",headers,body:JSON.stringify({reason:cleanReason})});
+      const result=await readResponse(response);
+      const rejectedAt=result?.rejectedAt||new Date().toISOString();
+      const rejectedProfile=result?.teacher||result;
+      // Update both views from the confirmed server response; do not block the transition
+      // on a second list request that could fail after the rejection has already saved.
       setPendingTeachers(current=>current.filter(t=>String(t.id)!==String(id)));
-      setAllTeachers(current=>current.map(t=>String(t.id)===String(id)?{...t,available:false,rejectionReason:cleanReason,rejectedAt}:t));
-      setFilter("REJECTED");
-      setQuery("");
-      setNotice("Teacher application rejected. It has been moved to Rejected with the reason saved.");
-      await load();
+      setAllTeachers(current=>{
+        const exists=current.some(t=>String(t.id)===String(id));
+        const updated={...(current.find(t=>String(t.id)===String(id))||{}),...(rejectedProfile||{}),id,available:false,rejectionReason:cleanReason,rejectedAt};
+        return exists?current.map(t=>String(t.id)===String(id)?updated:t):[updated,...current];
+      });
       setFilter("REJECTED");
       setQuery("");
       setActiveMetric("REJECTED");
-    }catch(e){setError(e.message);}
+      setNotice("Teacher application rejected and moved to Rejected. The reason has been saved.");
+    }catch(e){setError(e.message||"Could not reject this teacher. Please retry.");}
   }
   async function hideProfile(t){
     if(!window.confirm(`Hide ${t.name}'s public teacher profile? The account and profile data will remain.`))return;
