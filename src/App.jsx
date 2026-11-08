@@ -2657,7 +2657,7 @@ function StudentDashboard({
           >
             Discover teachers, watch demos and keep your enquiries in one place.
           </p>
-          <div className="student-hero-actions"><NotificationCenter user={currentUser} /></div>
+          <div className="student-hero-actions"><NotificationCenter user={currentUser} /><AccountDeletionButton user={currentUser} onDeleted={handleLogout} /></div>
         </div>
 
         <div className="student-overview-accordion" aria-label="Learning overview">
