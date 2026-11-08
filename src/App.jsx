@@ -1696,7 +1696,6 @@ function TeacherProfile({
                 <input
                   name="preferredDate"
                   type="date"
-                  required
                 />
 
                 <label>
