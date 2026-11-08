@@ -1,0 +1,55 @@
+name: Android APK Release
+on:
+  push:
+    tags:
+      - "android-v*"
+permissions:
+  contents: write
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: android-actions/setup-android@v3
+      - name: Install dependencies and build web app
+        run: |
+          npm ci
+          npm run build
+          npx cap sync android
+      - name: Configure release signing
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/release-key.jks
+          cat > android/keystore.properties <<EOF
+          storeFile=release-key.jks
+          storePassword=$ANDROID_KEYSTORE_PASSWORD
+          keyAlias=$ANDROID_KEY_ALIAS
+          keyPassword=$ANDROID_KEY_PASSWORD
+          EOF
+      - name: Build signed APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease
+      - name: Prepare stable APK asset
+        run: |
+          mkdir -p release
+          cp android/app/build/outputs/apk/release/app-release.apk release/Pick-My-Teacher.apk
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Pick My Teacher ${{ github.ref_name }}
+          generate_release_notes: true
+          files: release/Pick-My-Teacher.apk
