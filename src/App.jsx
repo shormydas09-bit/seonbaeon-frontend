@@ -3180,7 +3180,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       </section>
     </>}
     <div className="teacher-dashboard-content">
-      <section className="teacher-dashboard-section"><div className="teacher-dashboard-section-heading"><div><span className="teacher-dashboard-eyebrow">01 · YOUR PUBLIC LISTING</span><h2>Teacher Profile</h2><p>Help students and parents understand your experience, teaching approach and where to find your classes.</p></div></div>
+      <section className="teacher-dashboard-section teacher-profile-section-v2"><div className="teacher-dashboard-section-heading"><div><span className="teacher-dashboard-eyebrow">01 · YOUR PUBLIC LISTING</span><h2>Teacher Profile</h2><p>Help students and parents understand your experience, teaching approach and where to find your classes.</p></div></div>
               <form className="card teacher-profile-form teacher-profile-compact" onSubmit={saveProfile}>
         <div className="teacher-form-heading">
           <div><span className="teacher-form-kicker">PROFILE SETTINGS</span><h2>Edit your public profile</h2><p>Update the information students see before contacting you.</p></div>
