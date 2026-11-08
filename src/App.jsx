@@ -3270,6 +3270,7 @@ function AdminWorkspace({ currentUser, handleLogout }) {
   const [notice,setNotice]=useState("");
   const [query,setQuery]=useState("");
   const [filter,setFilter]=useState("ALL");
+  const [activeMetric,setActiveMetric]=useState("");
   const headers={"Content-Type":"application/json",Authorization:`Bearer ${currentUser?.token||""}`};
   async function load(){
     setError("");
@@ -3303,12 +3304,15 @@ function AdminWorkspace({ currentUser, handleLogout }) {
   }
   const published=allTeachers.filter(t=>t.verified&&t.available).length;
   const hidden=allTeachers.filter(t=>!t.available).length;
+  const pendingCount=allTeachers.filter(t=>!t.verified&&t.available).length;
   const filtered=allTeachers.filter(t=>{
     const term=query.trim().toLowerCase();
     const matches=!term||[t.name,t.category,t.location,t.ownerEmail].filter(Boolean).some(v=>String(v).toLowerCase().includes(term));
     const status=filter==="ALL"||(filter==="PUBLISHED"&&t.verified&&t.available)||(filter==="HIDDEN"&&!t.available)||(filter==="PENDING"&&!t.verified&&t.available);
     return matches&&status;
   });
+  const metricProfiles=activeMetric==="PUBLISHED"?allTeachers.filter(t=>t.verified&&t.available):activeMetric==="HIDDEN"?allTeachers.filter(t=>!t.available):activeMetric==="PENDING"?allTeachers.filter(t=>!t.verified&&t.available):allTeachers;
+  const metricTitle=activeMetric==="PUBLISHED"?"Published teachers":activeMetric==="HIDDEN"?"Hidden profiles":activeMetric==="PENDING"?"Awaiting review":"All teacher profiles";
   return <div className="admin-dashboard-redesign admin-command-center">
     <WorkspaceShell title="Admin Dashboard" subtitle="Manage the English teacher discovery platform" user={currentUser} onLogout={handleLogout}>
       <div className="admin-welcome-row">
@@ -3318,11 +3322,19 @@ function AdminWorkspace({ currentUser, handleLogout }) {
       {notice&&<div className="admin-feedback success" role="status">{notice}</div>}
       {error&&<div className="admin-feedback error" role="alert">{error}</div>}
       <div className="admin-metric-grid">
-        <article className="admin-metric-card"><span className="admin-metric-icon">♙</span><small>Teacher profiles</small><strong>{allTeachers.length}</strong><span className="admin-metric-note">Total submitted profiles</span></article>
-        <article className="admin-metric-card"><span className="admin-metric-icon">✓</span><small>Published teachers</small><strong>{published}</strong><span className="admin-metric-note">Visible to students</span></article>
-        <article className="admin-metric-card"><span className="admin-metric-icon">◷</span><small>Awaiting review</small><strong>{pendingTeachers.length}</strong><span className="admin-metric-note">Verification queue</span></article>
-        <article className="admin-metric-card"><span className="admin-metric-icon">⌁</span><small>Hidden profiles</small><strong>{hidden}</strong><span className="admin-metric-note">Not shown in discovery</span></article>
+        <button type="button" className="admin-metric-card" onClick={()=>setActiveMetric("ALL")}><span className="admin-metric-icon">♙</span><small>Teacher profiles</small><strong>{allTeachers.length}</strong><span className="admin-metric-note">Click to view all profiles <b>↗</b></span></button>
+        <button type="button" className="admin-metric-card" onClick={()=>setActiveMetric("PUBLISHED")}><span className="admin-metric-icon">✓</span><small>Published teachers</small><strong>{published}</strong><span className="admin-metric-note">Visible to students <b>↗</b></span></button>
+        <button type="button" className="admin-metric-card" onClick={()=>setActiveMetric("PENDING")}><span className="admin-metric-icon">◷</span><small>Awaiting review</small><strong>{pendingTeachers.length||pendingCount}</strong><span className="admin-metric-note">Open verification queue <b>↗</b></span></button>
+        <button type="button" className="admin-metric-card" onClick={()=>setActiveMetric("HIDDEN")}><span className="admin-metric-icon">⌁</span><small>Hidden profiles</small><strong>{hidden}</strong><span className="admin-metric-note">Review and restore profiles <b>↗</b></span></button>
       </div>
+      {activeMetric&&<div className="admin-profile-modal-backdrop" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setActiveMetric("");}}>
+        <section className="admin-profile-modal" role="dialog" aria-modal="true" aria-labelledby="admin-profile-modal-title">
+          <div className="admin-profile-modal-heading"><div><p className="admin-eyebrow">PROFILE MANAGEMENT</p><h2 id="admin-profile-modal-title">{metricTitle}</h2><p>{metricProfiles.length} {metricProfiles.length===1?"profile":"profiles"} · Manage visibility and restore hidden teachers.</p></div><button type="button" aria-label="Close profile details" onClick={()=>setActiveMetric("")}>×</button></div>
+          <div className="admin-profile-modal-filters"><input aria-label="Search profiles" placeholder="Search teacher name, category or email..." value={query} onChange={e=>setQuery(e.target.value)}/><select aria-label="Filter profile status" value={filter} onChange={e=>setFilter(e.target.value)}><option value="ALL">All statuses</option><option value="PUBLISHED">Published</option><option value="PENDING">Pending</option><option value="HIDDEN">Hidden</option></select></div>
+          <div className="admin-profile-modal-list">{metricProfiles.filter(t=>{const q=query.trim().toLowerCase();return (!q||[t.name,t.category,t.location,t.ownerEmail].filter(Boolean).some(v=>String(v).toLowerCase().includes(q)))&&(filter==="ALL"||(filter==="PUBLISHED"&&t.verified&&t.available)||(filter==="PENDING"&&!t.verified&&t.available)||(filter==="HIDDEN"&&!t.available));}).length===0?<div className="admin-empty-panel"><strong>No profiles in this view</strong><p>Try another status or search term.</p></div>:metricProfiles.filter(t=>{const q=query.trim().toLowerCase();return (!q||[t.name,t.category,t.location,t.ownerEmail].filter(Boolean).some(v=>String(v).toLowerCase().includes(q)))&&(filter==="ALL"||(filter==="PUBLISHED"&&t.verified&&t.available)||(filter==="PENDING"&&!t.verified&&t.available)||(filter==="HIDDEN"&&!t.available));}).map(t=><article className="admin-profile-modal-row" key={t.id}><div className="admin-teacher-avatar small">{(t.name||"T").trim().charAt(0).toUpperCase()}</div><div className="admin-profile-modal-identity"><strong>{t.name||"English teacher"}</strong><span>{t.category||"English"} · {t.location||"Location not provided"}</span><small>{t.ownerEmail||"No linked email"}</small></div><span className={t.verified&&t.available?"admin-state published":t.available?"admin-state pending":"admin-state hidden"}>{t.verified&&t.available?"Published":t.available?"Pending":"Hidden"}</span><div className="admin-profile-modal-actions">{!t.available?<button type="button" className="admin-row-action" onClick={()=>restoreProfile(t)}>Restore profile</button>:t.verified?<button type="button" className="admin-row-action danger" onClick={()=>removeProfile(t)}>Hide profile</button>:<><button type="button" className="admin-approve-btn" onClick={()=>approve(t.id)}>Approve</button><button type="button" className="admin-reject-btn" onClick={()=>reject(t.id)}>Reject</button></>}</div></article>)}</div>
+          <div className="admin-profile-modal-footer"><span>Changes update the teacher directory after refresh.</span><button type="button" onClick={()=>setActiveMetric("")}>Done</button></div>
+        </section>
+      </div>}
       <section className="admin-panel-section">
         <div className="admin-panel-heading"><div><p className="admin-eyebrow">QUALITY & TRUST</p><h2>Teacher verification</h2><p>Review credentials and sample lessons before publishing a teacher.</p></div><span className="admin-count-pill">{pendingTeachers.length} pending</span></div>
         {pendingTeachers.length===0?<div className="admin-empty-panel"><span>✓</span><strong>You're all caught up</strong><p>There are no teacher applications waiting for review.</p></div>:<div className="admin-application-list">{pendingTeachers.map(t=><article className="admin-application-card" key={t.id}>
@@ -3332,11 +3344,6 @@ function AdminWorkspace({ currentUser, handleLogout }) {
           <div className="admin-evidence-row">{t.qualificationDocumentUrl?<a href={t.qualificationDocumentUrl} target="_blank" rel="noreferrer">↗ View qualification document</a>:<span className="admin-evidence-missing">Qualification document not uploaded</span>}{(t.videos||[]).map(v=><a key={v.id} href={v.videoUrl} target="_blank" rel="noreferrer">▶ {v.title||"Demo video"}</a>)}</div>
           <div className="admin-application-actions"><button type="button" className="admin-approve-btn" onClick={()=>approve(t.id)}>Approve teacher</button><button type="button" className="admin-reject-btn" onClick={()=>reject(t.id)}>Reject</button></div>
         </article>)}</div>}
-      </section>
-      <section className="admin-panel-section">
-        <div className="admin-panel-heading"><div><p className="admin-eyebrow">DIRECTORY MANAGEMENT</p><h2>Teacher profiles</h2><p>Control which verified English teachers appear in student discovery.</p></div><span className="admin-count-pill">{allTeachers.length} profiles</span></div>
-        <div className="admin-directory-toolbar"><input aria-label="Search teachers" placeholder="Search name, category, location or email..." value={query} onChange={e=>setQuery(e.target.value)}/><select aria-label="Filter teacher profiles" value={filter} onChange={e=>setFilter(e.target.value)}><option value="ALL">All profiles</option><option value="PUBLISHED">Published</option><option value="PENDING">Pending</option><option value="HIDDEN">Hidden</option></select></div>
-        <div className="admin-directory-list">{filtered.length===0?<div className="admin-empty-panel"><strong>No matching teacher profiles</strong><p>Try another search or filter.</p></div>:filtered.map(t=><article className="admin-directory-row" key={t.id}><div className="admin-directory-identity"><div className="admin-teacher-avatar small">{(t.name||"T").trim().charAt(0).toUpperCase()}</div><div><strong>{t.name}</strong><span>{t.category||"English"} · {t.location||"Location not provided"}</span><small>{t.ownerEmail||"No linked email"}</small></div></div><div className="admin-directory-actions"><span className={t.verified&&t.available?"admin-state published":t.available?"admin-state pending":"admin-state hidden"}>{t.verified&&t.available?"Published":t.available?"Pending":"Hidden"}</span>{t.available?<button type="button" className="admin-row-action danger" onClick={()=>removeProfile(t)}>Hide profile</button>:<button type="button" className="admin-row-action" onClick={()=>restoreProfile(t)}>Restore</button>}</div></article>)}</div>
       </section>
       <AdminToolsPanel user={currentUser}/>
     </WorkspaceShell>
