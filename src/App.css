@@ -6810,3 +6810,99 @@ body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordion
  .teacher-dashboard-v2 .teacher-profile-section>.teacher-dashboard-section-heading h2,
  .teacher-dashboard-v2 .teacher-demo-section-v2>.teacher-dashboard-section-heading h2{font-size:21px!important}
 }
+
+
+/* Clear visual separation and consistent rhythm between teacher workspace sections */
+.teacher-dashboard-v2 .teacher-dashboard-content{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:38px!important;
+}
+.teacher-dashboard-v2 .teacher-profile-section-v2,
+.teacher-dashboard-v2 .teacher-demo-section-v2{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+}
+.teacher-dashboard-v2 .teacher-profile-section-v2{
+  padding-bottom:34px!important;
+  border-bottom:1px solid rgba(112,145,184,.22)!important;
+}
+.teacher-dashboard-v2 .teacher-demo-section-v2{
+  padding-top:0!important;
+}
+.teacher-dashboard-v2 .teacher-profile-section-v2>.teacher-dashboard-section-heading,
+.teacher-dashboard-v2 .teacher-demo-section-v2>.teacher-dashboard-section-heading{
+  margin:0 0 18px!important;
+  padding:0 3px!important;
+}
+.teacher-dashboard-v2 .teacher-profile-section-v2>.teacher-dashboard-section-heading h2,
+.teacher-dashboard-v2 .teacher-demo-section-v2>.teacher-dashboard-section-heading h2{
+  color:#f5f7ff!important;
+  font-size:24px!important;
+  font-weight:800!important;
+  letter-spacing:-.035em!important;
+  line-height:1.2!important;
+  margin:2px 0 7px!important;
+}
+.teacher-dashboard-v2 .teacher-profile-section-v2>.teacher-dashboard-section-heading p,
+.teacher-dashboard-v2 .teacher-demo-section-v2>.teacher-dashboard-section-heading p{
+  color:#b7c9e2!important;
+  font-size:13px!important;
+  line-height:1.65!important;
+  margin:0!important;
+}
+.teacher-dashboard-v2 .teacher-profile-section-v2>.teacher-profile-form{
+  margin:0!important;
+  width:100%!important;
+}
+.teacher-dashboard-v2 .teacher-demo-section-v2 .teacher-demo-library{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  width:100%!important;
+  align-items:stretch!important;
+  gap:14px!important;
+}
+.teacher-dashboard-v2 .teacher-demo-section-v2 .teacher-demo-add,
+.teacher-dashboard-v2 .teacher-demo-section-v2 .teacher-demo-list{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  grid-column:1 / -1!important;
+}
+.teacher-dashboard-v2 .teacher-demo-section-v2 .teacher-demo-list{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:14px!important;
+  margin:0!important;
+}
+.teacher-dashboard-v2 .teacher-demo-section-v2 .teacher-demo-item{
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+  padding:17px 18px!important;
+}
+.teacher-dashboard-v2 .teacher-demo-section-v2 .teacher-demo-item-heading{
+  display:flex!important;
+  align-items:center!important;
+  gap:11px!important;
+  width:100%!important;
+}
+.teacher-dashboard-v2 .teacher-demo-section-v2 .teacher-demo-item-copy{
+  flex:1 1 auto!important;
+  min-width:0!important;
+}
+.teacher-dashboard-v2 .teacher-demo-section-v2 .teacher-demo-delete{
+  margin-left:auto!important;
+  flex:0 0 auto!important;
+}
+@media(max-width:760px){
+ .teacher-dashboard-v2 .teacher-dashboard-content{gap:28px!important}
+ .teacher-dashboard-v2 .teacher-profile-section-v2{padding-bottom:26px!important}
+ .teacher-dashboard-v2 .teacher-demo-section-v2 .teacher-demo-list{grid-template-columns:minmax(0,1fr)!important}
+ .teacher-dashboard-v2 .teacher-profile-section-v2>.teacher-dashboard-section-heading h2,
+ .teacher-dashboard-v2 .teacher-demo-section-v2>.teacher-dashboard-section-heading h2{font-size:21px!important}
+}
