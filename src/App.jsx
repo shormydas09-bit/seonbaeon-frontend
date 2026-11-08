@@ -2949,7 +2949,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
 
   async function load() {
     try {
-      const [p, v, c] = await Promise.all([
+      const [p, v, c, a] = await Promise.all([
         fetch(`${API_URL}/workspace/teacher/profile`, { headers }),
         fetch(`${API_URL}/workspace/teacher/videos`, { headers }),
         fetch(`${API_URL}/workspace/teacher/consultations`, { headers }),
