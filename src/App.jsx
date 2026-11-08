@@ -1430,7 +1430,7 @@ function TeacherProfile({
     e.preventDefault();
 
     if (!currentUser?.token || currentUser?.role !== "STUDENT") {
-      setConsultMessage("Please log in with your Student / Parent account before requesting a consultation.");
+      setConsultMessage("Please log in with your Student / Parent account before sending an enquiry.");
       return;
     }
 
@@ -1480,7 +1480,7 @@ function TeacherProfile({
 
       alert(
         data.message ||
-          "Consultation request sent successfully!"
+          "Enquiry sent successfully!"
       );
 
       setShowConsultation(false);
@@ -1488,7 +1488,7 @@ function TeacherProfile({
     } catch (err) {
       setConsultMessage(
         err.message ||
-          "Could not send the consultation request."
+          "Could not send the enquiry."
       );
     } finally {
       setConsultSubmitting(false);
@@ -2261,7 +2261,7 @@ function TeacherProfile({
                 ) : reviewEligibility.alreadyReviewed ? (
                   <p>You have already reviewed this teacher. Thank you for sharing your experience!</p>
                 ) : !reviewEligibility.eligible ? (
-                  <p>You can write a review after this teacher approves your consultation request.</p>
+                  <p>You can write a review after this teacher approves your enquiry.</p>
                 ) : (
                   <form onSubmit={submitReview}>
                     <select
@@ -3208,7 +3208,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         </div>
         <div className="card teacher-requests-card" style={{ padding:24 }}>
           <div className="teacher-list-heading"><div><span className="teacher-library-kicker">STUDENT ENQUIRIES</span><h2>Student Enquiries</h2><p>Respond to questions about your centre, classes, fees and optional trial availability.</p></div><span className="teacher-note-count">{consultations.length} {consultations.length===1?"REQUEST":"REQUESTS"}</span></div>
-          {consultations.length===0 ? <p className="teacher-list-empty">No demo class requests yet.</p> : <div className="teacher-record-list">{consultations.map(c=><div className="teacher-request-item" key={c.id}><b>{c.studentName}</b><p>{c.preferredDate} · {c.preferredTime} · <strong>{c.status}</strong></p><p>{c.message}</p><button type="button" className="login-btn" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide":"View"} Student Profile</button>{selectedStudent===c.id && <div className="teacher-student-profile" style={{background:"#f8fafc",padding:12,borderRadius:10,marginTop:8}}><p><b>Email:</b> {c.studentProfile?.email || c.email}</p><p><b>Age / Group:</b> {c.studentProfile?.age || "—"} / {c.studentProfile?.ageGroup || "—"}</p><p><b>English Level:</b> {c.studentProfile?.englishLevel || "—"}</p><p><b>Learning Goals:</b> {c.studentProfile?.learningGoals || "—"}</p><p><b>Preferred Category:</b> {c.studentProfile?.preferredCategory || "—"}</p><p><b>Interests:</b> {c.studentProfile?.interests || "—"}</p><p><b>Schedule:</b> {c.studentProfile?.preferredSchedule || "—"}</p><p><b>About:</b> {c.studentProfile?.introduction || "—"}</p>{c.studentProfile?.guardianName && <p><b>Guardian:</b> {c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}</div>}{c.rejectionReason && <p style={{color:"#b42318"}}><b>Teacher rejection reason:</b> {c.rejectionReason}</p>}{c.adminPreviousStatus && <p><b>Admin changed status:</b> {c.adminPreviousStatus} → {c.status} {c.adminNote || ""}</p>}{c.decisionHistory && <div className="teacher-decision-history"><b>Decision history</b><p>{String(c.decisionHistory).replace(/\\\\n/g,"\n")}</p></div>}<div style={{marginTop:8}}><button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this consultation from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${c.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setConsultations(old=>old.filter(x=>x.id!==c.id));}catch(e){setError(e.message);}}}>Remove from my dashboard</button></div>{c.status==="PENDING" && <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button type="button" className="signup-btn" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"APPROVED")}>Approve</button><button type="button" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"REJECTED")} style={{background:"#fff",color:"#b42318",border:"1px solid #fda29b",borderRadius:10,padding:"10px 16px",fontWeight:600,cursor:"pointer"}}>Reject</button></div>}
+          {consultations.length===0 ? <p className="teacher-list-empty">No student enquiries yet.</p> : <div className="teacher-record-list">{consultations.map(c=><div className="teacher-request-item" key={c.id}><b>{c.studentName}</b><p>{c.preferredDate || "No trial date requested"} · {c.preferredTime || ""} · <strong>{c.status}</strong></p><p>{c.message}</p><button type="button" className="login-btn" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide":"View"} Student Profile</button>{selectedStudent===c.id && <div className="teacher-student-profile" style={{background:"#f8fafc",padding:12,borderRadius:10,marginTop:8}}><p><b>Email:</b> {c.studentProfile?.email || c.email}</p><p><b>Age / Group:</b> {c.studentProfile?.age || "—"} / {c.studentProfile?.ageGroup || "—"}</p><p><b>English Level:</b> {c.studentProfile?.englishLevel || "—"}</p><p><b>Learning Goals:</b> {c.studentProfile?.learningGoals || "—"}</p><p><b>Preferred Category:</b> {c.studentProfile?.preferredCategory || "—"}</p><p><b>Interests:</b> {c.studentProfile?.interests || "—"}</p><p><b>Schedule:</b> {c.studentProfile?.preferredSchedule || "—"}</p><p><b>About:</b> {c.studentProfile?.introduction || "—"}</p>{c.studentProfile?.guardianName && <p><b>Guardian:</b> {c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}</div>}{c.rejectionReason && <p style={{color:"#b42318"}}><b>Teacher rejection reason:</b> {c.rejectionReason}</p>}{c.adminPreviousStatus && <p><b>Admin changed status:</b> {c.adminPreviousStatus} → {c.status} {c.adminNote || ""}</p>}{c.decisionHistory && <div className="teacher-decision-history"><b>Decision history</b><p>{String(c.decisionHistory).replace(/\\\\n/g,"\n")}</p></div>}<div style={{marginTop:8}}><button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this consultation from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${c.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setConsultations(old=>old.filter(x=>x.id!==c.id));}catch(e){setError(e.message);}}}>Remove from my dashboard</button></div>{c.status==="PENDING" && <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button type="button" className="signup-btn" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"APPROVED")}>Approve</button><button type="button" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"REJECTED")} style={{background:"#fff",color:"#b42318",border:"1px solid #fda29b",borderRadius:10,padding:"10px 16px",fontWeight:600,cursor:"pointer"}}>Reject</button></div>}
             {c.status==="APPROVED" && !lessons.some(l=>l.consultationId===c.id) && <div className="lesson-scheduler" style={{marginTop:12}}>
               <h4>Schedule first lesson</h4>
               <label>Date & time <input className="lesson-schedule-datetime" type="datetime-local" required step="900" min={new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16)} value={lessonDrafts[c.id]?.scheduledAt||""} onChange={e=>{setError("");setLessonDrafts(old=>({...old,[c.id]:{...old[c.id],scheduledAt:e.target.value}}));}} /></label>
