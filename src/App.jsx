@@ -3945,8 +3945,9 @@ function DownloadPage() {
         <p style={{ color: "#666", marginTop: 8 }}>4. Install and open Pick My Teacher.</p>
       </section>
 
-      <footer style={{ padding: 24, textAlign: "center", color: "#888", fontSize: 13 }}>
-        © Pick My Teacher
+      <footer style={{ padding: 28, textAlign: "center", color: "#777", fontSize: 13, background: "#fff", borderTop: "1px solid #eee" }}>
+        <p style={{ marginBottom: 10 }}>© {new Date().getFullYear()} Pick My Teacher</p>
+        <a href="/" style={{ color: "#222", fontWeight: 700, textDecoration: "none" }}>Visit Pick My Teacher Website →</a>
       </footer>
     </main>
   );
