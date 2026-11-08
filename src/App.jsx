@@ -3293,8 +3293,19 @@ function AdminWorkspace({ currentUser, handleLogout }) {
     if(reason===null)return;
     if(!reason.trim()){setError("A rejection reason is required.");return;}
     try{
-      await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/reject`,{method:"POST",headers,body:JSON.stringify({reason:reason.trim()})}));
-      setNotice("Teacher application rejected. The reason has been saved.");await load();
+      const cleanReason=reason.trim();
+      await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/reject`,{method:"POST",headers,body:JSON.stringify({reason:cleanReason})}));
+      const rejectedAt=new Date().toISOString();
+      // Move the application out of the review queue immediately, then show the rejected queue.
+      setPendingTeachers(current=>current.filter(t=>String(t.id)!==String(id)));
+      setAllTeachers(current=>current.map(t=>String(t.id)===String(id)?{...t,available:false,rejectionReason:cleanReason,rejectedAt}:t));
+      setFilter("REJECTED");
+      setQuery("");
+      setNotice("Teacher application rejected. It has been moved to Rejected with the reason saved.");
+      await load();
+      setFilter("REJECTED");
+      setQuery("");
+      setActiveMetric("REJECTED");
     }catch(e){setError(e.message);}
   }
   async function hideProfile(t){
