@@ -2054,7 +2054,7 @@ function TeacherProfile({
                 QUALIFICATIONS
             ========================= */}
 
-            {(teacher.qualification || teacher.experience || teacher.studentCount) && (
+            {(teacher.qualification || (teacher.experience && String(teacher.experience).trim() !== "0") || Number(teacher.studentCount) > 0) && (
               <section className="profile-section">
                 <div className="section-heading-block">
                   <span className="section-eyebrow">CREDENTIALS</span>
