@@ -902,3 +902,35 @@
 
 /* Progress tracking stays dormant until online classes launch */
 #root .app.theme-dark-premium .teacher-progress-tools-section{display:none!important}
+
+
+/* Student dashboard quick stats — final layout and typography override.
+   This file loads after the other theme stylesheets, so this is the
+   authoritative rule instead of another competing breakpoint patch. */
+#root .app.theme-dark-premium .student-dashboard-redesign .student-overview-accordion {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+  align-items: stretch !important;
+  gap: 16px !important;
+  width: 100% !important;
+  margin: 0 0 24px !important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-overview-accordion > button.student-overview-trigger {
+  display: flex !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  min-height: 112px !important;
+  padding: 16px !important;
+  box-sizing: border-box !important;
+}
+#root .app.theme-dark-premium .student-dashboard-redesign .student-overview-accordion .student-overview-summary-copy strong {
+  font-size: 24px !important;
+  line-height: 1.1 !important;
+}
+@media (max-width: 680px) {
+  #root .app.theme-dark-premium .student-dashboard-redesign .student-overview-accordion {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
