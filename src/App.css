@@ -6214,3 +6214,17 @@ html:has(.app.theme-dark-premium),body:has(.app.theme-dark-premium),#root:has(.a
 .teacher-dashboard-v2 .teacher-stat-popover .teacher-stat-empty{font-size:11px}
 @keyframes teacherPopoverIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:760px){.teacher-dashboard-v2 .teacher-stat-popover,.teacher-dashboard-v2 .teacher-stat-popover.metric-students,.teacher-dashboard-v2 .teacher-stat-popover.metric-rating{left:0;right:0;transform:none;width:100%}}
+
+
+/* Teacher metric details use the same full notification modal as the bell */
+.teacher-dashboard-v2 .teacher-metric-notification-content{padding:18px 22px 24px;min-height:100px}
+.teacher-dashboard-v2 .teacher-metric-notification-content .teacher-stat-records{display:grid;gap:0}
+.teacher-dashboard-v2 .teacher-metric-notification-content .teacher-stat-record{padding:16px 4px;border:0;border-bottom:1px solid rgba(133,161,198,.14);border-radius:0;background:transparent}
+.teacher-dashboard-v2 .teacher-metric-notification-content .teacher-stat-record strong{font-size:13px;color:#edf3ff}
+.teacher-dashboard-v2 .teacher-metric-notification-content .teacher-stat-record small{font-size:11px;color:#a5b8d1}
+.teacher-dashboard-v2 .teacher-metric-notification-content .teacher-stat-record>span{padding:5px 9px;border:1px solid #304866;border-radius:8px;background:#1b304b;color:#c5d7f1;font-size:10px}
+.teacher-dashboard-v2 .teacher-metric-notification-content .teacher-stat-empty{padding:12px 0;color:#aabbd1;font-size:13px}
+.teacher-dashboard-v2 .teacher-rating-summary{padding:14px 0}
+.teacher-dashboard-v2 .teacher-rating-summary>strong{font-size:38px;color:#f2f6ff}
+.teacher-dashboard-v2 .teacher-rating-summary>strong small{font-size:15px;color:#9db0ca}
+.teacher-dashboard-v2 .teacher-rating-summary p{color:#a9bad2;font-size:13px}
