@@ -2432,7 +2432,7 @@ function TeacherToolsPanel({ user, consultations, lessons = [] }) {
       {(activeMetric==="Lessons"||activeMetric==="Completed")&&<div className="teacher-metric-records">{(activeMetric==="Completed"?lessons.filter(l=>l.status==="COMPLETED"):lessons).length?(activeMetric==="Completed"?lessons.filter(l=>l.status==="COMPLETED"):lessons).map(l=><article key={l.id}><div><b>{l.studentName||"Student"}</b><span>{l.scheduledAt?new Date(l.scheduledAt).toLocaleString():"Schedule not set"} · {l.durationMinutes||30} min</span></div><em className={`teacher-metric-status status-${String(l.status||"").toLowerCase()}`}>{l.status||"UNKNOWN"}</em></article>):<p className="teacher-metric-empty">No {activeMetric.toLowerCase()} records to show.</p>}</div>}
       {(activeMetric==="Reviews"||activeMetric==="Rating")&&<div className="teacher-metric-summary"><strong>{activeMetric==="Rating"?(`${Number(analytics?.averageRating||0).toFixed(1)} / 5`):(`${analytics?.reviews??0} reviews`)}</strong><p>{activeMetric==="Rating"?"Your current average rating based on student reviews.":"The total number of reviews currently associated with your teacher profile."}</p></div>}
     </section>}
-    <div className="teacher-tools-section"><h3>Create a Student Progress Update</h3><p className="section-hint">Record strengths, areas to develop and practical next steps.</p>
+    <div className="teacher-tools-section teacher-progress-tools-section"><h3>Create a Student Progress Update</h3><p className="section-hint">Record strengths, areas to develop and practical next steps.</p>
     <form className="teacher-progress-form" onSubmit={saveNote}>
       <select required value={studentUserId} onChange={e=>setStudentUserId(e.target.value)}><option value="">Select linked student</option>{students.map(st=><option key={st.id} value={st.id}>{st.name} · {st.email}</option>)}</select>
       
@@ -2670,7 +2670,7 @@ function StudentDashboard({
           <button type="button" className="student-overview-accordion-item student-overview-trigger" onClick={()=>setActiveOverview("favorites")}>
             <span className="overview-icon">♡</span><span className="student-overview-summary-copy"><small>FAVORITE TEACHERS</small><strong>{favoriteTeachers.length}</strong><span>Saved profiles</span></span><span className="student-overview-expand">View details <b>↗</b></span>
           </button>
-          <StudentProgressPanel user={currentUser} />
+
         </div>
 
         {activeOverview && <DashboardOverlay
