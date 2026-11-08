@@ -2082,7 +2082,7 @@ function TeacherProfile({
                     </div>
                   )}
 
-                  {teacher.studentCount && (
+                  {Number(teacher.studentCount) > 0 && (
                     <div className="qualification-item">
                       <span className="qualification-marker">03</span>
                       <div>
