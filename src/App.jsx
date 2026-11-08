@@ -10,6 +10,44 @@ const API_URL = `${(import.meta.env.VITE_API_URL || "https://seonbaeon-backend.o
 const FAVORITES_KEY = "pick-my-teacher-favorites";
 const USER_KEY = "pick-my-teacher-logged-user";
 
+const wait = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+
+async function waitForBackend({ attempts = 5, onRetry } = {}) {
+  let lastError;
+  const delays = [0, 1800, 3500, 6500, 10000];
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    if (attempt > 0) {
+      onRetry?.(attempt);
+      await wait(delays[attempt] || 10000);
+    }
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 12000);
+    try {
+      const response = await fetch(`${API_URL}/health`, {
+        method: "GET",
+        headers: { Accept: "application/json" },
+        cache: "no-store",
+        signal: controller.signal,
+      });
+      if (response.ok) {
+        const result = await response.json().catch(() => null);
+        if (result?.status === "UP" && result?.database === "UP") return true;
+        lastError = new Error("The service is online but the database is not ready yet.");
+      } else {
+        lastError = new Error(`The service is starting (HTTP ${response.status}).`);
+      }
+    } catch (error) {
+      lastError = error.name === "AbortError"
+        ? new Error("The server is still waking up.")
+        : new Error("Could not reach the server yet.");
+    } finally {
+      window.clearTimeout(timeoutId);
+    }
+  }
+  throw lastError || new Error("The server is temporarily unavailable. Please try again shortly.");
+}
+
+
 // Treat API-provided URLs as untrusted, including legacy database records.
 // Never let user-controlled javascript:, data:, or other schemes reach URL sinks.
 function safeExternalUrl(value) {
@@ -119,28 +157,36 @@ function AuthPage({ mode, setMode, onLogin, onPolicyOpen }) {
               role: accountRole,
             };
 
+      if (mode === "login") {
+        setMessage("Connecting securely… If the server is asleep, this may take a little longer.");
+        await waitForBackend({ onRetry: (attempt) => setMessage(`Waking the server… retry ${attempt} of 4`) });
+      }
+
       const controller = new AbortController();
-      const timeoutId = window.setTimeout(() => controller.abort(), 180000);
+      const timeoutId = window.setTimeout(() => controller.abort(), 45000);
       let response;
       try {
         response = await fetch(`${API_URL}${endpoint}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Accept: "application/json",
           },
           body: JSON.stringify(body),
           signal: controller.signal,
+          cache: "no-store",
         });
       } catch (requestError) {
         if (requestError.name === "AbortError") {
-          throw new Error("The server is taking longer than expected to wake up. Please try again in a moment.");
+          throw new Error("The request timed out. Please try again; your account details have not been changed.");
         }
-        throw new Error("Could not reach the login server. Please check your connection and try again.");
+        throw new Error("Could not reach the login server. Check your connection and try again.");
       } finally {
         window.clearTimeout(timeoutId);
       }
 
       const data = await readResponse(response);
+      setMessage("");
 
       if (mode === "signup") {
         alert("Account created successfully! Please log in.");
@@ -292,10 +338,9 @@ function AuthPage({ mode, setMode, onLogin, onPolicyOpen }) {
         </div>
 
         {error && (
-          <div className="form-error">
-            {error}
-          </div>
+          <div className="form-error" role="alert" aria-live="assertive">{error}</div>
         )}
+        {message && <div className="form-success" role="status" aria-live="polite">{message}</div>}
 
         <form onSubmit={handleSubmit}>
           {mode === "login" && (
@@ -534,6 +579,7 @@ function TeacherSearch({ goHome, openProfile, currentUser }) {
     try {
       setLoading(true);
       setError("");
+      await waitForBackend({ attempts: 4 });
       const timeout = new Promise((_, reject) => {
         timeoutId = window.setTimeout(() => {
           controller.abort();
