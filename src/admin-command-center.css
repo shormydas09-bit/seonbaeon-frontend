@@ -890,3 +890,11 @@
 #root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list .admin-user-delete:hover{
  background:rgba(190,91,91,.18)!important;border-color:rgba(230,130,130,.48)!important;
 }
+
+
+/* Self-service account deletion */
+#root .app.theme-dark-premium .account-delete-area{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+#root .app.theme-dark-premium .account-delete-button{min-height:40px;padding:0 15px;border-radius:10px;border:1px solid rgba(231,133,121,.32);background:rgba(191,91,82,.10);color:#f0a79c;font-size:12px;font-weight:750;cursor:pointer;transition:background .18s,border-color .18s}
+#root .app.theme-dark-premium .account-delete-button:hover{background:rgba(191,91,82,.18);border-color:rgba(231,133,121,.55)}
+#root .app.theme-dark-premium .account-delete-button:disabled{opacity:.55;cursor:wait}
+#root .app.theme-dark-premium .account-delete-error{width:100%;margin:0;color:#ffb4a9;font-size:12px}
