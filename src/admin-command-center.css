@@ -250,3 +250,149 @@
     width:100%!important;justify-content:flex-start!important;flex-wrap:wrap!important;
   }
 }
+
+
+/* Admin platform overview — unified spacing, hierarchy and aligned controls */
+#root .app.theme-dark-premium .admin-tools-panel{
+  margin:20px auto 0!important;padding:26px!important;max-width:1144px!important;
+  border:1px solid rgba(133,166,198,.17)!important;border-radius:22px!important;
+  background:linear-gradient(155deg,rgba(20,39,60,.98),rgba(13,28,45,.98))!important;
+  box-shadow:0 18px 48px rgba(0,0,0,.2)!important;color:#edf4ff!important;
+}
+#root .app.theme-dark-premium .admin-tools-header{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:2px 0 22px;border-bottom:1px solid rgba(145,173,201,.13);
+}
+#root .app.theme-dark-premium .admin-tools-eyebrow,
+#root .app.theme-dark-premium .admin-tools-kicker{
+  margin:0 0 7px;color:#75d4ca;font-size:10px;font-weight:850;letter-spacing:.16em;
+}
+#root .app.theme-dark-premium .admin-tools-header h2{
+  margin:0 0 6px;color:#f2f6ff;font-size:clamp(21px,2.3vw,27px);letter-spacing:-.035em;
+}
+#root .app.theme-dark-premium .admin-tools-header p:not(.admin-tools-eyebrow){
+  margin:0;color:#9db2ca;font-size:13px;line-height:1.6;
+}
+#root .app.theme-dark-premium .admin-tools-refresh,
+#root .app.theme-dark-premium .admin-tools-secondary,
+#root .app.theme-dark-premium .admin-tools-restore,
+#root .app.theme-dark-premium .admin-tools-danger{
+  min-height:39px;padding:0 14px;border-radius:10px;font:700 12px inherit;
+  cursor:pointer;transition:background .18s,border-color .18s,transform .18s;
+}
+#root .app.theme-dark-premium .admin-tools-refresh,
+#root .app.theme-dark-premium .admin-tools-secondary{
+  color:#c5d9ec;background:#1b354e;border:1px solid rgba(139,177,207,.2);
+}
+#root .app.theme-dark-premium .admin-tools-danger{
+  color:#ffb9b1;background:rgba(129,55,58,.18);border:1px solid rgba(232,128,120,.27);
+}
+#root .app.theme-dark-premium .admin-tools-restore{
+  color:#9ce3d7;background:rgba(39,126,111,.18);border:1px solid rgba(106,210,190,.28);
+}
+#root .app.theme-dark-premium .admin-tools-refresh:hover,
+#root .app.theme-dark-premium .admin-tools-secondary:hover,
+#root .app.theme-dark-premium .admin-tools-restore:hover,
+#root .app.theme-dark-premium .admin-tools-danger:hover{transform:translateY(-1px);filter:brightness(1.12)}
+#root .app.theme-dark-premium .admin-tools-notice,
+#root .app.theme-dark-premium .admin-tools-error{padding:11px 14px;border-radius:10px;font-size:13px}
+#root .app.theme-dark-premium .admin-tools-notice{color:#91e0ce;background:rgba(51,158,132,.12);border:1px solid rgba(96,205,173,.2)}
+#root .app.theme-dark-premium .admin-tools-error{color:#ffb6ae;background:rgba(184,72,72,.12);border:1px solid rgba(232,128,120,.2)}
+#root .app.theme-dark-premium .admin-tools-metrics{
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:20px 0 24px;
+}
+#root .app.theme-dark-premium .admin-tools-metric{
+  min-width:0;padding:16px 17px;border-radius:14px;
+  background:linear-gradient(145deg,#1a2c41,#17283c);
+  border:1px solid rgba(139,169,197,.14);
+}
+#root .app.theme-dark-premium .admin-tools-metric span{display:block;color:#9aafc5;font-size:11px;line-height:1.45}
+#root .app.theme-dark-premium .admin-tools-metric strong{display:block;margin-top:8px;color:#f5f8ff;font-size:27px;line-height:1;font-weight:800}
+#root .app.theme-dark-premium .admin-tools-section{
+  margin-top:20px;padding:21px;border:1px solid rgba(139,169,197,.14);
+  border-radius:16px;background:rgba(16,32,50,.72);
+}
+#root .app.theme-dark-premium .admin-tools-section-heading{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:16px;
+}
+#root .app.theme-dark-premium .admin-tools-section-heading h3{
+  margin:0 0 5px;color:#eff5ff;font-size:17px;letter-spacing:-.025em;
+}
+#root .app.theme-dark-premium .admin-tools-section-heading p{
+  margin:0;color:#9db2c9;font-size:12px;line-height:1.6;
+}
+#root .app.theme-dark-premium .admin-report-count{
+  display:flex;align-items:center;gap:9px;flex:0 0 auto;padding:9px 12px;
+  border:1px solid rgba(221,173,103,.2);border-radius:11px;background:rgba(168,119,48,.1);
+}
+#root .app.theme-dark-premium .admin-report-count strong{color:#f2c77f;font-size:19px}
+#root .app.theme-dark-premium .admin-report-count span{color:#c8b18a;font-size:11px}
+#root .app.theme-dark-premium .admin-review-toolbar{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:10px;margin:0 0 14px}
+#root .app.theme-dark-premium .admin-review-toolbar input,
+#root .app.theme-dark-premium .admin-review-toolbar select,
+#root .app.theme-dark-premium .admin-user-actions select{
+  width:100%;min-width:0;min-height:42px;padding:0 12px;border-radius:10px;
+  color:#e7f0fb;background:#0f2134;border:1px solid rgba(133,168,199,.2);
+}
+#root .app.theme-dark-premium .admin-tools-empty{
+  padding:17px;border:1px dashed rgba(139,169,197,.2);border-radius:11px;
+  color:#91a8c1;font-size:13px;text-align:center;background:rgba(10,24,39,.35);
+}
+#root .app.theme-dark-premium .admin-review-list{display:grid;gap:10px}
+#root .app.theme-dark-premium .admin-review-card{
+  padding:15px;border-radius:12px;border:1px solid rgba(139,169,197,.15);
+  background:linear-gradient(145deg,rgba(28,48,69,.8),rgba(21,39,58,.8));
+}
+#root .app.theme-dark-premium .admin-review-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+#root .app.theme-dark-premium .admin-review-card-head>div:first-child{display:grid;gap:5px}
+#root .app.theme-dark-premium .admin-review-card-head b{color:#edf4ff;font-size:13px}
+#root .app.theme-dark-premium .admin-review-card-head span{color:#91a9c3;font-size:11px}
+#root .app.theme-dark-premium .admin-review-badges{display:flex;gap:6px;flex-wrap:wrap}
+#root .app.theme-dark-premium .admin-review-badges span{padding:5px 8px;border-radius:20px;background:#203b55;color:#b6cce0;font-size:10px}
+#root .app.theme-dark-premium .admin-review-badges .is-reported{background:rgba(177,117,49,.17);color:#f0c47e}
+#root .app.theme-dark-premium .admin-review-text{margin:12px 0;color:#d1deec;font-size:13px;line-height:1.65;white-space:pre-wrap}
+#root .app.theme-dark-premium .admin-review-reason{margin:0 0 12px;color:#e9b9a2;font-size:12px}
+#root .app.theme-dark-premium .admin-tools-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+#root .app.theme-dark-premium .admin-activity-list{display:grid}
+#root .app.theme-dark-premium .admin-activity-row{
+  display:flex;align-items:flex-start;gap:12px;padding:13px 2px;border-top:1px solid rgba(139,169,197,.12);
+}
+#root .app.theme-dark-premium .admin-activity-icon{
+  display:grid;place-items:center;width:34px;height:34px;flex:0 0 34px;
+  border-radius:10px;color:#8ce0d4;background:rgba(70,158,148,.13);
+}
+#root .app.theme-dark-premium .admin-activity-row>div{min-width:0}
+#root .app.theme-dark-premium .admin-activity-row b{color:#e9f1fb;font-size:13px}
+#root .app.theme-dark-premium .admin-activity-row p{margin:4px 0;color:#a5b8cc;font-size:12px}
+#root .app.theme-dark-premium .admin-activity-row small{color:#819ab4;font-size:10px}
+#root .app.theme-dark-premium .admin-user-count{display:inline-grid;place-items:center;min-width:24px;height:24px;margin-left:5px;padding:0 7px;border-radius:20px;background:#213b54;color:#a9e7de;font-size:11px;vertical-align:middle}
+#root .app.theme-dark-premium .admin-user-list{display:grid}
+#root .app.theme-dark-premium .admin-user-row{
+  display:grid;grid-template-columns:minmax(0,1fr) 270px;align-items:center;gap:18px;
+  padding:13px 2px;border-top:1px solid rgba(139,169,197,.12);
+}
+#root .app.theme-dark-premium .admin-user-identity{display:grid;gap:4px;min-width:0}
+#root .app.theme-dark-premium .admin-user-identity strong{color:#eaf2fc;font-size:13px}
+#root .app.theme-dark-premium .admin-user-identity>span{color:#91a9c3;font-size:11px;overflow-wrap:anywhere}
+#root .app.theme-dark-premium .admin-user-identity small{display:flex;align-items:center;gap:6px;font-size:10px}
+#root .app.theme-dark-premium .admin-user-identity small i{width:6px;height:6px;border-radius:50%;background:#63d4b4}
+#root .app.theme-dark-premium .admin-user-identity small.is-active{color:#83d9bd}
+#root .app.theme-dark-premium .admin-user-identity small.is-suspended{color:#efaaa2}
+#root .app.theme-dark-premium .admin-user-identity small.is-suspended i{background:#e68c83}
+#root .app.theme-dark-premium .admin-user-actions{display:grid;grid-template-columns:minmax(0,1fr) 104px;align-items:center;gap:8px;min-width:0}
+#root .app.theme-dark-premium .admin-user-actions button{width:100%;white-space:nowrap}
+#root .app.theme-dark-premium .admin-user-actions button:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:760px){
+ #root .app.theme-dark-premium .admin-tools-panel{padding:17px!important}
+ #root .app.theme-dark-premium .admin-tools-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #root .app.theme-dark-premium .admin-user-row{grid-template-columns:1fr;gap:10px}
+ #root .app.theme-dark-premium .admin-user-actions{max-width:360px}
+}
+@media(max-width:520px){
+ #root .app.theme-dark-premium .admin-tools-header{align-items:flex-start;flex-direction:column}
+ #root .app.theme-dark-premium .admin-tools-section{padding:15px}
+ #root .app.theme-dark-premium .admin-tools-section-heading{align-items:flex-start;flex-direction:column}
+ #root .app.theme-dark-premium .admin-review-toolbar{grid-template-columns:1fr}
+ #root .app.theme-dark-premium .admin-report-count{align-self:flex-start}
+ #root .app.theme-dark-premium .admin-user-actions{grid-template-columns:minmax(0,1fr) 104px;max-width:none}
+}
