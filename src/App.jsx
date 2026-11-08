@@ -1847,131 +1847,6 @@ function TeacherProfile({
           <div className="profile-left">
 
             {/* =========================
-                ABOUT
-            ========================= */}
-
-            {teacher.bio && (
-              <section className="profile-section">
-                <h2>About the Teacher</h2>
-                <p>{teacher.bio}</p>
-              </section>
-            )}
-
-            {/* =========================
-                QUALIFICATIONS
-            ========================= */}
-
-            {(teacher.qualification || teacher.experience || teacher.studentCount) && (
-              <section className="profile-section">
-                <div className="section-heading-block">
-                  <span className="section-eyebrow">CREDENTIALS</span>
-                  <h2>Qualifications & Experience</h2>
-                </div>
-
-                <div className="qualification-list">
-                  {teacher.qualification && (
-                    <div className="qualification-item">
-                      <span className="qualification-marker">01</span>
-                      <div>
-                        <strong>Teaching Qualification</strong>
-                        <p>{teacher.qualification}</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {teacher.experience && (
-                    <div className="qualification-item">
-                      <span className="qualification-marker">02</span>
-                      <div>
-                        <strong>{teacher.experience} teaching experience</strong>
-                        <p>Professional English teaching experience.</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {teacher.studentCount && (
-                    <div className="qualification-item">
-                      <span className="qualification-marker">03</span>
-                      <div>
-                        <strong>{teacher.studentCount}+ students taught</strong>
-                        <p>Previous learners supported through English classes.</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </section>
-            )}
-
-            {/* =========================
-                TEACHING STYLE
-            ========================= */}
-
-            {teacher.teachingStyle && (
-              <section className="profile-section">
-                <div className="section-heading-block">
-                  <span className="section-eyebrow">APPROACH</span>
-                  <h2>Teaching Style</h2>
-                </div>
-
-                <div className="style-card">
-                  <div className="style-icon">STYLE</div>
-                  <div>
-                    <h3>{teacher.teachingStyle}</h3>
-                    <p>
-                      A quick look at this teacher's approach can help you decide whether the class is a good fit for your learner.
-                    </p>
-                  </div>
-                </div>
-              </section>
-            )}
-
-            {/* =========================
-                TEACHING DETAILS
-            ========================= */}
-
-            {(teacher.category || teacher.specialty || teacher.ageRange || teacher.teachingMode || teacher.languages || teacher.availability || typeof teacher.available === "boolean" || teacher.hourlyRate || teacher.lessonDuration) && (
-              <section className="profile-section">
-                <div className="section-heading-block">
-                  <span className="section-eyebrow">CLASS INFORMATION</span>
-                  <h2>Teaching Details</h2>
-                </div>
-
-                <div className="teaching-details-grid">
-                {teacher.category && (
-                  <div><span>Category</span><strong>{teacher.category}</strong></div>
-                )}
-                {teacher.specialty && (
-                  <div><span>Specialty</span><strong>{teacher.specialty}</strong></div>
-                )}
-                {teacher.ageRange && (
-                  <div><span>Age Range</span><strong>{teacher.ageRange}</strong></div>
-                )}
-                {teacher.teachingMode && (
-                  <div><span>Teaching Mode</span><strong>{teacher.teachingMode}</strong></div>
-                )}
-                {teacher.languages && (
-                  <div><span>Languages</span><strong>{teacher.languages}</strong></div>
-                )}
-                {(teacher.availability || typeof teacher.available === "boolean") && (
-                  <div>
-                    <span>Availability</span>
-                    <strong>
-                      {teacher.availability ||
-                        (teacher.available ? "Available" : "Not available")}
-                    </strong>
-                  </div>
-                )}
-                {teacher.hourlyRate && (
-                  <div><span>Hourly Rate</span><strong>₩{Number(teacher.hourlyRate).toLocaleString()}</strong></div>
-                )}
-                {teacher.lessonDuration && (
-                  <div><span>Lesson Duration</span><strong>{teacher.lessonDuration}</strong></div>
-                )}
-              </div>
-            </section>
-            )}
-
-            {/* =========================
                 MULTIPLE DEMO VIDEOS
             ========================= */}
 
@@ -2163,6 +2038,131 @@ function TeacherProfile({
                 Only teacher-specific recordings should be published on verified teacher profiles.
               </p>
             </section>
+
+            {/* =========================
+                ABOUT
+            ========================= */}
+
+            {teacher.bio && (
+              <section className="profile-section">
+                <h2>About the Teacher</h2>
+                <p>{teacher.bio}</p>
+              </section>
+            )}
+
+            {/* =========================
+                QUALIFICATIONS
+            ========================= */}
+
+            {(teacher.qualification || teacher.experience || teacher.studentCount) && (
+              <section className="profile-section">
+                <div className="section-heading-block">
+                  <span className="section-eyebrow">CREDENTIALS</span>
+                  <h2>Qualifications & Experience</h2>
+                </div>
+
+                <div className="qualification-list">
+                  {teacher.qualification && (
+                    <div className="qualification-item">
+                      <span className="qualification-marker">01</span>
+                      <div>
+                        <strong>Teaching Qualification</strong>
+                        <p>{teacher.qualification}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {teacher.experience && (
+                    <div className="qualification-item">
+                      <span className="qualification-marker">02</span>
+                      <div>
+                        <strong>{teacher.experience} teaching experience</strong>
+                        <p>Professional English teaching experience.</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {teacher.studentCount && (
+                    <div className="qualification-item">
+                      <span className="qualification-marker">03</span>
+                      <div>
+                        <strong>{teacher.studentCount}+ students taught</strong>
+                        <p>Previous learners supported through English classes.</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </section>
+            )}
+
+            {/* =========================
+                TEACHING STYLE
+            ========================= */}
+
+            {teacher.teachingStyle && (
+              <section className="profile-section">
+                <div className="section-heading-block">
+                  <span className="section-eyebrow">APPROACH</span>
+                  <h2>Teaching Style</h2>
+                </div>
+
+                <div className="style-card">
+                  <div className="style-icon">STYLE</div>
+                  <div>
+                    <h3>{teacher.teachingStyle}</h3>
+                    <p>
+                      A quick look at this teacher's approach can help you decide whether the class is a good fit for your learner.
+                    </p>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {/* =========================
+                TEACHING DETAILS
+            ========================= */}
+
+            {(teacher.category || teacher.specialty || teacher.ageRange || teacher.teachingMode || teacher.languages || teacher.availability || typeof teacher.available === "boolean" || teacher.hourlyRate || teacher.lessonDuration) && (
+              <section className="profile-section">
+                <div className="section-heading-block">
+                  <span className="section-eyebrow">CLASS INFORMATION</span>
+                  <h2>Teaching Details</h2>
+                </div>
+
+                <div className="teaching-details-grid">
+                {teacher.category && (
+                  <div><span>Category</span><strong>{teacher.category}</strong></div>
+                )}
+                {teacher.specialty && (
+                  <div><span>Specialty</span><strong>{teacher.specialty}</strong></div>
+                )}
+                {teacher.ageRange && (
+                  <div><span>Age Range</span><strong>{teacher.ageRange}</strong></div>
+                )}
+                {teacher.teachingMode && (
+                  <div><span>Teaching Mode</span><strong>{teacher.teachingMode}</strong></div>
+                )}
+                {teacher.languages && (
+                  <div><span>Languages</span><strong>{teacher.languages}</strong></div>
+                )}
+                {(teacher.availability || typeof teacher.available === "boolean") && (
+                  <div>
+                    <span>Availability</span>
+                    <strong>
+                      {teacher.availability ||
+                        (teacher.available ? "Available" : "Not available")}
+                    </strong>
+                  </div>
+                )}
+                {teacher.hourlyRate && (
+                  <div><span>Hourly Rate</span><strong>₩{Number(teacher.hourlyRate).toLocaleString()}</strong></div>
+                )}
+                {teacher.lessonDuration && (
+                  <div><span>Lesson Duration</span><strong>{teacher.lessonDuration}</strong></div>
+                )}
+              </div>
+            </section>
+            )}
 
             {/* =========================
                 REVIEWS
