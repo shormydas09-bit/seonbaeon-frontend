@@ -3253,18 +3253,6 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
           <div className="teacher-demo-list">{videos.length===0 ? <div className="teacher-demo-empty">No demo videos yet. Add one to help students see your teaching style.</div> : videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);const isUploaded=v.videoType==="uploaded";return <article className="teacher-demo-item" key={v.id}><div className="teacher-demo-item-heading"><span className="teacher-demo-play">▶</span><div className="teacher-demo-item-copy"><strong>{v.title}</strong><small>{isUploaded?"Uploaded video":"YouTube demo"}</small></div><button type="button" disabled={busy} onClick={()=>deleteVideo(v.id)} className="teacher-demo-delete">Remove</button></div><details className="teacher-demo-preview"><summary>Watch preview</summary>{isUploaded ? <video controls playsInline preload="metadata" src={v.videoUrl} /> : videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p>Preview unavailable. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</details></article>})}</div>
         </div>
       </section>}
-      {profile.verified && <section className="teacher-dashboard-section teacher-enquiries-section">
-        <div className="teacher-dashboard-section-heading">
-          <div>
-            <span className="teacher-dashboard-eyebrow">03 · CONNECT WITH LEARNERS</span>
-            <h2>Student Enquiries</h2>
-            <p>Click to view interested students, their learning needs and contact details.</p>
-          </div>
-          <button type="button" className="teacher-enquiry-count teacher-enquiry-count-trigger" aria-haspopup="dialog" onClick={()=>setSelectedMetric("enquiries")}>
-            {consultations.length} {consultations.length===1?"ENQUIRY":"ENQUIRIES"} <span>↗</span>
-          </button>
-        </div>
-      </section>}
       <section className="teacher-dashboard-section teacher-dashboard-help"><div><span className="teacher-dashboard-eyebrow">GROW YOUR REACH</span><h2>More students start with a strong profile.</h2><p>Keep your centre information, course details and demo lessons accurate so families can make a confident choice.</p></div><button type="button" className="signup-btn" onClick={()=>document.querySelector(".teacher-profile-form")?.scrollIntoView({behavior:"smooth",block:"start"})}>Update my profile</button></section>
     </div>
   </WorkspaceShell></div>;
