@@ -463,3 +463,34 @@
  #root .admin-command-center .admin-application-card{padding:15px!important}
  #root .admin-command-center .admin-application-details{grid-template-columns:1fr!important}
 }
+
+
+/* Final specificity override for verification cards (refined-premium styles target all articles) */
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-panel-section .admin-application-list article.admin-application-card{
+  background:linear-gradient(150deg,#1b344c 0%,#14283e 100%)!important;
+  background-color:#172d43!important;background-image:linear-gradient(150deg,#1b344c 0%,#14283e 100%)!important;
+  color:#eaf2fc!important;border:1px solid rgba(133,170,202,.2)!important;
+  border-radius:18px!important;box-shadow:0 12px 30px rgba(0,0,0,.2)!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-panel-section .admin-application-list article.admin-application-card :where(h1,h2,h3,h4,strong,b){
+  color:#f0f6ff!important;-webkit-text-fill-color:#f0f6ff!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-panel-section .admin-application-list article.admin-application-card :where(p,span){
+  color:#a8bed3!important;-webkit-text-fill-color:#a8bed3!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-panel-section .admin-application-list article.admin-application-card .admin-application-details>div{
+  background:#10243a!important;background-color:#10243a!important;
+  border:1px solid rgba(132,169,200,.17)!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-panel-section .admin-application-list article.admin-application-card .admin-application-details small{
+  color:#86a5c1!important;-webkit-text-fill-color:#86a5c1!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-panel-section .admin-application-list article.admin-application-card .admin-application-details strong{
+  color:#e1edf9!important;-webkit-text-fill-color:#e1edf9!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-panel-section .admin-application-list article.admin-application-card .admin-evidence-missing{
+  color:#a9bdd0!important;-webkit-text-fill-color:#a9bdd0!important;
+}
+#root .app.theme-dark-premium .admin-dashboard-redesign .admin-panel-section .admin-application-list article.admin-application-card .admin-application-actions{
+  border-top:1px solid rgba(139,174,203,.18)!important;
+}
