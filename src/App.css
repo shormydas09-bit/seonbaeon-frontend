@@ -6496,7 +6496,7 @@ body .teacher-dashboard-v2 .teacher-profile-accordions .teacher-profile-group{ba
 .student-dashboard-redesign .student-overview-trigger .student-overview-expand b{
   display:grid!important;place-items:center!important;width:36px!important;height:36px!important;border-radius:12px!important;background:rgba(105,207,194,.12)!important;color:#75d8cb!important;font-size:19px!important;
 }
-@media(max-width:1050px){.student-dashboard-redesign .student-overview-accordion{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:1050px) and (min-width:681px){.student-dashboard-redesign .student-overview-accordion{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media(max-width:680px){.student-dashboard-redesign .student-overview-accordion{grid-template-columns:1fr!important;gap:12px!important}.student-dashboard-redesign .student-overview-trigger{min-height:108px!important;padding:17px!important}.student-dashboard-redesign .student-overview-trigger .student-overview-expand{font-size:0!important}.student-dashboard-redesign .student-overview-trigger .student-overview-expand b{width:32px!important;height:32px!important}}
 
 /* Student overview detail modal is portalled to document.body, so style it globally */
