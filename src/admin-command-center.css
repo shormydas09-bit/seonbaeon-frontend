@@ -790,3 +790,93 @@
  #root .app.theme-dark-premium .admin-tools-panel .admin-review-section{padding:17px!important}
  #root .app.theme-dark-premium .admin-tools-panel .admin-review-section .admin-review-toolbar{grid-template-columns:1fr!important}
 }
+
+
+/* User Management — compact role accordions with per-account controls */
+#root .app.theme-dark-premium .admin-tools-panel .admin-users-section{
+ padding:24px!important;border-radius:18px!important;
+ background:linear-gradient(150deg,#142b41,#102338)!important;
+ border:1px solid rgba(132,170,202,.18)!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-groups{display:grid!important;gap:11px!important;margin-top:20px!important}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group{
+ overflow:hidden!important;border:1px solid rgba(132,173,205,.18)!important;
+ border-radius:15px!important;background:linear-gradient(145deg,#1a334b,#14283e)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-toggle{
+ width:100%!important;min-height:82px!important;display:flex!important;align-items:center!important;
+ gap:15px!important;padding:17px 19px!important;text-align:left!important;
+ background:transparent!important;border:0!important;color:#edf5ff!important;cursor:pointer!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-icon{
+ display:grid!important;place-items:center!important;width:42px!important;height:42px!important;flex:0 0 42px!important;
+ border-radius:12px!important;background:rgba(105,211,199,.11)!important;
+ border:1px solid rgba(105,211,199,.2)!important;color:#83ded2!important;font-size:16px!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-copy{display:grid!important;gap:5px!important;min-width:0!important}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-copy strong{color:#f1f6ff!important;font-size:15px!important;font-weight:800!important}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-copy small{color:#9eb5cc!important;font-size:11px!important}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-count{
+ margin-left:auto!important;padding:7px 11px!important;border-radius:20px!important;
+ background:rgba(118,157,190,.11)!important;border:1px solid rgba(132,173,205,.16)!important;
+ color:#b8cce0!important;font-size:11px!important;font-weight:750!important;white-space:nowrap!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-chevron{
+ display:grid!important;place-items:center!important;width:30px!important;height:30px!important;
+ border-radius:9px!important;background:rgba(105,211,199,.1)!important;color:#8ee0d5!important;font-size:17px!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list{
+ display:grid!important;gap:9px!important;padding:0 13px 13px!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list .admin-user-row{
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(220px,280px)!important;
+ align-items:center!important;gap:20px!important;padding:16px 18px!important;margin:0!important;
+ border:1px solid rgba(132,173,205,.14)!important;border-radius:12px!important;
+ background:#10243a!important;background-color:#10243a!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list .admin-user-identity{
+ display:grid!important;gap:6px!important;min-width:0!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list .admin-user-identity strong{
+ color:#f0f5fc!important;-webkit-text-fill-color:#f0f5fc!important;font-size:14px!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list .admin-user-identity>span{
+ color:#9fb6ce!important;-webkit-text-fill-color:#9fb6ce!important;font-size:12px!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list .admin-user-identity small{
+ display:flex!important;align-items:center!important;gap:7px!important;font-size:11px!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list .admin-user-identity small i{
+ width:7px!important;height:7px!important;border-radius:50%!important;background:#61d4b6!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list .admin-user-identity small.is-suspended i{background:#f0a18e!important}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list .admin-user-actions{
+ display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:9px!important;width:100%!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-role-control{display:grid!important;gap:6px!important}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-role-control>span{
+ color:#8fa9c3!important;font-size:10px!important;font-weight:750!important;letter-spacing:.07em!important;text-transform:uppercase!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-role-control select{
+ width:100%!important;min-height:42px!important;padding:0 12px!important;border-radius:10px!important;
+ background:#0b2034!important;background-color:#0b2034!important;color:#eaf3ff!important;
+ -webkit-text-fill-color:#eaf3ff!important;border:1px solid rgba(132,173,205,.24)!important;
+ color-scheme:dark!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-role-control select option{background:#10243a!important;color:#edf4ff!important}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list .admin-tools-danger,
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list .admin-tools-restore{
+ width:100%!important;min-height:40px!important;border-radius:10px!important;font-size:12px!important;font-weight:800!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list .admin-tools-danger{
+ background:rgba(196,112,99,.12)!important;border:1px solid rgba(224,139,124,.28)!important;color:#f2a99a!important;
+}
+#root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list .admin-tools-restore{
+ background:rgba(93,197,169,.12)!important;border:1px solid rgba(105,211,180,.26)!important;color:#91e0c9!important;
+}
+@media(max-width:680px){
+ #root .app.theme-dark-premium .admin-tools-panel .admin-user-group-list .admin-user-row{grid-template-columns:1fr!important;gap:14px!important}
+ #root .app.theme-dark-premium .admin-tools-panel .admin-user-group-toggle{gap:10px!important;padding:14px!important}
+ #root .app.theme-dark-premium .admin-tools-panel .admin-user-group-count{font-size:10px!important;padding:6px 8px!important}
+}
