@@ -7484,3 +7484,28 @@ body .teacher-dashboard-redesign.teacher-dashboard-v2 .teacher-profile-accordion
     height: 28px !important;
   }
 }
+
+
+/* Keep the three student quick links together on every non-mobile viewport */
+@media screen and (min-width: 681px) {
+  .page.student-dashboard-redesign .student-overview-accordion {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-columns: minmax(0, 1fr) !important;
+    grid-auto-flow: row !important;
+    gap: 14px !important;
+    width: 100% !important;
+  }
+  .page.student-dashboard-redesign .student-overview-accordion > button.student-overview-trigger {
+    display: flex !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+}
+@media screen and (max-width: 680px) {
+  .page.student-dashboard-redesign .student-overview-accordion {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
