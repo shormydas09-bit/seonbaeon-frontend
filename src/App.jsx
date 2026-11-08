@@ -3171,9 +3171,11 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       </form>
       </section>
       {profile.verified && <section className="teacher-dashboard-section"><div className="teacher-dashboard-section-heading"><div><span className="teacher-dashboard-eyebrow">02 · SHOW HOW YOU TEACH</span><h2>Demo Video Library</h2><p>Your free demo videos let students experience your teaching style before contacting you.</p></div></div>
-                <form className="card teacher-demo-card teacher-demo-card-compact" onSubmit={addVideo}>
-          <h2>Demo Videos ({videos.length}/2)</h2>
-          <p className="teacher-demo-intro">Add up to two short demonstrations of your teaching style.</p>
+                <div className="teacher-demo-library">
+          <details className="teacher-demo-add">
+            <summary className={videos.length>=2?"is-full":""}><span className="teacher-demo-add-icon">＋</span><span><strong>{videos.length>=2?"Demo video limit reached":"Add a demo video"}</strong><small>{videos.length}/2 videos added · YouTube or upload</small></span><span className="teacher-demo-add-chevron">⌄</span></summary>
+            <form className="teacher-demo-card teacher-demo-card-compact" onSubmit={addVideo}>
+              <p className="teacher-demo-intro">Add a short teaching demonstration.</p>
           <div className="teacher-demo-mode">
             <button type="button" className={videoMode==="youtube"?"signup-btn":"login-btn"} onClick={()=>setVideoMode("youtube")}>YouTube link</button>
             <button type="button" className={videoMode==="upload"?"signup-btn":"login-btn"} onClick={()=>setVideoMode("upload")}>Upload from device</button>
@@ -3189,9 +3191,11 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
             {busy && <p className="teacher-demo-upload-meta">Uploading video… {videoUploadProgress}%</p>}
           </>}
           <p className="teacher-demo-upload-meta">Upload videos you own or are authorized to share. File size limits depend on the platform's upload service.</p>
-          <button className="signup-btn" disabled={busy || videos.length>=2}>{videos.length>=2?"Video limit reached":busy?(videoMode==="upload"?"Uploading...":"Saving..."):"Add demo video"}</button>
-          <div className="teacher-demo-list">{videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);const isUploaded=v.videoType==="uploaded";return <div className="teacher-demo-item" key={v.id}><div className="teacher-demo-item-heading"><div><strong>{v.title}</strong><small>{isUploaded?"Uploaded video":"YouTube demo"}</small></div><button type="button" disabled={busy} onClick={()=>deleteVideo(v.id)} className="teacher-demo-delete">Delete</button></div><details className="teacher-demo-preview"><summary>Preview demo video</summary>{isUploaded ? <video controls playsInline preload="metadata" src={v.videoUrl} /> : videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p>Preview is unavailable for this link. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</details></div>})}</div>
-        </form>
+          <button className="signup-btn teacher-demo-submit" disabled={busy || videos.length>=2}>{busy?(videoMode==="upload"?"Uploading...":"Saving..."):"Save demo video"}</button>
+            </form>
+          </details>
+          <div className="teacher-demo-list">{videos.length===0 ? <div className="teacher-demo-empty">No demo videos yet. Add one to help students see your teaching style.</div> : videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);const isUploaded=v.videoType==="uploaded";return <article className="teacher-demo-item" key={v.id}><div className="teacher-demo-item-heading"><span className="teacher-demo-play">▶</span><div className="teacher-demo-item-copy"><strong>{v.title}</strong><small>{isUploaded?"Uploaded video":"YouTube demo"}</small></div><button type="button" disabled={busy} onClick={()=>deleteVideo(v.id)} className="teacher-demo-delete">Remove</button></div><details className="teacher-demo-preview"><summary>Watch preview</summary>{isUploaded ? <video controls playsInline preload="metadata" src={v.videoUrl} /> : videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p>Preview unavailable. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</details></article>})}</div>
+        </div>
       </section>}
       {profile.verified && <section className="teacher-dashboard-section"><div className="teacher-dashboard-section-heading"><div><span className="teacher-dashboard-eyebrow">03 · CONNECT WITH LEARNERS</span><h2>Student Enquiries</h2><p>Review interested students and contact them directly about your English classes or learning centre.</p></div><span className="teacher-enquiry-count">{consultations.length} {consultations.length===1?"ENQUIRY":"ENQUIRIES"}</span></div>
         <div className="card teacher-enquiries-v2">{consultations.length===0 ? <div className="teacher-enquiries-empty"><span>✦</span><strong>No enquiries yet</strong><p>When a student contacts you through your profile, their message will appear here.</p></div> : <div className="teacher-record-list">{consultations.map(c=><article className="teacher-enquiry-v2" key={c.id}>
