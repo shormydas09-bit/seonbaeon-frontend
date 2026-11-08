@@ -9,7 +9,7 @@
 #root .app.theme-dark-premium .admin-command-center .admin-feedback{padding:12px 15px;border-radius:11px;margin:0 0 14px;font-size:13px}
 #root .app.theme-dark-premium .admin-command-center .admin-feedback.success{background:rgba(44,171,145,.12);border:1px solid rgba(83,207,177,.24);color:#8de2cc}
 #root .app.theme-dark-premium .admin-command-center .admin-feedback.error{background:rgba(226,91,91,.1);border:1px solid rgba(226,91,91,.25);color:#ffaaa4}
-#root .app.theme-dark-premium .admin-command-center .admin-metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:0 0 22px}
+#root .app.theme-dark-premium .admin-command-center .admin-metric-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px;margin:0 0 22px}
 #root .app.theme-dark-premium .admin-command-center .admin-metric-card{position:relative;min-width:0;padding:19px 20px;border-radius:17px;border:1px solid rgba(133,170,202,.15);background:linear-gradient(145deg,#172d43,#102236);box-shadow:0 10px 26px rgba(0,0,0,.12)}
 #root .app.theme-dark-premium .admin-command-center .admin-metric-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(112,211,199,.12);color:#80dfd1;font-size:18px;margin-bottom:14px}
 #root .app.theme-dark-premium .admin-command-center .admin-metric-card small{display:block;color:#9eb3ca;font-size:11px}
@@ -197,3 +197,9 @@
 #root .app.theme-dark-premium .admin-command-center .admin-profile-modal-identity span{color:#a9bed1!important}
 #root .app.theme-dark-premium .admin-command-center .admin-profile-modal-identity small{color:#819bb3!important}
 #root .app.theme-dark-premium .admin-command-center .admin-profile-modal-footer{color:#91a9c0!important}
+
+#root .app.theme-dark-premium .admin-command-center .admin-metric-card.rejected{border-color:rgba(226,125,135,.28);background:linear-gradient(145deg,#342a3a,#202438)}
+#root .app.theme-dark-premium .admin-command-center .admin-metric-card.rejected .admin-metric-icon{background:rgba(226,125,135,.13);color:#f0a4aa}
+#root .app.theme-dark-premium .admin-command-center .admin-state.rejected{color:#f0a4aa;background:rgba(220,100,115,.1);border-color:rgba(230,130,140,.28)}
+#root .app.theme-dark-premium .admin-command-center .admin-rejection-reason{grid-column:1/-1;margin:8px 0 0;padding:10px 12px;border-radius:10px;background:rgba(150,65,75,.12);border:1px solid rgba(225,125,135,.2);color:#f0b1b5;font-size:11px;line-height:1.6;white-space:pre-wrap}
+#root .app.theme-dark-premium .admin-command-center .admin-rejection-reason small{display:block;margin-top:4px;color:#b88e9a;font-size:9px}
