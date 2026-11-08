@@ -7654,3 +7654,24 @@ body .app.theme-dark-premium .student-dashboard-redesign .student-overview-summa
 .site-legal-footer{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:18px;padding:22px 16px;border-top:1px solid rgba(159,181,230,.12);color:#8192b0;font-size:12px}
 .site-legal-footer button{padding:4px 0;border:0;background:transparent;color:#a9bcff;font:inherit;cursor:pointer}
 .site-legal-footer button:hover{text-decoration:underline}
+
+
+/* Compact, responsive student-enquiry modal */
+.teacher-dashboard-v2 .teacher-enquiry-modal-list{display:grid;gap:12px}
+.teacher-dashboard-v2 .teacher-enquiry-modal-item{padding:16px!important;border:1px solid rgba(120,157,202,.22)!important;border-radius:16px!important;background:linear-gradient(145deg,rgba(25,48,75,.9),rgba(15,31,51,.94))!important}
+.teacher-dashboard-v2 .teacher-enquiry-modal-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.teacher-dashboard-v2 .teacher-enquiry-message-card{padding:12px 14px!important;margin:0 0 10px!important;border-radius:12px!important}
+.teacher-dashboard-v2 .teacher-enquiry-message-card p{margin:5px 0 0!important;line-height:1.5!important;overflow-wrap:anywhere}
+.teacher-dashboard-v2 .teacher-enquiry-modal-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:10px}
+.teacher-dashboard-v2 .teacher-enquiry-modal-meta>span{min-width:0;padding:10px 12px!important;border-radius:11px!important}
+.teacher-dashboard-v2 .teacher-enquiry-modal-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.teacher-dashboard-v2 .teacher-enquiry-modal-actions>a,.teacher-dashboard-v2 .teacher-enquiry-modal-actions>button{min-height:40px!important;padding:9px 13px!important;border-radius:10px!important;font-size:12px!important}
+.teacher-dashboard-v2 .teacher-enquiry-modal-actions .teacher-enquiry-delete{border:1px solid rgba(255,133,143,.35)!important;background:rgba(125,39,53,.2)!important;color:#ffb3b9!important}
+.teacher-dashboard-v2 .teacher-enquiry-modal-actions .teacher-enquiry-delete:disabled{opacity:.55;cursor:not-allowed}
+.teacher-dashboard-v2 .teacher-metric-notification-content{padding:14px 16px 20px!important}
+.teacher-dashboard-v2 .teacher-enquiry-modal-profile{margin-top:12px!important;padding:13px!important;border-radius:12px!important}
+@media(max-width:640px){
+ .teacher-dashboard-v2 .teacher-enquiry-modal-meta{grid-template-columns:minmax(0,1fr)}
+ .teacher-dashboard-v2 .teacher-enquiry-modal-item{padding:12px!important}
+ .teacher-dashboard-v2 .teacher-enquiry-modal-actions>a,.teacher-dashboard-v2 .teacher-enquiry-modal-actions>button{flex:1 1 100%;justify-content:center}
+}
