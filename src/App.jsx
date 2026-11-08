@@ -2392,9 +2392,10 @@ function StudentProgressPanel({ user }) {
   const [error,setError]=useState("");
   const [activeItem,setActiveItem]=useState(null);
   useEffect(()=>{fetch(`${API_URL}/workspace/student/progress`,{headers:{Authorization:`Bearer ${user?.token||""}`}}).then(readResponse).then(setItems).catch(e=>setError(e.message));},[]);
-  return <div className="card student-progress-panel" style={{padding:24,marginTop:20}}>
-    <div className="dashboard-card-label">YOUR GROWTH</div>
-    <div className="student-progress-heading"><div><h2>My Learning Progress</h2><p>Feedback and next steps from your English teacher.</p></div><span className="teacher-note-count">{items.length} {items.length===1?"UPDATE":"UPDATES"}</span></div>
+  return <>
+    <button type="button" className="student-overview-accordion-item student-overview-trigger student-progress-overview-trigger" onClick={()=>setActiveItem("__overview__")}>
+      <span className="overview-icon">↗</span><span className="student-overview-summary-copy"><small>MY LEARNING PROGRESS</small><strong>{items.length}</strong><span>Feedback updates</span></span><span className="student-overview-expand">View details <b>↗</b></span>
+    </button>
     {error&&<p role="alert" className="student-progress-error">{error}</p>}
     {items.length===0?<p className="student-progress-empty">Your teacher's feedback will appear here after your first progress update.</p>:
       <div className="student-progress-list">{items.map(n=><article key={n.id} className="student-progress-item">
@@ -2406,13 +2407,12 @@ function StudentProgressPanel({ user }) {
       <section className="student-feedback-modal" role="dialog" aria-modal="true" aria-labelledby="student-feedback-title">
         <button type="button" className="student-feedback-close" aria-label="Close feedback" onClick={()=>setActiveItem(null)}>×</button>
         <span className="student-feedback-eyebrow">YOUR LEARNING UPDATE</span>
-        <h2 id="student-feedback-title">{activeItem.subject||"Learning update"}</h2>
-        <time>{new Date(activeItem.updatedAt).toLocaleDateString()}</time>
-        <div className="student-feedback-full">{activeItem.note}</div>
+        <h2 id="student-feedback-title">{activeItem==="__overview__"?"My Learning Progress":activeItem.subject||"Learning update"}</h2>
+        {activeItem==="__overview__" ? (items.length===0?<p className="student-progress-empty">Your teacher feedback will appear here after your first progress update.</p>:<div className="student-progress-list">{items.map(n=><article key={n.id} className="student-progress-item"><div className="student-progress-item-heading"><b>{n.subject||"Learning update"}</b><small>{new Date(n.updatedAt).toLocaleString()}</small></div><p className="student-progress-copy">{n.note}</p><button type="button" className="student-progress-toggle" onClick={()=>setActiveItem(n)}>Read full feedback →</button></article>)}</div>) : <><time>{new Date(activeItem.updatedAt).toLocaleString()}</time><div className="student-feedback-full">{activeItem.note}</div></>}
         <button type="button" className="student-feedback-done" onClick={()=>setActiveItem(null)}>Close feedback</button>
       </section>
     </div>}
-  </div>;
+  </>;
 }
 
 function TeacherToolsPanel({ user, consultations, lessons = [] }) {
@@ -2650,6 +2650,7 @@ function StudentDashboard({
           <button type="button" className="student-overview-accordion-item student-overview-trigger" onClick={()=>setActiveOverview("favorites")}>
             <span className="overview-icon">♡</span><span className="student-overview-summary-copy"><small>FAVORITE TEACHERS</small><strong>{favoriteTeachers.length}</strong><span>Saved profiles</span></span><span className="student-overview-expand">View details <b>↗</b></span>
           </button>
+          <StudentProgressPanel user={currentUser} />
         </div>
 
         {activeOverview && <DashboardOverlay
@@ -2759,7 +2760,6 @@ function StudentDashboard({
           </div>
         </div>
 
-        <StudentProgressPanel user={currentUser} />
 
         <div className="card student-categories-card">
           <div className="dashboard-card-label">EXPLORE</div>
