@@ -2492,6 +2492,16 @@ function AdminToolsPanel({ user }) {
   useEffect(()=>{load();},[]);
   async function changeRole(id,role){try{await readResponse(await fetch(`${API_URL}/workspace/admin/users/${id}/role`,{method:"PATCH",headers,body:JSON.stringify({role})}));setNotice("User role updated.");await load();}catch(e){setError(e.message);}}
   async function changeStatus(id,active){try{await readResponse(await fetch(`${API_URL}/workspace/admin/users/${id}/status`,{method:"PATCH",headers,body:JSON.stringify({active})}));setNotice(active?"Account reactivated.":"Account suspended.");await load();}catch(e){setError(e.message);}}
+  async function deleteUserAccount(account){
+    const role=String(account.role||"").toUpperCase();
+    if(!["TEACHER","STUDENT"].includes(role))return;
+    if(!window.confirm(`Permanently delete ${account.name||account.email}'s ${role.toLowerCase()} account? This also removes associated profile and account records. This cannot be undone.`))return;
+    try{
+      await readResponse(await fetch(`${API_URL}/workspace/admin/users/${account.id}`,{method:"DELETE",headers}));
+      setNotice(`${role==="TEACHER"?"Teacher":"Student"} account permanently deleted.`);
+      await load();
+    }catch(e){setError(e.message||"Could not delete this account.");}
+  }
   async function setReviewHidden(id,hidden){try{await readResponse(await fetch(`${API_URL}/workspace/admin/reviews/${id}/visibility`,{method:"PATCH",headers,body:JSON.stringify({hidden})}));setNotice(hidden?"Review hidden from public profiles.":"Review restored to public profiles.");await load();}catch(e){setError(e.message);}}
   async function removeReview(id){if(!window.confirm("Permanently remove this review? This cannot be undone."))return;try{await readResponse(await fetch(`${API_URL}/workspace/admin/reviews/${id}`,{method:"DELETE",headers}));setNotice("Review permanently removed and teacher rating recalculated.");await load();}catch(e){setError(e.message);}}
   const visibleReviews=reviews.filter(r=>(reviewFilter==="ALL"||(reviewFilter==="REPORTED"&&r.reported)||(reviewFilter==="HIDDEN"&&r.hidden)||(reviewFilter==="PUBLIC"&&!r.hidden))&&(!search.trim()||[r.teacherName,r.studentName,r.text,r.reportReason].filter(Boolean).some(v=>String(v).toLowerCase().includes(search.trim().toLowerCase()))));
@@ -2525,7 +2535,7 @@ function AdminToolsPanel({ user }) {
           </button>
           {isOpen&&<div className="admin-user-group-list">{groupUsers.length===0?<div className="admin-tools-empty">No {role.toLowerCase()} accounts yet.</div>:groupUsers.map(x=><article className="admin-user-row" key={x.id}>
             <div className="admin-user-identity"><strong>{x.name||"Unnamed user"}</strong><span>{x.email||"No email available"}</span><small className={x.active===false?"is-suspended":"is-active"}><i/> {x.active===false?"Suspended":"Active"}</small></div>
-            <div className="admin-user-actions"><label className="admin-user-role-control"><span>Account authority</span><select aria-label={`Change authority for ${x.name}`} value={String(x.role||"STUDENT").toUpperCase()} onChange={e=>changeRole(x.id,e.target.value)}><option value="STUDENT">Student</option><option value="TEACHER">Teacher</option><option value="ADMIN">Admin</option></select></label><button type="button" className={x.active===false?"admin-tools-restore":"admin-tools-danger"} disabled={String(x.role).toUpperCase()==="ADMIN"&&String(x.id)===String(user?.id)} onClick={()=>changeStatus(x.id,x.active===false)}>{x.active===false?"Reactivate":"Suspend access"}</button></div>
+            <div className="admin-user-actions"><label className="admin-user-role-control"><span>Account authority</span><select aria-label={`Change authority for ${x.name}`} value={String(x.role||"STUDENT").toUpperCase()} onChange={e=>changeRole(x.id,e.target.value)}><option value="STUDENT">Student</option><option value="TEACHER">Teacher</option><option value="ADMIN">Admin</option></select></label><button type="button" className={x.active===false?"admin-tools-restore":"admin-tools-danger"} disabled={String(x.role).toUpperCase()==="ADMIN"&&String(x.id)===String(user?.id)} onClick={()=>changeStatus(x.id,x.active===false)}>{x.active===false?"Reactivate":"Suspend access"}</button>{["TEACHER","STUDENT"].includes(String(x.role||"").toUpperCase())&&<button type="button" className="admin-user-delete" onClick={()=>deleteUserAccount(x)}>Delete account</button>}</div>
           </article>)}</div>}
         </section>})}
       </div>
