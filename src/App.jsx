@@ -2933,6 +2933,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
   const [videos, setVideos] = useState([]);
   const [consultations, setConsultations] = useState([]);
   const [lessons, setLessons] = useState([]);
+  const [analytics, setAnalytics] = useState(null);
   const [lessonDrafts, setLessonDrafts] = useState({});
   const [lessonNotice, setLessonNotice] = useState("");
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -2951,7 +2952,8 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       const [p, v, c] = await Promise.all([
         fetch(`${API_URL}/workspace/teacher/profile`, { headers }),
         fetch(`${API_URL}/workspace/teacher/videos`, { headers }),
-        fetch(`${API_URL}/workspace/teacher/consultations`, { headers })
+        fetch(`${API_URL}/workspace/teacher/consultations`, { headers }),
+        fetch(`${API_URL}/workspace/teacher/analytics`, { headers })
       ]);
       const pd = await readResponse(p);
       if (pd && pd.profile !== "NOT_CREATED") {
@@ -2962,8 +2964,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       }
       setVideos(await readResponse(v));
       setConsultations(await readResponse(c));
-      const lessonResponse = await fetch(`${API_URL}/lessons`, { headers });
-      setLessons(await readResponse(lessonResponse));
+      setAnalytics(await readResponse(a));
     } catch (e) { setError(e.message); }
   }
   useEffect(() => { load(); }, []);
@@ -3135,18 +3136,15 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       setBusy(false);
     }
   }
-  return <div className="teacher-dashboard-redesign"><WorkspaceShell title="Teacher Dashboard" subtitle="Manage your profile, demo lessons and student enquiries" user={currentUser} onLogout={handleLogout}>
-    {notice && <p style={{ background: "#ecfdf3", color: "#067647", padding: 12, borderRadius: 10 }}>{notice}</p>}
-    {lessonNotice && <p style={{background:"#ecfdf3",color:"#067647",padding:12,borderRadius:10}}>{lessonNotice}</p>}
-    {error && <p style={{ background: "#fef3f2", color: "#b42318", padding: 12, borderRadius: 10 }}>{error}</p>}
-    {!profile.verified && <div className="card teacher-application-status" style={{padding:20,marginBottom:18,border:"1px solid #42577b",background:"#17243b",color:"#e8eefc"}}>
-      <div style={{fontSize:12,fontWeight:800,letterSpacing:".12em",color:"#a9b9e8"}}>APPLICATION STATUS</div>
-      <h2 style={{margin:"8px 0",color:"#f4f7ff"}}>{!profile.id ? "Complete your teacher application" : profile.available === false ? "Application needs attention" : "Waiting for admin verification"}</h2>
-      <p style={{margin:0,color:"#c3cde2",lineHeight:1.65}}>{!profile.id ? "Complete the profile form below and submit it for review. Your public teacher listing will appear only after approval." : profile.available === false ? "Your previous application was not approved. Update your profile and submit it again for a new review." : "Your application has been received. You can edit your details while it is under review. Your public profile and teaching tools unlock after approval."}</p>
-    </div>}
-    <div className="teacher-dashboard-main-grid">
-      
-      <form className="card teacher-profile-form" onSubmit={saveProfile}>
+  return <div className="teacher-dashboard-redesign teacher-dashboard-v2"><WorkspaceShell title="Teacher Dashboard" subtitle="Build your teaching profile and connect with English learners" user={currentUser} onLogout={handleLogout}>
+    {notice && <p className="teacher-dashboard-alert success">{notice}</p>}
+    {error && <p className="teacher-dashboard-alert error">{error}</p>}
+    {!profile.verified && <div className="card teacher-application-status"><span className="teacher-dashboard-eyebrow">APPLICATION STATUS</span><h2>{!profile.id ? "Complete your teacher application" : profile.available === false ? "Application needs attention" : "Waiting for admin verification"}</h2><p>{!profile.id ? "Complete your profile and submit it for review. Students can discover your profile after admin approval." : profile.available === false ? "Your profile is not currently published. Update your details and resubmit for review." : "Your application is under review. You can update your details while you wait."}</p></div>}
+    {profile.verified && <section className="teacher-dashboard-welcome"><div><span className="teacher-dashboard-eyebrow">YOUR TEACHING SPACE</span><h2>Welcome back, {currentUser?.name?.split(" ")[0] || "Teacher"}</h2><p>Keep your profile up to date and help more students discover your English classes.</p></div><span className="teacher-published-pill"><i/> Profile published</span></section>}
+    {profile.verified && <section className="teacher-dashboard-stats"><article><span>STUDENT ENQUIRIES</span><strong>{consultations.length}</strong><small>People interested in your classes</small></article><article><span>CONNECTED STUDENTS</span><strong>{analytics?.students ?? 0}</strong><small>Students who have contacted you</small></article><article><span>YOUR RATING</span><strong>{Number(analytics?.averageRating ?? 0).toFixed(1)} <em>/ 5</em></strong><small>{analytics?.reviews ?? 0} student reviews</small></article></section>}
+    <div className="teacher-dashboard-content">
+      <section className="teacher-dashboard-section"><div className="teacher-dashboard-section-heading"><div><span className="teacher-dashboard-eyebrow">01 · YOUR PUBLIC LISTING</span><h2>Teacher Profile</h2><p>Help students and parents understand your experience, teaching approach and where to find your classes.</p></div></div>
+              <form className="card teacher-profile-form" onSubmit={saveProfile}>
         <div className="teacher-form-heading">
           <div><span className="teacher-form-kicker">TEACHER PROFILE</span><h2>My Teacher Profile</h2><p>Maintain the information students use to understand your experience and teaching approach.</p></div>
           <span className="teacher-form-step">PROFILE</span>
@@ -3158,7 +3156,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         <div className="teacher-profile-fields">
           <label>Teaching category<select name="category" value={profile.category} onChange={change}>{["Kids English","Phonics","Speaking","Reading & Writing","Grammar","Storytelling","School English"].map(x=><option key={x}>{x}</option>)}</select></label>
           {[
-            ["location","Location / Online"],["specialty","Specialty"],["experience","Teaching experience"],["teachingStyle","Teaching style"],["qualification","Qualifications"],["bio","About your teaching"],["hourlyRate","Hourly rate"],["lessonDuration","Lesson duration (minutes)"],["languages","Languages"],["ageRange","Student age range"],["teachingMode","Teaching mode"],["availability","Availability"]
+            ["location","Learning centre location / address"],["specialty","Specialty"],["experience","Teaching experience"],["teachingStyle","Teaching style"],["qualification","Qualifications"],["bio","About your teaching"],["hourlyRate","Teacher fee (optional)"],["lessonDuration","Lesson duration (minutes)"],["languages","Languages"],["ageRange","Student age range"],["teachingMode","Teaching mode"],["availability","Centre opening hours / weekly availability"]
           ].map(([key,label])=><label key={key} className={["bio","qualification","availability"].includes(key)?"teacher-field-wide":""}>{label}{key==="bio" || key==="qualification" || key==="availability" ? <textarea name={key} value={profile[key] || ""} onChange={change} rows={key==="bio"?3:2} /> : <input name={key} type={key==="hourlyRate"||key==="lessonDuration"?"number":"text"} value={profile[key] ?? ""} onChange={change} />}</label>)}
           <label className="teacher-field-wide">Issuing institution / certificate provider
             <input name="qualificationInstitution" value={profile.qualificationInstitution || ""} onChange={change} placeholder="e.g. University or certification body" />
@@ -3171,8 +3169,9 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
         <p className="teacher-privacy-note">Upload a teaching certificate or relevant degree. Do not upload passports or unrelated identity documents.</p>
         <div className="teacher-profile-footer"><span>Your profile information is saved securely.</span><button className="signup-btn" disabled={busy}>{busy ? "Saving..." : "Save profile"}</button></div>
       </form>
-      {profile.verified && <>
-        <form className="card teacher-demo-card" onSubmit={addVideo} style={{ padding:24 }}>
+      </section>
+      {profile.verified && <section className="teacher-dashboard-section"><div className="teacher-dashboard-section-heading"><div><span className="teacher-dashboard-eyebrow">02 · SHOW HOW YOU TEACH</span><h2>Demo Video Library</h2><p>Your free demo videos let students experience your teaching style before contacting you.</p></div></div>
+                <form className="card teacher-demo-card" onSubmit={addVideo} style={{ padding:24 }}>
           <h2>Demo Videos ({videos.length}/2)</h2>
           <p style={{ color:"#9aa6bd", lineHeight:1.6 }}>Add up to two short teaching demonstrations so prospective students can understand your teaching style.</p>
           <div style={{display:"flex",gap:8,flexWrap:"wrap",margin:"14px 0"}}>
@@ -3193,34 +3192,18 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
           <button className="signup-btn" disabled={busy || videos.length>=2}>{videos.length>=2?"Video limit reached":busy?(videoMode==="upload"?"Uploading...":"Saving..."):"Add demo video"}</button>
           <div className="teacher-demo-list">{videos.map(v=>{const videoId=getYouTubeVideoId(v.videoUrl);const isUploaded=v.videoType==="uploaded";return <div className="teacher-demo-item" key={v.id}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}><p style={{margin:"0 0 10px"}}><a href={v.videoUrl} target="_blank" rel="noreferrer">{v.title}</a> <small style={{color:"#9aa6bd"}}>{isUploaded?"· Uploaded video":"· YouTube"}</small></p><button type="button" disabled={busy} onClick={()=>deleteVideo(v.id)} style={{background:"transparent",color:"#fda29b",border:"1px solid #b54745",borderRadius:8,padding:"7px 12px",fontWeight:600,cursor:"pointer"}}>Delete</button></div>{isUploaded ? <video controls playsInline preload="metadata" src={v.videoUrl} style={{width:"100%",aspectRatio:"16 / 9",borderRadius:12,background:"#080d18"}} /> : videoId ? <iframe title={v.title} src={"https://www.youtube.com/embed/"+videoId} style={{width:"100%",aspectRatio:"16 / 9",border:0,borderRadius:12}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <p style={{color:"#9aa6bd"}}>Preview is unavailable for this link. <a href={v.videoUrl} target="_blank" rel="noreferrer">Watch video</a></p>}</div>})}</div>
         </form>
-        <div className="card teacher-lessons-card" style={{ padding:24 }}>
-          <div className="teacher-list-heading"><div><span className="teacher-library-kicker">CONFIRMED SESSIONS</span><h2>Scheduled Activities</h2><p>Only confirmed optional trials and scheduled lessons appear here.</p></div><span className="teacher-note-count">{lessons.length} {lessons.length===1?"LESSON":"LESSONS"}</span></div>
-          {lessons.length===0 ? <p className="teacher-list-empty">No lessons scheduled yet.</p> : <div className="teacher-record-list">{lessons.map(lesson=><div className="teacher-lesson-item" key={lesson.id}>
-            <b>{lesson.studentName}</b><p>{new Date(lesson.scheduledAt).toLocaleString()} · {lesson.durationMinutes} min · <strong>{lesson.status}</strong></p>
-            {lesson.meetingLink && <p><a href={lesson.meetingLink} target="_blank" rel="noreferrer">Meeting link</a></p>}
-            {<div style={{marginTop:8}}><button type="button" className="login-btn" disabled={busy} onClick={async()=>{if(!window.confirm("Remove this lesson from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/LESSON/${lesson.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setLessons(old=>old.filter(x=>x.id!==lesson.id));}catch(e){setError(e.message);}}}>Hide from dashboard</button></div>}{lesson.status==="SCHEDULED" && <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-              <button type="button" className="login-btn" disabled={busy} onClick={()=>rescheduleLesson(lesson)}>Reschedule</button>
-              <button type="button" className="signup-btn" disabled={busy} onClick={()=>updateLesson(lesson.id,"COMPLETED")}>Mark completed</button>
-              <button type="button" disabled={busy} onClick={()=>updateLesson(lesson.id,"CANCELLED")}>Cancel</button>
-            </div>}
-          </div>)}</div>}
-        </div>
-        <div className="card teacher-requests-card" style={{ padding:24 }}>
-          <div className="teacher-list-heading"><div><span className="teacher-library-kicker">STUDENT ENQUIRIES</span><h2>Student Enquiries</h2><p>Respond to questions about your centre, classes, fees and optional trial availability.</p></div><span className="teacher-note-count">{consultations.length} {consultations.length===1?"REQUEST":"REQUESTS"}</span></div>
-          {consultations.length===0 ? <p className="teacher-list-empty">No student enquiries yet.</p> : <div className="teacher-record-list">{consultations.map(c=><div className="teacher-request-item" key={c.id}><b>{c.studentName}</b><p>{c.preferredDate || "No trial date requested"} · {c.preferredTime || ""} · <strong>{c.status}</strong></p><p>{c.message}</p><button type="button" className="login-btn" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide":"View"} Student Profile</button>{selectedStudent===c.id && <div className="teacher-student-profile" style={{background:"#f8fafc",padding:12,borderRadius:10,marginTop:8}}><p><b>Email:</b> {c.studentProfile?.email || c.email}</p><p><b>Age / Group:</b> {c.studentProfile?.age || "—"} / {c.studentProfile?.ageGroup || "—"}</p><p><b>English Level:</b> {c.studentProfile?.englishLevel || "—"}</p><p><b>Learning Goals:</b> {c.studentProfile?.learningGoals || "—"}</p><p><b>Preferred Category:</b> {c.studentProfile?.preferredCategory || "—"}</p><p><b>Interests:</b> {c.studentProfile?.interests || "—"}</p><p><b>Schedule:</b> {c.studentProfile?.preferredSchedule || "—"}</p><p><b>About:</b> {c.studentProfile?.introduction || "—"}</p>{c.studentProfile?.guardianName && <p><b>Guardian:</b> {c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}</div>}{c.rejectionReason && <p style={{color:"#b42318"}}><b>Teacher rejection reason:</b> {c.rejectionReason}</p>}{c.adminPreviousStatus && <p><b>Admin changed status:</b> {c.adminPreviousStatus} → {c.status} {c.adminNote || ""}</p>}{c.decisionHistory && <div className="teacher-decision-history"><b>Decision history</b><p>{String(c.decisionHistory).replace(/\\\\n/g,"\n")}</p></div>}<div style={{marginTop:8}}><button type="button" className="login-btn" onClick={async()=>{if(!window.confirm("Remove this consultation from your dashboard only?"))return;try{await readResponse(await fetch(`${API_URL}/workspace/hide/CONSULTATION/${c.id}`,{method:"POST",headers:{Authorization:`Bearer ${currentUser.token}`}}));setConsultations(old=>old.filter(x=>x.id!==c.id));}catch(e){setError(e.message);}}}>Remove from my dashboard</button></div>{c.status==="PENDING" && <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button type="button" className="signup-btn" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"APPROVED")}>Approve</button><button type="button" disabled={busy} onClick={()=>updateConsultationStatus(c.id,"REJECTED")} style={{background:"#fff",color:"#b42318",border:"1px solid #fda29b",borderRadius:10,padding:"10px 16px",fontWeight:600,cursor:"pointer"}}>Reject</button></div>}
-            {c.status==="APPROVED" && !lessons.some(l=>l.consultationId===c.id) && <div className="lesson-scheduler" style={{marginTop:12}}>
-              <h4>Schedule first lesson</h4>
-              <label>Date & time <input className="lesson-schedule-datetime" type="datetime-local" required step="900" min={new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16)} value={lessonDrafts[c.id]?.scheduledAt||""} onChange={e=>{setError("");setLessonDrafts(old=>({...old,[c.id]:{...old[c.id],scheduledAt:e.target.value}}));}} /></label>
-              <label>Duration <select value={lessonDrafts[c.id]?.durationMinutes||30} onChange={e=>setLessonDrafts(old=>({...old,[c.id]:{...old[c.id],durationMinutes:e.target.value}}))}><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option><option value="90">90 minutes</option></select></label>
-              <label>Meeting link (optional) <input type="url" placeholder="https://..." value={lessonDrafts[c.id]?.meetingLink||""} onChange={e=>setLessonDrafts(old=>({...old,[c.id]:{...old[c.id],meetingLink:e.target.value}}))}/></label>
-              {error && <p className="lesson-scheduler-message error" role="alert">{error}</p>}
-              {lessonNotice && <p className="lesson-scheduler-message success" role="status">{lessonNotice}</p>}
-              <button type="button" className="signup-btn" disabled={busy} style={{marginTop:10}} onClick={()=>scheduleLesson(c)}>{busy?"Scheduling...":"Schedule lesson"}</button>
-            </div>}</div>)}</div>}
-          </div>
-        </>}
+      </section>}
+      {profile.verified && <section className="teacher-dashboard-section"><div className="teacher-dashboard-section-heading"><div><span className="teacher-dashboard-eyebrow">03 · CONNECT WITH LEARNERS</span><h2>Student Enquiries</h2><p>Review interested students and contact them directly about your English classes or learning centre.</p></div><span className="teacher-enquiry-count">{consultations.length} {consultations.length===1?"ENQUIRY":"ENQUIRIES"}</span></div>
+        <div className="card teacher-enquiries-v2">{consultations.length===0 ? <div className="teacher-enquiries-empty"><span>✦</span><strong>No enquiries yet</strong><p>When a student contacts you through your profile, their message will appear here.</p></div> : <div className="teacher-record-list">{consultations.map(c=><article className="teacher-enquiry-v2" key={c.id}>
+          <div className="teacher-enquiry-v2-top"><div><strong>{c.studentName || "Student"}</strong><span>{c.email || c.studentProfile?.email || "Email not provided"}</span></div><span className={"teacher-enquiry-status status-"+String(c.status||"pending").toLowerCase()}>{c.status || "NEW"}</span></div>
+          <p className="teacher-enquiry-message">{c.message || "The student is interested in your teaching profile."}</p>
+          <div className="teacher-enquiry-meta"><span>{c.studentProfile?.age ? "Age: "+c.studentProfile.age : "English learner"}</span><span>{c.studentProfile?.englishLevel || "Level not specified"}</span></div>
+          <div className="teacher-enquiry-actions"><a className="teacher-contact-link" href={"mailto:"+encodeURIComponent(c.email || c.studentProfile?.email || "")+"?subject="+encodeURIComponent("Your English class enquiry")}>✉ Contact student</a><button type="button" className="login-btn" onClick={()=>setSelectedStudent(selectedStudent===c.id?null:c.id)}>{selectedStudent===c.id?"Hide details":"View learning profile"}</button></div>
+          {selectedStudent===c.id && <div className="teacher-student-profile teacher-student-profile-v2"><p><b>Age / Group:</b> {c.studentProfile?.age || "—"} / {c.studentProfile?.ageGroup || "—"}</p><p><b>English Level:</b> {c.studentProfile?.englishLevel || "—"}</p><p><b>Learning Goals:</b> {c.studentProfile?.learningGoals || "—"}</p><p><b>Preferred Category:</b> {c.studentProfile?.preferredCategory || "—"}</p><p><b>Interests:</b> {c.studentProfile?.interests || "—"}</p><p><b>About:</b> {c.studentProfile?.introduction || "—"}</p>{c.studentProfile?.guardianName && <p><b>Guardian:</b> {c.studentProfile.guardianName} · {c.studentProfile.guardianPhone}</p>}</div>}
+        </article>)}</div>}</div>
+      </section>}
+      <section className="teacher-dashboard-section teacher-dashboard-help"><div><span className="teacher-dashboard-eyebrow">GROW YOUR REACH</span><h2>More students start with a strong profile.</h2><p>Keep your centre information, course details and demo lessons accurate so families can make a confident choice.</p></div><button type="button" className="signup-btn" onClick={()=>document.querySelector(".teacher-profile-form")?.scrollIntoView({behavior:"smooth",block:"start"})}>Update my profile</button></section>
     </div>
-    {profile.verified && <TeacherToolsPanel user={currentUser} consultations={consultations} lessons={lessons} />}
   </WorkspaceShell></div>;
 }
 
