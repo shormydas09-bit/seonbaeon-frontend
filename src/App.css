@@ -6326,3 +6326,25 @@ html:has(.app.theme-dark-premium),body:has(.app.theme-dark-premium),#root:has(.a
 .teacher-dashboard-v2 .teacher-profile-compact .teacher-form-kicker{color:#8eb5f2!important}
 .teacher-dashboard-v2 .teacher-profile-compact .teacher-form-step{color:#c3d8f8!important;background:#203b5d!important}
 .teacher-dashboard-v2 .teacher-profile-compact .teacher-privacy-note{color:#a8bad4!important}
+
+
+/* High-contrast typography for all collapsed teacher profile sections */
+.teacher-dashboard-v2 .teacher-profile-accordions{gap:9px!important}
+.teacher-dashboard-v2 .teacher-profile-group{opacity:1!important;background:linear-gradient(115deg,#142943 0%,#101f35 100%)!important;border:1px solid #3b5679!important;border-radius:13px!important}
+.teacher-dashboard-v2 .teacher-profile-group>summary{min-height:64px!important;padding:12px 15px!important;opacity:1!important}
+.teacher-dashboard-v2 .teacher-profile-group>summary strong{display:block!important;color:#f4f7ff!important;font-family:inherit!important;font-size:13px!important;font-weight:750!important;line-height:1.35!important;letter-spacing:.01em!important;opacity:1!important}
+.teacher-dashboard-v2 .teacher-profile-group>summary small{display:block!important;color:#b8c9e2!important;font-family:inherit!important;font-size:10.5px!important;font-weight:500!important;line-height:1.45!important;opacity:1!important}
+.teacher-dashboard-v2 .teacher-profile-group-icon{color:#e0ebff!important;background:#29496f!important;border:1px solid #5879a5!important;font-weight:800!important;opacity:1!important}
+.teacher-dashboard-v2 .teacher-profile-group>summary i{color:#d5e4ff!important;font-weight:800!important;opacity:1!important}
+.teacher-dashboard-v2 .teacher-profile-group>summary:hover{background:rgba(75,112,164,.2)!important}
+.teacher-dashboard-v2 .teacher-profile-group[open]>summary{background:linear-gradient(100deg,#203d60,#172c47)!important}
+.teacher-dashboard-v2 .teacher-profile-fields{background:#0c1b2e!important}
+.teacher-dashboard-v2 .teacher-profile-fields label{color:#e8effb!important;font-family:inherit!important;font-size:11px!important;font-weight:650!important;line-height:1.45!important;opacity:1!important}
+.teacher-dashboard-v2 .teacher-profile-fields .teacher-field-hint{color:#a9bdd9!important;font-size:10px!important}
+.teacher-dashboard-v2 .teacher-profile-fields input,.teacher-dashboard-v2 .teacher-profile-fields select,.teacher-dashboard-v2 .teacher-profile-fields textarea{color:#f7f9ff!important;background:#071629!important;border:1px solid #455f82!important;font-family:inherit!important;font-size:12px!important;font-weight:500!important;opacity:1!important}
+.teacher-dashboard-v2 .teacher-profile-fields input::placeholder,.teacher-dashboard-v2 .teacher-profile-fields textarea::placeholder{color:#a3b5ce!important;opacity:1!important}
+.teacher-dashboard-v2 .teacher-profile-fields select option{color:#f5f8ff!important;background:#102039!important}
+.teacher-dashboard-v2 .teacher-profile-compact .teacher-form-kicker{color:#a9c9ff!important;font-size:9px!important}
+.teacher-dashboard-v2 .teacher-profile-compact .teacher-form-heading h2{color:#f7f9ff!important}
+.teacher-dashboard-v2 .teacher-profile-compact .teacher-form-heading p{color:#c0cfe4!important}
+.teacher-dashboard-v2 .teacher-profile-compact .teacher-profile-footer span,.teacher-dashboard-v2 .teacher-profile-compact .teacher-privacy-note{color:#b7c8df!important}
