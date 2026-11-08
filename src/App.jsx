@@ -2475,6 +2475,7 @@ function AdminToolsPanel({ user }) {
   const headers={ "Content-Type":"application/json",Authorization:`Bearer ${user?.token||""}` };
   const [overview,setOverview]=useState(null); const [users,setUsers]=useState([]); const [reviews,setReviews]=useState([]); const [activity,setActivity]=useState([]);
   const [error,setError]=useState(""); const [notice,setNotice]=useState(""); const [reviewFilter,setReviewFilter]=useState("ALL"); const [search,setSearch]=useState("");
+  const [activeUserGroup,setActiveUserGroup]=useState("");
   async function load(){
     setError("");
     try {
@@ -2512,8 +2513,22 @@ function AdminToolsPanel({ user }) {
     <section className="admin-tools-section admin-activity-section"><div className="admin-tools-section-heading"><div><span className="admin-tools-kicker">LATEST UPDATES</span><h3>Admin Activity Overview</h3><p>Recent platform activity and student reviews (up to 50 records).</p></div></div>
       {recentActivity.length===0?<div className="admin-tools-empty">No recent review activity yet.</div>:<div className="admin-activity-list">{recentActivity.map((item,index)=><article className="admin-activity-row" key={item.type+"-"+item.occurredAt+"-"+index}><span className="admin-activity-icon">★</span><div><b>{item.title}</b><p>{item.detail}</p><small>{item.status} · {new Date(item.occurredAt).toLocaleString()}</small></div></article>)}</div>}
     </section>
-    <section className="admin-tools-section admin-users-section"><div className="admin-tools-section-heading"><div><span className="admin-tools-kicker">ACCOUNT ACCESS</span><h3>User Management <span className="admin-user-count">{users.length}</span></h3><p>Manage account roles and access status.</p></div></div>
-      <div className="admin-user-list">{users.map(x=><article className="admin-user-row" key={x.id}><div className="admin-user-identity"><strong>{x.name}</strong><span>{x.email}</span><small className={x.active===false?"is-suspended":"is-active"}><i/> {x.active===false?"Suspended":"Active"}</small></div><div className="admin-user-actions"><select aria-label={`Role for ${x.name}`} value={x.role} onChange={e=>changeRole(x.id,e.target.value)}><option>STUDENT</option><option>TEACHER</option><option>ADMIN</option></select><button type="button" className={x.active===false?"admin-tools-restore":"admin-tools-danger"} disabled={x.role==="ADMIN"&&x.id===user?.id} onClick={()=>changeStatus(x.id,x.active===false)}>{x.active===false?"Reactivate":"Suspend"}</button></div></article>)}</div>
+    <section className="admin-tools-section admin-users-section">
+      <div className="admin-tools-section-heading"><div><span className="admin-tools-kicker">ACCOUNT ACCESS</span><h3>User Management <span className="admin-user-count">{users.length}</span></h3><p>Choose an account type to view users, suspend access, or change account authority.</p></div></div>
+      <div className="admin-user-groups">
+        {["ADMIN","TEACHER","STUDENT"].map(role=>{const groupUsers=users.filter(x=>String(x.role||"STUDENT").toUpperCase()===role);const isOpen=activeUserGroup===role;return <section className={`admin-user-group ${isOpen?"is-open":""}`} key={role}>
+          <button type="button" className="admin-user-group-toggle" aria-expanded={isOpen} onClick={()=>setActiveUserGroup(isOpen?"":role)}>
+            <span className="admin-user-group-icon">{role==="ADMIN"?"◆":role==="TEACHER"?"✦":"●"}</span>
+            <span className="admin-user-group-copy"><strong>{role==="ADMIN"?"Administrators":role==="TEACHER"?"Teachers":"Students"}</strong><small>{role==="ADMIN"?"Platform access & permissions":role==="TEACHER"?"Teacher accounts & publishing access":"Student accounts & learning access"}</small></span>
+            <span className="admin-user-group-count">{groupUsers.length} {groupUsers.length===1?"account":"accounts"}</span>
+            <span className="admin-user-group-chevron">{isOpen?"−":"＋"}</span>
+          </button>
+          {isOpen&&<div className="admin-user-group-list">{groupUsers.length===0?<div className="admin-tools-empty">No {role.toLowerCase()} accounts yet.</div>:groupUsers.map(x=><article className="admin-user-row" key={x.id}>
+            <div className="admin-user-identity"><strong>{x.name||"Unnamed user"}</strong><span>{x.email||"No email available"}</span><small className={x.active===false?"is-suspended":"is-active"}><i/> {x.active===false?"Suspended":"Active"}</small></div>
+            <div className="admin-user-actions"><label className="admin-user-role-control"><span>Account authority</span><select aria-label={`Change authority for ${x.name}`} value={String(x.role||"STUDENT").toUpperCase()} onChange={e=>changeRole(x.id,e.target.value)}><option value="STUDENT">Student</option><option value="TEACHER">Teacher</option><option value="ADMIN">Admin</option></select></label><button type="button" className={x.active===false?"admin-tools-restore":"admin-tools-danger"} disabled={String(x.role).toUpperCase()==="ADMIN"&&String(x.id)===String(user?.id)} onClick={()=>changeStatus(x.id,x.active===false)}>{x.active===false?"Reactivate":"Suspend access"}</button></div>
+          </article>)}</div>}
+        </section>})}
+      </div>
     </section>
   </div>;
 }
