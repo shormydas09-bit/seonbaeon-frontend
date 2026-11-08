@@ -2899,7 +2899,7 @@ function WorkspaceShell({ title, subtitle, user, onLogout, children }) {
   return (
     <main className="workspace-premium-shell" style={{ minHeight: "75vh" }}>
       <section className="workspace-premium-content" style={{ maxWidth: 1320, margin: "0 auto" }}>
-        <div className="workspace-premium-heading" style={{ background: "linear-gradient(125deg,#1a3049,#12243a)", border: "1px solid rgba(139,172,205,.2)", color: "#f2f6fc" }}>
+        <div className="workspace-premium-heading admin-workspace-heading">
           <div className="workspace-heading-copy">
             <p className="workspace-eyebrow">PICK MY TEACHER · WORKSPACE</p>
             <h1 style={{ color: "#f7f9ff", WebkitTextFillColor: "#f7f9ff", fontWeight: 850, fontSize: "clamp(29px, 3vw, 38px)", lineHeight: 1.12, letterSpacing: "-.05em" }}>{title}</h1>
