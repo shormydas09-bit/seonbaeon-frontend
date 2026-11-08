@@ -338,10 +338,9 @@ function AuthPage({ mode, setMode, onLogin, onPolicyOpen }) {
         </div>
 
         {error && (
-          <div className="form-error">
-            {error}
-          </div>
+          <div className="form-error" role="alert" aria-live="assertive">{error}</div>
         )}
+        {message && <div className="form-success" role="status" aria-live="polite">{message}</div>}
 
         <form onSubmit={handleSubmit}>
           {mode === "login" && (
@@ -580,6 +579,7 @@ function TeacherSearch({ goHome, openProfile, currentUser }) {
     try {
       setLoading(true);
       setError("");
+      await waitForBackend({ attempts: 4 });
       const timeout = new Promise((_, reject) => {
         timeoutId = window.setTimeout(() => {
           controller.abort();
