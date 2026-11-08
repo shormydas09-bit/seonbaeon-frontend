@@ -4170,6 +4170,8 @@ function App() {
       {page === "auth" && (
         <AuthPage mode={authMode} setMode={setAuthMode} onLogin={handleLogin} onPolicyOpen={(type) => { setPolicyType(type); setPage("policy"); }} />
       )}
+
+      {(page === "home" || page === "teachers" || page === "auth") && <footer className="site-legal-footer"><span>© {new Date().getFullYear()} Pick My Teacher</span><button onClick={() => { setPolicyType("privacy"); setPage("policy"); }}>Privacy Policy</button><button onClick={() => { setPolicyType("terms"); setPage("policy"); }}>Terms of Service</button></footer>}
     </div>
   );
 }
