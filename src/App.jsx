@@ -3162,32 +3162,51 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
     </>}
     <div className="teacher-dashboard-content">
       <section className="teacher-dashboard-section"><div className="teacher-dashboard-section-heading"><div><span className="teacher-dashboard-eyebrow">01 · YOUR PUBLIC LISTING</span><h2>Teacher Profile</h2><p>Help students and parents understand your experience, teaching approach and where to find your classes.</p></div></div>
-              <form className="card teacher-profile-form" onSubmit={saveProfile}>
+              <form className="card teacher-profile-form teacher-profile-compact" onSubmit={saveProfile}>
         <div className="teacher-form-heading">
-          <div><span className="teacher-form-kicker">TEACHER PROFILE</span><h2>My Teacher Profile</h2><p>Maintain the information students use to understand your experience and teaching approach.</p></div>
-          <span className="teacher-form-step">PROFILE</span>
+          <div><span className="teacher-form-kicker">YOUR PUBLIC LISTING</span><h2>Teacher Profile</h2><p>Keep the key details students need to choose your classes.</p></div>
+          <span className="teacher-form-step">EDIT PROFILE</span>
         </div>
-        <div className="teacher-profile-photo-field">
+        <div className="teacher-profile-photo-field teacher-profile-photo-compact">
           <div className="teacher-photo-preview">{(imagePreview || profile.profileImageUrl) ? <img src={imagePreview || profile.profileImageUrl} alt="Teacher profile preview" /> : <span>✦</span>}</div>
-          <div className="teacher-photo-copy"><label>Profile picture</label><input type="file" accept="image/*" onChange={e=>{const f=e.target.files?.[0];if(f){setProfileImage(f);setImagePreview(URL.createObjectURL(f));}}} /><small>JPG, PNG or WebP · maximum 5 MB</small></div>
+          <div className="teacher-photo-copy"><label>Profile picture</label><small>Use a clear photo · JPG, PNG or WebP · max 5 MB</small><label className="teacher-photo-upload">Choose photo<input type="file" accept="image/*" onChange={e=>{const f=e.target.files?.[0];if(f){setProfileImage(f);setImagePreview(URL.createObjectURL(f));}}} /></label></div>
         </div>
-        <div className="teacher-profile-fields">
-          <label>Teaching category<select name="category" value={profile.category} onChange={change}>{["Kids English","Phonics","Speaking","Reading & Writing","Grammar","Storytelling","School English"].map(x=><option key={x}>{x}</option>)}</select></label>
-          {[
-            ["location","Learning centre location / address"],["specialty","Specialty"],["experience","Teaching experience"],["teachingStyle","Teaching style"],["qualification","Qualifications"],["bio","About your teaching"],["hourlyRate","Teacher fee (optional)"],["lessonDuration","Lesson duration (minutes)"],["languages","Languages"],["ageRange","Student age range"],["teachingMode","Teaching mode"],["availability","Centre opening hours / weekly availability"]
-          ].map(([key,label])=><label key={key} className={["bio","qualification","availability"].includes(key)?"teacher-field-wide":""}>{label}{key==="bio" || key==="qualification" || key==="availability" ? <textarea name={key} value={profile[key] || ""} onChange={change} rows={key==="bio"?3:2} /> : <input name={key} type={key==="hourlyRate"||key==="lessonDuration"?"number":"text"} value={profile[key] ?? ""} onChange={change} />}</label>)}
-          <label className="teacher-field-wide">Issuing institution / certificate provider
-            <input name="qualificationInstitution" value={profile.qualificationInstitution || ""} onChange={change} placeholder="e.g. University or certification body" />
-          </label>
-          <label className="teacher-field-wide">Qualification evidence <span className="teacher-field-hint">PDF, JPG or PNG · max 10 MB</span>
-            <input type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" onChange={e=>setQualificationFile(e.target.files?.[0] || null)} />
-          </label>
+        <div className="teacher-profile-accordions">
+          <details className="teacher-profile-group" open>
+            <summary><span className="teacher-profile-group-icon">01</span><span><strong>Basic profile</strong><small>Category, location and teaching specialty</small></span><i>⌄</i></summary>
+            <div className="teacher-profile-fields teacher-profile-fields-basic">
+              <label>Teaching category<select name="category" value={profile.category} onChange={change}>{["Kids English","Phonics","Speaking","Reading & Writing","Grammar","Storytelling","School English"].map(x=><option key={x}>{x}</option>)}</select></label>
+              <label>Learning centre location / address<input name="location" value={profile.location ?? ""} onChange={change} /></label>
+              <label>Specialty<input name="specialty" value={profile.specialty ?? ""} onChange={change} /></label>
+              <label>Teaching experience<input name="experience" value={profile.experience ?? ""} onChange={change} /></label>
+              <label>Teaching style<input name="teachingStyle" value={profile.teachingStyle ?? ""} onChange={change} /></label>
+            </div>
+          </details>
+          <details className="teacher-profile-group">
+            <summary><span className="teacher-profile-group-icon">02</span><span><strong>Teaching background</strong><small>Qualifications and your teaching introduction</small></span><i>⌄</i></summary>
+            <div className="teacher-profile-fields teacher-profile-fields-background">
+              <label>Qualifications<textarea name="qualification" value={profile.qualification || ""} onChange={change} rows={2} /></label>
+              <label>About your teaching<textarea name="bio" value={profile.bio || ""} onChange={change} rows={2} /></label>
+              <label>Issuing institution / certificate provider<input name="qualificationInstitution" value={profile.qualificationInstitution || ""} onChange={change} placeholder="e.g. University or certification body" /></label>
+              <label>Qualification evidence <span className="teacher-field-hint">PDF, JPG or PNG · max 10 MB</span><input type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" onChange={e=>setQualificationFile(e.target.files?.[0] || null)} /></label>
+            </div>
+          </details>
+          <details className="teacher-profile-group">
+            <summary><span className="teacher-profile-group-icon">03</span><span><strong>Class information</strong><small>Fees, duration, learner age and availability</small></span><i>⌄</i></summary>
+            <div className="teacher-profile-fields teacher-profile-fields-class">
+              <label>Teacher fee (optional)<input name="hourlyRate" type="number" value={profile.hourlyRate ?? ""} onChange={change} /></label>
+              <label>Lesson duration (minutes)<input name="lessonDuration" type="number" value={profile.lessonDuration ?? ""} onChange={change} /></label>
+              <label>Languages<input name="languages" value={profile.languages ?? ""} onChange={change} /></label>
+              <label>Student age range<input name="ageRange" value={profile.ageRange ?? ""} onChange={change} /></label>
+              <label>Teaching mode<input name="teachingMode" value={profile.teachingMode ?? ""} onChange={change} /></label>
+              <label>Centre opening hours / weekly availability<input name="availability" value={profile.availability ?? ""} onChange={change} /></label>
+            </div>
+          </details>
         </div>
         {profile.qualificationDocumentUrl && <p className="teacher-current-document">Current document: <a href={profile.qualificationDocumentUrl} target="_blank" rel="noreferrer">View uploaded evidence</a></p>}
         <p className="teacher-privacy-note">Upload a teaching certificate or relevant degree. Do not upload passports or unrelated identity documents.</p>
         <div className="teacher-profile-footer"><span>Your profile information is saved securely.</span><button className="signup-btn" disabled={busy}>{busy ? "Saving..." : "Save profile"}</button></div>
-      </form>
-      </section>
+      </form>      </section>
       {profile.verified && <section className="teacher-dashboard-section"><div className="teacher-dashboard-section-heading"><div><span className="teacher-dashboard-eyebrow">02 · SHOW HOW YOU TEACH</span><h2>Demo Video Library</h2><p>Your free demo videos let students experience your teaching style before contacting you.</p></div></div>
                 <div className="teacher-demo-library">
           <details className="teacher-demo-add">
