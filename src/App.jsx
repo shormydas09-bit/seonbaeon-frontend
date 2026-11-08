@@ -3922,7 +3922,7 @@ function DownloadPage() {
             Find the right English teacher for your learning goals with Pick My Teacher.
           </p>
           <a
-            href="https://github.com/shormydas09-bit/seonbaeon-frontend/releases/download/v1.0/Pick-My-Teacher-v1.0.apk"
+            href="/app"
             style={{ display: "inline-block", background: "#222", color: "#fff", padding: "16px 24px", borderRadius: 10, textDecoration: "none", fontWeight: 700 }}
           >
             ↓ Download for Android
@@ -3977,6 +3977,11 @@ function App() {
         return null;
       }
     });
+
+  if (window.location.pathname === "/app") {
+    window.location.replace("https://github.com/shormydas09-bit/seonbaeon-frontend/releases/latest/download/Pick-My-Teacher-v1.0.apk");
+    return null;
+  }
 
   if (window.location.pathname === "/download") {
     return <DownloadPage />;
