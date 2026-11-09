@@ -966,3 +966,95 @@
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
+
+
+/* Mobile polish: admin role accordions and teacher profile details */
+@media (max-width: 680px) {
+  #root .app.theme-dark-premium .admin-tools-panel .admin-user-group-toggle {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: 42px minmax(0, 1fr) !important;
+    grid-template-rows: auto auto !important;
+    align-items: center !important;
+    column-gap: 11px !important;
+    row-gap: 8px !important;
+    min-height: 0 !important;
+    padding: 15px 54px 15px 14px !important;
+    box-sizing: border-box !important;
+  }
+  #root .app.theme-dark-premium .admin-tools-panel .admin-user-group-icon {
+    grid-column: 1 !important;
+    grid-row: 1 / span 2 !important;
+    align-self: center !important;
+  }
+  #root .app.theme-dark-premium .admin-tools-panel .admin-user-group-copy {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    min-width: 0 !important;
+    gap: 4px !important;
+  }
+  #root .app.theme-dark-premium .admin-tools-panel .admin-user-group-copy strong {
+    font-size: 14px !important;
+    line-height: 1.25 !important;
+  }
+  #root .app.theme-dark-premium .admin-tools-panel .admin-user-group-copy small {
+    display: block !important;
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+    overflow-wrap: anywhere !important;
+  }
+  #root .app.theme-dark-premium .admin-tools-panel .admin-user-group-count {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    justify-self: start !important;
+    margin: 0 !important;
+    padding: 5px 9px !important;
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+  }
+  #root .app.theme-dark-premium .admin-tools-panel .admin-user-group-chevron {
+    position: absolute !important;
+    top: 50% !important;
+    right: 13px !important;
+    transform: translateY(-50%) !important;
+    width: 29px !important;
+    height: 29px !important;
+  }
+
+  #root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 8px !important;
+  }
+  #root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid > div {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    min-height: 62px !important;
+    padding: 12px 14px !important;
+    box-sizing: border-box !important;
+  }
+  #root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid > div > span {
+    flex: 0 0 auto !important;
+    font-size: 10px !important;
+    line-height: 1.35 !important;
+  }
+  #root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid > div > strong {
+    margin: 0 !important;
+    text-align: right !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    text-decoration: none !important;
+    -webkit-text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-thickness: 0 !important;
+    text-decoration-color: transparent !important;
+    overflow-wrap: anywhere !important;
+  }
+}
+#root .app.theme-dark-premium .teacher-profile-redesign .teaching-details-grid > div > strong {
+  text-decoration: none !important;
+  -webkit-text-decoration: none !important;
+  text-decoration-line: none !important;
+}
