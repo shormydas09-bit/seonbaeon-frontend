@@ -3087,8 +3087,11 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       setError(profileResult.__loadError.message || "Could not load your teacher profile. Please refresh.");
       return;
     }
-    if (profileResult && profileResult.profile !== "NOT_CREATED") {
-      setProfile(old => ({ ...old, ...profileResult }));
+    if (profileResult?.profile === "NOT_CREATED") {
+      setError("We could not find a teacher profile linked to this login. Your existing profile has not been deleted. Please do not submit a new application until the profile link is checked.");
+      setProfile(old => ({ ...old, _profileLinkMissing: true }));
+    } else if (profileResult) {
+      setProfile(old => ({ ...old, ...profileResult, _profileLinkMissing: false }));
       setError("");
     }
 
@@ -3121,7 +3124,12 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
   useEffect(() => { load(); }, []);
   function change(e) { setProfile(p => ({ ...p, [e.target.name]: e.target.value })); }
   async function saveProfile(e) {
-    e.preventDefault(); setBusy(true); setError(""); setNotice("");
+    e.preventDefault();
+    if (profile._profileLinkMissing) {
+      setError("Your existing teacher profile could not be linked to this login. Please do not create a replacement profile; the account link must be repaired first.");
+      return;
+    }
+    setBusy(true); setError(""); setNotice("");
     try {
       let nextProfile = { ...profile };
       if (qualificationFile) {
@@ -4136,6 +4144,9 @@ function App() {
 
         {mobileMenuOpen && (
           <div className="mobile-nav-panel">
+            <button onClick={() => { window.location.reload(); }}>
+              ↻ Refresh page
+            </button>
             <button onClick={() => { setPage("home"); setMobileMenuOpen(false); }}>
               Home
             </button>
