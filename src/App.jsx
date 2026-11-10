@@ -3084,7 +3084,7 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       .catch(error => ({ __loadError: error }));
 
     if (profileResult?.__loadError) {
-      setError(profileResult.__loadError.message || "Could not load your teacher profile. Please refresh.");
+      setError("Could not connect to the server. Your saved profile has not been reset. Use Refresh page to retry. " + (profileResult.__loadError.message || ""));
       return;
     }
     if (profileResult?.profile === "NOT_CREATED") {
@@ -3112,13 +3112,14 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
       if (result.status === "fulfilled") {
         setter(result.value ?? fallback);
       } else {
-        setter(fallback);
+        // A transient API failure must not erase previously loaded videos,
+        // consultations or analytics from the dashboard.
         failed.push(label);
       }
     });
 
     if (failed.length) {
-      setError(`Your teacher approval and profile are loaded, but some dashboard data could not load (${failed.join(", ")}). Please refresh to retry.`);
+      setError(`Some dashboard data could not load (${failed.join(", ")}). Saved data has not been deleted. Use Refresh page to retry.`);
     }
   }
   useEffect(() => { load(); }, []);
