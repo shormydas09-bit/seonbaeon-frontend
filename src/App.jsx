@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import "./App.css";
 import "./premium.css";
@@ -3938,6 +3938,38 @@ function DownloadPage() {
 function App() {
   const [page, setPage] =
     useState("home");
+
+  // Keep the Android/WebView system Back button inside the app's page flow.
+  const skipNextPageHistoryPush = useRef(false);
+  useEffect(() => {
+    window.history.replaceState({ ...(window.history.state || {}), pmtPage: "home" }, "", window.location.href);
+    window.history.pushState({ pmtPage: page }, "", window.location.href);
+    const handleAppBack = (event) => {
+      const targetPage = event.state?.pmtPage;
+      if (targetPage) {
+        skipNextPageHistoryPush.current = true;
+        setMobileMenuOpen(false);
+        setPage(targetPage);
+      } else {
+        // At the app's home screen, keep Back from accidentally closing the WebView.
+        window.history.pushState({ pmtPage: "home" }, "", window.location.href);
+        if (page !== "home") {
+          skipNextPageHistoryPush.current = true;
+          setPage("home");
+        }
+      }
+    };
+    window.addEventListener("popstate", handleAppBack);
+    return () => window.removeEventListener("popstate", handleAppBack);
+  }, []);
+
+  useEffect(() => {
+    if (skipNextPageHistoryPush.current) {
+      skipNextPageHistoryPush.current = false;
+      return;
+    }
+    window.history.pushState({ pmtPage: page }, "", window.location.href);
+  }, [page]);
 
   const [mobileMenuOpen, setMobileMenuOpen] =
     useState(false);
