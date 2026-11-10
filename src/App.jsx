@@ -2300,7 +2300,7 @@ function TeacherProfile({
                 </div>
 
                 <div className="review-summary">
-                  {teacher.rating ? `${teacher.rating} rating` : "Rating unavailable"}
+                  {reviews.length ? `${(reviews.reduce((sum, item) => sum + Number(item.rating || 0), 0) / reviews.length).toFixed(1)} / 5 · ${reviews.length} reviews` : "No ratings yet"}
                 </div>
               </div>
 
@@ -2381,20 +2381,18 @@ function TeacherProfile({
                 ) : reviewEligibility.alreadyReviewed ? (
                   <p>You have already reviewed this teacher. Thank you for sharing your experience!</p>
                 ) : !reviewEligibility.eligible ? (
-                  <p>You can write a review after this teacher approves your enquiry.</p>
+                  <p>You can review this teacher after completing a lesson with them.</p>
                 ) : (
                   <form onSubmit={submitReview}>
-                    <select
-                      value={reviewRating}
-                      onChange={(e) => setReviewRating(Number(e.target.value))}
-                      aria-label="Review rating"
-                    >
-                      <option value="5">5 / 5</option>
-                      <option value="4">4 / 5</option>
-                      <option value="3">3 / 5</option>
-                      <option value="2">2 / 5</option>
-                      <option value="1">1 / 5</option>
-                    </select>
+                    <div className="review-star-picker" role="group" aria-label="Choose a rating from 1 to 5">
+                      <span className="review-star-label">Your rating</span>
+                      <div className="review-star-buttons">
+                        {[1,2,3,4,5].map((star) => (
+                          <button key={star} type="button" className={star <= reviewRating ? "is-selected" : ""} aria-label={`${star} star`} aria-pressed={reviewRating===star} onClick={() => setReviewRating(star)}>★</button>
+                        ))}
+                      </div>
+                      <span className="review-star-value">{reviewRating}/5</span>
+                    </div>
 
                     <textarea
                       value={reviewText}
