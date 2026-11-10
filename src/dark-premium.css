@@ -210,3 +210,42 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-ser
  #root .app.theme-dark-premium .teacher-dashboard-redesign .card,
  #root .app.theme-dark-premium .admin-dashboard-redesign .card{padding:18px!important}
 }
+
+/* Student reviews — dark premium treatment */
+.teacher-profile-redesign .profile-section:has(.review-form-card) {
+  background: linear-gradient(145deg,#111c2d 0%,#0c1524 100%);
+  border: 1px solid rgba(148,163,184,.18);
+  border-radius: 22px;
+  padding: clamp(18px,3vw,28px);
+  box-shadow: 0 18px 48px rgba(0,0,0,.22);
+}
+.teacher-profile-redesign .profile-section:has(.review-form-card) .section-title-row h2,
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-form-card h3 { color:#f5f7fb; }
+.teacher-profile-redesign .profile-section:has(.review-form-card) .section-title-row p,
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-card small { color:#9aaac0; }
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-summary {
+  color:#f4d28d;background:#253247;border:1px solid #46546b;border-radius:999px;padding:8px 13px;font-weight:750;
+}
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-card,
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-form-card {
+  background:#162338;border:1px solid #2b3a50;border-radius:16px;color:#e8eef7;padding:18px;margin-top:13px;
+}
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-top strong {color:#f7f8fb}
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-top span {color:#f3c978;font-weight:750}
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-card p,
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-form-card p {color:#c5d0df;line-height:1.7}
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-form-card input,
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-form-card textarea,
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-form-card select {
+  background:#0b1422!important;color:#edf2f9!important;border:1px solid #35465e!important;border-radius:12px;
+}
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-form-card textarea::placeholder {color:#788aa3}
+.teacher-profile-redesign .review-star-picker {display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:4px 0 15px}
+.teacher-profile-redesign .review-star-label {color:#d9e3f0;font-size:13px;font-weight:700}
+.teacher-profile-redesign .review-star-buttons {display:flex;gap:5px}
+.teacher-profile-redesign .review-star-buttons button {border:0;background:transparent;color:#53647c;font-size:29px;line-height:1;padding:2px;cursor:pointer;transition:transform .15s,color .15s}
+.teacher-profile-redesign .review-star-buttons button.is-selected {color:#f4c66e}
+.teacher-profile-redesign .review-star-buttons button:hover {transform:translateY(-2px);color:#ffda8c}
+.teacher-profile-redesign .review-star-value {color:#f4d28d;font-size:13px;font-weight:800}
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-form-card form {display:grid;gap:12px}
+.teacher-profile-redesign .profile-section:has(.review-form-card) .review-form-card .submit-consultation {background:linear-gradient(135deg,#e9c47e,#c99a4d);color:#172235;border:0;border-radius:12px;font-weight:800}
