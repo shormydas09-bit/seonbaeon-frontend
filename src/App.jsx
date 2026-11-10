@@ -1427,20 +1427,9 @@ function TeacherProfile({
 
         if (videoList.length > 0) {
           setSelectedVideo(videoList[0]);
-        } else if (
-          teacher.demoVideoUrl
-        ) {
-          setSelectedVideo({
-            id: "legacy-demo",
-            title: "Demo Class",
-            description:
-              "Teacher demo video.",
-            videoUrl: teacher.demoVideoUrl,
-            videoType:
-              teacher.demoVideoType || "youtube",
-            thumbnailUrl: "",
-          });
         } else {
+          // The saved video list is authoritative. Do not resurrect a legacy
+          // profile-level YouTube URL after a teacher deletes their demo videos.
           setSelectedVideo(null);
         }
       } catch (err) {
