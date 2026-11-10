@@ -1438,34 +1438,8 @@ function TeacherProfile({
           err
         );
 
-        if (teacher.demoVideoUrl) {
-          setVideos([
-            {
-              id: "legacy-demo",
-              title: "Demo Class",
-              description:
-                "Teacher demo video.",
-              videoUrl: teacher.demoVideoUrl,
-              videoType:
-                teacher.demoVideoType || "youtube",
-              thumbnailUrl: "",
-            },
-          ]);
-
-          setSelectedVideo({
-            id: "legacy-demo",
-            title: "Demo Class",
-            description:
-              "Teacher demo video.",
-            videoUrl: teacher.demoVideoUrl,
-            videoType:
-              teacher.demoVideoType || "youtube",
-            thumbnailUrl: "",
-          });
-        } else {
-          setVideos([]);
-          setSelectedVideo(null);
-        }
+        setVideos([]);
+        setSelectedVideo(null);
       } finally {
         setVideoLoading(false);
       }
