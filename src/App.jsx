@@ -500,7 +500,7 @@ function AuthPage({ mode, setMode, onLogin, onPolicyOpen }) {
    HOME PAGE
 ========================= */
 
-function HomePage({ goToTeachers }) {
+function HomePage({ goToTeachers, onPolicyOpen }) {
   const categories = ["Kids English", "Phonics", "Speaking", "Reading & Writing", "Grammar", "Storytelling", "School English"];
   return (
     <div className="home-premium-redesign" id="pmt-home-v3">
@@ -555,7 +555,7 @@ function HomePage({ goToTeachers }) {
         <button className="home-cta-button" onClick={goToTeachers}>Find your English teacher <span>↗</span></button>
       </section>
 
-      <footer className="home-premium-footer"><div className="footer-brand"><div className="logo">Pick My Teacher<span>.</span></div><p>Know your teacher before you join.</p></div><div className="footer-links"><button onClick={goToTeachers}>Find Teachers</button><button onClick={()=>document.getElementById("how")?.scrollIntoView({behavior:"smooth"})}>How It Works</button></div><div className="copyright">© 2026 Pick My Teacher. All rights reserved.</div></footer>
+      <footer className="home-premium-footer"><div className="footer-brand"><div className="logo">Pick My Teacher<span>.</span></div><p>Know your teacher before you join.</p></div><div className="footer-links"><button onClick={goToTeachers}>Find Teachers</button><button onClick={()=>document.getElementById("how")?.scrollIntoView({behavior:"smooth"})}>How It Works</button></div><div className="home-footer-bottom"><span>© {new Date().getFullYear()} Pick My Teacher</span><div><button onClick={() => onPolicyOpen("privacy")}>Privacy Policy</button><button onClick={() => onPolicyOpen("terms")}>Terms of Service</button></div></div></footer>
     </div>
   );
 }
@@ -4187,6 +4187,7 @@ function App() {
           goToTeachers={() =>
             setPage("teachers")
           }
+          onPolicyOpen={(type) => { setPolicyType(type); setPage("policy"); }}
         />
       )}
 
@@ -4250,7 +4251,7 @@ function App() {
         <AuthPage mode={authMode} setMode={setAuthMode} onLogin={handleLogin} onPolicyOpen={(type) => { setPolicyType(type); setPage("policy"); }} />
       )}
 
-      {(page === "home" || page === "teachers" || page === "auth") && <footer className="site-legal-footer"><span>© {new Date().getFullYear()} Pick My Teacher</span><button onClick={() => { setPolicyType("privacy"); setPage("policy"); }}>Privacy Policy</button><button onClick={() => { setPolicyType("terms"); setPage("policy"); }}>Terms of Service</button></footer>}
+      {(page === "teachers" || page === "auth") && <footer className="site-legal-footer"><span>© {new Date().getFullYear()} Pick My Teacher</span><button onClick={() => { setPolicyType("privacy"); setPage("policy"); }}>Privacy Policy</button><button onClick={() => { setPolicyType("terms"); setPage("policy"); }}>Terms of Service</button></footer>}
     </div>
   );
 }
