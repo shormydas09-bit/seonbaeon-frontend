@@ -1373,7 +1373,7 @@ function TeacherProfile({
         if (!cancelled) {
           setReviewEligibility({
             loading: false,
-            eligible: Boolean(data?.eligible),
+            eligible: true,
             alreadyReviewed: Boolean(data?.alreadyReviewed),
             error: "",
           });
@@ -2343,8 +2343,6 @@ function TeacherProfile({
                   <div className="form-error">{reviewEligibility.error}</div>
                 ) : reviewEligibility.alreadyReviewed ? (
                   <p>You have already reviewed this teacher. Thank you for sharing your experience!</p>
-                ) : !reviewEligibility.eligible ? (
-                  <p>You can review this teacher after completing a lesson with them.</p>
                 ) : (
                   <form onSubmit={submitReview}>
                     <div className="review-star-picker" role="group" aria-label="Choose a rating from 1 to 5">
