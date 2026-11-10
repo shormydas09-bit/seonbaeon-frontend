@@ -3874,12 +3874,12 @@ function PolicyPage({ type, onBack }) {
 function DownloadPage() {
   return (
     <main style={{ minHeight: "100vh", background: "radial-gradient(ellipse at 75% 10%, #263b59 0%, #111b2b 42%, #0b1220 100%)", color: "#f7f4ec", fontFamily: "Inter, Arial, sans-serif", overflow: "hidden" }}>
-      <header style={{ maxWidth: 1120, margin: "0 auto", padding: "25px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
-        <a href="/" style={{ display: "flex", alignItems: "center", gap: 12, color: "#fff", textDecoration: "none", fontSize: 20, fontWeight: 800, letterSpacing: "-.5px" }}>
-          <img src="/pick-my-teacher-icon.svg" alt="" style={{ width: 42, height: 42, borderRadius: 12 }} />
-          Pick My Teacher<span style={{ color: "#e9b96f" }}>.</span>
+      <header style={{ maxWidth: 1120, width: "100%", boxSizing: "border-box", margin: "0 auto", padding: "25px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+        <a href="/" style={{ display: "inline-flex", alignItems: "center", gap: 9, color: "#fff", textDecoration: "none", fontSize: "clamp(14px, 3.5vw, 20px)", fontWeight: 800, letterSpacing: "-.5px", whiteSpace: "nowrap", flex: "0 1 auto", minWidth: 0 }}>
+          <img src="/pick-my-teacher-icon.svg" alt="" style={{ width: 40, height: 40, flex: "0 0 40px", borderRadius: 12 }} />
+          <span style={{ whiteSpace: "nowrap" }}>Pick My Teacher<span style={{ color: "#e9b96f" }}>.</span></span>
         </a>
-        <a href="/" style={{ color: "#d9e1ed", textDecoration: "none", fontSize: 14, fontWeight: 600 }}>Visit website ↗</a>
+        <a href="/" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", color: "#d9e1ed", textDecoration: "none", fontSize: "clamp(11px, 2.8vw, 14px)", fontWeight: 650, whiteSpace: "nowrap", flex: "0 0 auto" }}>Visit website</a>
       </header>
 
       <section style={{ maxWidth: 1120, margin: "0 auto", padding: "58px 24px 76px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))", gap: 48, alignItems: "center" }}>
