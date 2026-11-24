@@ -593,7 +593,8 @@ function TeacherSearch({ goHome, openProfile, currentUser }) {
     try {
       setLoading(true);
       setError("");
-      await waitForBackend({ attempts: 4 });
+      // Call the teacher API directly; the separate health-check retry loop added avoidable delay.
+      // Render cold starts are handled by the API request timeout and error state.
       const timeout = new Promise((_, reject) => {
         timeoutId = window.setTimeout(() => {
           controller.abort();
