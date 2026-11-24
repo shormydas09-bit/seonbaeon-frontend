@@ -3440,6 +3440,9 @@ function TeacherWorkspace({ currentUser, handleLogout }) {
 function AdminWorkspace({ currentUser, handleLogout }) {
   const [pendingTeachers,setPendingTeachers]=useState([]);
   const [allTeachers,setAllTeachers]=useState([]);
+  const [pendingLoaded,setPendingLoaded]=useState(false);
+  const [allLoaded,setAllLoaded]=useState(false);
+  const [loading,setLoading]=useState(false);
   const [error,setError]=useState("");
   const [notice,setNotice]=useState("");
   const [query,setQuery]=useState("");
@@ -3450,16 +3453,22 @@ function AdminWorkspace({ currentUser, handleLogout }) {
   const headers={"Content-Type":"application/json",Authorization:`Bearer ${currentUser?.token||""}`};
   async function load(){
     setError("");
-    try{
-      const [pending,all]=await Promise.all([
-        fetch(`${API_URL}/workspace/admin/pending-teachers`,{headers}),
-        fetch(`${API_URL}/workspace/admin/teachers`,{headers})
-      ]);
-      setPendingTeachers(await readResponse(pending));
-      setAllTeachers(await readResponse(all));
-    }catch(e){setError(e.message||"Could not load teacher management data.");}
+    setLoading(true);
+    const [pendingResult,allResult]=await Promise.allSettled([
+      fetch(`${API_URL}/workspace/admin/pending-teachers`,{headers,cache:"no-store"}).then(readResponse),
+      fetch(`${API_URL}/workspace/admin/teachers`,{headers,cache:"no-store"}).then(readResponse)
+    ]);
+    const errors=[];
+    if(pendingResult.status==="fulfilled"&&Array.isArray(pendingResult.value)){
+      setPendingTeachers(pendingResult.value);setPendingLoaded(true);
+    }else errors.push(pendingResult.status==="rejected"?pendingResult.reason?.message:"Pending teacher data was invalid.");
+    if(allResult.status==="fulfilled"&&Array.isArray(allResult.value)){
+      setAllTeachers(allResult.value);setAllLoaded(true);
+    }else errors.push(allResult.status==="rejected"?allResult.reason?.message:"Teacher profile data was invalid.");
+    if(errors.length)setError(errors.join(" · "));
+    setLoading(false);
   }
-  useEffect(()=>{load();},[]);
+  useEffect(()=>{load();},[currentUser?.token]);
   async function approve(id){
     try{await readResponse(await fetch(`${API_URL}/workspace/admin/teachers/${id}/approve`,{method:"POST",headers}));setNotice("Teacher approved and published.");await load();}
     catch(e){setError(e.message);}
@@ -3527,11 +3536,11 @@ function AdminWorkspace({ currentUser, handleLogout }) {
       {notice&&<div className="admin-feedback success" role="status">{notice}</div>}
       {error&&<div className="admin-feedback error" role="alert">{error}</div>}
       <div className="admin-metric-grid">
-        <button type="button" className="admin-metric-card" onClick={()=>{setFilter("ALL");setQuery("");setActiveMetric("ALL");}}><span className="admin-metric-icon">♙</span><small>Teacher profiles</small><strong>{allTeachers.length}</strong><span className="admin-metric-note">Click to view all profiles <b>↗</b></span></button>
-        <button type="button" className="admin-metric-card" onClick={()=>{setFilter("PUBLISHED");setQuery("");setActiveMetric("PUBLISHED");}}><span className="admin-metric-icon">✓</span><small>Published teachers</small><strong>{published}</strong><span className="admin-metric-note">Visible to students <b>↗</b></span></button>
-        <button type="button" className="admin-metric-card" onClick={()=>{setFilter("PENDING");setQuery("");setActiveMetric("PENDING");}}><span className="admin-metric-icon">◷</span><small>Awaiting review</small><strong>{pendingTeachers.length||pendingCount}</strong><span className="admin-metric-note">Open verification queue <b>↗</b></span></button>
-        <button type="button" className="admin-metric-card" onClick={()=>{setFilter("HIDDEN");setQuery("");setActiveMetric("HIDDEN");}}><span className="admin-metric-icon">⌁</span><small>Hidden profiles</small><strong>{hidden}</strong><span className="admin-metric-note">Review and restore profiles <b>↗</b></span></button>
-        <button type="button" className="admin-metric-card rejected" onClick={()=>{setFilter("REJECTED");setQuery("");setActiveMetric("REJECTED");}}><span className="admin-metric-icon">×</span><small>Rejected</small><strong>{rejected}</strong><span className="admin-metric-note">View rejection reasons <b>↗</b></span></button>
+        <button type="button" className="admin-metric-card" onClick={()=>{setFilter("ALL");setQuery("");setActiveMetric("ALL");}}><span className="admin-metric-icon">♙</span><small>Teacher profiles</small><strong>{allLoaded?allTeachers.length:loading?"…":"—"}</strong><span className="admin-metric-note">Click to view all profiles <b>↗</b></span></button>
+        <button type="button" className="admin-metric-card" onClick={()=>{setFilter("PUBLISHED");setQuery("");setActiveMetric("PUBLISHED");}}><span className="admin-metric-icon">✓</span><small>Published teachers</small><strong>{allLoaded?published:loading?"…":"—"}</strong><span className="admin-metric-note">Visible to students <b>↗</b></span></button>
+        <button type="button" className="admin-metric-card" onClick={()=>{setFilter("PENDING");setQuery("");setActiveMetric("PENDING");}}><span className="admin-metric-icon">◷</span><small>Awaiting review</small><strong>{pendingLoaded?pendingTeachers.length:loading?"…":"—"}</strong><span className="admin-metric-note">Open verification queue <b>↗</b></span></button>
+        <button type="button" className="admin-metric-card" onClick={()=>{setFilter("HIDDEN");setQuery("");setActiveMetric("HIDDEN");}}><span className="admin-metric-icon">⌁</span><small>Hidden profiles</small><strong>{allLoaded?hidden:loading?"…":"—"}</strong><span className="admin-metric-note">Review and restore profiles <b>↗</b></span></button>
+        <button type="button" className="admin-metric-card rejected" onClick={()=>{setFilter("REJECTED");setQuery("");setActiveMetric("REJECTED");}}><span className="admin-metric-icon">×</span><small>Rejected</small><strong>{allLoaded?rejected:loading?"…":"—"}</strong><span className="admin-metric-note">View rejection reasons <b>↗</b></span></button>
       </div>
       {activeMetric&&<div className="admin-profile-modal-backdrop" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setActiveMetric("");}}>
         <section className="admin-profile-modal" role="dialog" aria-modal="true" aria-labelledby="admin-profile-modal-title">
